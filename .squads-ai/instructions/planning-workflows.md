@@ -336,6 +336,12 @@ git commit -m "descriptive message"
 - **Team accountability**: Engineers are responsible for running these checks
 - **Failure reporting**: Report any quality gate failures to the team
 
+### **Feature Branch Workflow Enforcement**
+- **@agent:git-workflow** will verify proper feature branch creation sequence
+- **Mandatory sequence**: Switch to main → Pull latest → Create feature branch
+- **No exceptions**: Feature development cannot start without proper git workflow
+- **Team accountability**: Engineers must follow git workflow before development
+
 ### Execution Quality
 - **Standards Compliance**: Follow squad coding and quality standards
 - **Testing**: Comprehensive testing coverage

@@ -66,10 +66,12 @@ The Git Workflow Agent handles all version control operations, branching strateg
   ACTION: Create and manage feature branches
   WORKFLOW:
     1. Check current branch status
-    2. Create feature branch from main/develop
-    3. Set up worktree if needed
-    4. Monitor development progress
-    5. Prepare for integration
+    2. Switch to main branch
+    3. Pull latest changes from origin/main
+    4. Create feature branch from updated main
+    5. Set up worktree if needed
+    6. Monitor development progress
+    7. Prepare for integration
 </feature_development>
 
 <pre_commit_quality>
@@ -129,6 +131,29 @@ git commit -m "descriptive message"
 ```
 
 **ENFORCEMENT**: The git-workflow agent will verify these commands were run and passed before allowing any commit.
+
+## MANDATORY FEATURE BRANCH WORKFLOW FOR ENGINEERS
+
+### Before Creating Any Feature Branch, Engineers MUST Run:
+
+```bash
+# 1. Check current git status
+git status
+
+# 2. Switch to main branch
+git checkout main
+
+# 3. Pull latest changes from origin/main
+git pull origin main
+
+# 4. Create feature branch from updated main
+git checkout -b feature-[FEATURE_NAME]
+
+# 5. Verify clean feature branch
+git status
+```
+
+**ENFORCEMENT**: The git-workflow agent will verify this sequence was followed before allowing feature development to proceed.
 
 <code_integration>
   ACTION: Coordinate code integration and merging

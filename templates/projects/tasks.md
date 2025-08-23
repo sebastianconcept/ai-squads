@@ -283,6 +283,26 @@ This document tracks all tasks required to complete the project work. Tasks are 
 - **Be Actionable**: Tasks should start with action verbs
 - **Be Realistic**: Tasks should be completable in reasonable time
 
+### Feature Branch Creation
+**ENGINEERS MUST FOLLOW THIS SEQUENCE BEFORE CREATING ANY FEATURE BRANCH:**
+
+```bash
+# 1. Check current git status
+git status
+
+# 2. Switch to main branch
+git checkout main
+
+# 3. Pull latest changes from origin/main
+git pull origin main
+
+# 4. Create feature branch from updated main
+git checkout -b feature-[FEATURE_NAME]
+
+# 5. Verify clean feature branch
+git status
+```
+
 ### Pre-Commit Quality Assurance
 **ENGINEERS MUST RUN THESE COMMANDS BEFORE EVERY COMMIT:**
 
