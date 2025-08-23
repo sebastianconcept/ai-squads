@@ -137,7 +137,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 - **@agent:ux-expert**: User experience research and design
 - **@agent:ui-implementor**: Frontend implementation across platforms
 - **@agent:product-planner**: Strategic product planning and development
-- **@agent:git-workflow**: Version control and workflow management
+- **@agent:git-workflow**: Version control, workflow management, and quality gate enforcement
 - **@agent:collaboration**: Team coordination and quality assurance
 
 ### **Other Squads**
