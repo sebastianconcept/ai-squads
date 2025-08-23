@@ -269,6 +269,7 @@ priority: [low|medium|high|critical]
 **MANDATORY**: These quality gates must pass before any commit:
 
 #### Rust Projects
+- [ ] `cargo fmt --all -- --check` - Check that code is properly formatted
 - [ ] `cargo fmt` - Code is properly formatted
 - [ ] `cargo clippy --all-targets --all-features -- -D warnings` - Full Clippy with warnings as errors
 - [ ] `cargo test` - All tests passing

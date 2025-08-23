@@ -30,7 +30,7 @@ status: planned
 - [ ] **T1.2**: Implement session file storage and retrieval system
   - **Effort**: 8 hours
   - **Acceptance**: Session files can be created, read, updated, and deleted
-  - **Quality Gates**: `cargo fmt`, `cargo clippy`, unit tests
+  - **Quality Gates**: `cargo fmt --all -- --check`, `cargo fmt`, `cargo clippy`, unit tests
 
 - [ ] **T1.3**: Add session data validation and error handling
   - **Effort**: 6 hours

@@ -94,6 +94,9 @@ The Git Workflow Agent handles all version control operations, branching strateg
 
 #### Rust Projects
 ```bash
+# 0. Check format code
+cargo fmt --all -- --check
+
 # 1. Format code
 cargo fmt
 
@@ -199,7 +202,7 @@ git status
 **MANDATORY**: These quality gates must pass before any commit:
 
 #### Rust Projects
-- [ ] `cargo fmt` - Code is properly formatted
+- [ ] `cargo fmt --all -- --check` - Code is properly formatted
 - [ ] `cargo clippy -- -D warnings` - Full Clippy with warnings as errors
 - [ ] `cargo test` - All tests passing
 - [ ] `cargo check` - Code compiles without errors
