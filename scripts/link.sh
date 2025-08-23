@@ -128,10 +128,12 @@ if [ -d "$SOURCE_DIR/squads" ]; then
     cp -r "$SOURCE_DIR/squads"/* "$TARGET_RULES_DIR/"
 fi
 
-# Copy all .md files from .squads-ai/projects (if exists)
-if [ -d "$SOURCE_DIR/projects" ]; then
+# Copy all .md files from .squads-ai/projects (if exists and not empty)
+if [ -d "$SOURCE_DIR/projects" ] && [ "$(ls -A "$SOURCE_DIR/projects" 2>/dev/null)" ]; then
     print_status "Copying project definitions..."
     cp -r "$SOURCE_DIR/projects"/* "$TARGET_RULES_DIR/"
+elif [ -d "$SOURCE_DIR/projects" ]; then
+    print_status "Projects directory exists but is empty - skipping"
 fi
 
 # Copy other relevant files

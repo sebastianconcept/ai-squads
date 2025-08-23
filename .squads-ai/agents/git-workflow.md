@@ -136,11 +136,11 @@ The Git Workflow Agent handles all version control operations, branching strateg
   <director>
     ACTIVATE: @agent:director
     PURPOSE: Strategic workflow decisions and project coordination
-    TRIGGER: When workflow changes or strategic decisions needed
+    TRIGGER: When workflow changes, execution just started or strategic decisions needed
   </director>
   
   <backend_engineer>
-            ACTIVATE: @agent:software-engineer
+    ACTIVATE: @agent:software-engineer
     PURPOSE: Technical implementation coordination
     TRIGGER: When technical decisions affect git workflow
   </backend_engineer>
