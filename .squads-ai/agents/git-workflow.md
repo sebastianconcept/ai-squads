@@ -72,12 +72,74 @@ The Git Workflow Agent handles all version control operations, branching strateg
     5. Prepare for integration
 </feature_development>
 
+<pre_commit_quality>
+  ACTION: Enforce quality gates before any commit
+  WORKFLOW:
+    1. Run language-specific quality checks (cargo fmt, npm lint, etc.)
+    2. Verify all tests pass
+    3. Check code formatting and linting
+    4. Ensure documentation is updated
+    5. Complete code review if required
+    6. Only then allow commit to proceed
+  FAILURE_HANDLING:
+    - If any quality gate fails, ask the team to fix the issue before committing
+    - Report quality gate failures to the team
+    - Provide guidance on how to fix specific issues
+
+## MANDATORY PRE-COMMIT WORKFLOW FOR ENGINEERS
+
+### Before Every Commit, Engineers MUST Run:
+
+#### Rust Projects
+```bash
+# 1. Format code
+cargo fmt
+
+# 2. Check compilation
+cargo check
+
+# 3. Run full Clippy with warnings as errors
+cargo clippy --all-targets --all-features -- -D warnings
+
+# 4. Run all tests
+cargo test
+
+# 5. Only if all above pass, then commit
+git add .
+git commit -m "descriptive message"
+```
+
+#### JavaScript/TypeScript Projects
+```bash
+# 1. Format code
+npm run format
+
+# 2. Lint code
+npm run lint
+
+# 3. Run tests
+npm test
+
+# 4. Build check
+npm run build
+
+# 5. Only if all above pass, then commit
+git add .
+git commit -m "descriptive message"
+```
+
+**ENFORCEMENT**: The git-workflow agent will verify these commands were run and passed before allowing any commit.
+
 <code_integration>
   ACTION: Coordinate code integration and merging
   WORKFLOW:
     1. Review feature completeness
     2. Check for conflicts
-    3. Run quality gates (tests, linting)
+    3. Run comprehensive quality gates:
+       - Language-specific checks (cargo fmt, npm lint, etc.)
+       - All tests passing
+       - Code formatting verified
+       - Linting errors resolved
     4. Create pull request with documentation
     5. Coordinate code review
     6. Execute merge with proper strategy
@@ -107,6 +169,28 @@ The Git Workflow Agent handles all version control operations, branching strateg
 - No merge conflicts
 - Clean commit history maintained
 - Proper documentation updated
+
+### Pre-Commit Quality Gates
+**MANDATORY**: These quality gates must pass before any commit:
+
+#### Rust Projects
+- [ ] `cargo fmt` - Code is properly formatted
+- [ ] `cargo clippy -- -D warnings` - Full Clippy with warnings as errors
+- [ ] `cargo test` - All tests passing
+- [ ] `cargo check` - Code compiles without errors
+- [ ] `cargo clippy --all-targets --all-features -- -D warnings` - Full Clippy check
+
+#### JavaScript/TypeScript Projects
+- [ ] `npm run lint` - ESLint passes without errors
+- [ ] `npm run format` - Prettier formatting applied
+- [ ] `npm test` - All tests passing
+- [ ] `npm run build` - Build succeeds without errors
+
+#### General Quality Gates
+- [ ] Code review completed and approved
+- [ ] Documentation updated for changes
+- [ ] No TODO/FIXME comments left in production code
+- [ ] Commit message follows conventional format
 
 ### Workflow Standards
 - Feature branches from main/develop

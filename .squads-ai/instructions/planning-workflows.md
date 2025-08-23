@@ -265,11 +265,83 @@ priority: [low|medium|high|critical]
 - **Alignment**: Alignment with project and squad goals
 - **Task Breakdown**: Comprehensive task breakdown with clear agent assignments
 
+### Pre-Commit Quality Gates
+**MANDATORY**: These quality gates must pass before any commit:
+
+#### Rust Projects
+- [ ] `cargo fmt` - Code is properly formatted
+- [ ] `cargo clippy --all-targets --all-features -- -D warnings` - Full Clippy with warnings as errors
+- [ ] `cargo test` - All tests passing
+- [ ] `cargo check` - Code compiles without errors
+
+#### JavaScript/TypeScript Projects
+- [ ] `npm run lint` - ESLint passes without errors
+- [ ] `npm run format` - Prettier formatting applied
+- [ ] `npm test` - All tests passing
+- [ ] `npm run build` - Build succeeds without errors
+
+#### General Quality Gates
+- [ ] Code review completed and approved
+- [ ] Documentation updated for changes
+- [ ] No TODO/FIXME comments left in production code
+- [ ] Commit message follows conventional format
+
+**ENFORCEMENT**: The git-workflow agent will refuse to commit if any quality gate fails. Issues must be resolved before committing.
+
+## 🚨 **ENGINEER RESPONSIBILITIES**
+
+### **Before Every Commit, Engineers MUST Run:**
+
+#### **Rust Projects**
+```bash
+# 1. Format code
+cargo fmt
+
+# 2. Check compilation
+cargo check
+
+# 3. Run full Clippy with warnings as errors
+cargo clippy --all-targets --all-features -- -D warnings
+
+# 4. Run all tests
+cargo test
+
+# 5. Only if all above pass, then commit
+git add .
+git commit -m "descriptive message"
+```
+
+#### **JavaScript/TypeScript Projects**
+```bash
+# 1. Format code
+npm run format
+
+# 2. Lint code
+npm run lint
+
+# 3. Run tests
+npm test
+
+# 4. Build check
+npm run build
+
+# 5. Only if all above pass, then commit
+git add .
+git commit -m "descriptive message"
+```
+
+### **Quality Gate Enforcement**
+- **@agent:git-workflow** will verify these commands were run and passed
+- **No exceptions**: Quality gates must pass before any commit
+- **Team accountability**: Engineers are responsible for running these checks
+- **Failure reporting**: Report any quality gate failures to the team
+
 ### Execution Quality
 - **Standards Compliance**: Follow squad coding and quality standards
 - **Testing**: Comprehensive testing coverage
 - **Documentation**: Updated documentation and code comments
 - **Performance**: Meet performance and quality requirements
+- **Quality Gates**: All pre-commit quality gates must pass before any commit
 
 ### Review Quality
 - **Goal Achievement**: All defined goals met

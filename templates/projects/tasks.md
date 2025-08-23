@@ -113,6 +113,26 @@ This document tracks all tasks required to complete the project work. Tasks are 
 - [ ] Static analysis passes without critical issues
 - [ ] Test coverage meets minimum requirements
 
+### Pre-Commit Quality Gates
+**MANDATORY**: These must pass before any commit:
+
+#### Rust Projects
+- [ ] `cargo fmt` - Code formatting verified
+- [ ] `cargo clippy --all-targets --all-features -- -D warnings` - Full Clippy with warnings as errors
+- [ ] `cargo test` - All tests passing
+- [ ] `cargo check` - Compilation successful
+
+#### JavaScript/TypeScript Projects
+- [ ] `npm run lint` - ESLint passes
+- [ ] `npm run format` - Prettier applied
+- [ ] `npm test` - All tests passing
+- [ ] `npm run build` - Build successful
+
+#### General Quality Gates
+- [ ] Documentation updated for changes
+- [ ] No TODO/FIXME in production code
+- [ ] Commit message follows conventional format
+
 ### Testing Gates
 - [ ] Unit tests written and passing
 - [ ] Integration tests written and passing
@@ -262,6 +282,52 @@ This document tracks all tasks required to complete the project work. Tasks are 
 - **Be Measurable**: Tasks should be verifiable when complete
 - **Be Actionable**: Tasks should start with action verbs
 - **Be Realistic**: Tasks should be completable in reasonable time
+
+### Pre-Commit Quality Assurance
+**ENGINEERS MUST RUN THESE COMMANDS BEFORE EVERY COMMIT:**
+
+#### **Rust Projects**
+```bash
+# 0. Format code check
+cargo fmt --all -- --check
+
+# 1. Format code check
+cargo fmt
+
+# 2. Check compilation
+cargo check
+
+# 3. Run full Clippy with warnings as errors
+cargo clippy --all-targets --all-features -- -D warnings
+
+# 4. Run all tests
+cargo test
+
+# 5. Only if all above pass, then commit
+git add .
+git commit -m "descriptive message"
+```
+
+#### **JavaScript/TypeScript Projects**
+```bash
+# 1. Format code
+npm run format
+
+# 2. Lint code
+npm run lint
+
+# 3. Run tests
+npm test
+
+# 4. Build check
+npm run build
+
+# 5. Only if all above pass, then commit
+git add .
+git commit -m "descriptive message"
+```
+
+**ENFORCEMENT**: These quality gates are mandatory. No commit should happen without passing all checks.
 
 ### Task Management
 - **Regular Updates**: Update task status regularly
