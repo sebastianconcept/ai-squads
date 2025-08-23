@@ -1,6 +1,12 @@
-# AI Squad Configuration
+# SquadAI
 
-This project uses a structured multi-agent collaboration system. Role definitions are maintained in `.cursor/rules/` directory.
+This project structures a multi-agent multi-squads collaboration system to work on projects. 
+
+## Components
+
+- Role definitions are maintained in `.squads-ai/agents/` directory.
+- Squads of agents are maintained in `.squads-ai/squads/` directory.
+- Projects plans and roadmaps are maintained in `.squads-ai/projects/` directory.
 
 ## Quick Start
 - See `.cursor/rules/README.md` for complete role documentation
@@ -12,7 +18,7 @@ This project uses a structured multi-agent collaboration system. Role definition
 - **GIT-EXPERT** - Repository operations and version control  
 - **UI-IMPLEMENTOR** - Frontend development across all platforms
 - **UX-EXPERT** - User experience design and research
-- **BACKEND-ENGINEER** - Server-side development and architecture
+- **SOFTWARE-ENGINEER** - Full-stack development and systems programming
 
 ## Usage
 Prefix responses with your role (e.g., `DIRECTOR:`) and follow the communication protocols defined in the rules directory.

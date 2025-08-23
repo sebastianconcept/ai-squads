@@ -2,16 +2,16 @@
 
 ## Context
 
-Global guidelines for SquadsAI projects. Language-specific best practices are handled by dedicated style guides in the `code-style/` directory.
+Global guidelines for SquadsAI projects. Language-specific best practices are handled by dedicated style guides in the `standards/code/` directory.
 
 ## Available Style Guides
 
-- **Ruby**: `code-style/ruby-style.md` - Ruby and Rails best practices
-- **JavaScript**: `code-style/javascript-style.md` - JavaScript and React best practices  
-- **CSS**: `code-style/css-style.md` - CSS and TailwindCSS best practices
-- **HTML**: `code-style/html-style.md` - HTML structure and accessibility
-- **Rust**: `code-style/rust-style.md` - Rust language best practices
-- **Smalltalk**: `code-style/smalltalk-style.md` - Smalltalk language best practices
+- **Ruby**: `standards/code/ruby-style.md` - Ruby and Rails best practices
+- **JavaScript**: `standards/code/javascript-style.md` - JavaScript and React best practices  
+- **CSS**: `standards/code/css-style.md` - CSS and TailwindCSS best practices
+- **HTML**: `standards/code/html-style.md` - HTML structure and accessibility
+- **Rust**: `standards/code/rust-style.md` - Rust language best practices
+- **Smalltalk**: `standards/code/smalltalk-style.md` - Smalltalk language best practices
 
 <conditional-block context-check="core-principles">
 IF this Core Principles section already read in current context:
@@ -82,10 +82,10 @@ IF current task involves development in a specific language:
     <context_fetcher_strategy>
       IF current agent is Claude Code AND context-fetcher agent exists:
         USE: @agent:context-fetcher
-        REQUEST: "Get [LANGUAGE] best practices from code-style/[LANGUAGE]-style.md"
+        REQUEST: "Get [LANGUAGE] best practices from standards/code/[LANGUAGE]-style.md"
         PROCESS: Returned language-specific best practices
       ELSE:
-        READ: @~/.agent-os/standards/code-style/[LANGUAGE]-style.md
+        READ: @~/.agent-os/standards/standards/code/[LANGUAGE]-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: Language-specific best practices not relevant to current task
@@ -128,7 +128,7 @@ ELSE:
 - Implement **rollback strategies** for deployments
 
 ### Project-Specific Best Practices
-- Follow **project-specific conventions** defined in `.agent-os/product/` directory
+- Follow **project-specific conventions** defined in `.squads-ai/projects/[PROJECT_NAME NAME]` directory
 - Use **consistent patterns** established by the development team
 - Maintain **backward compatibility** when making changes
 - Document **project-specific decisions** and rationale
@@ -149,4 +149,4 @@ ELSE:
 
 ## Summary
 
-This best practices guide provides universal development principles while intelligently integrating with language-specific style guides. For comprehensive development guidance, always reference the appropriate language style guide in the `code-style/` directory.
+This best practices guide provides universal development principles while intelligently integrating with language-specific style guides. For comprehensive development guidance, always reference the appropriate language style guide in the `standards/code/` directory.
