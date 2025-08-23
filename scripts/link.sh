@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# link.sh - Install .cursor/rules from .squads-ai into target repository
+# link.sh - Link .cursor/rules from .squads-ai into target repository
 # Usage: ./link.sh <target_repo_path>
 
 set -e
@@ -33,7 +33,7 @@ print_error() {
 show_usage() {
     echo "Usage: $0 <target_repo_path>"
     echo ""
-    echo "This script will install .cursor/rules from .squads-ai into the target repository."
+    echo "This script will link .cursor/rules from .squads-ai into the target repository."
     echo ""
     echo "Arguments:"
     echo "  target_repo_path    Path to the target repository where .cursor/rules will be installed"
@@ -45,9 +45,10 @@ show_usage() {
     echo "The script will:"
     echo "  1. Verify the target repository exists and is a git repo"
     echo "  2. Create .cursor/rules directory if it doesn't exist"
-    echo "  3. Copy all agent and project rules from .squads-ai"
-    echo "  4. Create a symlink to the source .squads-ai directory"
-    echo "  5. Update .gitignore to exclude the symlinked directory"
+    echo "  3. Create symlinks to all agent and project rules from .squads-ai"
+    echo "  4. Convert .md files to .mdc for Cursor compatibility"
+    echo "  5. Create a symlink to the source .squads-ai directory"
+    echo "  6. Update .gitignore to exclude the symlinked directory"
 }
 
 # Check if help is requested
@@ -113,33 +114,54 @@ if [ ! -d "$TARGET_RULES_DIR" ]; then
     mkdir -p "$TARGET_RULES_DIR"
 fi
 
-# Copy all files from .squads-ai to .cursor/rules
-print_status "Copying agent and project definitions to target repository"
+# Create symlinks from .squads-ai to .cursor/rules for automatic updates
+print_status "Creating symlinks to .squads-ai for automatic updates"
 
-# Copy all .md files from .squads-ai/agents
+# Create symlinks for all .md files from .squads-ai/agents
 if [ -d "$SOURCE_DIR/agents" ]; then
-    print_status "Copying agent definitions..."
-    cp -r "$SOURCE_DIR/agents"/* "$TARGET_RULES_DIR/"
+    print_status "Creating symlinks for agent definitions..."
+    for file in "$SOURCE_DIR/agents"/*.md; do
+        if [ -f "$file" ]; then
+            filename=$(basename "$file")
+            # Create .mdc symlink for Cursor compatibility
+            mdc_filename="${filename%.md}.mdc"
+            ln -sf "$SOURCE_ABSOLUTE_PATH/agents/$filename" "$TARGET_RULES_DIR/$mdc_filename"
+        fi
+    done
 fi
 
-# Copy all .md files from .squads-ai/squads
+# Create symlinks for all .md files from .squads-ai/squads
 if [ -d "$SOURCE_DIR/squads" ]; then
-    print_status "Copying squad definitions..."
-    cp -r "$SOURCE_DIR/squads"/* "$TARGET_RULES_DIR/"
+    print_status "Creating symlinks for squad definitions..."
+    for file in "$SOURCE_DIR/squads"/*.md; do
+        if [ -f "$file" ]; then
+            filename=$(basename "$file")
+            # Create .mdc symlink for Cursor compatibility
+            mdc_filename="${filename%.md}.mdc"
+            ln -sf "$SOURCE_ABSOLUTE_PATH/squads/$filename" "$TARGET_RULES_DIR/$mdc_filename"
+        fi
+    done
 fi
 
-# Copy all .md files from .squads-ai/projects (if exists and not empty)
+# Create symlinks for all .md files from .squads-ai/projects (if exists and not empty)
 if [ -d "$SOURCE_DIR/projects" ] && [ "$(ls -A "$SOURCE_DIR/projects" 2>/dev/null)" ]; then
-    print_status "Copying project definitions..."
-    cp -r "$SOURCE_DIR/projects"/* "$TARGET_RULES_DIR/"
+    print_status "Creating symlinks for project definitions..."
+    for file in "$SOURCE_DIR/projects"/*.md; do
+        if [ -f "$file" ]; then
+            filename=$(basename "$file")
+            # Create .mdc symlink for Cursor compatibility
+            mdc_filename="${filename%.md}.mdc"
+            ln -sf "$SOURCE_ABSOLUTE_PATH/projects/$filename" "$TARGET_RULES_DIR/$mdc_filename"
+        fi
+    done
 elif [ -d "$SOURCE_DIR/projects" ]; then
     print_status "Projects directory exists but is empty - skipping"
 fi
 
-# Copy other relevant files
+# Create symlink for README
 if [ -f "$SOURCE_DIR/README.md" ]; then
-    print_status "Copying README..."
-    cp "$SOURCE_DIR/README.md" "$TARGET_RULES_DIR/"
+    print_status "Creating symlink for README..."
+    ln -sf "$SOURCE_ABSOLUTE_PATH/README.md" "$TARGET_RULES_DIR/README.mdc"
 fi
 
 # Create a symlink to the source .squads-ai directory for easy updates
@@ -171,11 +193,11 @@ else
 fi
 
 # Create a README in the target .cursor/rules directory
-TARGET_README="$TARGET_RULES_DIR/README.md"
+TARGET_README="$TARGET_RULES_DIR/README.mdc"
 cat > "$TARGET_README" << 'EOF'
-# Cursor Rules - Installed from .squads-ai
+# Cursor Rules - Linked from .squads-ai
 
-This directory contains cursor rules and agent definitions installed from the `.squads-ai` directory.
+This directory contains cursor rules and agent definitions linked from the `.squads-ai` directory.
 
 ## Structure
 
@@ -193,11 +215,11 @@ These rules provide:
 
 ## Source
 
-All rules are sourced from: `../.squads-ai/`
+All rules are symlinked from: `../.squads-ai/`
 
 ## Updates
 
-To update these rules, run the link script again or manually copy from the source directory.
+Updates flow automatically! When SquadsAI is updated, all linked repositories get the latest rules.
 
 ## Integration
 
@@ -206,20 +228,26 @@ These agents are designed to work with Claude's agent system:
 - Seamless coordination between specialized functions
 - Consistent quality standards and best practices
 - Cross-platform considerations built-in
+
+## File Extensions
+
+- **`.mdc` files**: Cursor-compatible rules (symlinked to source `.md` files)
+- **Source files**: Original `.md` files in `.squads-ai/` directory
 EOF
 
-print_success "Installation completed successfully!"
+print_success "Linking completed successfully!"
 print_status "Target repository now has access to all .squads-ai agents and projects"
-print_status "Symlink created at: $TARGET_SQUADS_LINK"
-print_status "Rules installed at: $TARGET_RULES_DIR"
-print_status ".gitignore updated to exclude symlinked directory"
+print_status "Symlinks created at: $TARGET_RULES_DIR (with .mdc extensions for Cursor)"
+print_status "Source symlink created at: $TARGET_SQUADS_LINK"
+print_status ".gitignore updated to exclude symlinked directories"
 
-# Show what was installed
-print_status "Installed files:"
-ls -la "$TARGET_RULES_DIR" | grep -E "\.(md|txt)$" | while read line; do
+# Show what was linked
+print_status "Linked files:"
+ls -la "$TARGET_RULES_DIR" | grep -E "\.(mdc|txt)$" | while read line; do
     echo "  $line"
 done
 
 echo ""
 print_status "You can now use these agents in the target repository's cursor rules!"
-print_status "To update in the future, simply run this script again."
+print_status "Updates will flow automatically - no need to run the script again!"
+print_status "All linked repositories will stay in sync with SquadsAI updates."

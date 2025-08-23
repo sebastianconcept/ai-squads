@@ -21,6 +21,7 @@ This document defines the planning workflows for the SquadsAI system. The squad 
 **Workflow**:
 1. **Project Initialization**
    - Create project directory: `.squads-ai/projects/[PROJECT_NAME]/`
+   - Create project subdirectory structure for complete isolation
    - Copy core templates: `mission.md`, `roadmap.md`, `tech-stack.md`, `decisions.md`, `README.md`
    - Ask user any questions that you need for project specifics
 
@@ -38,7 +39,7 @@ This document defines the planning workflows for the SquadsAI system. The squad 
 
 **Output Structure**:
 ```
-projects/[PROJECT_NAME]/
+.squads-ai/projects/[PROJECT_NAME]/
 ├── mission.md          # Project vision and purpose
 ├── roadmap.md          # Development phases and features. It has a list of features.
 ├── tech-stack.md       # Technical architecture
@@ -73,7 +74,7 @@ projects/[PROJECT_NAME]/
 
 **Output Structure**:
 ```
-projects/[PROJECT_NAME]/
+.squads-ai/projects/[PROJECT_NAME]/
 ├── mission.md          # Updated project vision
 ├── roadmap.md          # Current state and future plans. It has a list of features.
 ├── tech-stack.md       # Current and target architecture
@@ -95,7 +96,7 @@ projects/[PROJECT_NAME]/
    - Assess technical complexity and dependencies
 
 2. **Documentation Creation**
-   - Create feature directory: `projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/`
+   - Create feature directory: `.squads-ai/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/`
    - Create required documents: `problem.md`, `solution.md`, `goal.md`, `tasks.md`
 
 3. **Planning Validation**
@@ -105,7 +106,7 @@ projects/[PROJECT_NAME]/
 
 **Output Structure**:
 ```
-projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/
+.squads-ai/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/
 ├── problem.md          # What problem are we solving?
 ├── solution.md         # How will we solve it?
 ├── tasks.md            # List of tasks planed to be executed
@@ -128,12 +129,12 @@ projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/
    - Plan testing and validation approach
 
 3. **Documentation Creation**
-   - Create hotfix directory: `projects/[PROJECT_NAME]/hotfix-[HOTFIX_NAME]/`
+   - Create hotfix directory: `.squads-ai/projects/[PROJECT_NAME]/hotfix-[HOTFIX_NAME]/`
    - Create required documents: `issue.md`, `goal.md`, `tasks.md`
 
 **Output Structure**:
 ```
-projects/[PROJECT_NAME]/hotfix-[HOTFIX_NAME]/
+.squads-ai/projects/[PROJECT_NAME]/hotfix-[HOTFIX_NAME]/
 ├── issue.md            # What's the issue?
 ├── tasks.md            # List of tasks planed to be executed
 └── goal.md             # What's the fix goal?

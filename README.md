@@ -72,7 +72,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 
 ### **Project Structure**
 ```
-projects/[PROJECT_NAME]/
+.squads-ai/projects/[PROJECT_NAME]/
 ├── mission.md              # Project vision and purpose
 ├── roadmap.md              # Development phases and features
 ├── tech-stack.md           # Technical architecture
@@ -92,6 +92,8 @@ projects/[PROJECT_NAME]/
     ├── tasks.md            # Task breakdown for improvements
     └── improvement.md      # How will we improve it?
 ```
+
+**Note**: All project files are created in `.squads-ai/projects/[PROJECT_NAME]/` directories to ensure project isolation and prevent conflicts between multiple projects.
 
 ### **Document Types**
 
