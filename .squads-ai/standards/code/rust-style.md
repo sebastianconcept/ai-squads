@@ -1,5 +1,9 @@
 # Rust Style Guide
 
+## Context
+
+Rust-specific code style rules for SquadsAI projects using Rust for high-performance systems development. This guide aligns with our comprehensive tech stack standards documented in `../tech-stacks/rust-and-smalltalk.md`.
+
 ## Code Formatting
 - Use `rustfmt` for automatic code formatting
 - 4 spaces for indentation (not tabs)
@@ -97,11 +101,14 @@ pub fn calculate_distance(point1: Point, point2: Point) -> f64 {
 }
 ```
 
-## Testing
+## Testing Standards
+
+### Unit Testing
 - Place tests in `mod tests` blocks
 - Use descriptive test names
 - Group related tests together
 - Use `#[cfg(test)]` for test-only code
+- Aim for **90%+ code coverage**
 
 ```rust
 #[cfg(test)]
@@ -120,6 +127,141 @@ mod tests {
         let p1 = Point { x: 1.0, y: 1.0 };
         let p2 = Point { x: 1.0, y: 1.0 };
         assert_eq!(calculate_distance(p1, p2), 0.0);
+    }
+}
+```
+
+### Integration Testing
+- Use `tests/` directory for integration tests
+- Test component interactions and API endpoints
+- Test complete workflows and data flows
+- Use shared test utilities and fixtures
+
+### Property Testing
+- Use **proptest** for property-based testing
+- Test invariants and mathematical properties
+- Generate random test data for edge cases
+- Ensure properties hold across different inputs
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use proptest::prelude::*;
+
+    proptest! {
+        #[test]
+        fn test_distance_symmetry(a: f64, b: f64, c: f64, d: f64) {
+            let p1 = Point { x: a, y: b };
+            let p2 = Point { x: c, y: d };
+            let dist1 = calculate_distance(p1, p2);
+            let dist2 = calculate_distance(p2, p1);
+            assert!((dist1 - dist2).abs() < f64::EPSILON);
+        }
+    }
+}
+```
+
+### Benchmarking
+- Use **criterion** for performance benchmarking
+- Benchmark critical paths and hot code
+- Track performance regressions in CI
+- Use realistic test data for benchmarks
+
+```rust
+#[cfg(test)]
+mod benches {
+    use super::*;
+    use criterion::{black_box, criterion_group, criterion_main, Criterion};
+
+    fn bench_calculate_distance(c: &mut Criterion) {
+        let p1 = Point { x: 0.0, y: 0.0 };
+        let p2 = Point { x: 3.0, y: 4.0 };
+        
+        c.bench_function("calculate_distance", |b| {
+            b.iter(|| calculate_distance(black_box(p1), black_box(p2)))
+        });
+    }
+
+    criterion_group!(benches, bench_calculate_distance);
+    criterion_main!(benches);
+}
+```
+
+### Mocking and Test Doubles
+- Use **mockall** for dependency mocking
+- Create test doubles for external services
+- Mock network calls and file system operations
+- Use trait objects for testable abstractions
+
+```rust
+use mockall::predicate::*;
+use mockall::*;
+
+#[automock]
+trait Database {
+    fn get_user(&self, id: u64) -> Result<User, Error>;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_user_service_with_mock_db() {
+        let mut mock_db = MockDatabase::new();
+        mock_db
+            .expect_get_user()
+            .with(eq(1))
+            .times(1)
+            .returning(|_| Ok(User { id: 1, name: "Test".to_string() }));
+
+        let service = UserService::new(Box::new(mock_db));
+        let user = service.get_user(1).unwrap();
+        assert_eq!(user.name, "Test");
+    }
+}
+```
+
+### Test Organization
+- Group tests by functionality and module
+- Use descriptive test names that explain the scenario
+- Create test utilities and helper functions
+- Use test fixtures for common setup
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // Test utilities
+    fn create_test_user(id: u64, name: &str) -> User {
+        User {
+            id,
+            username: name.to_string(),
+            email: format!("{}@example.com", name),
+            is_active: true,
+        }
+    }
+
+    // Test fixtures
+    struct TestFixture {
+        user: User,
+        service: UserService,
+    }
+
+    impl TestFixture {
+        fn new() -> Self {
+            let user = create_test_user(1, "testuser");
+            let service = UserService::new();
+            Self { user, service }
+        }
+    }
+
+    #[test]
+    fn test_user_creation() {
+        let fixture = TestFixture::new();
+        assert_eq!(fixture.user.username, "testuser");
     }
 }
 ```
@@ -194,3 +336,7 @@ test:
 ```
 
 **Remember**: Always run local CI checks before committing to ensure your code meets CI standards!
+
+## Reference
+
+For comprehensive Rust tech stack standards, build tools, and advanced patterns, see `../tech-stacks/rust-and-smalltalk.md`.

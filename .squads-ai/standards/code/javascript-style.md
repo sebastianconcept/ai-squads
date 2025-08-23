@@ -2,7 +2,20 @@
 
 ## Context
 
-JavaScript-specific code style rules for Agent OS projects using modern JavaScript and frontend frameworks.
+JavaScript-specific code style rules for SquadsAI projects using modern JavaScript and frontend frameworks. This guide aligns with our comprehensive tech stack standards documented in `../tech-stacks/javascript-typescript.md`.
+
+## Framework Support
+
+### Primary Framework: React
+- Use functional components with hooks (preferred)
+- Follow React best practices and conventions
+- Use modern React patterns (React 18+ features)
+
+### Alternative Frameworks
+- **Vue 3**: Use Composition API for complex components
+- **Svelte**: For lightweight, performant applications
+- **Angular**: For enterprise applications requiring strong typing
+- **Backend**: Express, Fastify, NestJS based on project requirements
 
 ## JavaScript Naming Conventions
 
@@ -65,25 +78,80 @@ JavaScript-specific code style rules for Agent OS projects using modern JavaScri
 - Use **Promise.all()** for parallel operations
 - Use **Promise.race()** for timeout scenarios
 
-## React-Specific Conventions
+## Framework-Specific Conventions
 
-### Component Structure
+### React Conventions
 - Use **functional components** with hooks (preferred)
 - Use **PascalCase** for component names
 - Use **camelCase** for props and event handlers
 - Use **useState** and **useEffect** hooks appropriately
+- Use **React.memo()** for expensive components
+- Use **useCallback** and **useMemo** for performance optimization
 
-### Props and State
+### Vue 3 Conventions
+- Use **Composition API** for complex components
+- Use **PascalCase** for component names
+- Use **kebab-case** for props and events
+- Use **ref()** and **reactive()** for state management
+- Use **computed()** for derived state
+- Use **watch()** and **watchEffect()** for side effects
+
+### Svelte Conventions
+- Use **PascalCase** for component names
+- Use **kebab-case** for props and events
+- Use **$:** for reactive statements
+- Use **{#if}**, **{#each}** for control flow
+- Use **bind:** for two-way binding
+- Use **on:** for event handling
+
+### Express/Node.js Conventions
+- Use **camelCase** for route handlers and middleware
+- Use **async/await** for database operations
+- Use **try/catch** for error handling
+- Use **middleware** for cross-cutting concerns
+- Use **environment variables** for configuration
+
+## Props and State Management
+
+### React State Management
 - Use **destructuring** for props: `const { name, age } = props`
 - Use **default props** or **default parameters** for optional props
 - Use **prop types** or **TypeScript** for type safety
 - Use **local state** for component-specific data
+- Use **Context API** for shared state
+- Use **Redux Toolkit** or **Zustand** for complex state
 
-### Event Handling
+### Vue State Management
+- Use **props** for parent-to-child communication
+- Use **emits** for child-to-parent communication
+- Use **provide/inject** for deep component communication
+- Use **Pinia** for global state management
+- Use **composables** for reusable state logic
+
+### Svelte State Management
+- Use **props** for component parameters
+- Use **stores** for shared state
+- Use **context** for component communication
+- Use **derived stores** for computed values
+
+## Event Handling
+
+### React Event Handling
 - Use **camelCase** for event handlers: `onClick`, `onSubmit`
 - Use **arrow functions** for event handlers to avoid binding issues
 - Use **event.preventDefault()`** when needed
 - Use **controlled components** for form inputs
+
+### Vue Event Handling
+- Use **kebab-case** for event names: `@click`, `@submit`
+- Use **v-on** or **@** for event binding
+- Use **event modifiers** for common patterns: `@click.prevent`
+- Use **custom events** for component communication
+
+### Svelte Event Handling
+- Use **on:** for event binding: `on:click`, `on:submit`
+- Use **event modifiers** for common patterns: `on:click|preventDefault`
+- Use **createEventDispatcher** for custom events
 
 ## Code Organization
 
@@ -99,6 +167,19 @@ JavaScript-specific code style rules for Agent OS projects using modern JavaScri
 - Use **consistent naming** for component files
 - Separate **business logic** from **UI components**
 
+### Project Structure
+```
+src/
+├── components/          # Reusable UI components
+├── pages/              # Page-level components
+├── hooks/              # Custom React hooks
+├── services/           # API and business logic
+├── utils/              # Utility functions
+├── types/              # TypeScript type definitions
+├── styles/             # CSS and styling
+└── tests/              # Test files
+```
+
 ## Best Practices
 
 ### Performance
@@ -106,16 +187,20 @@ JavaScript-specific code style rules for Agent OS projects using modern JavaScri
 - Use **useCallback** and **useMemo** for expensive calculations
 - Use **lazy loading** for route-based code splitting
 - Use **virtual scrolling** for large lists
+- Use **code splitting** with dynamic imports
 
 ### Error Handling
 - Use **try/catch** blocks for synchronous code
 - Use **error boundaries** for React components
 - Use **proper error logging** and user feedback
 - Handle **async errors** with try/catch in async functions
+- Implement **fallback UI** for error states
 
 ### Testing
 - Use **Jest** for unit testing
 - Use **React Testing Library** for component testing
+- Use **Vitest** for fast testing in Vite projects
+- Use **Playwright** for E2E testing
 - Use **mocking** for external dependencies
 - Test **user behavior** rather than implementation details
 
@@ -132,3 +217,33 @@ JavaScript-specific code style rules for Agent OS projects using modern JavaScri
 - Use **tabIndex** appropriately
 - Handle **keyboard events** for custom components
 - Test **keyboard-only navigation**
+
+### Screen Reader Support
+- Use **proper ARIA labels** and descriptions
+- Implement **skip links** for navigation
+- Ensure **logical tab order**
+- Test with **screen reader software**
+
+## Build and Development Tools
+
+### Package Management
+- Use **npm 9+** or **pnpm** for dependency management
+- Use **exact versions** for production dependencies
+- Use **dev dependencies** for development tools
+- Implement **automated dependency updates**
+
+### Build Tools
+- Use **Vite** for fast development and optimized builds
+- Use **Webpack** for complex bundling requirements
+- Use **esbuild** for fast builds
+- Implement **code splitting** and **tree shaking**
+
+### Code Quality Tools
+- Use **ESLint** with TypeScript rules
+- Use **Prettier** for consistent formatting
+- Use **Husky** for git hooks
+- Use **lint-staged** for pre-commit validation
+
+## Reference
+
+For comprehensive JavaScript/TypeScript tech stack standards, build tools, and advanced patterns, see `../tech-stacks/javascript-typescript.md`.

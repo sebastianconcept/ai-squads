@@ -1,5 +1,9 @@
 # Smalltalk Style Guide
 
+## Context
+
+Smalltalk-specific code style rules for SquadsAI projects using Pharo for object-oriented development. This guide aligns with our comprehensive tech stack standards documented in `../tech-stacks/rust-and-smalltalk.md`.
+
 ## Code Formatting
 - Use 4 spaces for indentation
 - One statement per line
@@ -340,7 +344,7 @@ BaselineOfYourProject class
 
 ### Smalltalk-Specific Release Management
 
-**Note:** For complete Changelog and Architecture Decision Records standards, see the main [Code Style Guide](../code-style.md#project-documentation-standards) which contains universal guidelines applicable to all projects.
+**Note:** For complete Changelog and Architecture Decision Records standards, see the main [Universal Code Style Guide](../code-style.md#project-documentation-standards) which contains universal guidelines applicable to all projects.
 
 #### README Structure
 - **Project header** with hero image
@@ -833,3 +837,7 @@ log: message level: level
         show: '['; show: timestamp; show: '] ';
         show: level; show: ': '; show: message; cr
 ```
+
+## Reference
+
+For comprehensive Smalltalk tech stack standards, build tools, and advanced patterns, see `../tech-stacks/rust-and-smalltalk.md`.

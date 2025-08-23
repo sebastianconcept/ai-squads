@@ -2,7 +2,7 @@
 
 ## Context
 
-Comprehensive coding standards and style guidelines for SquadsAI Elite squad projects using C++ for systems programming, performance-critical applications, and low-level software development.
+C++-specific code style rules for SquadsAI projects using modern C++ for systems programming and high-performance applications. This guide aligns with our comprehensive tech stack standards documented in `../tech-stacks/cpp-standards.md`.
 
 ## General Principles
 
@@ -722,3 +722,7 @@ void ExampleClass::validateInput(const std::vector<int>& data) {
 - 🚀 Use SIMD when applicable
 - 🚀 Optimize for cache locality
 - 🚀 Use appropriate memory allocators
+
+## Reference
+
+For comprehensive C++ tech stack standards, build tools, and advanced patterns, see `../tech-stacks/cpp-standards.md`.

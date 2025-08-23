@@ -2,7 +2,7 @@
 
 ## Context
 
-Ruby-specific code style rules for Agent OS projects using Ruby on Rails.
+Ruby-specific code style rules for SquadsAI projects using Ruby on Rails. This guide aligns with our comprehensive tech stack standards documented in `../tech-stacks/ruby.md`.
 
 ## Ruby Naming Conventions
 
@@ -157,3 +157,7 @@ Ruby-specific code style rules for Agent OS projects using Ruby on Rails.
 - Use **secure session management**
 - Use **HTTPS** in production
 - Use **secure cookies** with proper flags
+
+## Reference
+
+For comprehensive Ruby tech stack standards, build tools, and advanced patterns, see `../tech-stacks/ruby.md`.

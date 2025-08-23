@@ -2,7 +2,7 @@
 
 ## Context
 
-Global guidelines for SquadsAI projects. Language-specific best practices are handled by dedicated style guides in the `standards/code/` directory.
+Global guidelines for SquadsAI projects. Language-specific best practices are handled by dedicated style guides in the `standards/code/` directory, and comprehensive technology stack standards are documented in `standards/tech-stacks/` directory.
 
 ## Available Style Guides
 
@@ -12,13 +12,17 @@ Global guidelines for SquadsAI projects. Language-specific best practices are ha
 - **HTML**: `standards/code/html-style.md` - HTML structure and accessibility
 - **Rust**: `standards/code/rust-style.md` - Rust language best practices
 - **Smalltalk**: `standards/code/smalltalk-style.md` - Smalltalk language best practices
+- **C++**: `standards/code/cpp-style.md` - C++ language best practices
 
-<conditional-block context-check="core-principles">
-IF this Core Principles section already read in current context:
-  SKIP: Re-reading this section
-  NOTE: "Using Core Principles already in context"
-ELSE:
-  READ: The following principles
+## Technology Stack Standards
+
+For comprehensive technology stack standards, build tools, and advanced patterns, see the following files:
+
+- **Rust + Smalltalk**: `standards/tech-stacks/rust-and-smalltalk.md` - High-performance systems development
+- **C/C++**: `standards/tech-stacks/cpp-standards.md` - Systems programming and performance-critical applications
+- **JavaScript/TypeScript**: `standards/tech-stacks/javascript-typescript.md` - Full-stack web development
+- **CSS/Styling**: `standards/tech-stacks/css-styling.md` - Modern CSS and responsive design
+- **Ruby**: `standards/tech-stacks/ruby.md` - Ruby on Rails and API development
 
 ## Core Principles
 
@@ -85,7 +89,7 @@ IF current task involves development in a specific language:
         REQUEST: "Get [LANGUAGE] best practices from standards/code/[LANGUAGE]-style.md"
         PROCESS: Returned language-specific best practices
       ELSE:
-        READ: @~/.agent-os/standards/standards/code/[LANGUAGE]-style.md
+        READ: @~/.squads-ai/standards/code/[LANGUAGE]-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: Language-specific best practices not relevant to current task
@@ -134,19 +138,21 @@ ELSE:
 - Document **project-specific decisions** and rationale
 - Follow **established workflows** for development and deployment
 
-## Integration with Style Guides
+## Integration with Style Guides and Tech Stacks
 
-### When to Use Universal vs. Language-Specific
+### When to Use Universal vs. Language-Specific vs. Tech Stack
 - **Universal Best Practices**: Apply to all projects and languages
 - **Language-Specific**: Use when working with specific language code
+- **Tech Stack Standards**: Use for comprehensive technology guidance, build tools, and integration patterns
 - **Project-Specific**: Follow established patterns in the current project
 
 ### Smart Loading Strategy
 - **Core Principles**: Always loaded for fundamental development practices
 - **Language-Specific**: Loaded when working with specific language code
+- **Tech Stack Standards**: Loaded when working with specific technology combinations
 - **Development Areas**: Loaded based on current development focus
 - **Dependencies**: Loaded when choosing external libraries
 
 ## Summary
 
-This best practices guide provides universal development principles while intelligently integrating with language-specific style guides. For comprehensive development guidance, always reference the appropriate language style guide in the `standards/code/` directory.
+This best practices guide provides universal development principles while intelligently integrating with language-specific style guides and comprehensive technology stack standards. For comprehensive development guidance, always reference the appropriate style guide in the `standards/code/` directory and tech stack standards in the `standards/tech-stacks/` directory.

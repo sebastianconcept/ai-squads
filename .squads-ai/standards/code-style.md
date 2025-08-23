@@ -1,17 +1,17 @@
-# Code Style Guide
+# Universal Code Style Guide
 
 ## Context
 
-Universal code style rules for SquadsAI projects. Language-specific conventions are handled by dedicated style guides in the `code-style/` directory.
+Universal code style rules for SquadsAI projects. Language-specific conventions are handled by dedicated style guides in the `standards/code/` directory.
 
-## Available Language-Specific Style Guides
+## Available Style Guides
 
-- **Ruby**: `code-style/ruby-style.md` - Ruby and Rails conventions
-- **JavaScript**: `code-style/javascript-style.md` - JavaScript and frontend conventions  
-- **CSS**: `code-style/css-style.md` - CSS and TailwindCSS conventions
-- **HTML**: `code-style/html-style.md` - HTML structure and semantics
-- **Rust**: `code-style/rust-style.md` - Rust language conventions
-- **Smalltalk**: `code-style/smalltalk-style.md` - Smalltalk language conventions with Pharo headless execution patterns
+- **Ruby**: `standards/code/ruby-style.md` - Ruby and Rails conventions
+- **JavaScript**: `standards/code/javascript-style.md` - JavaScript and frontend conventions
+- **CSS**: `standards/code/css-style.md` - CSS and TailwindCSS conventions
+- **HTML**: `standards/code/html-style.md` - HTML structure and semantics
+- **Rust**: `standards/code/rust-style.md` - Rust language conventions
+- **Smalltalk**: `standards/code/smalltalk-style.md` - Smalltalk language conventions with Pharo headless execution patterns
 
 <conditional-block context-check="general-formatting">
 IF this General Formatting section already read in current context:
@@ -175,13 +175,13 @@ IF current task involves writing or updating HTML, CSS, or TailwindCSS:
     <context_fetcher_strategy>
       IF current agent is Claude Code AND context-fetcher agent exists:
         USE: @agent:context-fetcher
-        REQUEST: "Get HTML formatting rules from code-style/html-style.md"
-        REQUEST: "Get CSS and TailwindCSS rules from code-style/css-style.md"
+        REQUEST: "Get HTML formatting rules from standards/code/html-style.md"
+        REQUEST: "Get CSS and TailwindCSS rules from standards/code/css-style.md"
         PROCESS: Returned style rules
       ELSE:
         READ the following style guides (only if not already in context):
-        - @~/.agent-os/standards/code-style/html-style.md (if not in context)
-        - @~/.agent-os/standards/code-style/css-style.md (if not in context)
+        - @~/.squads-ai/standards/code/html-style.md (if not in context)
+        - @~/.squads-ai/standards/code/css-style.md (if not in context)
     </context_fetcher_strategy>
 ELSE:
   SKIP: HTML/CSS style guides not relevant to current task
@@ -196,10 +196,10 @@ IF current task involves writing or updating JavaScript:
     <context_fetcher_strategy>
       IF current agent is Claude Code AND context-fetcher agent exists:
         USE: @agent:context-fetcher
-        REQUEST: "Get JavaScript style rules from code-style/javascript-style.md"
+        REQUEST: "Get JavaScript style rules from standards/code/javascript-style.md"
         PROCESS: Returned style rules
       ELSE:
-        READ: @~/.agent-os/standards/code-style/javascript-style.md
+        READ: @~/.squads-ai/standards/code/javascript-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: JavaScript style guide not relevant to current task
@@ -214,10 +214,10 @@ IF current task involves writing or updating Ruby or Ruby on Rails code:
     <context_fetcher_strategy>
       IF current agent is Claude Code AND context-fetcher agent exists:
         USE: @agent:context-fetcher
-        REQUEST: "Get Ruby style rules from code-style/ruby-style.md"
+        REQUEST: "Get Ruby style rules from standards/code/ruby-style.md"
         PROCESS: Returned style rules
       ELSE:
-        READ: @~/.agent-os/standards/code-style/ruby-style.md
+        READ: @~/.squads-ai/standards/code/ruby-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: Ruby style guide not relevant to current task
@@ -232,10 +232,10 @@ IF current task involves writing or updating Rust code:
     <context_fetcher_strategy>
       IF current agent is Claude Code AND context-fetcher agent exists:
         USE: @agent:context-fetcher
-        REQUEST: "Get Rust style rules from code-style/rust-style.md"
+        REQUEST: "Get Rust style rules from standards/code/rust-style.md"
         PROCESS: Returned style rules
       ELSE:
-        READ: @~/.agent-os/standards/code-style/rust-style.md
+        READ: @~/.squads-ai/standards/code/rust-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: Rust style guide not relevant to current task
@@ -250,10 +250,10 @@ IF current task involves writing or updating Smalltalk or Pharo code:
     <context_fetcher_strategy>
       IF current agent is Claude Code AND context-fetcher agent exists:
         USE: @agent:context-fetcher
-        REQUEST: "Get Smalltalk and Pharo style rules from code-style/smalltalk-style.md"
+        REQUEST: "Get Smalltalk and Pharo style rules from standards/code/smalltalk-style.md"
         PROCESS: Returned style rules
       ELSE:
-        READ: @~/.agent-os/standards/code-style/smalltalk-style.md
+        READ: @~/.squads-ai/standards/code/smalltalk-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: Smalltalk/Pharo style guide not relevant to current task
