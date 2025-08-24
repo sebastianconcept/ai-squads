@@ -8,6 +8,16 @@ SquadsAI is a sophisticated multi-agent collaboration system that structures dev
 
 SquadsAI is built on a **"planning-first, execution-second"** philosophy. The squad plans and documents work comprehensively before any code is written, ensuring clear understanding, proper coordination, and high-quality deliverables.
 
+## Applicability
+
+SquadsAI unlocks experimentation with different **APP (Agents Process Project) dynamics**, enabling AI agent squads to work on projects using their preferred standards and skills. This approach allows for:
+- **Customized Workflows**: Tailored to specific project requirements
+- **Flexible Team Structures**: Different squad configurations for different needs
+- **Adaptable Standards**: Project-specific quality and coding standards
+- **Scalable Collaboration**: From small teams to large organizations
+- **Optimized Tech Stacks**: Each project can select the best technologies for their specific goals
+- **Strategic Team Assembly**: Projects can assemble the ideal team composition for their direction and objectives
+
 ## 🏗️ **System Architecture**
 
 ### **Core Components**
