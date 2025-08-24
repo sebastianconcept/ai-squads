@@ -140,10 +140,11 @@ We have decided to implement **comprehensive error handling standards** that pri
 
 **Key Principles**:
 1. **Structured Error Types**: Use `#[from]` and `#[source]` attributes for error chaining
-2. **Error Contextualization**: Wrap lower-level errors in domain-specific contexts
+2. **Error Contextualization**: Wrap lower-level errors in domain-specific contexts with specific operation names
 3. **Helper Method Patterns**: Standardize common error handling operations
 4. **Result-Based APIs**: Prefer `Result<T, E>` over `Option<T>` for fallible operations
 5. **No String-Based Errors**: Avoid generic string error variants in favor of structured types
+6. **Specific Error Variants**: Use operation-specific error names rather than generic categories
 
 ### Considered Alternatives
 
@@ -185,22 +186,39 @@ We have decided to implement **comprehensive error handling standards** that pri
 
 #### Error Type Design Patterns
 
-**1. Domain-Specific Error Contexts**
+**1. Domain-Specific Error Contexts with Operation Names**
 ```rust
 #[derive(Error, Debug)]
 pub enum SessionManagerError {
-    /// Session storage unavailable for mutating operations: {0}
-    SessionStorageMutating(#[from] SessionStorageError),
-    /// Session storage unavailable for updating
-    UpdateSessionAccess,
+    /// Session storage failed: {0}
+    StoreSession(#[source] SessionStorageError),
+    /// Session storage unavailable for updating: {0}
+    UpdateSessionAccess(#[source] SessionStorageError),
+    /// Session storage unavailable for deleting sessions: {0}
+    DeleteSessionAccess(#[source] SessionStorageError),
     /// Session delete failed: {0}
     DeleteSession(#[source] SessionStorageError),
+    /// Session update failed: {0}
+    UpdateSession(#[source] SessionStorageError),
+    /// Metadata access error: {0}
+    MetadataLoadingAccess(#[source] SessionStorageError),
+    /// Session loading access error: {0}
+    LoadSessionAccess(#[source] SessionStorageError),
+    /// Session not found: {0}
+    LoadSession(#[source] SessionStorageError),
+    /// Session listing access error: {0}
+    ListSessionsAccess(#[source] SessionStorageError),
     /// No active session to update
     NoActiveSessionToUpdate,
-    /// Invalid session data: {0}
-    InvalidSessionData(String),
+    /// No active session found
+    NoActiveSessionFound,
 }
 ```
+
+**Pattern Evolution Benefits**:
+- **Before**: `SessionStorageMutating` was too generic and didn't provide context about what operation failed
+- **After**: Specific variants like `StoreSession`, `LoadSessionAccess`, `MetadataLoadingAccess` give clear context about what failed
+- **Result**: Better debugging experience, more maintainable code, and clearer API contracts
 
 **2. Helper Methods for Error Conversion**
 ```rust
@@ -230,6 +248,19 @@ storage.lock()
 - **Use `#[source]`**: When you want to preserve original error for debugging
 - **Use Helper Methods**: For common error handling patterns across your module
 - **Use Contextual Errors**: When you need to provide domain-specific error information
+
+#### Refined Error Naming Strategy
+
+**Operation-Specific Names Over Generic Categories**:
+- **✅ Good**: `StoreSession`, `LoadSessionAccess`, `MetadataLoadingAccess`
+- **❌ Avoid**: `SessionStorageMutating`, `StorageError`, `GenericError`
+
+**Benefits of Operation-Specific Names**:
+1. **Clear Context**: Developers immediately know what operation failed
+2. **Better Debugging**: Error messages provide actionable information
+3. **Maintainable Code**: Easier to locate and fix specific error scenarios
+4. **API Clarity**: Consumers understand exactly what went wrong
+5. **Consistent Patterns**: Standardized approach across all error types
 
 ### Rationale
 
