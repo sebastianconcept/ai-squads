@@ -44,19 +44,29 @@ status: planned
 - **Context Preservation**: Workspace state, inspector configurations, and object registry
 - **Storage Layer**: Secure file-based session persistence with backup and recovery
 - **Protocol Integration**: Seamless integration with existing STUI communication
+- **Multi-Image Support**: Image-specific session management and cross-image operations
+
+### **Multi-Image Architecture Requirements**
+- **Image Identification**: Unique identification of Smalltalk images (name, version, address)
+- **Image-Specific Sessions**: Sessions tied to specific Smalltalk images
+- **Cross-Image Management**: Support for multiple simultaneous image connections
+- **Image Disconnection Handling**: Automatic detection and cleanup of disconnected images
+- **Orphaned Session Management**: Strategy for handling sessions from disconnected images
 
 ### **Integration Points**
 - **Connection Infrastructure**: Leverages existing ZeroMQ connection system
 - **Configuration System**: Integrates with current configuration management
 - **Error Handling**: Maintains existing error handling and recovery mechanisms
 - **UI Components**: Seamless integration with current TUI interface
+- **Image Management**: Integration with Smalltalk image identification and status
 
 ### **Data Flow**
-1. **Session Creation**: User initiates session, state captured and stored
-2. **Context Preservation**: Workspace state continuously updated and persisted
-3. **Network Monitoring**: Automatic detection of network changes and disconnections
-4. **Recovery**: Seamless restoration of session state and context
-5. **Synchronization**: Real-time state synchronization between client and backend
+1. **Session Creation**: User initiates session for specific image, state captured and stored
+2. **Context Preservation**: Workspace state continuously updated and persisted per image
+3. **Network Monitoring**: Automatic detection of image disconnections and network changes
+4. **Recovery**: Seamless restoration of session state and context for specific images
+5. **Synchronization**: Real-time state synchronization between client and multiple backend images
+6. **Cleanup**: Automatic cleanup of orphaned sessions from disconnected images
 
 ## 📊 **Success Metrics**
 
@@ -182,12 +192,96 @@ status: planned
 - **Performance Impact**: Risk of significant performance degradation
 - **Integration Complexity**: Risk of complex integration challenges
 - **Data Corruption**: Risk of session data corruption or loss
+- **Multi-Image Complexity**: Risk of complex multi-image session management
+
+### **Multi-Image Architecture Challenges**
+- **Image Identification**: Need for unique and persistent image identification
+- **Session Isolation**: Ensuring sessions are properly isolated between images
+- **Cross-Image Operations**: Managing sessions across multiple image connections
+- **Disconnection Cleanup**: Handling orphaned sessions from disconnected images
+- **Performance Scaling**: Maintaining performance with multiple image connections
 
 ### **Mitigation Strategies**
 - **Early Integration**: Continuous testing and validation of frontend-backend communication
 - **Performance Monitoring**: Continuous performance testing and optimization
 - **Incremental Integration**: Step-by-step integration with existing components
 - **Robust Validation**: Comprehensive data validation and integrity checking
+- **Multi-Image Testing**: Extensive testing with multiple image scenarios
+- **Cleanup Strategies**: Automated and manual cleanup strategies for orphaned sessions
+
+## 🚨 **Multi-Image Architecture Resolution Plan**
+
+### **Critical Issues Identified**
+- ❌ **Multi-image architecture missing** - No support for multiple Smalltalk images
+- ❌ **Cross-image session management not planned** - Sessions can't handle image switching
+- ❌ **Image disconnection cleanup strategy incomplete** - Orphaned sessions will accumulate
+- ❌ **Orphaned session handling not addressed** - Memory leaks and data corruption risk
+
+### **Resolution Strategy**
+
+#### **Phase 1: Protocol Extension (This Week)**
+- **Extend Session Protocol**: Add image identification to session structures
+- **Image-Specific Commands**: Add commands for multi-image session management
+- **Cleanup Protocol**: Add commands for orphaned session cleanup
+
+#### **Phase 2: Session Manager Enhancement (This Week)**
+- **Multi-Image Tracking**: Track sessions by image identifier
+- **Image Connection Status**: Monitor image connection health
+- **Orphaned Session Detection**: Identify and mark orphaned sessions
+
+#### **Phase 3: UI Enhancement (Next Week)**
+- **Multi-Image Display**: Show sessions grouped by image
+- **Image Status Indicators**: Display connection status for each image
+- **Cleanup Controls**: Provide UI for orphaned session management
+
+#### **Phase 4: Production Features (Week 3)**
+- **Performance Optimization**: Optimize for multiple image connections
+- **Comprehensive Testing**: Test multi-image scenarios thoroughly
+- **Documentation**: Complete multi-image architecture documentation
+
+### **Technical Implementation Details**
+
+#### **Protocol Extensions**
+```rust
+// Extended SessionStateData with image information
+pub struct SessionStateData {
+    // ... existing fields ...
+    pub image_id: String,           // Unique image identifier
+    pub image_address: String,      // Connection address (host:port)
+    pub image_metadata: HashMap<String, String>, // Image details
+}
+
+// New multi-image request types
+pub enum Request {
+    // ... existing types ...
+    ListImageSessions(ListImageSessionsRequest),
+    CleanupImageSessions(CleanupImageSessionsRequest),
+    GetImageSessionStats(GetImageSessionStatsRequest),
+}
+```
+
+#### **Session Manager Extensions**
+```rust
+pub struct SessionManager {
+    // ... existing fields ...
+    pub active_sessions: HashMap<String, ActiveSession>, // Sessions by image
+    pub image_connections: HashMap<String, ImageConnectionStatus>,
+}
+
+impl SessionManager {
+    pub fn create_session_for_image(&mut self, image_id: &str, ...) -> Result<(), SessionError>;
+    pub fn cleanup_orphaned_sessions(&mut self, image_id: &str) -> Result<(), SessionError>;
+    pub fn get_image_session_stats(&mut self, image_id: &str) -> Result<ImageSessionStats, SessionError>;
+}
+```
+
+### **Success Criteria for Multi-Image Support**
+- ✅ **Image Identification**: Sessions are uniquely tied to specific Smalltalk images
+- ✅ **Multi-Image Management**: Multiple image connections can be managed simultaneously
+- ✅ **Disconnection Handling**: Image disconnections are detected and handled gracefully
+- ✅ **Orphaned Session Cleanup**: Orphaned sessions are identified and can be cleaned up
+- ✅ **Performance**: System maintains performance with multiple image connections
+- ✅ **User Experience**: Clear UI for managing multiple image sessions
 
 ## 🎉 **Success Impact**
 

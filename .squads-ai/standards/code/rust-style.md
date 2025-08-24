@@ -5,11 +5,11 @@
 Rust-specific code style rules for SquadsAI projects using Rust for high-performance systems development. This guide aligns with our comprehensive tech stack standards documented in `../tech-stacks/rust-and-smalltalk.md`.
 
 ## Code Formatting
-- Use `rustfmt` for automatic code formatting
+- Use `rust fmt` for automatic code formatting
 - 4 spaces for indentation (not tabs)
 - Line length: 100 characters maximum
 - Use trailing commas in multi-line structs, enums, and function calls
-- **CI Requirement**: Run `cargo fmt --all -- --check` to ensure formatting compliance before committing
+- **Pre-commit Requirement**: Run `cargo fmt --all -- --check` to ensure formatting compliance before committing
 - **Local Development**: Set up local CI checks using the [Local CI Setup Guide](../local-ci-setup.md) to mirror CI pipeline locally
 
 ## Naming Conventions
@@ -66,6 +66,8 @@ pub enum Status {
 - Create custom error types for modules and libraries
 - Use `anyhow` for application-level error handling
 - Use a StartupError to capture all the errors that can happen during startup (as opposed to nominal runtime operations having errors)
+- Panics are only acceptable on tests, when the program can fail, you always need to return specific error variants
+- In error variants prefer using AppErrorVariant(#[from] ErrorOrigin) or AppErrorVariant(#[source] ErrorOrigin) to AppErrorVariant(String)
 
 ```rust
 pub fn read_config(path: &str) -> Result<Config, ConfigError> {
@@ -296,6 +298,168 @@ use crate::{config::Config, error::AppError};
 // re-exports
 pub use self::{session::Session, user::User};
 ```
+
+## Module and Struct Organization
+
+### Directory-Based Module Structure
+When a module contains multiple related structs, enums, or complex functionality, prefer organizing it as a directory with one file per struct/enum. This approach provides better maintainability, clearer separation of concerns, and easier navigation.
+
+#### Structure Pattern
+```
+src/session_manager/
+├── mod.rs                    # Module organization and re-exports
+├── auto_save_config.rs       # AutoSaveConfig struct and implementation
+├── active_session.rs         # ActiveSession struct and NetworkStatus enum
+├── session_event_callbacks.rs # SessionEventCallbacks with type aliases
+├── session_health_status.rs  # SessionHealthStatus enum
+├── restoration_state.rs      # RestorationState enum
+└── session_manager.rs        # Main SessionManager struct
+```
+
+#### Implementation Guidelines
+
+**1. mod.rs Organization**
+```rust
+//! Session management module for STUI
+//! 
+//! This module provides comprehensive session lifecycle management including:
+//! - Session creation, restoration, and deletion
+//! - Auto-save functionality with configurable intervals
+//! - Session health monitoring and status tracking
+//! - Context preservation across network interruptions
+//! - Event callbacks for session state changes
+
+mod auto_save_config;
+mod active_session;
+mod session_event_callbacks;
+mod session_health_status;
+mod restoration_state;
+mod session_manager;
+
+// Re-export main types for convenience
+pub use auto_save_config::AutoSaveConfig;
+pub use active_session::ActiveSession;
+pub use session_event_callbacks::SessionEventCallbacks;
+pub use session_health_status::SessionHealthStatus;
+pub use restoration_state::RestorationState;
+pub use session_manager::SessionManager;
+
+// Re-export the main type with an alias if needed
+pub use session_manager::SessionManager as SessionManagerImpl;
+```
+
+**2. Individual Struct/Enum Files**
+Each file should contain a single primary struct or enum with its complete implementation:
+
+```rust
+// active_session.rs
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
+use super::AutoSaveConfig;
+
+/// Represents an active session with its current state and metadata
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ActiveSession {
+    pub session_id: String,
+    pub session_name: Option<String>,
+    pub description: Option<String>,
+    pub created_at: DateTime<Utc>,
+    pub last_accessed: DateTime<Utc>,
+    pub cursor_position: (u16, u16),
+    pub current_object: String,
+    pub is_connected: bool,
+    pub network_status: NetworkStatus,
+    pub auto_save_config: AutoSaveConfig,
+    pub last_auto_save: DateTime<Utc>,
+}
+
+/// Network connection status for a session
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub enum NetworkStatus {
+    Connected,
+    Disconnected,
+    Reconnecting,
+    Failed,
+}
+
+impl ActiveSession {
+    // Implementation methods...
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    // Comprehensive tests for this struct...
+}
+```
+
+**3. Type Aliases for Complex Callbacks**
+Use type aliases to improve readability for complex callback types:
+
+```rust
+// session_event_callbacks.rs
+use crate::session_storage::SessionMetadata;
+
+/// Type aliases for callback functions to improve readability
+pub type SessionCallback = Box<dyn Fn(&SessionMetadata) + Send + Sync>;
+pub type SessionIdCallback = Box<dyn Fn(&str) + Send + Sync>;
+pub type SessionErrorCallback = Box<dyn Fn(&str) + Send + Sync>;
+
+/// Callbacks for session-related events
+#[derive(Default)]
+pub struct SessionEventCallbacks {
+    pub on_session_created: Option<SessionCallback>,
+    pub on_session_restored: Option<SessionCallback>,
+    pub on_session_deleted: Option<SessionIdCallback>,
+    // ... other callbacks
+}
+```
+
+**4. Cross-Module Dependencies**
+Handle dependencies between modules within the same directory:
+
+```rust
+// session_manager.rs
+use super::{
+    ActiveSession, AutoSaveConfig, RestorationState, 
+    SessionEventCallbacks, SessionHealthStatus,
+};
+use super::active_session::NetworkStatus;
+
+pub struct SessionManager {
+    storage: Arc<Mutex<SessionStorage>>,
+    current_session: Option<ActiveSession>,
+    callbacks: SessionEventCallbacks,
+    restoration_state: RestorationState,
+    auto_save_config: AutoSaveConfig,
+}
+```
+
+#### Benefits of This Approach
+
+1. **Maintainability**: Each file has a single responsibility and is easier to modify
+2. **Readability**: Developers can quickly locate specific functionality
+3. **Testability**: Individual components can be tested in isolation
+4. **Scalability**: Easy to add new structs without cluttering existing files
+5. **Code Review**: Smaller, focused files are easier to review
+6. **Parallel Development**: Multiple developers can work on different structs simultaneously
+
+#### When to Use Directory Structure
+
+- **Multiple Related Structs**: When a module contains 3+ related data structures
+- **Complex Functionality**: When individual structs have substantial implementation
+- **Growing Modules**: When a single file exceeds 200-300 lines
+- **Team Development**: When multiple developers work on the same module
+- **Clear Separation**: When structs represent distinct concepts that can be understood independently
+
+#### When to Keep Single File
+
+- **Simple Modules**: When a module has only 1-2 simple structs
+- **Tight Coupling**: When structs are so tightly coupled they can't be separated
+- **Small Implementation**: When total module size is under 150 lines
+- **Prototype/Experimental**: During early development when structure is still evolving
+
+This organization pattern should be the **default approach** for any module that contains multiple structs or is expected to grow in complexity.
 
 ## Clippy and Linting
 - Enable all Clippy lints in `Cargo.toml`

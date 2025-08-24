@@ -10,6 +10,35 @@ This document tracks the evolution of the SquadsAI system, documenting major cha
 - **Planned Features**: [To be added as development progresses]
 - **Planned Improvements**: [To be added as development progresses]
 
+### [1.2.0] - 2025-08-23 - Rust Architecture Standards Enhancement
+**Minor Release**: Enhanced Rust development standards with scalable module organization patterns
+
+#### 🏗️ **Rust Architecture Standards Enhancement**
+- **Module Organization Patterns**: Comprehensive guidelines for directory-based module structure
+- **Scalable Complexity Management**: Clear patterns for organizing growing Rust projects
+- **Separation of Concerns**: One file per struct/enum for better maintainability
+- **Team Development Support**: Enables parallel development without conflicts
+- **Code Quality Standards**: Maintains fast understandability and clean APIs
+
+#### 📁 **New Module Organization Guidelines**
+- **Directory Structure Pattern**: Clear examples of when to use directory vs. single file organization
+- **Implementation Guidelines**: Comprehensive examples of mod.rs organization and re-exports
+- **Type Alias Patterns**: Best practices for complex callback types and dependencies
+- **Decision Framework**: Clear thresholds (3+ structs, 200-300 lines) for architectural decisions
+- **Benefits Documentation**: Six concrete benefits with practical explanations
+
+#### 🔧 **Enhanced Error Handling Standards**
+- **Panic Restrictions**: Clear guidelines that panics are only acceptable in tests
+- **Error Variant Preferences**: Specific guidance on using `#[from]` and `#[source]` over strings
+- **Startup vs Runtime Errors**: Distinguishes between startup errors and operational errors
+- **Error Propagation**: Better patterns for error handling across program components
+
+#### 📚 **Documentation and Examples**
+- **Real-World Examples**: Session management module as practical implementation pattern
+- **Code Samples**: Comprehensive examples for each architectural concept
+- **Local Development Setup**: Enhanced guidance for local CI checks and quality gates
+- **Reference Integration**: Links to comprehensive tech stack standards
+
 ### [1.1.0] - 2025-08-23 - Quality Gates & Git Workflow Enforcement
 **Minor Release**: Enhanced quality assurance and git workflow enforcement
 
