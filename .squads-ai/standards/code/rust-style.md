@@ -60,6 +60,8 @@ pub enum Status {
 ```
 
 ## Error Handling
+
+### Core Principles
 - Use `Result<T, E>` for fallible operations
 - Prefer `?` operator over `unwrap()` or `expect()`
 - Prefer `expect` operator over `unwrap()` on tests
@@ -69,13 +71,164 @@ pub enum Status {
 - Panics are only acceptable on tests, when the program can fail, you always need to return specific error variants
 - In error variants prefer using AppErrorVariant(#[from] ErrorOrigin) or AppErrorVariant(#[source] ErrorOrigin) to AppErrorVariant(String)
 
+### Domain-Specific Error Patterns
+
+#### 1. Error Contextualization
+Wrap lower-level errors in domain-specific contexts to provide meaningful error information to API consumers:
+
+**Note**: This pattern evolved from a simpler approach. Initially, we used generic variants like `SessionStorageMutating`, but we refined it to be more specific and contextual:
+
+```rust
+#[derive(Error, Debug)]
+pub enum SessionManagerError {
+    /// Session storage failed: {0}
+    StoreSession(#[source] SessionStorageError),
+    /// Session storage unavailable for updating: {0}
+    UpdateSessionAccess(#[source] SessionStorageError),
+    /// Session storage unavailable for deleting sessions: {0}
+    DeleteSessionAccess(#[source] SessionStorageError),
+    /// Session delete failed: {0}
+    DeleteSession(#[source] SessionStorageError),
+    /// Session update failed: {0}
+    UpdateSession(#[source] SessionStorageError),
+    /// Metadata access error: {0}
+    MetadataLoadingAccess(#[source] SessionStorageError),
+    /// Session loading access error: {0}
+    LoadSessionAccess(#[source] SessionStorageError),
+    /// Session not found: {0}
+    LoadSession(#[source] SessionStorageError),
+    /// Session listing access error: {0}
+    ListSessionsAccess(#[source] SessionStorageError),
+    /// No active session to update
+    NoActiveSessionToUpdate,
+    /// No active session found
+    NoActiveSessionFound,
+}
+```
+
+**Pattern Evolution Benefits**:
+- **Before**: `SessionStorageMutating` was too generic and didn't provide context about what operation failed
+- **After**: Specific variants like `StoreSession`, `LoadSessionAccess`, `MetadataLoadingAccess` give clear context about what failed
+- **Result**: Better debugging experience, more maintainable code, and clearer API contracts
+
+#### 2. Helper Methods for Error Conversion
+Create helper methods that encapsulate common error handling patterns:
+
+```rust
+impl SessionManager {
+    /// Get the storage lock
+    ///
+    /// # Errors
+    /// Returns an error if the storage lock is poisoned
+    fn get_storage(&self) -> Result<MutexGuard<SessionStorage>, SessionStorageError> {
+        self.storage
+            .lock()
+            .map_err(|_| SessionStorageError::StorageLockPoisoned)
+    }
+
+    /// Get the mutable storage lock
+    ///
+    /// # Errors
+    /// Returns an error if the storage lock is poisoned
+    fn get_mut_storage(&mut self) -> Result<MutexGuard<SessionStorage>, SessionStorageError> {
+        self.storage
+            .lock()
+            .map_err(|_| SessionStorageError::StorageLockPoisoned)
+    }
+}
+```
+
+#### 3. Contextual Error Mapping
+Map errors to specific contexts based on the operation being performed:
+
+```rust
+// Before: Generic error handling
+storage.lock().map_err(|_| SessionStorageError::StorageLockPoisoned(...))
+
+// After: Specific context with helper methods
+storage.lock()
+    .map_err(|_| SessionStorageError::StorageLockPoisoned)
+    .map_err(SessionManagerError::LoadSessionAccess)
+```
+
+#### 4. Result-Based API Design
+Prefer returning `Result<T, E>` over `Option<T>` for operations that can fail:
+
+```rust
+// Before: Silent failure with Option
+pub fn current_session_id(&self) -> Option<&String>
+
+// After: Explicit error handling with Result
+pub fn current_session_id(&self) -> Result<&String, SessionManagerError>
+```
+
+### Error Handling Best Practices
+
+#### 1. Use `#[from]` for Automatic Conversion
+Use `#[from]` when you want automatic error conversion in the calling code:
+
+```rust
+#[derive(Error, Debug)]
+pub enum AppError {
+    #[error("Database error: {0}")]
+    Database(#[from] DatabaseError),
+    #[error("Network error: {0}")]
+    Network(#[from] NetworkError),
+}
+```
+
+#### 2. Use `#[source]` for Error Chaining
+Use `#[source]` when you want to preserve the original error for debugging but provide a higher-level context:
+
+```rust
+#[derive(Error, Debug)]
+pub enum SessionError {
+    #[error("Failed to load session: {0}")]
+    LoadFailed(#[source] SessionStorageError),
+}
+```
+
+#### 3. Provide Meaningful Error Variants
+Create specific error variants that describe what operation failed:
+
+```rust
+// Good: Specific, contextual errors
+SessionNotFound(String),
+InvalidSessionData(String),
+StorageLockPoisoned,
+
+// Avoid: Generic wrapper errors
+StorageError(SessionStorageError), // Too generic
+```
+
+#### 4. Centralize Error Conversion Logic
+Use helper methods to standardize error handling across your module:
+
+```rust
+impl MyModule {
+    fn handle_storage_error<E>(result: Result<T, E>) -> Result<T, ModuleError> {
+        result.map_err(|e| ModuleError::StorageOperation(e))
+    }
+}
+```
+
+### Example Implementation
+
 ```rust
 pub fn read_config(path: &str) -> Result<Config, ConfigError> {
     let content = std::fs::read_to_string(path)
-        .map_err(|e| ConfigError::IoError(e))?;
+        .map_err(ConfigError::IoError)?;
     
     toml::from_str(&content)
-        .map_err(|e| ConfigError::ParseError(e))
+        .map_err(ConfigError::ParseError)
+}
+
+#[derive(Error, Debug)]
+pub enum ConfigError {
+    #[error("IO error reading config: {0}")]
+    IoError(#[from] std::io::Error),
+    #[error("Failed to parse config: {0}")]
+    ParseError(#[from] toml::de::Error),
 }
 ```
 
