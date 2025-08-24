@@ -133,6 +133,8 @@ As our Rust projects move from prototypes to production systems, we need robust 
 - Difficulty in error propagation and chaining
 - Lack of structured error information for monitoring and logging
 - Poor integration with error handling libraries and tools
+- Unclear documentation of error handling patterns and best practices
+- Lack of real-world examples showing pattern evolution and refinement
 
 ### Decision
 
@@ -184,7 +186,15 @@ We have decided to implement **comprehensive error handling standards** that pri
 
 ### Implementation Guidelines
 
-#### Error Type Design Patterns
+#### Documentation and Organization Standards
+
+**1. Comprehensive Pattern Documentation**
+- **Numbered Sections**: All error handling patterns are organized in numbered sections for easy reference
+- **Before/After Examples**: Clear documentation of pattern evolution from generic to specific approaches
+- **Real-World Code**: Practical examples using actual SessionManager error patterns
+- **Pattern Benefits**: Explicit documentation of why each pattern is preferred
+
+**2. Error Type Design Patterns
 
 **1. Domain-Specific Error Contexts with Operation Names**
 ```rust
@@ -271,8 +281,20 @@ This decision prioritizes **production readiness** and **developer experience** 
 3. **API Quality**: Better error information for API consumers
 4. **Maintainability**: Standardized patterns reduce cognitive load and review complexity
 5. **Future-Proofing**: Structure supports growth and integration with production tools
+6. **Documentation Quality**: Comprehensive, organized documentation with real-world examples
+7. **Pattern Evolution**: Clear documentation of how patterns have improved over time
 
 The pattern aligns with Rust's philosophy of **zero-cost abstractions** - we get better error handling without runtime performance costs, while maintaining compile-time guarantees and clean APIs.
+
+### Documentation Improvements
+
+The comprehensive restructuring of the error handling documentation provides:
+
+1. **Clear Organization**: Numbered sections make patterns easy to find and reference
+2. **Pattern Evolution**: Before/after examples show the refinement process
+3. **Real-World Examples**: SessionManager patterns demonstrate practical application
+4. **Comprehensive Coverage**: All aspects of error handling are documented with examples
+5. **Developer Guidance**: Clear patterns for implementing robust error handling
 
 ### References
 
