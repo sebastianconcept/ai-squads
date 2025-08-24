@@ -116,3 +116,136 @@ The pattern aligns with Rust's philosophy of **zero-cost abstractions** - we get
 - **Implementation Examples**: Session management module patterns
 - **Quality Gates**: Local development setup and CI integration
 - **Tech Stack Standards**: `../tech-stacks/rust-and-smalltalk.md`
+
+---
+
+## AD-002: Rust Error Handling Standards for Production Systems
+
+**Date**: 2025-08-23  
+**Status**: Accepted  
+**Type**: Code Quality Standard  
+
+### Context
+
+As our Rust projects move from prototypes to production systems, we need robust error handling that provides meaningful context to API consumers while maintaining clean, maintainable code. Traditional approaches of using string-based errors or generic error wrappers lead to:
+- Poor error context for debugging and user experience
+- Inconsistent error handling patterns across modules
+- Difficulty in error propagation and chaining
+- Lack of structured error information for monitoring and logging
+- Poor integration with error handling libraries and tools
+
+### Decision
+
+We have decided to implement **comprehensive error handling standards** that prioritize structured error types, contextual error information, and consistent patterns across all Rust modules.
+
+**Key Principles**:
+1. **Structured Error Types**: Use `#[from]` and `#[source]` attributes for error chaining
+2. **Error Contextualization**: Wrap lower-level errors in domain-specific contexts
+3. **Helper Method Patterns**: Standardize common error handling operations
+4. **Result-Based APIs**: Prefer `Result<T, E>` over `Option<T>` for fallible operations
+5. **No String-Based Errors**: Avoid generic string error variants in favor of structured types
+
+### Considered Alternatives
+
+1. **String-Based Error Variants**: Use `AppErrorVariant(String)` for simple errors
+   - ❌ Loses error context and structure
+   - ❌ Difficult to handle programmatically
+   - ❌ Poor integration with error handling libraries
+
+2. **Generic Error Wrappers**: Use `AppErrorVariant(#[from] GenericError)` for all errors
+   - ❌ Too generic, loses domain-specific context
+   - ❌ Difficult to provide meaningful error messages
+   - ❌ Poor API design for consumers
+
+3. **Mixed Approach**: Allow both structured and string-based errors
+   - ❌ Inconsistent patterns across the codebase
+   - ❌ Developers need to choose between multiple approaches
+   - ❌ Code review complexity increases
+
+### Consequences
+
+#### Positive Consequences
+
+1. **Better Error Context**: API consumers receive meaningful error information
+2. **Consistent Patterns**: Standardized error handling across all modules
+3. **Error Chaining**: Proper error propagation with `#[from]` and `#[source]`
+4. **Debugging Support**: Structured errors provide better debugging information
+5. **Monitoring Integration**: Errors can be properly categorized and monitored
+6. **Library Integration**: Better integration with error handling libraries
+7. **Code Quality**: Cleaner, more maintainable error handling code
+8. **Team Productivity**: Consistent patterns reduce learning curve and review time
+
+#### Negative Consequences
+
+1. **Initial Complexity**: More complex error type definitions (mitigated by templates and examples)
+2. **Learning Curve**: Developers need to understand error handling patterns (mitigated by comprehensive documentation)
+3. **Code Verbosity**: Slightly more verbose error type definitions (mitigated by helper methods)
+
+### Implementation Guidelines
+
+#### Error Type Design Patterns
+
+**1. Domain-Specific Error Contexts**
+```rust
+#[derive(Error, Debug)]
+pub enum SessionManagerError {
+    /// Session storage unavailable for mutating operations: {0}
+    SessionStorageMutating(#[from] SessionStorageError),
+    /// Session storage unavailable for updating
+    UpdateSessionAccess,
+    /// Session delete failed: {0}
+    DeleteSession(#[source] SessionStorageError),
+    /// No active session to update
+    NoActiveSessionToUpdate,
+    /// Invalid session data: {0}
+    InvalidSessionData(String),
+}
+```
+
+**2. Helper Methods for Error Conversion**
+```rust
+impl SessionManager {
+    fn get_storage(&self) -> Result<MutexGuard<SessionStorage>, SessionStorageError> {
+        self.storage
+            .lock()
+            .map_err(|_| SessionStorageError::StorageLockPoisoned)
+    }
+}
+```
+
+**3. Contextual Error Mapping**
+```rust
+// Before: Generic error handling
+storage.lock().map_err(|_| SessionStorageError::StorageLockPoisoned(...))
+
+// After: Specific context with helper methods
+storage.lock()
+    .map_err(|_| SessionStorageError::StorageLockPoisoned)
+    .map_err(SessionManagerError::LoadSessionAccess)
+```
+
+#### When to Use Each Pattern
+
+- **Use `#[from]`**: When you want automatic error conversion in calling code
+- **Use `#[source]`**: When you want to preserve original error for debugging
+- **Use Helper Methods**: For common error handling patterns across your module
+- **Use Contextual Errors**: When you need to provide domain-specific error information
+
+### Rationale
+
+This decision prioritizes **production readiness** and **developer experience** over short-term simplicity. While it requires more initial setup, it provides:
+
+1. **Production Quality**: Structured errors support proper monitoring, logging, and debugging
+2. **Developer Experience**: Consistent patterns make code easier to understand and maintain
+3. **API Quality**: Better error information for API consumers
+4. **Maintainability**: Standardized patterns reduce cognitive load and review complexity
+5. **Future-Proofing**: Structure supports growth and integration with production tools
+
+The pattern aligns with Rust's philosophy of **zero-cost abstractions** - we get better error handling without runtime performance costs, while maintaining compile-time guarantees and clean APIs.
+
+### References
+
+- **Rust Style Guide**: `.squads-ai/standards/code/rust-style.md` - Error Handling section
+- **Implementation Examples**: Session management module error patterns
+- **Quality Gates**: Error handling standards integrated into local development setup
+- **Tech Stack Standards**: `../tech-stacks/rust-and-smalltalk.md`
