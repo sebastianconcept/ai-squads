@@ -224,3 +224,9 @@ encoding: UTF-8
 STUI has made significant progress in Phase 2 with three major features (Code Completion, Enhanced Error Display, and Session Persistence) fully implemented on the client side. The project is well-positioned for successful Phase 2 completion with the Elite squad's specialized capabilities. The next phase should focus on server integration to connect these client features to the Smalltalk backend, followed by the remaining Phase 2 features.
 
 The integration with SquadsAI provides access to specialized agents and established development workflows, accelerating development toward the goal of a professional-grade Smalltalk development environment.
+
+## Features in Planning
+- [ ] **test-feature** - Currently in planning phase
+
+## Features in Planning
+- [ ] **test-integration-feature** - Currently in planning phase

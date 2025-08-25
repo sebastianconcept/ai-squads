@@ -1,6 +1,13 @@
 #!/bin/bash
 
 # plan-feature.sh - Plan a new feature for an existing project using SquadsAI workflows
+# 
+# This script implements the plan-feature workflow defined in:
+# .squads-ai/instructions/planning-workflows.md
+# 
+# For detailed instructions and Cursor integration, see:
+# .squads-ai/instructions/plan-feature.mdc
+#
 # Usage: ./plan-feature.sh <project_name> <feature_name> [options]
 
 set -e
@@ -61,11 +68,12 @@ show_usage() {
     echo ""
     echo "The script will:"
     echo "  1. Validate project exists and is properly configured"
-    echo "  2. Create feature-[FEATURE_NAME]/ directory structure"
-    echo "  3. Generate comprehensive planning documents from templates"
-    echo "  4. Set up squad integration and agent assignments"
-    echo "  5. Create implementation status tracking"
-    echo "  6. Update project status and documentation"
+    echo "  2. Ensure project has all required planning files (mission.md, roadmap.md, tech-stack.md, decisions.md, tasks.md)"
+    echo "  3. Create feature-[FEATURE_NAME]/ directory structure"
+    echo "  4. Generate comprehensive planning documents from templates"
+    echo "  5. Set up squad integration and agent assignments"
+    echo "  6. Create implementation status tracking"
+    echo "  7. Update project status and documentation"
 }
 
 # Function to validate project exists
@@ -93,6 +101,65 @@ validate_project() {
     done
     
     print_success "Project '$project_name' validated"
+}
+
+# Function to ensure project has all required planning files
+ensure_project_planning_files() {
+    local project_name="$1"
+    local project_dir=".squads-ai/projects/$project_name"
+    local template_dir="templates/projects"
+    
+    print_status "Ensuring project has all required planning files..."
+    
+    # List of required project planning files
+    local required_files=("mission.md" "roadmap.md" "tech-stack.md" "decisions.md" "tasks.md")
+    local missing_files=()
+    
+    # Check which files are missing
+    for file in "${required_files[@]}"; do
+        if [ ! -f "$project_dir/$file" ]; then
+            missing_files+=("$file")
+        fi
+    done
+    
+    # Create missing files from templates
+    if [ ${#missing_files[@]} -gt 0 ]; then
+        print_status "Creating missing project planning files..."
+        
+        for file in "${missing_files[@]}"; do
+            if [ -f "$template_dir/$file" ]; then
+                local target_file="$project_dir/$file"
+                cp "$template_dir/$file" "$target_file"
+                
+                # Customize the template content for the project
+                customize_project_template "$target_file" "$project_name"
+                
+                print_status "  ✓ Created $file"
+            else
+                print_warning "Template not found: $template_dir/$file"
+            fi
+        done
+        
+        print_success "Project planning files created"
+    else
+        print_status "All required project planning files already exist"
+    fi
+}
+
+# Function to customize project template content
+customize_project_template() {
+    local file_path="$1"
+    local project_name="$2"
+    
+    # Convert project name to title case
+    local project_title=$(echo "$project_name" | sed 's/-/ /g' | sed 's/\b\w/\U&/g')
+    
+    # Replace placeholders in the template
+    sed -i.bak "s/\[PROJECT_NAME\]/$project_title/g" "$file_path"
+    sed -i.bak "s/\[project_name\]/$project_name/g" "$file_path"
+    
+    # Remove backup files
+    rm -f "${file_path}.bak"
 }
 
 # Function to create feature directory structure
@@ -321,6 +388,10 @@ show_completion_summary() {
     echo "  • implementation-status.md - Implementation tracking"
     echo "  • .cursor-rule.md - Cursor integration"
     echo ""
+    echo "🏗️  Project Planning Files:"
+    echo "  • Ensured all required project planning files exist"
+    echo "  • mission.md, roadmap.md, tech-stack.md, decisions.md, tasks.md"
+    echo ""
     echo "🚀 Next Steps:"
     echo "  1. Review and customize the generated documents"
     echo "  2. Validate planning with squad agents"
@@ -412,6 +483,7 @@ main() {
     
     # Execute planning workflow
     validate_project "$PROJECT_NAME"
+    ensure_project_planning_files "$PROJECT_NAME"
     create_feature_structure "$PROJECT_NAME" "$FEATURE_NAME"
     copy_templates "$PROJECT_NAME" "$FEATURE_NAME"
     create_status_files "$PROJECT_NAME" "$FEATURE_NAME"

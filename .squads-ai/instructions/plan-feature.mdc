@@ -3,6 +3,9 @@
 ## Overview
 This rule provides guidance for planning new features using the SquadsAI system. It integrates with the `plan-feature.sh` script and follows established planning workflows.
 
+**Location**: `.squads-ai/instructions/plan-feature.mdc`  
+**Workflow Reference**: `.squads-ai/instructions/planning-workflows.md`
+
 ## When to Use
 - Planning a new feature for an existing project
 - Need comprehensive documentation and task breakdown
@@ -90,6 +93,30 @@ This rule works seamlessly with Cursor's AI assistance:
 - Integrates with existing SquadsAI workflows
 - Maintains consistency across projects
 - Enables automated documentation generation
+
+## Integration with Planning Workflows
+
+This Cursor rule is part of the comprehensive SquadsAI planning system:
+
+- **Workflow Definition**: See `.squads-ai/instructions/planning-workflows.md` for complete workflow documentation
+- **Script Implementation**: The `plan-feature.sh` script automates this workflow
+- **Template Integration**: Uses established document templates from `templates/projects/`
+- **Quality Standards**: Follows SquadsAI quality gates and coding standards
+- **Squad Coordination**: Integrates with squad system and agent assignments
+
+## File Structure Integration
+
+```
+.squads-ai/
+├── instructions/
+│   ├── planning-workflows.md      # Complete workflow documentation
+│   └── plan-feature.mdc          # This Cursor rule
+├── templates/projects/            # Document templates
+├── scripts/
+│   └── plan-feature.sh           # Automated workflow script
+└── projects/[PROJECT_NAME]/       # Project directories
+    └── feature-[FEATURE_NAME]/   # Feature planning directories
+```
 
 ## Quality Standards
 All feature planning follows SquadsAI quality gates:

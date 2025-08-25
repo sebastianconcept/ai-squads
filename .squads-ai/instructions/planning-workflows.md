@@ -89,6 +89,11 @@ This document defines the planning workflows for the SquadsAI system. The squad 
 
 **Purpose**: Plan a new feature for an existing project
 
+**Quick Start**: Use the automated script for consistent feature planning:
+```bash
+./scripts/plan-feature.sh <project_name> <feature_name> [options]
+```
+
 **Workflow**:
 1. **Feature Analysis**
    - Define feature scope and requirements
@@ -98,6 +103,7 @@ This document defines the planning workflows for the SquadsAI system. The squad 
 2. **Documentation Creation**
    - Create feature directory: `.squads-ai/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/`
    - Create required documents: `problem.md`, `solution.md`, `goal.md`, `tasks.md`
+   - Ensure project has all required planning files (mission.md, roadmap.md, tech-stack.md, decisions.md, tasks.md)
 
 3. **Planning Validation**
    - Review with appropriate squad agents
@@ -110,8 +116,13 @@ This document defines the planning workflows for the SquadsAI system. The squad 
 ├── problem.md          # What problem are we solving?
 ├── solution.md         # How will we solve it?
 ├── tasks.md            # List of tasks planed to be executed
-└── goal.md             # What's the success criteria?
+├── goal.md             # What's the success criteria?
+├── status.md           # Current status and progress tracking
+├── implementation-status.md # Implementation phase tracking
+└── .cursor-rule.md     # Cursor integration for the feature
 ```
+
+**For detailed instructions and Cursor integration, see**: `.squads-ai/instructions/plan-feature.mdc`
 
 ### 4. `plan-fix` - Problem Fix Planning
 
