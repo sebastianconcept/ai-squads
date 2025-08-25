@@ -654,6 +654,154 @@ test:
 
 **Remember**: Always run local CI checks before committing to ensure your code meets CI standards!
 
+## Protocol Design Standards
+
+### CRITICAL: Enum-Based Design Over Dynamic Dispatch
+
+**MANDATORY REQUIREMENT**: All new protocol types, message types, and data structures MUST use enum-based design over dynamic dispatch.
+
+#### **✅ Required Approach - Enum-Based Design**
+
+```rust
+// GOOD: Use enums for protocol messages
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum Request {
+    Ping(PingRequest),
+    Evaluate(EvaluateRequest),
+    Inspect(InspectRequest),
+    // NEW: Multi-image commands
+    ListImageSessions(ListImageSessionsRequest),
+    SwitchImageContext(SwitchImageContextRequest),
+    GetImageConnectionStatus(GetImageConnectionStatusRequest),
+}
+
+// GOOD: Use enums for status types
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub enum ConnectionStatus {
+    Connected,
+    Disconnected,
+    Reconnecting,
+    Failed,
+    Unknown,
+}
+
+// GOOD: Use enums for variant data structures
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ImageContext {
+    Development {
+        workspace: String,
+        debug_mode: bool,
+    },
+    Production {
+        workspace: String,
+        monitoring: bool,
+    },
+    Staging {
+        workspace: String,
+        test_data: bool,
+    },
+}
+```
+
+#### **❌ Forbidden Approach - Dynamic Dispatch**
+
+```rust
+// AVOID: Don't use trait objects for protocol messages
+pub trait Request {
+    fn request_type(&self) -> &str;
+    fn serialize(&self) -> Result<Vec<u8>, SerializationError>;
+}
+
+// AVOID: Don't use Box<dyn Request> or similar patterns
+pub struct Message {
+    pub request: Box<dyn Request>, // ❌ Avoid this
+}
+
+// AVOID: Don't use dynamic dispatch for handlers
+pub struct Handler {
+    pub handler: Box<dyn HandlerTrait>, // ❌ Avoid this
+}
+```
+
+#### **Benefits of Enum-Based Design**
+
+1. **Type Safety**: Compile-time guarantees for all message types
+2. **Performance**: Zero-cost abstractions with static dispatch
+3. **Consistency**: Follows existing STUI protocol patterns
+4. **Maintainability**: Clear, explicit type definitions
+5. **Debugging**: Full type information available at compile time
+6. **IDE Support**: Better autocomplete and error detection
+
+#### **When to Use Enums vs Traits**
+
+| Use Case | Use Enums | Use Traits |
+|----------|-----------|------------|
+| Protocol Messages | ✅ **ALWAYS** | ❌ **NEVER** |
+| Status Types | ✅ **ALWAYS** | ❌ **NEVER** |
+| Variant Data | ✅ **ALWAYS** | ❌ **NEVER** |
+| Generic Algorithms | ❌ **NEVER** | ✅ **SOMETIMES** |
+| Plugin Systems | ❌ **NEVER** | ✅ **SOMETIMES** |
+| Runtime Polymorphism | ❌ **NEVER** | ✅ **SOMETIMES** |
+
+#### **Implementation Examples**
+
+##### **Protocol Extension**
+```rust
+// ✅ CORRECT: Extend existing enum
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum Request {
+    // ... existing types ...
+    ListImageSessions(ListImageSessionsRequest),
+    SwitchImageContext(SwitchImageContextRequest),
+}
+
+// ✅ CORRECT: Create new request structs
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ListImageSessionsRequest {
+    pub image_id: Option<String>,
+    pub include_disconnected: bool,
+}
+```
+
+##### **Status Management**
+```rust
+// ✅ CORRECT: Enum-based status tracking
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub enum ConnectionHealth {
+    Healthy,
+    Warning,
+    Critical,
+    Unknown,
+}
+
+// ✅ CORRECT: Enum-based connection status
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ImageConnectionStatus {
+    pub image_id: String,
+    pub status: ConnectionStatus, // ✅ Enum, not trait
+    pub health: ConnectionHealth, // ✅ Enum, not trait
+    pub last_seen: DateTime<Utc>,
+}
+```
+
+#### **Compliance Requirements**
+
+- **100% Enum Usage**: All new protocol types must use enums
+- **No Trait Objects**: No Box<dyn Trait> patterns in new code
+- **Static Dispatch**: All new types must use static dispatch
+- **Type Safety**: Compile-time guarantees for all message types
+- **Performance**: Zero runtime overhead from new functionality
+
+#### **Code Review Checklist**
+
+Before merging any Rust code, ensure:
+- [ ] All new protocol types use enums
+- [ ] No Box<dyn Trait> patterns introduced
+- [ ] All new types use static dispatch
+- [ ] Compile-time type safety maintained
+- [ ] Performance benchmarks show no regression
+- [ ] All tests pass with new enum types
+
 ## Reference
 
 For comprehensive Rust tech stack standards, build tools, and advanced patterns, see `../tech-stacks/rust-and-smalltalk.md`.
