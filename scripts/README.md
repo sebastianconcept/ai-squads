@@ -1,0 +1,175 @@
+# SquadsAI Scripts
+
+This directory contains utility scripts for managing and working with the SquadsAI system.
+
+## Available Scripts
+
+### `plan-feature.sh` - Feature Planning
+**Purpose**: Create comprehensive feature planning documentation using SquadsAI workflows
+
+**Usage**:
+```bash
+./scripts/plan-feature.sh <project_name> <feature_name> [options]
+```
+
+**Options**:
+- `-p, --priority`: Set feature priority (low/medium/high, default: medium)
+- `-s, --squad`: Specify squad to use (default: auto-detect)
+- `-t, --template`: Custom template directory (default: templates/projects/)
+- `-v, --verbose`: Enable verbose output
+- `-h, --help`: Show help message
+
+**Examples**:
+```bash
+# Basic usage
+./scripts/plan-feature.sh stui user-authentication
+
+# With high priority
+./scripts/plan-feature.sh myapp api-rate-limiting --priority high
+
+# With specific squad
+./scripts/plan-feature.sh backend user-management --squad elite
+```
+
+**What it creates**:
+- `feature-[FEATURE_NAME]/` directory structure
+- Complete planning documents (problem.md, solution.md, goal.md, tasks.md)
+- Status tracking files (status.md, implementation-status.md)
+- Cursor integration (.cursor-rule.md)
+- Updates project status
+
+### `link.sh` - Cursor Rules Integration
+**Purpose**: Link .cursor/rules from .squads-ai into target repository
+
+**Usage**:
+```bash
+./scripts/link.sh <target_repo_path>
+```
+
+**What it does**:
+- Creates symlinks to all agent and project rules
+- Converts .md files to .mdc for Cursor compatibility
+- Sets up automatic updates when SquadsAI is updated
+- Updates .gitignore to exclude symlinked directories
+
+### `create-squad.sh` - Squad Creation
+**Purpose**: Create new squad configuration
+
+**Usage**:
+```bash
+./scripts/create-squad.sh <squad_name>
+```
+
+### `create-resource.sh` - Resource Creation
+**Purpose**: Create new resource definition
+
+**Usage**:
+```bash
+./scripts/create-resource.sh <resource_name>
+```
+
+### `list-resources.sh` - Resource Listing
+**Purpose**: List available resources
+
+**Usage**:
+```bash
+./scripts/list-resources.sh
+```
+
+## Integration with Cursor
+
+The `plan-feature.sh` script integrates seamlessly with Cursor through:
+
+1. **Automatic Cursor Rule Creation**: Generates `.cursor-rule.md` for each feature
+2. **Template Integration**: Uses established document templates
+3. **Workflow Consistency**: Follows SquadsAI planning workflows
+4. **Quality Standards**: Maintains established quality gates
+
+## Workflow Integration
+
+All scripts follow the SquadsAI "planning-first, execution-second" philosophy:
+
+1. **Planning Phase**: Create comprehensive documentation and task breakdown
+2. **Validation Phase**: Review with squad agents and validate feasibility
+3. **Execution Phase**: Implement following documented plan and quality gates
+4. **Review Phase**: Validate against goals and update documentation
+
+## Best Practices
+
+1. **Always Use Scripts**: Use the provided scripts for consistency
+2. **Follow Standards**: Adhere to SquadsAI quality gates and coding standards
+3. **Update Documentation**: Keep all documents current as work progresses
+4. **Squad Coordination**: Work with assigned agents for specialized tasks
+5. **Quality Gates**: Ensure all work passes quality standards before proceeding
+
+## Troubleshooting
+
+### Common Issues
+
+**Script Permission Denied**:
+```bash
+chmod +x scripts/plan-feature.sh
+```
+
+**Project Not Found**:
+- Ensure project exists in `.squads-ai/projects/`
+- Check project has required files (README.md, mission.md, roadmap.md)
+
+**Template Issues**:
+- Verify `templates/projects/` directory exists
+- Check template files are present and readable
+
+**Cursor Integration Issues**:
+- Use `./scripts/link.sh` to set up Cursor rules
+- Ensure `.cursor/rules/` directory exists in target repository
+
+## Examples
+
+### Complete Feature Planning Workflow
+
+```bash
+# 1. Plan a new feature
+./scripts/plan-feature.sh stui user-authentication --priority high
+
+# 2. Review generated documents
+cat .squads-ai/projects/stui/feature-user-authentication/problem.md
+cat .squads-ai/projects/stui/feature-user-authentication/tasks.md
+
+# 3. Customize content with specific details
+# Edit the generated files with your feature specifics
+
+# 4. Begin implementation following task breakdown
+```
+
+### Setting Up Cursor Integration
+
+```bash
+# Link SquadsAI rules to your project
+./scripts/link.sh /path/to/your/project
+
+# Now you can use plan-feature in your project
+cd /path/to/your/project
+../ai-squads/scripts/plan-feature.sh myapp new-feature
+```
+
+## Contributing
+
+When adding new scripts:
+
+1. **Follow Naming Convention**: Use descriptive names with `.sh` extension
+2. **Include Help**: Always provide `--help` option with usage information
+3. **Error Handling**: Use proper error handling and colored output
+4. **Documentation**: Update this README with new script information
+5. **Testing**: Test scripts with various inputs and edge cases
+
+## Dependencies
+
+All scripts require:
+- Bash shell
+- Git repository structure
+- SquadsAI directory structure
+- Template files in `templates/projects/`
+
+---
+
+**Ready to plan your next feature? Use `./scripts/plan-feature.sh` and let SquadsAI guide you to success! 🚀**

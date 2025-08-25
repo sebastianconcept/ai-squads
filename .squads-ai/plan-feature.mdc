@@ -1,0 +1,115 @@
+# Cursor Rule: Plan Feature with SquadsAI
+
+## Overview
+This rule provides guidance for planning new features using the SquadsAI system. It integrates with the `plan-feature.sh` script and follows established planning workflows.
+
+## When to Use
+- Planning a new feature for an existing project
+- Need comprehensive documentation and task breakdown
+- Want to follow SquadsAI quality standards and workflows
+- Need squad coordination and agent assignments
+
+## Quick Start
+Use the `plan-feature.sh` script to create comprehensive feature planning:
+
+```bash
+# Basic usage
+./scripts/plan-feature.sh <project_name> <feature_name>
+
+# With options
+./scripts/plan-feature.sh stui user-authentication --priority high --squad elite
+```
+
+## What Gets Created
+The script automatically creates:
+- `feature-[FEATURE_NAME]/` directory structure
+- `problem.md` - Problem definition and analysis
+- `solution.md` - Solution design and approach
+- `goal.md` - Success criteria and acceptance criteria
+- `tasks.md` - Task breakdown with agent assignments
+- `status.md` - Current status and progress tracking
+- `implementation-status.md` - Implementation phase tracking
+- `.cursor-rule.md` - Feature-specific Cursor integration
+
+## Planning Workflow
+1. **Execute Script**: Run `plan-feature.sh` with project and feature names
+2. **Review Documents**: Examine generated planning documents
+3. **Customize Content**: Update templates with specific feature details
+4. **Validate with Squad**: Review planning with appropriate squad agents
+5. **Begin Implementation**: Follow task breakdown and quality gates
+
+## Integration with SquadsAI
+- **Automatic Validation**: Script validates project exists and configuration
+- **Template Integration**: Uses established document templates
+- **Squad Coordination**: Integrates with squad system and agent assignments
+- **Status Tracking**: Creates comprehensive progress tracking
+- **Quality Gates**: Follows established quality standards
+
+## Available Options
+- `--priority`: Set feature priority (low/medium/high)
+- `--squad`: Specify squad to use (default: auto-detect)
+- `--template`: Custom template directory
+- `--verbose`: Enable detailed output
+
+## Best Practices
+1. **Start with Script**: Always use `plan-feature.sh` for consistency
+2. **Customize Templates**: Update generated documents with specific details
+3. **Follow Standards**: Adhere to SquadsAI quality gates and coding standards
+4. **Update Status**: Keep status files current as work progresses
+5. **Squad Coordination**: Work with assigned agents for specialized tasks
+
+## Example Workflow
+```bash
+# 1. Plan the feature
+./scripts/plan-feature.sh myapp user-authentication --priority high
+
+# 2. Review generated documents
+cat .squads-ai/projects/myapp/feature-user-authentication/problem.md
+cat .squads-ai/projects/myapp/feature-user-authentication/tasks.md
+
+# 3. Customize content with specific details
+# Edit the generated files with your feature specifics
+
+# 4. Begin implementation following task breakdown
+```
+
+## Troubleshooting
+- **Project Not Found**: Ensure project exists in `.squads-ai/projects/`
+- **Template Issues**: Check `templates/projects/` directory exists
+- **Permission Errors**: Make script executable with `chmod +x scripts/plan-feature.sh`
+- **Missing Files**: Verify all required project files exist
+
+## Related Commands
+- `./scripts/link.sh` - Link SquadsAI rules to target repository
+- `./scripts/create-squad.sh` - Create new squad configuration
+- `./scripts/create-resource.sh` - Create new resource definition
+
+## Integration with Cursor
+This rule works seamlessly with Cursor's AI assistance:
+- Provides context for feature planning
+- Integrates with existing SquadsAI workflows
+- Maintains consistency across projects
+- Enables automated documentation generation
+
+## Quality Standards
+All feature planning follows SquadsAI quality gates:
+- **Completeness**: All required documents created
+- **Clarity**: Clear problem and solution definitions
+- **Feasibility**: Technical and resource feasibility confirmed
+- **Alignment**: Alignment with project and squad goals
+
+## Next Steps
+After feature planning:
+1. Review and validate planning with squad
+2. Begin implementation following task breakdown
+3. Update status files as work progresses
+4. Follow quality gates and standards
+5. Coordinate with squad agents for specialized work
+
+---
+
+**Ready to plan your feature? Use `./scripts/plan-feature.sh` and let SquadsAI guide you to success! 🚀**
+description:
+globs:
+alwaysApply: false
+---
