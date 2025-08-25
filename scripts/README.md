@@ -68,6 +68,34 @@ This directory contains utility scripts for managing and working with the Squads
 ./scripts/create-resource.sh <resource_name>
 ```
 
+### `create-jtbd-agent.sh` - JTBD Agent Setup
+**Purpose**: Set up JTBD Expert Agent for SquadsAI projects
+
+**Usage**:
+```bash
+./scripts/create-jtbd-agent.sh <project_name> [options]
+```
+
+**Options**:
+- `-f, --force`: Force setup even if agent already exists
+- `-v, --verbose`: Enable verbose output
+- `-h, --help`: Show help message
+
+**Examples**:
+```bash
+# Basic usage
+./scripts/create-jtbd-agent.sh myproject
+
+# Force reinstall
+./scripts/create-jtbd-agent.sh backend-api --force
+```
+
+**What it creates**:
+- JTBD agent setup documentation
+- JTBD analysis templates and directory structure
+- Workflow integration documentation
+- Updated project configuration for JTBD methodology
+
 ### `list-resources.sh` - Resource Listing
 **Purpose**: List available resources
 
@@ -87,20 +115,22 @@ The `plan-feature.sh` script integrates seamlessly with Cursor through:
 
 ## Workflow Integration
 
-All scripts follow the SquadsAI "planning-first, execution-second" philosophy:
+All scripts follow the SquadsAI "planning-first, execution-second" philosophy with JTBD methodology integration:
 
 1. **Planning Phase**: Create comprehensive documentation and task breakdown
-2. **Validation Phase**: Review with squad agents and validate feasibility
-3. **Execution Phase**: Implement following documented plan and quality gates
-4. **Review Phase**: Validate against goals and update documentation
+2. **JTBD Analysis**: Validate customer jobs and solution alignment
+3. **Validation Phase**: Review with squad agents and validate feasibility
+4. **Execution Phase**: Implement following documented plan and quality gates
+5. **Review Phase**: Validate against goals and update documentation
 
 ## Best Practices
 
 1. **Always Use Scripts**: Use the provided scripts for consistency
 2. **Follow Standards**: Adhere to SquadsAI quality gates and coding standards
-3. **Update Documentation**: Keep all documents current as work progresses
-4. **Squad Coordination**: Work with assigned agents for specialized tasks
-5. **Quality Gates**: Ensure all work passes quality standards before proceeding
+3. **JTBD Validation**: Ensure all features address real customer jobs and satisfaction gaps
+4. **Update Documentation**: Keep all documents current as work progresses
+5. **Squad Coordination**: Work with assigned agents for specialized tasks
+6. **Quality Gates**: Ensure all work passes quality standards before proceeding
 
 ## Troubleshooting
 

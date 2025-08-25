@@ -100,22 +100,29 @@ This document defines the planning workflows for the SquadsAI system. The squad 
    - Identify user stories and acceptance criteria
    - Assess technical complexity and dependencies
 
-2. **Documentation Creation**
+2. **JTBD Analysis**
+   - @agent:jtbd-expert analyzes customer jobs and validates feature alignment
+   - Identifies satisfaction gaps and unintended consequences
+   - Ensures solution addresses real customer needs
+
+3. **Documentation Creation**
    - Create feature directory: `.squads-ai/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/`
-   - Create required documents: `problem.md`, `solution.md`, `goal.md`, `tasks.md`
+   - Create required documents: `problem.md`, `solution.md`, `jtbd-analysis.md`, `goal.md`, `tasks.md`
    - Ensure project has all required planning files (mission.md, roadmap.md, tech-stack.md, decisions.md, tasks.md)
 
 3. **Planning Validation**
    - Review with appropriate squad agents
    - Validate technical feasibility
    - Confirm resource availability
+   - Validate JTBD analysis and customer job alignment
 
 **Output Structure**:
 ```
 .squads-ai/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/
 ├── problem.md          # What problem are we solving?
 ├── solution.md         # How will we solve it?
-├── tasks.md            # List of tasks planed to be executed
+├── jtbd-analysis.md    # Customer jobs and satisfaction analysis
+├── tasks.md            # List of tasks planned to be executed
 ├── goal.md             # What's the success criteria?
 ├── status.md           # Current status and progress tracking
 ├── implementation-status.md # Implementation phase tracking
@@ -251,27 +258,31 @@ priority: [low|medium|high|critical]
 ### Planning Phase
 1. **Command Execution**: Execute planning command (`plan-project`, `adopt-project`, `plan-feature`, `plan-fix`)
 2. **Squad Activation**: Activate appropriate squad agents for planning
-3. **Documentation Creation**: Create required planning documents
-4. **Task Breakdown**: Create comprehensive task breakdown with agent assignments
-5. **Validation**: Review and validate planning with squad
+3. **JTBD Analysis**: @agent:jtbd-expert validates customer job alignment
+4. **Documentation Creation**: Create required planning documents including jtbd-analysis.md
+5. **Task Breakdown**: Create comprehensive task breakdown with agent assignments
+6. **Validation**: Review and validate planning with squad including JTBD validation
 
 ### Execution Phase
 1. **Work Assignment**: Assign work to appropriate squad agents
-2. **Implementation**: Execute planned work following squad standards
-3. **Quality Gates**: Ensure work meets defined quality standards
-4. **Documentation Updates**: Update documentation as work progresses
+2. **JTBD Validation**: @agent:jtbd-expert validates implementation alignment with customer jobs
+3. **Implementation**: Execute planned work following squad standards
+4. **Quality Gates**: Ensure work meets defined quality standards including JTBD validation
+5. **Documentation Updates**: Update documentation as work progresses
 
 ### Review Phase
-1. **Goal Validation**: Validate work against defined goals
-2. **Quality Review**: Ensure quality standards are met
-3. **Documentation Review**: Update final documentation
-4. **Knowledge Transfer**: Share learnings with the team
+1. **Goal Validation**: Validate work against defined goals including customer job satisfaction
+2. **JTBD Review**: @agent:jtbd-expert validates customer job satisfaction improvement
+3. **Quality Review**: Ensure quality standards are met
+4. **Documentation Review**: Update final documentation
+5. **Knowledge Transfer**: Share learnings with the team
 
 ## Quality Gates
 
 ### Planning Quality
 - **Completeness**: All required documents created
 - **Clarity**: Clear problem and solution definitions
+- **JTBD Validation**: Customer jobs identified and solution alignment validated
 - **Feasibility**: Technical and resource feasibility confirmed
 - **Alignment**: Alignment with project and squad goals
 - **Task Breakdown**: Comprehensive task breakdown with clear agent assignments
@@ -295,6 +306,7 @@ priority: [low|medium|high|critical]
 #### General Quality Gates
 - [ ] Code review completed and approved
 - [ ] Documentation updated for changes
+- [ ] JTBD analysis completed and validated
 - [ ] No TODO/FIXME comments left in production code
 - [ ] Commit message follows conventional format
 
@@ -344,44 +356,50 @@ git commit -m "descriptive message"
 
 ### **Quality Gate Enforcement**
 - **@agent:git-workflow** will verify these commands were run and passed
+- **@agent:jtbd-expert** will verify JTBD analysis is completed and validated
 - **No exceptions**: Quality gates must pass before any commit
 - **Team accountability**: Engineers are responsible for running these checks
 - **Failure reporting**: Report any quality gate failures to the team
 
 ### **Feature Branch Workflow Enforcement**
 - **@agent:git-workflow** will verify proper feature branch creation sequence
+- **@agent:jtbd-expert** will verify JTBD analysis is completed before feature development
 - **Mandatory sequence**: Switch to main → Pull latest → Create feature branch
-- **No exceptions**: Feature development cannot start without proper git workflow
-- **Team accountability**: Engineers must follow git workflow before development
+- **No exceptions**: Feature development cannot start without proper git workflow and JTBD validation
+- **Team accountability**: Engineers must follow git workflow and JTBD methodology before development
 
 ### Execution Quality
 - **Standards Compliance**: Follow squad coding and quality standards
 - **Testing**: Comprehensive testing coverage
 - **Documentation**: Updated documentation and code comments
 - **Performance**: Meet performance and quality requirements
-- **Quality Gates**: All pre-commit quality gates must pass before any commit
+- **JTBD Validation**: Solution implementation aligns with customer job satisfaction
+- **Quality Gates**: All pre-commit quality gates must pass before any commit including JTBD validation
 
 ### Review Quality
-- **Goal Achievement**: All defined goals met
+- **Goal Achievement**: All defined goals met including customer job satisfaction
 - **Quality Standards**: All quality standards satisfied
-- **Documentation**: Complete and accurate documentation
+- **JTBD Validation**: Customer job satisfaction goals achieved and measured
+- **Documentation**: Complete and accurate documentation including JTBD analysis
 - **Knowledge Transfer**: Learnings shared with the team
 
 ## Task Management Integration
 
 ### Task Creation Process
 1. **Planning Phase**: Create tasks based on problem analysis and solution design
-2. **Agent Assignment**: Assign tasks to appropriate squad agents based on capabilities
-3. **Dependency Mapping**: Identify task dependencies and create execution sequence
-4. **Effort Estimation**: Estimate effort and priority for each task category
-5. **Quality Gates**: Include verification tasks for each major deliverable
+2. **JTBD Analysis**: @agent:jtbd-expert validates customer job alignment and creates satisfaction metrics
+3. **Agent Assignment**: Assign tasks to appropriate squad agents based on capabilities
+4. **Dependency Mapping**: Identify task dependencies and create execution sequence
+5. **Effort Estimation**: Estimate effort and priority for each task category
+6. **Quality Gates**: Include verification tasks for each major deliverable including JTBD validation
 
 ### Task Execution Workflow
 1. **Task Assignment**: Agents receive assigned tasks with clear acceptance criteria
-2. **Progress Tracking**: Regular updates on task status and completion
-3. **Dependency Management**: Monitor blocked tasks and dependencies
-4. **Quality Validation**: Complete verification tasks before marking categories complete
-5. **Handoff Coordination**: Coordinate handoffs between agents for dependent tasks
+2. **JTBD Validation**: @agent:jtbd-expert validates task alignment with customer jobs
+3. **Progress Tracking**: Regular updates on task status and completion
+4. **Dependency Management**: Monitor blocked tasks and dependencies
+5. **Quality Validation**: Complete verification tasks before marking categories complete including JTBD validation
+6. **Handoff Coordination**: Coordinate handoffs between agents for dependent tasks
 
 ## Integration with Squad Workflows
 
@@ -390,34 +408,72 @@ git commit -m "descriptive message"
 - **Smalltalk Projects**: Use Smalltalk-specific standards and workflows
 - **C++ Projects**: Use C++-specific standards and workflows
 - **Full-Stack Projects**: Coordinate between backend and frontend agents
+- **JTBD Methodology**: All projects include customer job analysis and validation
+
+### JTBD Integration
+- **@agent:jtbd-expert**: Participates in all planning workflows
+- **Customer Job Analysis**: Validates feature alignment with customer needs
+- **Satisfaction Gap Identification**: Identifies and prioritizes customer satisfaction gaps
+- **Solution Validation**: Ensures solutions address real customer jobs
+- **Unintended Consequence Analysis**: Identifies potential negative side effects
 
 ### Agent Coordination
 - **Director Agent**: Overall planning coordination and oversight
+- **JTBD Expert**: Customer jobs analysis and solution validation
 - **Software Engineer**: Technical solution design and implementation
 - **UX Expert**: User experience and interface design
 - **UI Implementor**: Frontend implementation and styling
 - **Git Workflow**: Version control and release management
 - **Collaboration**: Team coordination and quality assurance
 
+## JTBD Methodology Integration
+
+### Core JTBD Principles
+- **Jobs, Not Products**: Focus on what customers are trying to accomplish
+- **Progress, Not Satisfaction**: Measure improvement in job completion
+- **Context Matters**: Understand job circumstances and constraints
+- **Emotional and Social Jobs**: Address functional, emotional, and social needs
+- **Unintended Consequences**: Identify and mitigate negative side effects
+
+### JTBD Workflow Integration
+- **Feature Planning**: @agent:jtbd-expert analyzes customer jobs and validates feature alignment
+- **Solution Design**: JTBD validation ensures solutions address real satisfaction gaps
+- **Project Scope**: JTBD analysis validates project alignment with customer needs
+- **Quality Gates**: JTBD validation required before feature approval
+- **Success Metrics**: Job satisfaction improvement measured and tracked
+
+### JTBD Document Requirements
+- **jtbd-analysis.md**: Required for all feature planning
+- **Customer Jobs**: Clearly identified and articulated
+- **Satisfaction Gaps**: Prioritized by impact and frequency
+- **Solution Alignment**: Validated against customer jobs
+- **Unintended Consequences**: Identified and mitigation strategies planned
+
 ## Best Practices
 
 ### Planning Best Practices
 - **Start with Problem**: Clearly define the problem before designing solutions
+- **JTBD Analysis**: Always analyze customer jobs and satisfaction gaps
 - **User-Focused**: Always consider user impact and experience
 - **Technical Feasibility**: Validate technical approach before committing
 - **Resource Planning**: Ensure adequate resources and time allocation
 - **Risk Assessment**: Identify and plan for potential risks
+- **Customer Validation**: Ensure solutions address real customer needs
 
 ### Documentation Best Practices
 - **Clear and Concise**: Write clear, understandable documentation
 - **Consistent Format**: Use consistent formatting and structure
+- **JTBD Integration**: Include customer job analysis in all feature documentation
 - **Regular Updates**: Keep documentation current as work progresses
 - **Accessible**: Make documentation easily accessible to the team
 - **Version Control**: Track documentation changes in version control
+- **Customer Focus**: Document customer jobs and satisfaction goals
 
 ### Execution Best Practices
 - **Follow Standards**: Adhere to squad coding and quality standards
+- **JTBD Validation**: Ensure implementation aligns with customer job satisfaction
 - **Regular Reviews**: Conduct regular code and quality reviews
 - **Testing**: Maintain comprehensive testing coverage
 - **Documentation**: Update documentation as code changes
 - **Communication**: Maintain clear communication with the team
+- **Customer Success**: Measure and track customer job satisfaction improvement
