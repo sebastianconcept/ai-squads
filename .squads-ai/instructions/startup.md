@@ -21,14 +21,17 @@ encoding: UTF-8
 - IMPORTANT: For any step that specifies a subagent in the subagent="" XML attribute you MUST use the specified subagent to perform the instructions for that step.
 - **SQUAD AGENTS ONLY**: Only activate agents that are available in the current squad
 - **AGENT COORDINATION**: The Director Agent coordinates between squad agents based on project needs
+- **JTBD INTEGRATION**: @agent:jtbd-expert participates in all planning workflows for customer job validation
 
 ## Process Flow
 - Process XML blocks sequentially
 - Use exact templates as provided
 - Follow the Director Agent's squad-specific session guidance for workflow selection
 - Ensure all agent activations are within the squad's available agent set
+- Include JTBD analysis in all planning workflows for customer job validation
 
 ## Squad-Specific Workflows
-- **Elite Squad**: Specialized in Rust and Smalltalk/Pharo projects
+- **Elite Squad**: Specialized in Rust and Smalltalk/Pharo projects with JTBD methodology
 - **Other Squads**: Follow their specific focus areas and available agents
 - **Project Context**: Always check .squads-ai/projects/[PROJECT_NAME] for project-specific instructions
+- **JTBD Integration**: All planning workflows include customer job validation

@@ -190,7 +190,7 @@ copy_templates() {
     print_status "Copying and customizing templates..."
     
     # List of required template files
-    local templates=("problem.md" "solution.md" "goal.md" "tasks.md")
+    local templates=("problem.md" "solution.md" "goal.md" "tasks.md" "jtbd-analysis.md")
     
     for template in "${templates[@]}"; do
         if [ -f "$template_dir/$template" ]; then
@@ -347,22 +347,25 @@ This feature is currently in the planning phase. Use the following documents to 
 - **solution.md** - Solution design and approach
 - **goal.md** - Success criteria and acceptance criteria
 - **tasks.md** - Task breakdown and assignments
+- **jtbd-analysis.md** - Customer jobs and satisfaction analysis
 - **status.md** - Current status and progress
 - **implementation-status.md** - Implementation tracking
 
 ## Development Guidelines
 1. **Follow SquadsAI Standards**: Use the established coding standards and quality gates
-2. **Update Documentation**: Keep all planning documents updated as implementation progresses
-3. **Squad Coordination**: Work with assigned squad agents for specialized tasks
-4. **Quality Gates**: Ensure all work passes quality standards before proceeding
+2. **JTBD Validation**: Ensure solutions address real customer jobs and satisfaction gaps
+3. **Update Documentation**: Keep all planning documents updated as implementation progresses
+4. **Squad Coordination**: Work with assigned squad agents for specialized tasks
+5. **Quality Gates**: Ensure all work passes quality standards before proceeding
 
 ## Quick Commands
 - View problem: \`cat .squads-ai/projects/$project_name/feature-$feature_name/problem.md\`
+- View JTBD analysis: \`cat .squads-ai/projects/$project_name/feature-$feature_name/jtbd-analysis.md\`
 - View tasks: \`cat .squads-ai/projects/$project_name/feature-$feature_name/tasks.md\`
 - Update status: Edit status.md and implementation-status.md files
 
 ## Integration
-This feature integrates with the SquadsAI system and follows established workflows.
+This feature integrates with the SquadsAI system and follows established workflows with JTBD methodology.
 EOF
 
     print_success "Cursor rule integration created"
@@ -384,6 +387,7 @@ show_completion_summary() {
     echo "  • solution.md - Solution design and approach"
     echo "  • goal.md - Success criteria and acceptance criteria"
     echo "  • tasks.md - Task breakdown and assignments"
+    echo "  • jtbd-analysis.md - Customer jobs and satisfaction analysis"
     echo "  • status.md - Current status and progress"
     echo "  • implementation-status.md - Implementation tracking"
     echo "  • .cursor-rule.md - Cursor integration"

@@ -10,6 +10,63 @@ This document tracks the evolution of the SquadsAI system, documenting major cha
 - **Planned Features**: [To be added as development progresses]
 - **Planned Improvements**: [To be added as development progresses]
 
+### [1.3.0] - 2025-08-25 - JTBD Expert Agent Integration & Workflow Consistency
+**Minor Release**: Complete Jobs To Be Done methodology integration with workflow consistency fixes
+
+#### 🤖 **JTBD Expert Agent Integration**
+- **New Agent**: @agent:jtbd-expert for customer jobs analysis and solution validation
+- **Elite Squad Enhancement**: JTBD expert added to Elite Squad (now 8 agents)
+- **Agent Capabilities**: Customer jobs analysis, satisfaction gap identification, solution validation
+- **Agent Location**: Properly placed in `.squads-ai/agents/jtbd-expert.md`
+- **Squad Integration**: Full integration with Elite Squad workflows and capabilities
+
+#### 🔄 **Workflow Consistency Fixes**
+- **Core Workflow Updates**: All planning workflows now include JTBD analysis
+- **Documentation Sync**: Core workflow docs now match actual implementation
+- **Quality Gate Enhancement**: JTBD validation added to all quality gates
+- **Planning Phase Updates**: Feature planning now includes JTBD analysis step
+- **Execution Phase Updates**: Implementation includes JTBD validation
+- **Review Phase Updates**: Customer job satisfaction validation included
+
+#### 📋 **New Document Templates**
+- **JTBD Analysis Template**: `templates/projects/jtbd-analysis.md` for customer jobs analysis
+- **Customer Research Template**: `templates/projects/customer-research.md` for JTBD-focused research
+- **Enhanced Feature Planning**: All features now include JTBD analysis document
+- **Comprehensive Documentation**: JTBD methodology integrated into all planning documents
+
+#### 🔧 **New Tools and Scripts**
+- **JTBD Agent Setup**: `scripts/create-jtbd-agent.sh` for project JTBD integration
+- **Enhanced Feature Planning**: `scripts/plan-feature.sh` now creates JTBD analysis automatically
+- **Automated Integration**: Scripts handle JTBD setup and validation automatically
+- **Project Configuration**: Automatic project configuration for JTBD methodology
+
+#### 🎯 **Quality Standards Enhancement**
+- **JTBD Validation**: Required for all feature planning and implementation
+- **Customer Focus**: All solutions must address real customer jobs
+- **Satisfaction Metrics**: Job satisfaction improvement measurement and tracking
+- **Unintended Consequence Analysis**: Identification and mitigation of negative side effects
+- **Pre-Commit Gates**: JTBD analysis completion required before commits
+
+#### 📚 **Documentation Updates**
+- **Core Instructions**: `.squads-ai/instructions/planning-workflows.md` fully updated
+- **Cursor Rules**: `.squads-ai/instructions/plan-feature.mdc` enhanced with JTBD
+- **Startup Instructions**: `.squads-ai/instructions/startup.md` includes JTBD methodology
+- **README Updates**: System documentation reflects full JTBD integration
+- **Script Documentation**: All script documentation updated with JTBD features
+
+#### 🏗️ **System Architecture Improvements**
+- **Workflow Integration**: JTBD methodology integrated into all planning workflows
+- **Agent Coordination**: JTBD expert coordinates with all other squad agents
+- **Quality Assurance**: JTBD validation integrated into quality gates
+- **Success Metrics**: Customer job satisfaction metrics integrated into success criteria
+
+#### 🚀 **Benefits and Impact**
+- **Customer Focus**: All features now address real customer needs
+- **Solution Validation**: Solutions validated against customer job satisfaction
+- **Quality Improvement**: JTBD validation prevents feature creep and misalignment
+- **Strategic Alignment**: Project scope aligned with customer job needs
+- **Market Fit**: Solutions address real customer problems and satisfaction gaps
+
 ### [1.2.0] - 2025-08-23 - Rust Error Handling & Architecture Standards Enhancement
 **Minor Release**: Comprehensive Rust development standards with advanced error handling patterns and scalable module organization
 
