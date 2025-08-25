@@ -302,3 +302,176 @@ The comprehensive restructuring of the error handling documentation provides:
 - **Implementation Examples**: Session management module error patterns
 - **Quality Gates**: Error handling standards integrated into local development setup
 - **Tech Stack Standards**: `../tech-stacks/rust-and-smalltalk.md`
+
+---
+
+## AD-002: JTBD Expert Agent Integration for Customer-Focused Development
+
+**Date**: 2025-08-25  
+**Status**: Accepted  
+**Type**: System Architecture & Workflow Enhancement  
+
+### Context
+
+The SquadsAI system needed to ensure that all features and solutions address real customer needs rather than just building features for the sake of features. The existing system had comprehensive technical planning but lacked customer-focused validation, leading to potential misalignment between technical solutions and actual customer problems.
+
+### Decision
+
+We have decided to integrate a **Jobs To Be Done (JTBD) Expert Agent** into the SquadsAI system to ensure all development work is customer-focused and addresses real customer jobs and satisfaction gaps.
+
+**Key Components**:
+1. **New Agent**: @agent:jtbd-expert for customer jobs analysis and solution validation
+2. **Workflow Integration**: JTBD analysis integrated into all planning workflows
+3. **Quality Gates**: JTBD validation required at every phase (planning, execution, review)
+4. **Documentation**: JTBD analysis document required for all feature planning
+5. **Agent Coordination**: JTBD expert coordinates with all other squad agents
+
+### Considered Alternatives
+
+1. **No Customer Focus**: Continue with technical-only planning
+   - ❌ Risk of building solutions that don't address real customer needs
+   - ❌ Potential for feature creep and misalignment
+   - ❌ No validation of customer job satisfaction
+
+2. **External JTBD Process**: Keep JTBD analysis separate from development workflow
+   - ❌ Disconnected from actual development process
+   - ❌ Risk of JTBD analysis being ignored or forgotten
+   - ❌ No integration with quality gates and validation
+
+3. **Optional JTBD**: Make JTBD analysis optional for features
+   - ❌ Inconsistent application across projects
+   - ❌ Risk of important features skipping customer validation
+   - ❌ No quality assurance for customer focus
+
+### Consequences
+
+#### Positive Consequences
+
+1. **Customer Focus**: All features now address real customer jobs and satisfaction gaps
+2. **Solution Validation**: Solutions validated against customer needs before implementation
+3. **Quality Improvement**: JTBD validation prevents feature creep and misalignment
+4. **Strategic Alignment**: Project scope aligned with customer job needs
+5. **Market Fit**: Solutions address real customer problems and satisfaction gaps
+6. **Consistent Application**: JTBD methodology applied consistently across all projects
+7. **Quality Assurance**: Customer focus integrated into quality gates and validation
+8. **Agent Coordination**: JTBD expert coordinates with all other squad agents
+
+#### Negative Consequences
+
+1. **Additional Planning Time**: Feature planning now includes JTBD analysis step
+2. **Learning Curve**: Team members need to understand JTBD methodology
+3. **Documentation Overhead**: Additional document (jtbd-analysis.md) required for features
+4. **Validation Complexity**: More validation steps in quality gates
+
+### Implementation Guidelines
+
+#### JTBD Agent Integration
+
+- **Agent Location**: Properly placed in `.squads-ai/agents/jtbd-expert.md`
+- **Squad Membership**: Added to Elite Squad (now 8 agents total)
+- **Capabilities**: Customer jobs analysis, satisfaction gap identification, solution validation
+- **Activation**: Automatically activated in all planning workflows
+
+#### Workflow Integration
+
+- **Planning Phase**: JTBD analysis step added to feature planning workflow
+- **Execution Phase**: JTBD validation during implementation
+- **Review Phase**: Customer job satisfaction validation
+- **Quality Gates**: JTBD validation required at every phase
+
+#### Document Requirements
+
+- **jtbd-analysis.md**: Required for all feature planning
+- **Customer Jobs**: Clearly identified and articulated
+- **Satisfaction Gaps**: Prioritized by impact and frequency
+- **Solution Alignment**: Validated against customer jobs
+- **Unintended Consequences**: Identified and mitigation strategies planned
+
+#### Quality Standards
+
+- **JTBD Validation**: Required for all feature planning and implementation
+- **Customer Focus**: All solutions must address real customer jobs
+- **Satisfaction Metrics**: Job satisfaction improvement measurement and tracking
+- **Pre-Commit Gates**: JTBD analysis completion required before commits
+
+### Success Metrics
+
+#### Customer Job Satisfaction
+
+- Measurable improvement in job completion rates
+- Reduced friction in job progress
+- Positive customer feedback on job satisfaction
+- Minimal unintended consequences
+
+#### Development Quality
+
+- All features address real customer jobs
+- Solutions validated against satisfaction gaps
+- Unintended consequences identified early
+- Job satisfaction metrics established
+
+#### Strategic Impact
+
+- Project scope aligned with customer needs
+- Feature prioritization based on job impact
+- Customer research yields actionable insights
+- Product strategy informed by job understanding
+
+### Integration with Existing System
+
+#### Workflow Updates
+
+- **Core Instructions**: `.squads-ai/instructions/planning-workflows.md` fully updated
+- **Cursor Rules**: `.squads-ai/instructions/plan-feature.mdc` enhanced with JTBD
+- **Startup Instructions**: `.squads-ai/instructions/startup.md` includes JTBD methodology
+- **Quality Gates**: JTBD validation integrated into all quality gates
+
+#### Agent Coordination
+
+- **Director Agent**: Coordinates overall planning including JTBD analysis
+- **JTBD Expert**: Leads customer jobs analysis and validation
+- **Other Agents**: Coordinate with JTBD expert for customer-focused solutions
+- **Quality Assurance**: JTBD validation integrated into quality gates
+
+#### Script Integration
+
+- **create-jtbd-agent.sh**: Automated JTBD agent setup for projects
+- **plan-feature.sh**: Enhanced to create JTBD analysis documents automatically
+- **Quality Gates**: Scripts enforce JTBD validation requirements
+
+### Rationale
+
+This decision prioritizes **customer focus** and **market fit** over technical-only development. While it requires additional planning and validation steps, it provides:
+
+1. **Customer Alignment**: Ensures all solutions address real customer needs
+2. **Market Fit**: Solutions validated against customer jobs and satisfaction gaps
+3. **Quality Improvement**: Prevents feature creep and misalignment
+4. **Strategic Focus**: Project scope aligned with customer needs
+5. **Consistent Application**: JTBD methodology applied across all projects
+6. **Quality Assurance**: Customer focus integrated into quality gates
+7. **Agent Coordination**: JTBD expert coordinates with all other agents
+
+The integration aligns with SquadsAI's philosophy of **planning-first, execution-second** by ensuring customer validation happens during planning, not after implementation.
+
+### Documentation and Training
+
+#### New Templates
+
+- **jtbd-analysis.md**: Customer jobs analysis template
+- **customer-research.md**: JTBD-focused research methodology
+- **Workflow Integration**: JTBD methodology integrated into all workflows
+
+#### Training Requirements
+
+- **Team Education**: JTBD methodology and principles
+- **Workflow Integration**: How JTBD analysis fits into planning workflows
+- **Quality Gates**: Understanding JTBD validation requirements
+- **Agent Usage**: How to work with @agent:jtbd-expert
+
+### References
+
+- **JTBD Agent**: `.squads-ai/agents/jtbd-expert.md` - Complete agent specification
+- **Elite Squad**: `.squads-ai/squads/elite.md` - Squad with JTBD expert
+- **Workflow Instructions**: `.squads-ai/instructions/planning-workflows.md` - JTBD integration
+- **Feature Planning**: `.squads-ai/instructions/plan-feature.mdc` - Enhanced with JTBD
+- **Integration Guide**: `JTBD-AGENT-INTEGRATION.md` - Comprehensive setup guide
