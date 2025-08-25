@@ -96,6 +96,34 @@ This directory contains utility scripts for managing and working with the Squads
 - Workflow integration documentation
 - Updated project configuration for JTBD methodology
 
+### `create-writer-agent.sh` - Writer Agent Setup
+**Purpose**: Set up Writer Agent for SquadsAI projects
+
+**Usage**:
+```bash
+./scripts/create-writer-agent.sh <project_name> [options]
+```
+
+**Options**:
+- `-f, --force`: Force setup even if agent already exists
+- `-v, --verbose`: Enable verbose output
+- `-h, --help`: Show help message
+
+**Examples**:
+```bash
+# Basic usage
+./scripts/create-writer-agent.sh myproject
+
+# Force reinstall
+./scripts/create-writer-agent.sh backend-api --force
+```
+
+**What it creates**:
+- Writer agent setup documentation
+- Story planning templates and directory structure
+- Workflow integration documentation
+- Updated project configuration for storytelling methodology
+
 ### `list-resources.sh` - Resource Listing
 **Purpose**: List available resources
 
@@ -115,22 +143,24 @@ The `plan-feature.sh` script integrates seamlessly with Cursor through:
 
 ## Workflow Integration
 
-All scripts follow the SquadsAI "planning-first, execution-second" philosophy with JTBD methodology integration:
+All scripts follow the SquadsAI "planning-first, execution-second" philosophy with JTBD methodology and storytelling integration:
 
 1. **Planning Phase**: Create comprehensive documentation and task breakdown
 2. **JTBD Analysis**: Validate customer jobs and solution alignment
-3. **Validation Phase**: Review with squad agents and validate feasibility
-4. **Execution Phase**: Implement following documented plan and quality gates
-5. **Review Phase**: Validate against goals and update documentation
+3. **Story Planning**: Create narrative strategy and character development
+4. **Validation Phase**: Review with squad agents and validate feasibility
+5. **Execution Phase**: Implement following documented plan and quality gates
+6. **Review Phase**: Validate against goals and update documentation
 
 ## Best Practices
 
 1. **Always Use Scripts**: Use the provided scripts for consistency
 2. **Follow Standards**: Adhere to SquadsAI quality gates and coding standards
 3. **JTBD Validation**: Ensure all features address real customer jobs and satisfaction gaps
-4. **Update Documentation**: Keep all documents current as work progresses
-5. **Squad Coordination**: Work with assigned agents for specialized tasks
-6. **Quality Gates**: Ensure all work passes quality standards before proceeding
+4. **Story Validation**: Ensure all features include engaging narrative strategy and character development
+5. **Update Documentation**: Keep all documents current as work progresses
+6. **Squad Coordination**: Work with assigned agents for specialized tasks
+7. **Quality Gates**: Ensure all work passes quality standards before proceeding
 
 ## Troubleshooting
 

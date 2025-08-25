@@ -92,6 +92,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 │   ├── problem.md          # What problem are we solving?
 │   ├── solution.md         # How will we solve it?
 │   ├── jtbd-analysis.md    # Customer jobs and satisfaction analysis
+│   ├── story-plan.md       # Narrative strategy and storytelling elements
 │   ├── tasks.md            # Comprehensive task breakdown with agent assignments
 │   └── goal.md             # What's the success criteria?
 ├── hotfix-[HOTFIX_NAME]/   # Problem fix planning
@@ -119,6 +120,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 - **`problem.md`**: Problem definition, context, and impact analysis
 - **`solution.md`**: Solution design, technical approach, and implementation plan
 - **`jtbd-analysis.md`**: Customer jobs analysis, satisfaction gaps, and solution validation
+- **`story-plan.md`**: Narrative strategy, character development, and storytelling elements
 - **`tasks.md`**: Comprehensive task breakdown with agent assignments and dependencies
 - **`goal.md`**: Success criteria, acceptance criteria, and validation methods
 
@@ -146,6 +148,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 **Agents**:
 - **@agent:director**: Project coordination and strategic oversight
 - **@agent:jtbd-expert**: Customer jobs analysis and solution validation
+- **@agent:writer**: Storytelling, character development, and narrative craft
 - **@agent:software-engineer**: Full-stack development and systems programming
 - **@agent:ux-expert**: User experience research and design
 - **@agent:ui-implementor**: Frontend implementation across platforms
@@ -183,6 +186,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 - **Completeness**: All required documents created
 - **Clarity**: Clear problem and solution definitions
 - **JTBD Validation**: Customer jobs identified and solution alignment validated
+- **Story Validation**: Narrative strategy and character development planned
 - **Feasibility**: Technical and resource feasibility confirmed
 - **Alignment**: Alignment with project and squad goals
 
