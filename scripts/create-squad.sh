@@ -34,11 +34,11 @@ print_error() {
 show_usage() {
     echo "Usage: $0 <resource_type> <name>"
     echo ""
-    echo "This script will create a new squad or agent using templates from templates/"
+    echo "This script will create a new squad or agent using templates from .squads-ai/templates/"
     echo ""
     echo "Resource Types:"
-      echo "  squad <squad_name>    Create a new squad using templates/squad-template.md"
-  echo "  agent <agent_name>    Create a new agent using templates/agent-template.md"
+      echo "  squad <squad_name>    Create a new squad using .squads-ai/templates/squad-template.md"
+  echo "  agent <agent_name>    Create a new agent using .squads-ai/templates/agent-template.md"
     echo ""
     echo "Examples:"
     echo "  $0 squad web-dev"
@@ -277,8 +277,8 @@ if [[ "$RESOURCE_TYPE" != "squad" && "$RESOURCE_TYPE" != "agent" ]]; then
 fi
 
 # Set up paths
-SQUAD_TEMPLATE="templates/squad-template.md"
-AGENT_TEMPLATE="templates/agent-template.md"
+SQUAD_TEMPLATE=".squads-ai/templates/squad-template.md"
+AGENT_TEMPLATE=".squads-ai/templates/agent-template.md"
 SQUADS_DIR=".squads-ai/squads"
 AGENTS_DIR=".squads-ai/agents"
 CURSOR_RULES_DIR=".cursor/rules"

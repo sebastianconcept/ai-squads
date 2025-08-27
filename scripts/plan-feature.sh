@@ -57,7 +57,7 @@ show_usage() {
     echo "Options:"
     echo "  -p, --priority      Feature priority: low, medium, high (default: medium)"
     echo "  -s, --squad         Specific squad to use (default: auto-detect)"
-    echo "  -t, --template      Custom template directory (default: templates/projects/)"
+    echo "  -t, --template      Custom template directory (default: .squads-ai/templates/projects/)"
     echo "  -v, --verbose       Enable verbose output"
     echo "  -h, --help          Show this help message"
     echo ""
@@ -107,7 +107,7 @@ validate_project() {
 ensure_project_planning_files() {
     local project_name="$1"
     local project_dir=".squads-ai/projects/$project_name"
-    local template_dir="templates/projects"
+    local template_dir=".squads-ai/templates/projects"
     
     print_status "Ensuring project has all required planning files..."
     
@@ -185,12 +185,12 @@ copy_templates() {
     local project_name="$1"
     local feature_name="$2"
     local feature_dir=".squads-ai/projects/$project_name/feature-$feature_name"
-    local template_dir="templates/projects"
+    local template_dir=".squads-ai/templates/projects"
     
     print_status "Copying and customizing templates..."
     
     # List of required template files
-    local templates=("problem.md" "solution.md" "goal.md" "tasks.md" "jtbd-analysis.md")
+    local templates=("problem.md" "solution.md" "goal.md" "tasks.md" "jtbd-analysis.md" "story-plan.md")
     
     for template in "${templates[@]}"; do
         if [ -f "$template_dir/$template" ]; then
@@ -348,24 +348,27 @@ This feature is currently in the planning phase. Use the following documents to 
 - **goal.md** - Success criteria and acceptance criteria
 - **tasks.md** - Task breakdown and assignments
 - **jtbd-analysis.md** - Customer jobs and satisfaction analysis
+- **story-plan.md** - Narrative strategy and storytelling elements
 - **status.md** - Current status and progress
 - **implementation-status.md** - Implementation tracking
 
 ## Development Guidelines
 1. **Follow SquadsAI Standards**: Use the established coding standards and quality gates
 2. **JTBD Validation**: Ensure solutions address real customer jobs and satisfaction gaps
-3. **Update Documentation**: Keep all planning documents updated as implementation progresses
-4. **Squad Coordination**: Work with assigned squad agents for specialized tasks
-5. **Quality Gates**: Ensure all work passes quality standards before proceeding
+3. **Storytelling Integration**: Ensure narrative elements enhance user experience and engagement
+4. **Update Documentation**: Keep all planning documents updated as implementation progresses
+5. **Squad Coordination**: Work with assigned squad agents for specialized tasks
+6. **Quality Gates**: Ensure all work passes quality standards before proceeding
 
 ## Quick Commands
 - View problem: \`cat .squads-ai/projects/$project_name/feature-$feature_name/problem.md\`
 - View JTBD analysis: \`cat .squads-ai/projects/$project_name/feature-$feature_name/jtbd-analysis.md\`
+- View story plan: \`cat .squads-ai/projects/$project_name/feature-$feature_name/story-plan.md\`
 - View tasks: \`cat .squads-ai/projects/$project_name/feature-$feature_name/tasks.md\`
 - Update status: Edit status.md and implementation-status.md files
 
 ## Integration
-This feature integrates with the SquadsAI system and follows established workflows with JTBD methodology.
+This feature integrates with the SquadsAI system and follows established workflows with JTBD methodology and storytelling integration.
 EOF
 
     print_success "Cursor rule integration created"
@@ -383,14 +386,15 @@ show_completion_summary() {
     echo ""
     echo "📁 Feature Directory: $feature_dir"
     echo "📋 Created Documents:"
-    echo "  • problem.md - Problem definition and analysis"
-    echo "  • solution.md - Solution design and approach"
-    echo "  • goal.md - Success criteria and acceptance criteria"
-    echo "  • tasks.md - Task breakdown and assignments"
-    echo "  • jtbd-analysis.md - Customer jobs and satisfaction analysis"
-    echo "  • status.md - Current status and progress"
-    echo "  • implementation-status.md - Implementation tracking"
-    echo "  • .cursor-rule.md - Cursor integration"
+echo "  • problem.md - Problem definition and analysis"
+echo "  • solution.md - Solution design and approach"
+echo "  • goal.md - Success criteria and acceptance criteria"
+echo "  • tasks.md - Task breakdown and assignments"
+echo "  • jtbd-analysis.md - Customer jobs and satisfaction analysis"
+echo "  • story-plan.md - Narrative strategy and storytelling elements"
+echo "  • status.md - Current status and progress"
+echo "  • implementation-status.md - Implementation tracking"
+echo "  • .cursor-rule.md - Cursor integration"
     echo ""
     echo "🏗️  Project Planning Files:"
     echo "  • Ensured all required project planning files exist"
@@ -418,7 +422,7 @@ main() {
     FEATURE_NAME=""
     PRIORITY="medium"
     SQUAD="auto"
-    TEMPLATE_DIR="templates/projects"
+    TEMPLATE_DIR=".squads-ai/templates/projects"
     VERBOSE=false
     
     while [[ $# -gt 0 ]]; do

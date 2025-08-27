@@ -43,12 +43,12 @@ show_usage() {
     echo "  $0 /path/to/another/repo"
     echo ""
     echo "The script will:"
-    echo "  1. Verify the target repository exists and is a git repo"
-    echo "  2. Create .cursor/rules directory if it doesn't exist"
-    echo "  3. Create symlinks to all agent and project rules from .squads-ai"
-    echo "  4. Convert .md files to .mdc for Cursor compatibility"
-    echo "  5. Create a symlink to the source .squads-ai directory"
-    echo "  6. Update .gitignore to exclude the symlinked directory"
+echo "  1. Verify the target repository exists and is a git repo"
+echo "  2. Create .cursor/rules directory if it doesn't exist"
+echo "  3. Create symlinks to all agent, project, and workflow rules from .squads-ai"
+echo "  4. Convert .md files to .mdc for Cursor compatibility"
+echo "  5. Create a symlink to the source .squads-ai directory"
+echo "  6. Update .gitignore to exclude the symlinked directory"
 }
 
 # Check if help is requested
@@ -158,6 +158,26 @@ elif [ -d "$SOURCE_DIR/projects" ]; then
     print_status "Projects directory exists but is empty - skipping"
 fi
 
+# Create symlinks for all workflow files from .squads-ai/workflows (if exists and not empty)
+if [ -d "$SOURCE_DIR/workflows" ] && [ "$(ls -A "$SOURCE_DIR/workflows" 2>/dev/null)" ]; then
+    print_status "Creating symlinks for workflow definitions..."
+    for file in "$SOURCE_DIR/workflows"/*.md*; do
+        if [ -f "$file" ]; then
+            filename=$(basename "$file")
+            # Convert to .mdc for Cursor compatibility (workflows become rules)
+            if [[ "$filename" == *.md ]]; then
+                mdc_filename="${filename%.md}.mdc"
+            else
+                mdc_filename="$filename"
+            fi
+            ln -sf "$SOURCE_ABSOLUTE_PATH/workflows/$filename" "$TARGET_RULES_DIR/$mdc_filename"
+            print_status "  ✓ Linked workflow: $filename -> $mdc_filename"
+        fi
+    done
+elif [ -d "$SOURCE_DIR/workflows" ]; then
+    print_status "Workflows directory exists but is empty - skipping"
+fi
+
 # Create symlink for README
 if [ -f "$SOURCE_DIR/README.md" ]; then
     print_status "Creating symlink for README..."
@@ -204,14 +224,17 @@ This directory contains cursor rules and agent definitions linked from the `.squ
 - **Agent Definitions**: Complete agent specifications in `.squads-ai/agents/`
 - **Squad Definitions**: Squad configurations and available agents
 - **Project Definitions**: Project-specific instructions and workflows
+- **Workflow Definitions**: Process steps and coordination procedures in `.squads-ai/workflows/`
 
 ## Usage
 
 These rules provide:
-- Quick reference to agent capabilities
-- Source of truth location for complete definitions
-- Basic usage information and triggers
-- Reference to complete agent definition
+- **Agent Rules**: Quick reference to agent capabilities and behavior
+- **Workflow Rules**: Process steps and coordination procedures
+- **Project Rules**: Project-specific instructions and context
+- **Source of truth location** for complete definitions
+- **Basic usage information and triggers**
+- **Reference to complete agent definition**
 
 ## Source
 
@@ -236,7 +259,7 @@ These agents are designed to work with Claude's agent system:
 EOF
 
 print_success "Linking completed successfully!"
-print_status "Target repository now has access to all .squads-ai agents and projects"
+print_status "Target repository now has access to all .squads-ai agents, projects, and workflows"
 print_status "Symlinks created at: $TARGET_RULES_DIR (with .mdc extensions for Cursor)"
 print_status "Source symlink created at: $TARGET_SQUADS_LINK"
 print_status ".gitignore updated to exclude symlinked directories"

@@ -96,6 +96,125 @@ This directory contains utility scripts for managing and working with the Squads
 - Workflow integration documentation
 - Updated project configuration for JTBD methodology
 
+### `create-writer-agent.sh` - Writer Agent Setup
+**Purpose**: Set up Writer Agent for SquadsAI projects
+
+**Usage**:
+```bash
+./scripts/create-writer-agent.sh <project_name> [options]
+```
+
+**Options**:
+- `-f, --force`: Force setup even if agent already exists
+- `-v, --verbose`: Enable verbose output
+- `-h, --help`: Show help message
+
+**Examples**:
+```bash
+# Basic usage
+./scripts/create-writer-agent.sh myproject
+
+# Force reinstall
+./scripts/create-writer-agent.sh backend-api --force
+```
+
+**What it creates**:
+- Writer agent setup documentation
+- Content creation templates and directory structure
+- Workflow integration documentation
+- Updated project configuration for content creation
+
+### `setup-project-docs.sh` - Project Documentation Setup
+**Purpose**: Set up standardized documentation directory structure for all projects
+
+**Usage**:
+```bash
+./scripts/setup-project-docs.sh [project_name] or ./scripts/setup-project-docs.sh --all
+```
+
+**Options**:
+- `project_name`: Set up docs for specific project
+- `--all`: Set up docs for all existing projects
+
+**Examples**:
+```bash
+# Set up docs for specific project
+./scripts/setup-project-docs.sh stui
+
+# Set up docs for all projects
+./scripts/setup-project-docs.sh --all
+```
+
+**What it creates**:
+- Standardized `docs/` directory structure in all projects
+- Template documentation files (README.md, setup.md, overview.md, etc.)
+- Updated project templates to reference documentation
+- Documentation integration script for management
+
+### `docs-integration.sh` - Documentation Management
+**Purpose**: Manage and maintain project documentation
+
+**Usage**:
+```bash
+./scripts/docs-integration.sh [command] [project_name]
+```
+
+**Commands**:
+- `list [project]`: List all documentation for project
+- `search [project]`: Search documentation content
+- `update [project]`: Update documentation timestamps
+- `validate [project]`: Validate documentation completeness
+- `archive [project]`: Archive outdated documentation
+
+**Examples**:
+```bash
+# List all documentation for a project
+./scripts/docs-integration.sh list stui
+
+# Search for specific content
+./scripts/docs-integration.sh search stui 'deployment'
+
+# Update timestamps
+./scripts/docs-integration.sh update stui
+
+# Validate documentation completeness
+./scripts/docs-integration.sh validate stui
+
+# Archive outdated documentation
+./scripts/docs-integration.sh archive stui
+```
+
+**What it provides**:
+- Documentation inventory and search capabilities
+- Automated timestamp updates
+- Documentation completeness validation
+- Automated archiving of outdated content
+
+**Usage**:
+```bash
+./scripts/create-writer-agent.sh <project_name> [options]
+```
+
+**Options**:
+- `-f, --force`: Force setup even if agent already exists
+- `-v, --verbose`: Enable verbose output
+- `-h, --help`: Show help message
+
+**Examples**:
+```bash
+# Basic usage
+./scripts/create-writer-agent.sh myproject
+
+# Force reinstall
+./scripts/create-writer-agent.sh backend-api --force
+```
+
+**What it creates**:
+- Writer agent setup documentation
+- Story planning templates and directory structure
+- Workflow integration documentation
+- Updated project configuration for storytelling methodology
+
 ### `list-resources.sh` - Resource Listing
 **Purpose**: List available resources
 
@@ -115,22 +234,24 @@ The `plan-feature.sh` script integrates seamlessly with Cursor through:
 
 ## Workflow Integration
 
-All scripts follow the SquadsAI "planning-first, execution-second" philosophy with JTBD methodology integration:
+All scripts follow the SquadsAI "planning-first, execution-second" philosophy with JTBD methodology and storytelling integration:
 
 1. **Planning Phase**: Create comprehensive documentation and task breakdown
 2. **JTBD Analysis**: Validate customer jobs and solution alignment
-3. **Validation Phase**: Review with squad agents and validate feasibility
-4. **Execution Phase**: Implement following documented plan and quality gates
-5. **Review Phase**: Validate against goals and update documentation
+3. **Story Planning**: Create narrative strategy and character development
+4. **Validation Phase**: Review with squad agents and validate feasibility
+5. **Execution Phase**: Implement following documented plan and quality gates
+6. **Review Phase**: Validate against goals and update documentation
 
 ## Best Practices
 
 1. **Always Use Scripts**: Use the provided scripts for consistency
 2. **Follow Standards**: Adhere to SquadsAI quality gates and coding standards
 3. **JTBD Validation**: Ensure all features address real customer jobs and satisfaction gaps
-4. **Update Documentation**: Keep all documents current as work progresses
-5. **Squad Coordination**: Work with assigned agents for specialized tasks
-6. **Quality Gates**: Ensure all work passes quality standards before proceeding
+4. **Story Validation**: Ensure all features include engaging narrative strategy and character development
+5. **Update Documentation**: Keep all documents current as work progresses
+6. **Squad Coordination**: Work with assigned agents for specialized tasks
+7. **Quality Gates**: Ensure all work passes quality standards before proceeding
 
 ## Troubleshooting
 

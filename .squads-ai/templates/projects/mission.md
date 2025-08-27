@@ -99,6 +99,17 @@ encoding: UTF-8
 
 ### Growth Hypothesis
 
+## Documentation
+
+This mission document is part of a comprehensive project documentation structure:
+
+- **`docs/README.md`** - Complete documentation overview and navigation
+- **`docs/stakeholder/`** - Stakeholder communications and strategic materials
+- **`docs/next-phase/`** - Next phase planning and strategic direction
+- **`docs/metrics/`** - Success metrics and KPIs for mission tracking
+
+For detailed documentation, see the [docs/](docs/) directory.
+
 **If** [premise about your solution], **then** [expected outcome], **because** [reasoning and evidence].
 
 ### Success Metrics

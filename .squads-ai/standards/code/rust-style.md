@@ -232,6 +232,193 @@ pub enum ConfigError {
 }
 ```
 
+### **Preferred Error Handling Style: Typed Errors with thiserror**
+
+**MANDATORY REQUIREMENT**: All new error handling MUST use typed errors with `thiserror` instead of generic trait objects.
+
+#### **✅ Required Approach - Typed Errors**
+
+```rust
+// GOOD: Use specific error types with thiserror
+#[derive(Debug, thiserror::Error)]
+pub enum ContextPreservationError {
+    /// Failed to preserve workspace context
+    #[error("Failed to preserve workspace context: {0}")]
+    WorkspacePreservationFailed(String),
+    
+    /// Failed to preserve inspector context
+    #[error("Failed to preserve inspector context: {0}")]
+    InspectorPreservationFailed(String),
+    
+    /// Auto-save operation failed
+    #[error("Auto-save operation failed: {0}")]
+    AutoSaveFailed(String),
+    
+    /// Session manager error
+    #[error("Session manager error: {0}")]
+    SessionManagerError(#[from] crate::session_manager::SessionManagerError),
+    
+    /// Storage error
+    #[error("Storage error: {0}")]
+    StorageError(#[from] crate::session_storage::SessionStorageError),
+    
+    /// Network error
+    #[error("Network error: {0}")]
+    NetworkError(String),
+    
+    /// Operation timed out
+    #[error("Operation timed out")]
+    Timeout,
+}
+
+/// Result type alias for context preservation operations
+pub type ContextPreservationResult<T> = Result<T, ContextPreservationError>;
+
+// GOOD: Use typed errors in function signatures
+pub fn start_auto_save(&mut self) -> ContextPreservationResult<()> {
+    if !self.enabled {
+        return Ok(());
+    }
+    
+    debug!("Starting auto-save background task");
+    info!("Auto-save background task started with {} second interval",
+          self.auto_save_interval.as_secs());
+    Ok(())
+}
+```
+
+#### **❌ Forbidden Approach - Generic Trait Objects**
+
+```rust
+// AVOID: Don't use Box<dyn std::error::Error>
+pub fn start_auto_save(&mut self) -> Result<(), Box<dyn std::error::Error>> {
+    // ❌ This is an anti-pattern
+}
+
+// AVOID: Don't use generic error types
+pub fn preserve_context(&mut self) -> Result<(), Box<dyn std::error::Error>> {
+    // ❌ This loses type information
+}
+```
+
+#### **Benefits of Typed Error Handling**
+
+1. **Type Safety**: Compile-time guarantees for all error types
+2. **Performance**: No dynamic dispatch overhead
+3. **Debugging**: Specific error variants make debugging easier
+4. **Testing**: Can test specific error conditions
+5. **Documentation**: Clear error variants with meaningful names
+6. **Error Conversion**: Automatic conversion with `#[from]` attributes
+7. **User Experience**: Better error messages and recovery options
+
+#### **Error Variant Design Patterns**
+
+##### **1. Operation-Specific Errors**
+```rust
+#[derive(Debug, thiserror::Error)]
+pub enum WorkspaceError {
+    /// Failed to open file: {0}
+    #[error("Failed to open file: {0}")]
+    FileOpenFailed(String),
+    
+    /// Failed to save file: {0}
+    #[error("Failed to save file: {0}")]
+    FileSaveFailed(String),
+    
+    /// Invalid file path: {0}
+    #[error("Invalid file path: {0}")]
+    InvalidPath(String),
+}
+```
+
+##### **2. Error Conversion with #[from]**
+```rust
+#[derive(Debug, thiserror::Error)]
+pub enum AppError {
+    /// Database operation failed
+    #[error("Database error: {0}")]
+    Database(#[from] DatabaseError),
+    
+    /// Network operation failed
+    #[error("Network error: {0}")]
+    Network(#[from] NetworkError),
+    
+    /// Configuration error
+    #[error("Configuration error: {0}")]
+    Config(#[from] ConfigError),
+}
+```
+
+##### **3. Error Utility Methods**
+```rust
+impl ContextPreservationError {
+    /// Check if this is a recoverable error
+    pub fn is_recoverable(&self) -> bool {
+        matches!(
+            self,
+            Self::NetworkError(_) | Self::Timeout | Self::StorageError(_)
+        )
+    }
+    
+    /// Get a user-friendly error message
+    pub fn user_message(&self) -> String {
+        match self {
+            Self::WorkspacePreservationFailed(msg) => format!("Failed to save workspace: {}", msg),
+            Self::NetworkError(msg) => format!("Network error: {}", msg),
+            Self::Timeout => "Operation timed out".to_string(),
+            // ... other variants
+        }
+    }
+}
+```
+
+#### **Implementation Guidelines**
+
+1. **Use `thiserror`**: Always derive from `thiserror::Error` for custom error types
+2. **Specific Variants**: Create specific error variants for different failure modes
+3. **Error Conversion**: Use `#[from]` for automatic error conversion
+4. **Result Aliases**: Create type aliases for cleaner function signatures
+5. **Utility Methods**: Add helper methods for common error handling patterns
+6. **Documentation**: Document all error variants with clear descriptions
+
+#### **Before vs After Examples**
+
+```rust
+// ❌ Before: Generic error handling (anti-pattern)
+pub fn preserve_context(&mut self) -> Result<(), Box<dyn std::error::Error>> {
+    self.session_manager.preserve_context()
+        .map_err(|e| Box::new(e) as Box<dyn std::error::Error>)?;
+    Ok(())
+}
+
+// ✅ After: Typed error handling (preferred style)
+pub fn preserve_context(&mut self) -> ContextPreservationResult<()> {
+    self.session_manager.preserve_context()?; // Automatic conversion
+    Ok(())
+}
+```
+
+#### **Compliance Requirements**
+
+- **100% Typed Errors**: All new error handling must use typed errors
+- **No Trait Objects**: No `Box<dyn std::error::Error>` patterns in new code
+- **thiserror Usage**: All custom error types must derive from `thiserror::Error`
+- **Error Conversion**: Use `#[from]` attributes for automatic conversion
+- **Result Aliases**: Create type aliases for cleaner function signatures
+- **Utility Methods**: Add helper methods for common error handling patterns
+
+#### **Code Review Checklist**
+
+Before merging any Rust code with error handling, ensure:
+- [ ] All error types use `thiserror::Error`
+- [ ] No `Box<dyn std::error::Error>` patterns introduced
+- [ ] Specific error variants for different failure modes
+- [ ] `#[from]` attributes for automatic error conversion
+- [ ] Result type aliases for clean function signatures
+- [ ] Error utility methods for common patterns
+- [ ] All tests pass with new error types
+- [ ] Error handling follows the preferred style guide
+
 ## Documentation
 - Focus on saying what first and why second leaving the how to the code itself
 - Always try to be clear and readable exposing intent
