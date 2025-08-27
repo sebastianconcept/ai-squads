@@ -23,7 +23,7 @@ SquadsAI unlocks experimentation with different **APP (Agents Process Project) d
 ### **Core Components**
 ```
 SquadsAI System
-├── Instructions/           # Workflow guidance
+├── Workflows/             # Process definitions and coordination
 ├── Agents/                # Specialized AI agents
 ├── Squads/                # Team configurations
 ├── Standards/             # Quality and coding standards
@@ -286,7 +286,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 
 ## 📖 **Detailed Documentation**
 
-- **`.squads-ai/instructions/`** - Complete workflow instructions
+- **`.squads-ai/workflows/`** - Complete workflow instructions and process definitions
 - **`.squads-ai/agents/`** - Detailed agent specifications and capabilities
 - **`.squads-ai/squads/`** - Squad configurations and team structures
 - **`.squads-ai/standards/`** - Quality standards and coding guidelines

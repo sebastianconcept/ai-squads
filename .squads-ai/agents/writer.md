@@ -1,3 +1,11 @@
+---
+description: Writer Agent - Literature, Storytelling, and Narrative Craft
+globs:
+alwaysApply: false
+version: 1.0
+encoding: UTF-8
+---
+
 # Writer Agent (@agent:writer)
 
 ## Overview

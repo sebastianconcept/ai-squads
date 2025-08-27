@@ -105,6 +105,7 @@ Scripts can now:
 - Update documentation timestamps automatically
 - Validate documentation completeness
 - Archive outdated documentation
+- Process workflows from `.squads-ai/workflows/` directory
 
 ### Quality Assurance
 
