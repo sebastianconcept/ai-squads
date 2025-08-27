@@ -100,9 +100,9 @@ This document tracks the evolution of the SquadsAI system, documenting major cha
 - **Pre-Commit Gates**: JTBD analysis completion required before commits
 
 #### 📚 **Documentation Updates**
-- **Core Instructions**: `ai-squads/instructions/planning-workflows.md` fully updated
-- **Cursor Rules**: `ai-squads/instructions/plan-feature.mdc` enhanced with JTBD
-- **Startup Instructions**: `ai-squads/instructions/startup.md` includes JTBD methodology
+- **Core Instructions**: `ai-squads/workflows/planning-workflows.md` fully updated
+- **Cursor Rules**: `ai-squads/workflows/plan-feature.mdc` enhanced with JTBD
+- **Startup Instructions**: `ai-squads/workflows/startup.md` includes JTBD methodology
 - **README Updates**: System documentation reflects full JTBD integration
 - **Script Documentation**: All script documentation updated with JTBD features
 

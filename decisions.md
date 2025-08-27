@@ -421,9 +421,9 @@ We have decided to integrate a **Jobs To Be Done (JTBD) Expert Agent** into the 
 
 #### Workflow Updates
 
-- **Core Instructions**: `ai-squads/instructions/planning-workflows.md` fully updated
-- **Cursor Rules**: `ai-squads/instructions/plan-feature.mdc` enhanced with JTBD
-- **Startup Instructions**: `ai-squads/instructions/startup.md` includes JTBD methodology
+- **Core Instructions**: `ai-squads/workflows/planning-workflows.md` fully updated
+- **Cursor Rules**: `ai-squads/workflows/plan-feature.mdc` enhanced with JTBD
+- **Startup Instructions**: `ai-squads/workflows/startup.md` includes JTBD methodology
 - **Quality Gates**: JTBD validation integrated into all quality gates
 
 #### Agent Coordination
@@ -472,8 +472,8 @@ The integration aligns with SquadsAI's philosophy of **planning-first, execution
 
 - **JTBD Agent**: `ai-squads/agents/jtbd-expert.md` - Complete agent specification
 - **Elite Squad**: `ai-squads/squads/elite.md` - Squad with JTBD expert
-- **Workflow Instructions**: `ai-squads/instructions/planning-workflows.md` - JTBD integration
-- **Feature Planning**: `ai-squads/instructions/plan-feature.mdc` - Enhanced with JTBD
+- **Workflow Instructions**: `ai-squads/workflows/planning-workflows.md` - JTBD integration
+- **Feature Planning**: `ai-squads/workflows/plan-feature.mdc` - Enhanced with JTBD
 - **Integration Guide**: JTBD integration now handled by @agent:collaboration - Complete system integration
 
 ---

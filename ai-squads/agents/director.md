@@ -13,7 +13,7 @@ encoding: UTF-8
 The Director Agent is the **first agent to run** in any work session. It assesses the current project state, understands the roadmap, and guides the team on what to work on next. It works within the context of the active squad and has access to the squad's specific agent capabilities.
 
 <pre_flight_check>
-  EXECUTE: @~/ai-squads/instructions/startup.md
+  EXECUTE: @~/ai-squads/workflows/startup.md
 </pre_flight_check>
 
 ## Squad Context Awareness

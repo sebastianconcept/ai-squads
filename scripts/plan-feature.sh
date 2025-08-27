@@ -3,10 +3,10 @@
 # plan-feature.sh - Plan a new feature for an existing project using SquadsAI workflows
 # 
 # This script implements the plan-feature workflow defined in:
-# ai-squads/instructions/planning-workflows.md
+# ai-squads/workflows/planning-workflows.md
 # 
 # For detailed instructions and Cursor integration, see:
-# ai-squads/instructions/plan-feature.mdc
+# ai-squads/workflows/plan-feature.mdc
 #
 # Usage: ./plan-feature.sh <project_name> <feature_name> [options]
 

@@ -3,8 +3,8 @@
 ## Overview
 This rule provides guidance for planning new features using the SquadsAI system. It integrates with the `plan-feature.sh` script and follows established planning workflows.
 
-**Location**: `ai-squads/instructions/plan-feature.mdc`
-**Workflow Reference**: `ai-squads/instructions/planning-workflows.md`
+**Location**: `ai-squads/workflows/plan-feature.mdc`
+**Workflow Reference**: `ai-squads/workflows/planning-workflows.md`
 
 ## When to Use
 - Planning a new feature for an existing project
@@ -103,7 +103,7 @@ This rule works seamlessly with Cursor's AI assistance:
 
 This Cursor rule is part of the comprehensive SquadsAI planning system:
 
-- **Workflow Definition**: See `ai-squads/instructions/planning-workflows.md` for complete workflow documentation
+- **Workflow Definition**: See `ai-squads/workflows/planning-workflows.md` for complete workflow documentation
 - **Script Implementation**: The `plan-feature.sh` script automates this workflow
 - **Template Integration**: Uses established document templates from `templates/projects/`
 - **Quality Standards**: Follows SquadsAI quality gates and coding standards
@@ -113,7 +113,7 @@ This Cursor rule is part of the comprehensive SquadsAI planning system:
 
 ```
 ai-squads/
-├── instructions/
+├── workflows/
 │   ├── planning-workflows.md      # Complete workflow documentation
 │   └── plan-feature.mdc          # This Cursor rule
 ├── templates/projects/            # Document templates
