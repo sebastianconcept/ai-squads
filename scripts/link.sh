@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# link.sh - Link .cursor/rules from .squads-ai into target repository
+# link.sh - Link .cursor/rules from ai-squads into target repository
 # Usage: ./link.sh <target_repo_path>
 
 set -e
@@ -33,7 +33,7 @@ print_error() {
 show_usage() {
     echo "Usage: $0 <target_repo_path>"
     echo ""
-    echo "This script will link .cursor/rules from .squads-ai into the target repository."
+    echo "This script will link .cursor/rules from ai-squads into the target repository."
     echo ""
     echo "Arguments:"
     echo "  target_repo_path    Path to the target repository where .cursor/rules will be installed"
@@ -45,9 +45,9 @@ show_usage() {
     echo "The script will:"
 echo "  1. Verify the target repository exists and is a git repo"
 echo "  2. Create .cursor/rules directory if it doesn't exist"
-echo "  3. Create symlinks to all agent, project, and workflow rules from .squads-ai"
+echo "  3. Create symlinks to all agent, project, and workflow rules from ai-squads"
 echo "  4. Convert .md files to .mdc for Cursor compatibility"
-echo "  5. Create a symlink to the source .squads-ai directory"
+echo "  5. Create a symlink to the source ai-squads directory"
 echo "  6. Update .gitignore to exclude the symlinked directory"
 }
 
@@ -65,21 +65,21 @@ if [ $# -eq 0 ]; then
 fi
 
 TARGET_REPO="$1"
-SOURCE_DIR=".squads-ai"
+SOURCE_DIR="ai-squads"
 CURSOR_RULES=".cursor/rules"
 
-# Get the absolute path of the current directory (where .squads-ai is located)
+# Get the absolute path of the current directory (where ai-squads is located)
 CURRENT_DIR=$(pwd)
 SOURCE_ABSOLUTE_PATH="$CURRENT_DIR/$SOURCE_DIR"
 
-print_status "Starting installation of .cursor/rules from .squads-ai"
+print_status "Starting installation of .cursor/rules from ai-squads"
 print_status "Source directory: $SOURCE_ABSOLUTE_PATH"
 print_status "Target repository: $TARGET_REPO"
 
 # Check if source directory exists
 if [ ! -d "$SOURCE_DIR" ]; then
     print_error "Source directory '$SOURCE_DIR' not found in current directory"
-    print_error "Make sure you're running this script from the directory containing .squads-ai"
+    print_error "Make sure you're running this script from the directory containing ai-squads"
     exit 1
 fi
 
@@ -114,10 +114,10 @@ if [ ! -d "$TARGET_RULES_DIR" ]; then
     mkdir -p "$TARGET_RULES_DIR"
 fi
 
-# Create symlinks from .squads-ai to .cursor/rules for automatic updates
-print_status "Creating symlinks to .squads-ai for automatic updates"
+# Create symlinks from ai-squads to .cursor/rules for automatic updates
+print_status "Creating symlinks to ai-squads for automatic updates"
 
-# Create symlinks for all .md files from .squads-ai/agents
+# Create symlinks for all .md files from ai-squads/agents
 if [ -d "$SOURCE_DIR/agents" ]; then
     print_status "Creating symlinks for agent definitions..."
     for file in "$SOURCE_DIR/agents"/*.md; do
@@ -130,7 +130,7 @@ if [ -d "$SOURCE_DIR/agents" ]; then
     done
 fi
 
-# Create symlinks for all .md files from .squads-ai/squads
+# Create symlinks for all .md files from ai-squads/squads
 if [ -d "$SOURCE_DIR/squads" ]; then
     print_status "Creating symlinks for squad definitions..."
     for file in "$SOURCE_DIR/squads"/*.md; do
@@ -143,7 +143,7 @@ if [ -d "$SOURCE_DIR/squads" ]; then
     done
 fi
 
-# Create symlinks for all .md files from .squads-ai/projects (if exists and not empty)
+# Create symlinks for all .md files from ai-squads/projects (if exists and not empty)
 if [ -d "$SOURCE_DIR/projects" ] && [ "$(ls -A "$SOURCE_DIR/projects" 2>/dev/null)" ]; then
     print_status "Creating symlinks for project definitions..."
     for file in "$SOURCE_DIR/projects"/*.md; do
@@ -158,13 +158,13 @@ elif [ -d "$SOURCE_DIR/projects" ]; then
     print_status "Projects directory exists but is empty - skipping"
 fi
 
-# Create symlinks for all workflow files from .squads-ai/workflows (if exists and not empty)
+# Create symlinks for all workflow files from ai-squads/workflows (if exists and not empty)
 if [ -d "$SOURCE_DIR/workflows" ] && [ "$(ls -A "$SOURCE_DIR/workflows" 2>/dev/null)" ]; then
     print_status "Creating symlinks for workflow definitions..."
     for file in "$SOURCE_DIR/workflows"/*.md*; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
-            # Convert to .mdc for Cursor compatibility (workflows become rules)
+            # Convert to .mdc symlink for Cursor compatibility (workflows become rules)
             if [[ "$filename" == *.md ]]; then
                 mdc_filename="${filename%.md}.mdc"
             else
@@ -184,47 +184,47 @@ if [ -f "$SOURCE_DIR/README.md" ]; then
     ln -sf "$SOURCE_ABSOLUTE_PATH/README.md" "$TARGET_RULES_DIR/README.mdc"
 fi
 
-# Create a symlink to the source .squads-ai directory for easy updates
-TARGET_SQUADS_LINK="$TARGET_REPO/.squads-ai"
+# Create a symlink to the source ai-squads directory for easy updates
+TARGET_SQUADS_LINK="$TARGET_REPO/ai-squads"
 if [ -L "$TARGET_SQUADS_LINK" ]; then
     print_status "Removing existing symlink..."
     rm "$TARGET_SQUADS_LINK"
 fi
 
-print_status "Creating symlink to source .squads-ai directory"
+print_status "Creating symlink to source ai-squads directory"
 ln -sf "$SOURCE_ABSOLUTE_PATH" "$TARGET_SQUADS_LINK"
 
 # Update .gitignore to exclude the symlinked directory
 TARGET_GITIGNORE="$TARGET_REPO/.gitignore"
 if [ -f "$TARGET_GITIGNORE" ]; then
-    # Check if .squads-ai is already in .gitignore
-    if ! grep -q "\.squads-ai" "$TARGET_GITIGNORE"; then
-        print_status "Adding .squads-ai to .gitignore"
+    # Check if ai-squads is already in .gitignore
+    if ! grep -q "ai-squads" "$TARGET_GITIGNORE"; then
+        print_status "Adding ai-squads to .gitignore"
         echo "" >> "$TARGET_GITIGNORE"
-        echo "# Exclude symlinked .squads-ai directory" >> "$TARGET_GITIGNORE"
-        echo ".squads-ai" >> "$TARGET_GITIGNORE"
+        echo "# Exclude symlinked ai-squads directory" >> "$TARGET_GITIGNORE"
+        echo "ai-squads" >> "$TARGET_GITIGNORE"
     else
-        print_status ".squads-ai already in .gitignore"
+        print_status "ai-squads already in .gitignore"
     fi
 else
-    print_status "Creating .gitignore with .squads-ai exclusion"
-    echo "# Exclude symlinked .squads-ai directory" > "$TARGET_GITIGNORE"
-    echo ".squads-ai" >> "$TARGET_GITIGNORE"
+    print_status "Creating .gitignore with ai-squads exclusion"
+    echo "# Exclude symlinked ai-squads directory" > "$TARGET_GITIGNORE"
+    echo "ai-squads" >> "$TARGET_GITIGNORE"
 fi
 
 # Create a README in the target .cursor/rules directory
 TARGET_README="$TARGET_RULES_DIR/README.mdc"
 cat > "$TARGET_README" << 'EOF'
-# Cursor Rules - Linked from .squads-ai
+# Cursor Rules - Linked from ai-squads
 
-This directory contains cursor rules and agent definitions linked from the `.squads-ai` directory.
+This directory contains cursor rules and agent definitions linked from the `ai-squads` directory.
 
 ## Structure
 
-- **Agent Definitions**: Complete agent specifications in `.squads-ai/agents/`
+- **Agent Definitions**: Complete agent specifications in `ai-squads/agents/`
 - **Squad Definitions**: Squad configurations and available agents
 - **Project Definitions**: Project-specific instructions and workflows
-- **Workflow Definitions**: Process steps and coordination procedures in `.squads-ai/workflows/`
+- **Workflow Definitions**: Process steps and coordination procedures in `ai-squads/workflows/`
 
 ## Usage
 
@@ -238,7 +238,7 @@ These rules provide:
 
 ## Source
 
-All rules are symlinked from: `../.squads-ai/`
+All rules are symlinked from: `../ai-squads/`
 
 ## Updates
 
@@ -255,11 +255,11 @@ These agents are designed to work with Claude's agent system:
 ## File Extensions
 
 - **`.mdc` files**: Cursor-compatible rules (symlinked to source `.md` files)
-- **Source files**: Original `.md` files in `.squads-ai/` directory
+- **Source files**: Original `.md` files in `ai-squads/` directory
 EOF
 
 print_success "Linking completed successfully!"
-print_status "Target repository now has access to all .squads-ai agents, projects, and workflows"
+print_status "Target repository now has access to all ai-squads agents, projects, and workflows"
 print_status "Symlinks created at: $TARGET_RULES_DIR (with .mdc extensions for Cursor)"
 print_status "Source symlink created at: $TARGET_SQUADS_LINK"
 print_status ".gitignore updated to exclude symlinked directories"

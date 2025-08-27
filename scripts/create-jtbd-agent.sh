@@ -68,13 +68,13 @@ show_usage() {
 # Function to validate project exists
 validate_project() {
     local project_name="$1"
-    local project_dir=".squads-ai/projects/$project_name"
+    local project_dir="ai-squads/projects/$project_name"
     
     if [ ! -d "$project_dir" ]; then
-        print_error "Project '$project_name' not found in .squads-ai/projects/"
+        print_error "Project '$project_name' not found in ai-squads/projects/"
         print_error "Available projects:"
-        if [ -d ".squads-ai/projects" ]; then
-            ls -1 ".squads-ai/projects/" | sed 's/^/  - /'
+        if [ -d "ai-squads/projects" ]; then
+            ls -1 "ai-squads/projects/" | sed 's/^/  - /'
         else
             print_error "  No projects directory found"
         fi
@@ -87,7 +87,7 @@ validate_project() {
 # Function to check if JTBD agent is already set up
 check_jtbd_setup() {
     local project_name="$1"
-    local project_dir=".squads-ai/projects/$project_name"
+    local project_dir="ai-squads/projects/$project_name"
     
     if [ -f "$project_dir/jtbd-agent-setup.md" ]; then
         if [ "$FORCE" = true ]; then
@@ -103,7 +103,7 @@ check_jtbd_setup() {
 # Function to create JTBD agent setup documentation
 create_jtbd_setup() {
     local project_name="$1"
-    local project_dir=".squads-ai/projects/$project_name"
+    local project_dir="ai-squads/projects/$project_name"
     
     print_status "Creating JTBD agent setup documentation..."
     
@@ -211,8 +211,8 @@ Use the jtbd-analysis.md template for comprehensive customer jobs analysis:
 ## Support
 
 For questions about JTBD methodology or agent integration:
-- Review JTBD agent documentation in .squads-ai/agents/jtbd-expert.md
-- Check Elite Squad configuration in .squads-ai/squads/elite.md
+- Review JTBD agent documentation in ai-squads/agents/jtbd-expert.md
+- Check Elite Squad configuration in ai-squads/squads/elite.md
 - Use @agent:jtbd-expert for specific JTBD guidance
 
 ---
@@ -228,7 +228,7 @@ EOF
 # Function to update project configuration
 update_project_config() {
     local project_name="$1"
-    local project_dir=".squads-ai/projects/$project_name"
+    local project_dir="ai-squads/projects/$project_name"
     
     print_status "Updating project configuration for JTBD methodology..."
     
@@ -256,13 +256,13 @@ update_project_config() {
     mkdir -p "$project_dir/jtbd/research"
     
     # Copy JTBD templates to project
-    if [ -f ".squads-ai/templates/projects/jtbd-analysis.md" ]; then
-        cp ".squads-ai/templates/projects/jtbd-analysis.md" "$project_dir/jtbd/templates/"
+    if [ -f "ai-squads/templates/projects/jtbd-analysis.md" ]; then
+        cp "ai-squads/templates/projects/jtbd-analysis.md" "$project_dir/jtbd/templates/"
         print_status "  ✓ Copied jtbd-analysis.md template"
     fi
     
-    if [ -f ".squads-ai/templates/projects/customer-research.md" ]; then
-        cp ".squads-ai/templates/projects/customer-research.md" "$project_dir/jtbd/templates/"
+    if [ -f "ai-squads/templates/projects/customer-research.md" ]; then
+        cp "ai-squads/templates/projects/customer-research.md" "$project_dir/jtbd/templates/"
         print_status "  ✓ Copied customer-research.md template"
     fi
     
@@ -272,7 +272,7 @@ update_project_config() {
 # Function to create JTBD workflow integration
 create_workflow_integration() {
     local project_name="$1"
-    local project_dir=".squads-ai/projects/$project_name"
+    local project_dir="ai-squads/projects/$project_name"
     
     print_status "Creating JTBD workflow integration..."
     
@@ -382,7 +382,7 @@ EOF
 # Function to display completion summary
 show_completion_summary() {
     local project_name="$1"
-    local project_dir=".squads-ai/projects/$project_name"
+    local project_dir="ai-squads/projects/$project_name"
     
     print_header
     echo ""

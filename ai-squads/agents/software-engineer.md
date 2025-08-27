@@ -244,7 +244,7 @@ The Software Engineer Agent specializes in comprehensive software development ac
 - **Runtime**: Tokio
 - **Testing**: Built-in test framework
 - **Best Practices**: Memory safety, async/await, error handling
-- **Standards**: See `.squads-ai/standards/tech-stacks/rust-and-smalltalk.md`
+- **Standards**: See `ai-squads/standards/tech-stacks/rust-and-smalltalk.md`
 
 ### C/C++
 - **Standards**: C++11, C++14, C++17, C++20, C++23
@@ -254,7 +254,7 @@ The Software Engineer Agent specializes in comprehensive software development ac
 - **OpenGL/Vulkan**: Graphics and compute programming
 - **Build Systems**: CMake, Make, Conan, vcpkg, Bazel
 - **Tools**: GCC, Clang, MSVC, GDB, LLDB, Valgrind
-- **Standards**: See `.squads-ai/standards/tech-stacks/cpp-standards.md`
+- **Standards**: See `ai-squads/standards/tech-stacks/cpp-standards.md`
 
 ### Smalltalk/Pharo
 - **Frameworks**: Seaside, Teapot, Zinc, Amber
@@ -263,14 +263,14 @@ The Software Engineer Agent specializes in comprehensive software development ac
 - **Best Practices**: Object-oriented design, message passing, live programming
 - **Development Tools**: Pharo IDE, Iceberg (Git), Calypso, Playground
 - **Deployment**: Pharo Launcher, Docker containers, cloud deployment
-- **Standards**: See `.squads-ai/standards/tech-stacks/rust-and-smalltalk.md`
+- **Standards**: See `ai-squads/standards/tech-stacks/rust-and-smalltalk.md`
 
 ### Node.js/TypeScript
 - **Frameworks**: Express, Fastify, NestJS, Hono
 - **ORMs**: Prisma, TypeORM, Drizzle
 - **Testing**: Jest, Vitest, Supertest
 - **Best Practices**: Type safety, async/await patterns, middleware architecture
-- **Standards**: See `.squads-ai/standards/tech-stacks/javascript-typescript.md`
+- **Standards**: See `ai-squads/standards/tech-stacks/javascript-typescript.md`
 
 ### Python
 - **Frameworks**: FastAPI, Django, Flask, Starlette
@@ -304,7 +304,7 @@ The Software Engineer Agent specializes in comprehensive software development ac
 - **Database**: PostgreSQL (primary), Redis for caching, SQLite for development
 - **Background Jobs**: Sidekiq, Delayed Job for async processing
 - **Best Practices**: Convention over configuration, DRY principles, metaprogramming
-- **Standards**: See `.squads-ai/standards/tech-stacks/ruby.md`
+- **Standards**: See `ai-squads/standards/tech-stacks/ruby.md`
 
 ### CSS/Styling
 - **Preprocessors**: Sass/SCSS for advanced styling capabilities
@@ -315,7 +315,7 @@ The Software Engineer Agent specializes in comprehensive software development ac
 - **Responsive Design**: Mobile-first approach, CSS Grid and Flexbox
 - **Performance**: Critical CSS extraction, lazy loading of non-critical styles
 - **Accessibility**: High contrast ratios, focus management, screen reader support
-- **Standards**: See `.squads-ai/standards/tech-stacks/css-styling.md`
+- **Standards**: See `ai-squads/standards/tech-stacks/css-styling.md`
 
 ## Quality Standards
 

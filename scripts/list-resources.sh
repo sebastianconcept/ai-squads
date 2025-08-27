@@ -29,9 +29,9 @@ echo "=============================="
 echo ""
 
 # List Squads
-print_header "📁 Squads (.squads-ai/squads/)"
-if [ -d ".squads-ai/squads" ]; then
-    for squad in .squads-ai/squads/*.md; do
+print_header "📁 Squads (ai-squads/squads/)"
+if [ -d "ai-squads/squads" ]; then
+for squad in ai-squads/squads/*.md; do
         if [ -f "$squad" ]; then
             squad_name=$(basename "$squad" .md)
             if [ "$squad_name" != "template" ]; then
@@ -46,9 +46,9 @@ fi
 echo ""
 
 # List Agents
-print_header "🤖 Agents (.squads-ai/agents/)"
-if [ -d ".squads-ai/agents" ]; then
-    for agent in .squads-ai/agents/*.md; do
+print_header "🤖 Agents (ai-squads/agents/)"
+if [ -d "ai-squads/agents" ]; then
+for agent in ai-squads/agents/*.md; do
         if [ -f "$agent" ]; then
             agent_name=$(basename "$agent" .md)
             if [ "$agent_name" != "template" ]; then
@@ -63,9 +63,9 @@ fi
 echo ""
 
 # List Templates
-print_header "📋 Templates (.squads-ai/templates/)"
-if [ -d ".squads-ai/templates" ]; then
-    for template in .squads-ai/templates/*.md; do
+print_header "📋 Templates (ai-squads/templates/)"
+if [ -d "ai-squads/templates" ]; then
+    for template in ai-squads/templates/*.md; do
         if [ -f "$template" ]; then
             template_name=$(basename "$template" .md)
             print_success "  📄 $template_name"
@@ -73,9 +73,9 @@ if [ -d ".squads-ai/templates" ]; then
     done
     
     # List project templates subdirectory
-    if [ -d ".squads-ai/templates/projects" ]; then
-        print_header "  📁 Project Templates (.squads-ai/templates/projects/)"
-        for template in .squads-ai/templates/projects/*.md; do
+    if [ -d "ai-squads/templates/projects" ]; then
+        print_header "  📁 Project Templates (ai-squads/templates/projects/)"
+        for template in ai-squads/templates/projects/*.md; do
             if [ -f "$template" ]; then
                 template_name=$(basename "$template" .md)
                 print_success "    📄 $template_name"
