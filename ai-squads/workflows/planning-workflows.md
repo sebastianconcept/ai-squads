@@ -20,7 +20,7 @@ This document defines the planning workflows for the SquadsAI system. The squad 
 
 **Workflow**:
 1. **Project Initialization**
-   - Create project directory: `.squads-ai/projects/[PROJECT_NAME]/`
+   - Create project directory: `ai-squads/projects/[PROJECT_NAME]/`
    - Create project subdirectory structure for complete isolation
    - Copy core templates: `mission.md`, `roadmap.md`, `tech-stack.md`, `decisions.md`, `README.md`
    - Ask user any questions that you need for project specifics
@@ -39,7 +39,7 @@ This document defines the planning workflows for the SquadsAI system. The squad 
 
 **Output Structure**:
 ```
-.squads-ai/projects/[PROJECT_NAME]/
+ai-squads/projects/[PROJECT_NAME]/
 ├── mission.md          # Project vision and purpose
 ├── roadmap.md          # Development phases and features. It has a list of features.
 ├── tech-stack.md       # Technical architecture
@@ -74,7 +74,7 @@ This document defines the planning workflows for the SquadsAI system. The squad 
 
 **Output Structure**:
 ```
-.squads-ai/projects/[PROJECT_NAME]/
+ai-squads/projects/[PROJECT_NAME]/
 ├── mission.md          # Updated project vision
 ├── roadmap.md          # Current state and future plans. It has a list of features.
 ├── tech-stack.md       # Current and target architecture
@@ -106,7 +106,7 @@ This document defines the planning workflows for the SquadsAI system. The squad 
    - Ensures solution addresses real customer needs
 
 3. **Documentation Creation**
-   - Create feature directory: `.squads-ai/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/`
+   - Create feature directory: `ai-squads/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/`
    - Create required documents: `problem.md`, `solution.md`, `jtbd-analysis.md`, `goal.md`, `tasks.md`
    - Ensure project has all required planning files (mission.md, roadmap.md, tech-stack.md, decisions.md, tasks.md)
 
@@ -118,7 +118,7 @@ This document defines the planning workflows for the SquadsAI system. The squad 
 
 **Output Structure**:
 ```
-.squads-ai/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/
+ai-squads/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/
 ├── problem.md          # What problem are we solving?
 ├── solution.md         # How will we solve it?
 ├── jtbd-analysis.md    # Customer jobs and satisfaction analysis
@@ -129,7 +129,7 @@ This document defines the planning workflows for the SquadsAI system. The squad 
 └── .cursor-rule.md     # Cursor integration for the feature
 ```
 
-**For detailed instructions and Cursor integration, see**: `.squads-ai/instructions/plan-feature.mdc`
+**For detailed instructions and Cursor integration, see**: `ai-squads/instructions/plan-feature.mdc`
 
 ### 4. `plan-fix` - Problem Fix Planning
 
@@ -147,12 +147,12 @@ This document defines the planning workflows for the SquadsAI system. The squad 
    - Plan testing and validation approach
 
 3. **Documentation Creation**
-   - Create hotfix directory: `.squads-ai/projects/[PROJECT_NAME]/hotfix-[HOTFIX_NAME]/`
+   - Create hotfix directory: `ai-squads/projects/[PROJECT_NAME]/hotfix-[HOTFIX_NAME]/`
    - Create required documents: `issue.md`, `goal.md`, `tasks.md`
 
 **Output Structure**:
 ```
-.squads-ai/projects/[PROJECT_NAME]/hotfix-[HOTFIX_NAME]/
+ai-squads/projects/[PROJECT_NAME]/hotfix-[HOTFIX_NAME]/
 ├── issue.md            # What's the issue?
 ├── tasks.md            # List of tasks planed to be executed
 └── goal.md             # What's the fix goal?

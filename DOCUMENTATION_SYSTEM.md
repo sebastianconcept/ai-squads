@@ -8,7 +8,7 @@ The AI-Squads project now includes a comprehensive, standardized documentation s
 
 ### 1. Standardized Documentation Structure
 
-Every project now includes a `docs/` directory with the following standardized structure. Templates are located in `.squads-ai/templates/projects/docs/`:
+Every project now includes a `docs/` directory with the following standardized structure. Templates are located in `ai-squads/templates/projects/docs/`:
 
 ```
 docs/
@@ -71,7 +71,7 @@ Two new scripts have been created:
 
 ### For New Projects
 
-1. **Create project** using existing templates from `.squads-ai/templates/`
+1. **Create project** using existing templates from `ai-squads/templates/`
 2. **Run setup script**: `./scripts/setup-project-docs.sh [project_name]`
 3. **Customize documentation** for your specific project
 4. **Use docs integration** for ongoing maintenance
@@ -105,7 +105,7 @@ Scripts can now:
 - Update documentation timestamps automatically
 - Validate documentation completeness
 - Archive outdated documentation
-- Process workflows from `.squads-ai/workflows/` directory
+- Process workflows from `ai-squads/workflows/` directory
 
 ### Quality Assurance
 
@@ -155,7 +155,7 @@ Documentation completeness is now tracked:
 ./scripts/setup-project-docs.sh --all
 
 # Validate all projects
-for project in .squads-ai/projects/*/; do
+for project in ai-squads/projects/*/; do
     project_name=$(basename "$project")
     ./scripts/docs-integration.sh validate "$project_name"
 done

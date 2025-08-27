@@ -29,7 +29,7 @@ encoding: UTF-8
 - **Workflow Compatibility**: High-performance, memory-efficient development standards
 
 ### 3. Project Integration ✅
-- **Project Structure**: Created `.squads-ai/projects/stui/` directory
+- **Project Structure**: Created `ai-squads/projects/stui/` directory
 - **Documentation**: Comprehensive project documentation and status
 - **Workflow Integration**: Elite squad development workflow activated
 - **Agent Coordination**: Software engineer agent ready for Rust/Smalltalk development

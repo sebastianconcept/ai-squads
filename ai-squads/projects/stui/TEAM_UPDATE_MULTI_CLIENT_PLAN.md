@@ -175,9 +175,9 @@ During the Session Persistence feature planning, we discovered **two fundamental
 ## **🔗 Related Documents**
 
 ### **Updated Planning Documents**
-- **Solution Document**: `.squads-ai/projects/stui/feature-session-persistence-smalltalk/solution.md`
-- **Status Document**: `.squads-ai/projects/stui/status.md`
-- **Implementation Status**: `.squads-ai/projects/stui/implementation-status.md`
+- **Solution Document**: `ai-squads/projects/stui/feature-session-persistence-smalltalk/solution.md`
+- **Status Document**: `ai-squads/projects/stui/status.md`
+- **Implementation Status**: `ai-squads/projects/stui/implementation-status.md`
 
 ### **Key References**
 - **Multi-Client Architecture**: Complete design in solution document

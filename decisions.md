@@ -112,7 +112,7 @@ The pattern aligns with Rust's philosophy of **zero-cost abstractions** - we get
 
 ### References
 
-- **Rust Style Guide**: `.squads-ai/standards/code/rust-style.md`
+- **Rust Style Guide**: `ai-squads/standards/code/rust-style.md`
 - **Implementation Examples**: Session management module patterns
 - **Quality Gates**: Local development setup and CI integration
 - **Tech Stack Standards**: `../tech-stacks/rust-and-smalltalk.md`
@@ -298,7 +298,7 @@ The comprehensive restructuring of the error handling documentation provides:
 
 ### References
 
-- **Rust Style Guide**: `.squads-ai/standards/code/rust-style.md` - Error Handling section
+- **Rust Style Guide**: `ai-squads/standards/code/rust-style.md` - Error Handling section
 - **Implementation Examples**: Session management module error patterns
 - **Quality Gates**: Error handling standards integrated into local development setup
 - **Tech Stack Standards**: `../tech-stacks/rust-and-smalltalk.md`
@@ -367,7 +367,7 @@ We have decided to integrate a **Jobs To Be Done (JTBD) Expert Agent** into the 
 
 #### JTBD Agent Integration
 
-- **Agent Location**: Properly placed in `.squads-ai/agents/jtbd-expert.md`
+- **Agent Location**: Properly placed in `ai-squads/agents/jtbd-expert.md`
 - **Squad Membership**: Added to Elite Squad (now 8 agents total)
 - **Capabilities**: Customer jobs analysis, satisfaction gap identification, solution validation
 - **Activation**: Automatically activated in all planning workflows
@@ -421,9 +421,9 @@ We have decided to integrate a **Jobs To Be Done (JTBD) Expert Agent** into the 
 
 #### Workflow Updates
 
-- **Core Instructions**: `.squads-ai/instructions/planning-workflows.md` fully updated
-- **Cursor Rules**: `.squads-ai/instructions/plan-feature.mdc` enhanced with JTBD
-- **Startup Instructions**: `.squads-ai/instructions/startup.md` includes JTBD methodology
+- **Core Instructions**: `ai-squads/instructions/planning-workflows.md` fully updated
+- **Cursor Rules**: `ai-squads/instructions/plan-feature.mdc` enhanced with JTBD
+- **Startup Instructions**: `ai-squads/instructions/startup.md` includes JTBD methodology
 - **Quality Gates**: JTBD validation integrated into all quality gates
 
 #### Agent Coordination
@@ -470,8 +470,186 @@ The integration aligns with SquadsAI's philosophy of **planning-first, execution
 
 ### References
 
-- **JTBD Agent**: `.squads-ai/agents/jtbd-expert.md` - Complete agent specification
-- **Elite Squad**: `.squads-ai/squads/elite.md` - Squad with JTBD expert
-- **Workflow Instructions**: `.squads-ai/instructions/planning-workflows.md` - JTBD integration
-- **Feature Planning**: `.squads-ai/instructions/plan-feature.mdc` - Enhanced with JTBD
-- **Integration Guide**: `JTBD-AGENT-INTEGRATION.md` - Comprehensive setup guide
+- **JTBD Agent**: `ai-squads/agents/jtbd-expert.md` - Complete agent specification
+- **Elite Squad**: `ai-squads/squads/elite.md` - Squad with JTBD expert
+- **Workflow Instructions**: `ai-squads/instructions/planning-workflows.md` - JTBD integration
+- **Feature Planning**: `ai-squads/instructions/plan-feature.mdc` - Enhanced with JTBD
+- **Integration Guide**: JTBD integration now handled by @agent:collaboration - Complete system integration
+
+---
+
+## AD-003: Writer Agent Integration for Content Creation and Brand Storytelling
+
+**Date**: 2025-08-25  
+**Status**: Accepted  
+**Type**: System Architecture & Content Creation Enhancement  
+
+### Context
+
+The SquadsAI system needed to enhance how projects communicate their value, tell compelling stories about problems solved, and create professional marketing materials. While the system had strong technical capabilities, it lacked integrated content creation and storytelling capabilities, leading to:
+- Technical solutions without compelling narratives
+- Missing marketing materials and user documentation
+- Inconsistent brand messaging and positioning
+- Limited audience engagement and connection
+
+### Decision
+
+We have decided to integrate a **Writer Agent** into the SquadsAI system to enhance product storytelling, brand narrative development, and content creation capabilities.
+
+**Key Components**:
+1. **New Agent Integration**: @agent:writer fully integrated into collaboration workflows
+2. **Content Creation**: Automatic content creation and storytelling coordination
+3. **Brand Development**: Brand narrative and positioning integration
+4. **Marketing Materials**: Marketing copy and campaign content creation
+5. **User Documentation**: Engaging tutorials and educational content
+
+### Considered Alternatives
+
+1. **No Content Integration**: Keep content creation separate from development workflow
+   - ❌ Technical solutions without compelling narratives
+   - ❌ Missing marketing materials and user documentation
+   - ❌ No consistent brand messaging and positioning
+
+2. **External Content Process**: Keep content creation separate from development workflow
+   - ❌ Disconnected from actual development process
+   - ❌ Risk of content creation being ignored or forgotten
+   - ❌ No integration with quality gates and validation
+
+3. **Optional Content**: Make content creation optional for features
+   - ❌ Inconsistent application across projects
+   - ❌ Risk of important features lacking compelling narratives
+   - ❌ No quality assurance for content and storytelling
+
+### Consequences
+
+#### Positive Consequences
+
+1. **Better Storytelling**: Every feature now has compelling narratives about problems solved
+2. **Professional Content**: Marketing materials and documentation created automatically
+3. **Brand Consistency**: Consistent messaging and positioning across all touchpoints
+4. **Audience Connection**: Content resonates with target audiences
+5. **Marketing Integration**: Content creation aligned with business objectives
+6. **User Experience**: Engaging tutorials and educational content
+7. **Brand Development**: Integrated brand narrative and positioning management
+8. **Content Quality**: Professional, engaging, and memorable content
+
+#### Negative Consequences
+
+1. **Additional Content Time**: Feature development now includes content creation step
+2. **Learning Curve**: Team members need to understand content creation principles
+3. **Content Overhead**: Additional content validation in quality gates
+   - **Mitigation**: Content creation integrated into existing workflows
+
+### Implementation Guidelines
+
+#### Writer Agent Integration
+
+- **Agent Location**: Properly placed in `ai-squads/agents/writer.md`
+- **Squad Membership**: Integrated into collaboration workflows
+- **Capabilities**: Product storytelling, brand narrative, marketing copy, user documentation
+- **Activation**: Automatically activated in content creation workflows
+
+#### Workflow Integration
+
+- **Feature Development**: Story creation alongside technical implementation
+- **Content Planning**: Automatic content needs identification and storytelling opportunities
+- **Brand Integration**: Consistent messaging and positioning across all content
+- **Quality Review**: Content quality and audience resonance validation
+- **Distribution Planning**: Content distribution and engagement strategies
+
+#### Content Requirements
+
+- **Problem Narratives**: Compelling stories about problems solved
+- **Value Propositions**: Clear articulation of benefits and value
+- **Marketing Materials**: Engaging content for campaigns and outreach
+- **User Documentation**: Memorable explanations and tutorials
+- **Brand Stories**: Authentic narratives that connect with audiences
+
+#### Quality Standards
+
+- **Content Validation**: Compelling narratives created for problems solved
+- **Content Validation**: Marketing materials and user documentation ready
+- **Content Quality Standards**: 8-point content quality checklist
+- **Brand Consistency**: Consistent messaging across all touchpoints
+- **SEO Optimization**: Content discoverability and search optimization
+
+### Success Metrics
+
+#### Content Quality
+- Compelling narrative structure and engagement
+- Clear value proposition and problem articulation
+- Authentic brand voice and positioning
+- Target audience resonance and connection
+- Memorable and shareable content quality
+
+#### Content Integration
+- Content supports and enhances project objectives
+- Narrative elements align with project constraints
+- Content works well with other project components
+- Content delivered when needed and reviewed
+
+#### Audience Response
+- Target audience comprehends content messages
+- Content resonates with audience experiences and values
+- Content inspires desired audience responses
+- Positive audience reactions and engagement
+
+### Integration with Existing System
+
+#### Workflow Updates
+
+- **Collaboration Agent**: `ai-squads/agents/collaboration.md` enhanced with writer integration
+- **Feature Development**: Story creation integrated into feature development cycle
+- **Quality Gates**: Content validation integrated into quality gates
+- **Content Workflows**: Dedicated content creation and storytelling workflows
+
+#### Agent Coordination
+
+- **Collaboration Agent**: Coordinates both JTBD and Writer integration
+- **Writer Agent**: Leads content creation and storytelling
+- **Other Agents**: Coordinate with writer for compelling narratives
+- **Quality Assurance**: Content quality validation integrated into quality gates
+
+#### Content Integration
+
+- **Feature Planning**: Content creation integrated into feature planning
+- **Brand Management**: Integrated brand narrative and positioning management
+- **Marketing Materials**: Automatic marketing copy and campaign content creation
+- **User Documentation**: Engaging tutorials and educational content
+
+### Rationale
+
+This decision prioritizes **compelling communication** and **audience engagement** alongside technical development. While it requires additional content creation steps, it provides:
+
+1. **Better Storytelling**: Every feature has compelling narratives about problems solved
+2. **Professional Content**: Marketing materials and documentation created automatically
+3. **Brand Consistency**: Consistent messaging and positioning across all touchpoints
+4. **Audience Connection**: Content resonates with target audiences
+5. **Marketing Integration**: Content creation aligned with business objectives
+6. **User Experience**: Engaging tutorials and educational content
+7. **Brand Development**: Integrated brand narrative and positioning management
+
+The integration aligns with SquadsAI's philosophy of **comprehensive project delivery** by ensuring both technical solutions and compelling narratives are created together.
+
+### Documentation and Training
+
+#### New Templates
+
+- **Content Creation Request**: Structured content planning template
+- **Content Creation Handoff**: Content delivery and review template
+- **Content Quality Standards**: 8-point content quality checklist
+- **Workflow Integration**: Content creation integrated into all workflows
+
+#### Training Requirements
+
+- **Team Education**: Content creation principles and storytelling techniques
+- **Workflow Integration**: How content creation fits into development workflows
+- **Quality Gates**: Understanding content validation requirements
+- **Agent Usage**: How to work with @agent:writer
+
+### References
+
+- **Writer Agent**: `ai-squads/agents/writer.md` - Complete agent specification
+- **Collaboration Agent**: `ai-squads/agents/collaboration.md` - Enhanced with writer integration
+- **Content Workflows**: Content creation integrated into feature development cycles
+- **Quality Gates**: Content validation integrated into all quality gates
