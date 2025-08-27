@@ -63,9 +63,9 @@ fi
 echo ""
 
 # List Templates
-print_header "📋 Templates (templates/)"
-if [ -d "templates" ]; then
-    for template in templates/*.md; do
+print_header "📋 Templates (.squads-ai/templates/)"
+if [ -d ".squads-ai/templates" ]; then
+    for template in .squads-ai/templates/*.md; do
         if [ -f "$template" ]; then
             template_name=$(basename "$template" .md)
             print_success "  📄 $template_name"
@@ -73,9 +73,9 @@ if [ -d "templates" ]; then
     done
     
     # List project templates subdirectory
-    if [ -d "templates/projects" ]; then
-        print_header "  📁 Project Templates (templates/projects/)"
-        for template in templates/projects/*.md; do
+    if [ -d ".squads-ai/templates/projects" ]; then
+        print_header "  📁 Project Templates (.squads-ai/templates/projects/)"
+        for template in .squads-ai/templates/projects/*.md; do
             if [ -f "$template" ]; then
                 template_name=$(basename "$template" .md)
                 print_success "    📄 $template_name"

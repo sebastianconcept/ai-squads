@@ -256,13 +256,13 @@ update_project_config() {
     mkdir -p "$project_dir/jtbd/research"
     
     # Copy JTBD templates to project
-    if [ -f "templates/projects/jtbd-analysis.md" ]; then
-        cp "templates/projects/jtbd-analysis.md" "$project_dir/jtbd/templates/"
+    if [ -f ".squads-ai/templates/projects/jtbd-analysis.md" ]; then
+        cp ".squads-ai/templates/projects/jtbd-analysis.md" "$project_dir/jtbd/templates/"
         print_status "  ✓ Copied jtbd-analysis.md template"
     fi
     
-    if [ -f "templates/projects/customer-research.md" ]; then
-        cp "templates/projects/customer-research.md" "$project_dir/jtbd/templates/"
+    if [ -f ".squads-ai/templates/projects/customer-research.md" ]; then
+        cp ".squads-ai/templates/projects/customer-research.md" "$project_dir/jtbd/templates/"
         print_status "  ✓ Copied customer-research.md template"
     fi
     

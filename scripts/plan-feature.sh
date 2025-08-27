@@ -57,7 +57,7 @@ show_usage() {
     echo "Options:"
     echo "  -p, --priority      Feature priority: low, medium, high (default: medium)"
     echo "  -s, --squad         Specific squad to use (default: auto-detect)"
-    echo "  -t, --template      Custom template directory (default: templates/projects/)"
+    echo "  -t, --template      Custom template directory (default: .squads-ai/templates/projects/)"
     echo "  -v, --verbose       Enable verbose output"
     echo "  -h, --help          Show this help message"
     echo ""
@@ -107,7 +107,7 @@ validate_project() {
 ensure_project_planning_files() {
     local project_name="$1"
     local project_dir=".squads-ai/projects/$project_name"
-    local template_dir="templates/projects"
+    local template_dir=".squads-ai/templates/projects"
     
     print_status "Ensuring project has all required planning files..."
     
@@ -185,7 +185,7 @@ copy_templates() {
     local project_name="$1"
     local feature_name="$2"
     local feature_dir=".squads-ai/projects/$project_name/feature-$feature_name"
-    local template_dir="templates/projects"
+    local template_dir=".squads-ai/templates/projects"
     
     print_status "Copying and customizing templates..."
     
@@ -422,7 +422,7 @@ main() {
     FEATURE_NAME=""
     PRIORITY="medium"
     SQUAD="auto"
-    TEMPLATE_DIR="templates/projects"
+    TEMPLATE_DIR=".squads-ai/templates/projects"
     VERBOSE=false
     
     while [[ $# -gt 0 ]]; do

@@ -186,3 +186,14 @@ encoding: UTF-8
 - **Phase 3**: Advanced features and business infrastructure
 - **Phase 4**: Enterprise features and market expansion
 - **Phase 5**: Scale, optimization, and growth
+
+## Documentation
+
+This roadmap is part of a comprehensive project documentation structure:
+
+- **`docs/README.md`** - Complete documentation overview and navigation
+- **`docs/next-phase/`** - Detailed next phase planning and preparation
+- **`docs/metrics/`** - Success metrics and progress tracking
+- **`docs/stakeholder/`** - Stakeholder communications and roadmap updates
+
+For detailed documentation, see the [docs/](docs/) directory.

@@ -140,3 +140,15 @@ encoding: UTF-8
 - [Consideration 2]: [Implementation detail]
 - [Consideration 3]: [Implementation detail]
 - [Consideration 4]: [Implementation detail]
+
+## Documentation
+
+This tech stack document is part of a comprehensive project documentation structure:
+
+- **`docs/README.md`** - Complete documentation overview and navigation
+- **`docs/architecture/overview.md`** - Detailed system architecture and design
+- **`docs/development/setup.md`** - Development environment setup and tools
+- **`docs/deployment/`** - Deployment and infrastructure guides
+- **`docs/performance/`** - Performance analysis and optimization guides
+
+For detailed documentation, see the [docs/](docs/) directory.
