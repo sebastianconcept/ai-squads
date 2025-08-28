@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# link.sh - Link .cursor/rules from ai-squads into target repository
+# link.sh - Link .cursor/rules from .ai-squads into target repository
 # Usage: ./link.sh <target_repo_path>
 
 set -e
@@ -45,9 +45,9 @@ show_usage() {
     echo "The script will:"
 echo "  1. Verify the target repository exists and is a git repo"
 echo "  2. Create .cursor/rules directory if it doesn't exist"
-echo "  3. Create symlinks to all agent, project, and workflow rules from ai-squads"
+echo "  3. Create symlinks to all agent, project, and workflow rules from .ai-squads"
 echo "  4. Convert .md files to .mdc for Cursor compatibility"
-echo "  5. Create a symlink to the source ai-squads directory"
+echo "  5. Create a symlink to the source .ai-squads directory"
 echo "  6. Update .gitignore to exclude the symlinked directory"
 }
 
@@ -68,18 +68,18 @@ TARGET_REPO="$1"
 SOURCE_DIR=".ai-squads"
 CURSOR_RULES=".cursor/rules"
 
-# Get the absolute path of the current directory (where ai-squads is located)
+# Get the absolute path of the current directory (where .ai-squads is located)
 CURRENT_DIR=$(pwd)
 SOURCE_ABSOLUTE_PATH="$CURRENT_DIR/$SOURCE_DIR"
 
-print_status "Starting installation of .cursor/rules from ai-squads"
+print_status "Starting installation of .cursor/rules from .ai-squads"
 print_status "Source directory: $SOURCE_ABSOLUTE_PATH"
 print_status "Target repository: $TARGET_REPO"
 
 # Check if source directory exists
 if [ ! -d "$SOURCE_DIR" ]; then
     print_error "Source directory '$SOURCE_DIR' not found in current directory"
-    print_error "Make sure you're running this script from the directory containing ai-squads"
+    print_error "Make sure you're running this script from the directory containing .ai-squads"
     exit 1
 fi
 
@@ -215,9 +215,9 @@ fi
 # Create a README in the target .cursor/rules directory
 TARGET_README="$TARGET_RULES_DIR/README.mdc"
 cat > "$TARGET_README" << 'EOF'
-# Cursor Rules - Linked from ai-squads
+# Cursor Rules - Linked from .ai-squads
 
-This directory contains cursor rules and agent definitions linked from the `ai-squads` directory.
+This directory contains cursor rules and agent definitions linked from the `.ai-squads` directory.
 
 ## Structure
 
