@@ -35,7 +35,7 @@ show_usage() {
 
 list_docs() {
     local project="$1"
-    local docs_dir="ai-squads/projects/$project/docs"
+    local docs_dir=".ai-squads/projects/$project/docs"
     
     if [ ! -d "$docs_dir" ]; then
         print_error "Docs directory not found: $docs_dir"
@@ -54,7 +54,7 @@ list_docs() {
 search_docs() {
     local project="$1"
     local query="$2"
-    local docs_dir="ai-squads/projects/$project/docs"
+    local docs_dir=".ai-squads/projects/$project/docs"
     
     if [ ! -d "$docs_dir" ]; then
         print_error "Docs directory not found: $docs_dir"
@@ -68,7 +68,7 @@ search_docs() {
 
 update_docs() {
     local project="$1"
-    local docs_dir="ai-squads/projects/$project/docs"
+    local docs_dir=".ai-squads/projects/$project/docs"
     
     if [ ! -d "$docs_dir" ]; then
         print_error "Docs directory not found: $docs_dir"
@@ -90,7 +90,7 @@ update_docs() {
 
 validate_docs() {
     local project="$1"
-    local docs_dir="ai-squads/projects/$project/docs"
+    local docs_dir=".ai-squads/projects/$project/docs"
     
     if [ ! -d "$docs_dir" ]; then
         print_error "Docs directory not found: $docs_dir"
@@ -133,7 +133,7 @@ validate_docs() {
 
 archive_docs() {
     local project="$1"
-    local docs_dir="ai-squads/projects/$project/docs"
+    local docs_dir=".ai-squads/projects/$project/docs"
     local archive_dir="$docs_dir/archive"
     
     if [ ! -d "$docs_dir" ]; then

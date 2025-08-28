@@ -30,21 +30,21 @@ This directory contains templates for creating new squads and agents in the Squa
 ### Creating a New Squad
 ```bash
 ./scripts/create-resource.sh squad "Web Development"
-# Creates: ai-squads/squads/web-development.md
+# Creates: .ai-squads/squads/web-development.md
 # Creates: .cursor/rules/web-development-squad.md
 ```
 
 ### Creating a New Agent
 ```bash
 ./scripts/create-resource.sh agent "Data Analyst"
-# Creates: ai-squads/agents/data-analyst.md
+# Creates: .ai-squads/agents/data-analyst.md
 # Creates: .cursor/rules/data-analyst-agent.md
 ```
 
 ### Creating a New Project
 ```bash
 # Copy project templates to new project directory
-cp -r templates/projects ai-squads/projects/[PROJECT_NAME]
+cp -r templates/projects .ai-squads/projects/[PROJECT_NAME]
 # Then customize each template file for your specific project
 # Start with project.md for the overview, then customize each template
 ```
@@ -79,14 +79,14 @@ cp -r templates/projects ai-squads/projects/[PROJECT_NAME]
 
 After creating a new squad or agent from a template:
 
-1. **Edit the main file** (`ai-squads/squads/[name].md` or `ai-squads/agents/[name].md`)
+1. **Edit the main file** (`.ai-squads/squads/[name].md` or `.ai-squads/agents/[name].md`)
 2. **Update the reference file** (`.cursor/rules/[name]-squad.md` or `.cursor/rules/[name]-agent.md`)
 3. **Customize content** to match the specific squad or agent purpose
 4. **Test integration** with the Director Agent
 
 After creating a new project from templates:
 
-1. **Copy project templates** to `ai-squads/projects/[PROJECT_NAME]/`
+1. **Copy project templates** to `.ai-squads/projects/[PROJECT_NAME]/`
 2. **Customize each template file** for your specific project
 3. **Update project references** in squad definitions
 4. **Test project integration** with the Director Agent

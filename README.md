@@ -82,7 +82,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 
 ### **Project Structure**
 ```
-ai-squads/projects/[PROJECT_NAME]/
+.ai-squads/projects/[PROJECT_NAME]/
 ├── mission.md              # Project vision and purpose
 ├── roadmap.md              # Development phases and features
 ├── tech-stack.md           # Technical architecture
@@ -105,7 +105,7 @@ ai-squads/projects/[PROJECT_NAME]/
     └── improvement.md      # How will we improve it?
 ```
 
-**Note**: All project files are created in `ai-squads/projects/[PROJECT_NAME]/` directories to ensure project isolation and prevent conflicts between multiple projects.
+**Note**: All project files are created in `.ai-squads/projects/[PROJECT_NAME]/` directories to ensure project isolation and prevent conflicts between multiple projects.
 
 ### **Document Types**
 
@@ -286,11 +286,11 @@ ai-squads/projects/[PROJECT_NAME]/
 
 ## 📖 **Detailed Documentation**
 
-- **`ai-squads/workflows/`** - Complete workflow instructions and process definitions
-- **`ai-squads/agents/`** - Detailed agent specifications and capabilities
-- **`ai-squads/squads/`** - Squad configurations and team structures
-- **`ai-squads/standards/`** - Quality standards and coding guidelines
-- **`ai-squads/templates/`** - Document templates and examples
+- **`.ai-squads/workflows/`** - Complete workflow instructions and process definitions
+- **`.ai-squads/agents/`** - Detailed agent specifications and capabilities
+- **`.ai-squads/squads/`** - Squad configurations and team structures
+- **`.ai-squads/standards/`** - Quality standards and coding guidelines
+- **`.ai-squads/templates/`** - Document templates and examples
 
 ## 🎉 **Conclusion**
 

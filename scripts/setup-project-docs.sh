@@ -53,7 +53,7 @@ show_usage() {
 # Function to setup docs for a single project
 setup_project_docs() {
     local project_name="$1"
-    local project_dir="ai-squads/projects/$project_name"
+    local project_dir=".ai-squads/projects/$project_name"
     local docs_dir="$project_dir/docs"
     
     print_status "Setting up docs for project: $project_name"
@@ -75,7 +75,7 @@ setup_project_docs() {
     
     # Copy main docs README
     if [ ! -f "$docs_dir/README.md" ]; then
-        cp "ai-squads/templates/projects/docs/README.md" "$docs_dir/README.md"
+        cp ".ai-squads/templates/projects/docs/README.md" "$docs_dir/README.md"
         print_success "Created $docs_dir/README.md"
     else
         print_warning "Docs README already exists, skipping"
@@ -88,7 +88,7 @@ setup_project_docs() {
     
     for subdir in "${subdirs[@]}"; do
         local target_dir="$docs_dir/$subdir"
-        local template_dir="ai-squads/templates/projects/docs/$subdir"
+        local template_dir=".ai-squads/templates/projects/docs/$subdir"
         
         # Create subdirectory
         mkdir -p "$target_dir"
@@ -156,7 +156,7 @@ setup_all_project_docs() {
     print_status "Setting up docs for all projects..."
     
     # Find all project directories
-    local projects_dir="ai-squads/projects"
+    local projects_dir=".ai-squads/projects"
     if [ ! -d "$projects_dir" ]; then
         print_error "Projects directory not found: $projects_dir"
         return 1
@@ -184,7 +184,7 @@ update_project_templates() {
     print_status "Updating project templates to reference docs..."
     
     # Update main project template
-    local project_template="ai-squads/templates/projects/project.md"
+    local project_template=".ai-squads/templates/projects/project.md"
     if [ -f "$project_template" ]; then
         # Check if docs reference already exists
         if ! grep -q "docs/" "$project_template"; then
@@ -220,7 +220,7 @@ For detailed documentation, see the [docs/](docs/) directory.\
     fi
     
     # Update README template
-    local readme_template="ai-squads/templates/projects/README.md"
+    local readme_template=".ai-squads/templates/projects/README.md"
     if [ -f "$readme_template" ]; then
         # Check if docs reference already exists
         if ! grep -q "docs/" "$readme_template"; then
@@ -291,7 +291,7 @@ show_usage() {
 
 list_docs() {
     local project="$1"
-    local docs_dir="ai-squads/projects/$project/docs"
+    local docs_dir=".ai-squads/projects/$project/docs"
     
     if [ ! -d "$docs_dir" ]; then
         print_error "Docs directory not found: $docs_dir"
@@ -310,7 +310,7 @@ list_docs() {
 search_docs() {
     local project="$1"
     local query="$2"
-    local docs_dir="ai-squads/projects/$project/docs"
+    local docs_dir=".ai-squads/projects/$project/docs"
     
     if [ ! -d "$docs_dir" ]; then
         print_error "Docs directory not found: $docs_dir"
@@ -324,7 +324,7 @@ search_docs() {
 
 update_docs() {
     local project="$1"
-    local docs_dir="ai-squads/projects/$project/docs"
+    local docs_dir=".ai-squads/projects/$project/docs"
     
     if [ ! -d "$docs_dir" ]; then
         print_error "Docs directory not found: $docs_dir"
@@ -346,7 +346,7 @@ update_docs() {
 
 validate_docs() {
     local project="$1"
-    local docs_dir="ai-squads/projects/$project/docs"
+    local docs_dir=".ai-squads/projects/$project/docs"
     
     if [ ! -d "$docs_dir" ]; then
         print_error "Docs directory not found: $docs_dir"
@@ -389,7 +389,7 @@ validate_docs() {
 
 archive_docs() {
     local project="$1"
-    local docs_dir="ai-squads/projects/$project/docs"
+    local docs_dir=".ai-squads/projects/$project/docs"
     local archive_dir="$docs_dir/archive"
     
     if [ ! -d "$docs_dir" ]; then
@@ -479,13 +479,13 @@ main() {
     print_status "Setting up project documentation system..."
     
     # Check if we're in the right directory
-if [ ! -d "ai-squads" ] || [ ! -d "ai-squads/templates" ]; then
-    print_error "Must be run from the ai-squads root directory"
+if [ ! -d ".ai-squads" ] || [ ! -d ".ai-squads/templates" ]; then
+    print_error "Must be run from the .ai-squads root directory"
     exit 1
 fi
 
 # Check if docs templates exist
-if [ ! -d "ai-squads/templates/projects/docs" ]; then
+if [ ! -d ".ai-squads/templates/projects/docs" ]; then
     print_error "Docs templates not found. Please run setup-project-docs.sh first."
     exit 1
 fi
