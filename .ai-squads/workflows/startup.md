@@ -9,7 +9,7 @@ encoding: UTF-8
 # Startup Rules
 
 ## Session Kickoff
-- **FIRST STEP**: Always start with the Director Agent (@~/ai-squads/agents/director.md) to assess current project state and guide the session
+- **FIRST STEP**: Always start with the Director Agent (@~/.ai-squads/agents/director.md) to assess current project state and guide the session
 - The Director Agent identifies the active squad, provides project status, roadmap analysis, and squad-specific session guidance before proceeding with any other work
 
 ## Squad Context
@@ -33,5 +33,5 @@ encoding: UTF-8
 ## Squad-Specific Workflows
 - **Elite Squad**: Specialized in Rust and Smalltalk/Pharo projects with JTBD methodology
 - **Other Squads**: Follow their specific focus areas and available agents
-- **Project Context**: Always check ai-squads/projects/[PROJECT_NAME] for project-specific instructions
+- **Project Context**: Always check .ai-squads/projects/[PROJECT_NAME] for project-specific instructions
 - **JTBD Integration**: All planning workflows include customer job validation

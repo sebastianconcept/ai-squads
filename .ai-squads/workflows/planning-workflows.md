@@ -129,7 +129,7 @@ ai-squads/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/
 └── .cursor-rule.md     # Cursor integration for the feature
 ```
 
-**For detailed instructions and Cursor integration, see**: `ai-squads/instructions/plan-feature.mdc`
+**For detailed instructions and Cursor integration, see**: `ai-squads/workflows/plan-feature.mdc`
 
 ### 4. `plan-fix` - Problem Fix Planning
 

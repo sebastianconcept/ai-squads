@@ -23,7 +23,7 @@ This directory contains templates for creating new projects in the SquadAI syste
 ## Usage
 
 ### Creating a New Project
-1. **Copy template files** to `ai-squads/projects/[PROJECT_NAME]/`
+1. **Copy template files** to `.ai-squads/projects/[PROJECT_NAME]/`
 2. **Customize content** for your specific project
 3. **Update references** to match your project structure
 4. **Integrate with squads** by updating squad definitions
@@ -51,7 +51,7 @@ All project documentation is organized in the `docs/` directory:
 
 For detailed documentation, see the [docs/](docs/) directory.
 ```
-ai-squads/projects/[PROJECT_NAME]/
+.ai-squads/projects/[PROJECT_NAME]/
 ├── mission.md          # Project vision and purpose
 ├── roadmap.md          # Development phases and features
 ├── tech-stack.md       # Technical architecture

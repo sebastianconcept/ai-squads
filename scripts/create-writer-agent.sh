@@ -101,7 +101,7 @@ validate_project() {
 # Function to check if writer agent is already set up
 check_writer_setup() {
     local project_name="$1"
-    local project_dir="ai-squads/projects/$project_name"
+    local project_dir=".ai-squads/projects/$project_name"
     
     if [[ -d "$project_dir" ]] && [[ -f "$project_dir/writer-setup.md" ]]; then
         if [[ "$FORCE" == true ]]; then
@@ -120,7 +120,7 @@ check_writer_setup() {
 # Function to create writer agent setup
 create_writer_setup() {
     local project_name="$1"
-    local project_dir="ai-squads/projects/$project_name"
+    local project_dir=".ai-squads/projects/$project_name"
     
     print_status "Creating writer agent setup for project '$project_name'..."
     
@@ -139,7 +139,7 @@ This document describes the Writer Agent setup for the $project_name project, in
 ### **Agent Details**
 - **Agent**: @agent:writer
 - **Specialization**: Storytelling, character development, and narrative craft
-- **Location**: \`ai-squads/agents/writer.md\`
+- **Location**: \`.ai-squads/agents/writer.md\`
 - **Squad**: Elite Squad (9 agents total)
 
 ### **Capabilities**
@@ -236,8 +236,8 @@ This document describes the Writer Agent setup for the $project_name project, in
 
 ## References
 
-- **Writer Agent**: \`ai-squads/agents/writer.md\` - Complete agent specification
-- **Elite Squad**: \`ai-squads/squads/elite.md\` - Squad with writer agent
+- **Writer Agent**: \`.ai-squads/agents/writer.md\` - Complete agent specification
+- **Elite Squad**: \`.ai-squads/squads/elite.md\` - Squad with writer agent
 - **Story Template**: \`templates/projects/story-plan.md\` - Story planning template
 - **Feature Planning**: \`scripts/plan-feature.sh\` - Enhanced with story planning
 
@@ -252,7 +252,7 @@ EOF
 # Function to update project configuration
 update_project_config() {
     local project_name="$1"
-    local project_dir="ai-squads/projects/$project_name"
+    local project_dir=".ai-squads/projects/$project_name"
     
     print_status "Updating project configuration for storytelling integration..."
     
@@ -377,7 +377,7 @@ EOF
 # Function to create workflow integration documentation
 create_workflow_integration() {
     local project_name="$1"
-    local project_dir="ai-squads/projects/$project_name"
+    local project_dir=".ai-squads/projects/$project_name"
     
     print_status "Creating workflow integration documentation..."
     
@@ -545,7 +545,7 @@ EOF
 # Function to show completion summary
 show_completion_summary() {
     local project_name="$1"
-    local project_dir="ai-squads/projects/$project_name"
+    local project_dir=".ai-squads/projects/$project_name"
     
     print_header
     echo ""

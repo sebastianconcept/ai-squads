@@ -34,11 +34,11 @@ print_error() {
 show_usage() {
     echo "Usage: $0 <resource_type> <name>"
     echo ""
-    echo "This script will create a new squad or agent using templates from ai-squads/templates/"
+    echo "This script will create a new squad or agent using templates from .ai-squads/templates/"
     echo ""
     echo "Resource Types:"
-      echo "  squad <squad_name>    Create a new squad using ai-squads/templates/squad-template.md"
-echo "  agent <squad_name>    Create a new agent using ai-squads/templates/agent-template.md"
+      echo "  squad <squad_name>    Create a new squad using .ai-squads/templates/squad-template.md"
+echo "  agent <squad_name>    Create a new agent using .ai-squads/templates/agent-template.md"
     echo ""
     echo "Examples:"
     echo "  $0 squad web-dev"
@@ -122,7 +122,7 @@ encoding: UTF-8
 # $display_name Squad
 
 ## Source of Truth
-This squad is defined in \`ai-squads/squads/$normalized_name.md\`
+This squad is defined in \`.ai-squads/squads/$normalized_name.md\`
 
 ## Quick Reference
 - **Focus**: [PURPOSE_AND_FOCUS]
@@ -136,7 +136,7 @@ This squad is defined in \`ai-squads/squads/$normalized_name.md\`
 - **Outputs**: [EXPECTED_OUTPUTS]
 
 ## Squad Reference
-For complete squad definition and capabilities, see: \`@~/ai-squads/squads/$normalized_name.md\`
+For complete squad definition and capabilities, see: \`@~/.ai-squads/squads/$normalized_name.md\`
 EOF
     
     print_success "Reference file created: $cursor_squad_file"
@@ -201,7 +201,7 @@ encoding: UTF-8
 # $display_name Agent
 
 ## Source of Truth
-This agent is defined in \`ai-squads/agents/$normalized_name.md\`
+This agent is defined in \`.ai-squads/agents/$normalized_name.md\`
 
 ## Quick Reference
 - **Primary Role**: [Primary role and responsibility]
@@ -215,7 +215,7 @@ This agent is defined in \`ai-squads/agents/$normalized_name.md\`
 - **Outputs**: [What this agent produces or delivers]
 
 ## Agent Reference
-For complete agent definition and capabilities, see: \`@~/ai-squads/agents/$normalized_name.md\`
+For complete agent definition and capabilities, see: \`@~/.ai-squads/agents/$normalized_name.md\`
 EOF
     
     print_success "Reference file created: $cursor_agent_file"
@@ -239,7 +239,7 @@ update_readme() {
         if ! grep -q "$resource_file" "$readme_file"; then
             # Find the line before the specified file and insert the new resource
             sed -i.bak "/$before_file - /i\\
-- \`$resource_file\` - References \`ai-squads/[type]/$resource_file\`" "$readme_file"
+- \`$resource_file\` - References \`.ai-squads/[type]/$resource_file\`" "$readme_file"
             
             # Remove backup file
             rm "${readme_file}.bak"
@@ -277,10 +277,10 @@ if [[ "$RESOURCE_TYPE" != "squad" && "$RESOURCE_TYPE" != "agent" ]]; then
 fi
 
 # Set up paths
-SQUAD_TEMPLATE="ai-squads/templates/squad-template.md"
-AGENT_TEMPLATE="ai-squads/templates/agent-template.md"
-SQUADS_DIR="ai-squads/squads"
-AGENTS_DIR="ai-squads/agents"
+SQUAD_TEMPLATE=".ai-squads/templates/squad-template.md"
+AGENT_TEMPLATE=".ai-squads/templates/agent-template.md"
+SQUADS_DIR=".ai-squads/squads"
+AGENTS_DIR=".ai-squads/agents"
 CURSOR_RULES_DIR=".cursor/rules"
 
 # Check if templates exist
@@ -323,11 +323,11 @@ if [ "$RESOURCE_TYPE" == "squad" ]; then
     print_success "Squad creation completed successfully!"
     echo ""
     print_status "Created files:"
-    echo "  📁 Squad definition: ai-squads/squads/$normalized_name.md"
+    echo "  📁 Squad definition: .ai-squads/squads/$normalized_name.md"
     echo "  📁 Cursor reference: .cursor/rules/$normalized_name-squad.md"
     echo ""
     print_status "Next steps:"
-    echo "  1. Edit ai-squads/squads/$normalized_name.md to customize squad details"
+    echo "  1. Edit .ai-squads/squads/$normalized_name.md to customize squad details"
     echo "  2. Update the reference file with specific information"
     echo "  3. Add squad members and team preferences"
     echo "  4. Test the squad with the Director Agent"
@@ -336,11 +336,11 @@ elif [ "$RESOURCE_TYPE" == "agent" ]; then
     print_success "Agent creation completed successfully!"
     echo ""
     print_status "Created files:"
-    echo "  📁 Agent definition: ai-squads/agents/$normalized_name.md"
+    echo "  📁 Agent definition: .ai-squads/agents/$normalized_name.md"
     echo "  📁 Cursor reference: .cursor/rules/$normalized_name-agent.md"
     echo ""
     print_status "Next steps:"
-    echo "  1. Edit ai-squads/agents/$normalized_name.md to customize agent details"
+    echo "  1. Edit .ai-squads/agents/$normalized_name.md to customize agent details"
     echo "  2. Update the reference file with specific information"
     echo "  3. Define core capabilities and workflows"
     echo "  4. Test the agent with the Director Agent"

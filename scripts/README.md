@@ -39,7 +39,7 @@ This directory contains utility scripts for managing and working with the Squads
 - Updates project status
 
 ### `link.sh` - Cursor Rules Integration
-**Purpose**: Link .cursor/rules from ai-squads into target repository
+**Purpose**: Link .cursor/rules from .ai-squads into target repository
 
 **Usage**:
 ```bash
@@ -263,7 +263,7 @@ chmod +x scripts/plan-feature.sh
 ```
 
 **Project Not Found**:
-- Ensure project exists in `ai-squads/projects/`
+- Ensure project exists in `.ai-squads/projects/`
 - Check project has required files (README.md, mission.md, roadmap.md)
 
 **Template Issues**:
@@ -283,8 +283,8 @@ chmod +x scripts/plan-feature.sh
 ./scripts/plan-feature.sh stui user-authentication --priority high
 
 # 2. Review generated documents
-cat ai-squads/projects/stui/feature-user-authentication/problem.md
-cat ai-squads/projects/stui/feature-user-authentication/tasks.md
+cat .ai-squads/projects/stui/feature-user-authentication/problem.md
+cat .ai-squads/projects/stui/feature-user-authentication/tasks.md
 
 # 3. Customize content with specific details
 # Edit the generated files with your feature specifics
@@ -300,7 +300,7 @@ cat ai-squads/projects/stui/feature-user-authentication/tasks.md
 
 # Now you can use plan-feature in your project
 cd /path/to/your/project
-../ai-squads/scripts/plan-feature.sh myapp new-feature
+../.ai-squads/scripts/plan-feature.sh myapp new-feature
 ```
 
 ## Contributing

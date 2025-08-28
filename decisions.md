@@ -112,7 +112,7 @@ The pattern aligns with Rust's philosophy of **zero-cost abstractions** - we get
 
 ### References
 
-- **Rust Style Guide**: `ai-squads/standards/code/rust-style.md`
+- **Rust Style Guide**: `.ai-squads/standards/code/rust-style.md`
 - **Implementation Examples**: Session management module patterns
 - **Quality Gates**: Local development setup and CI integration
 - **Tech Stack Standards**: `../tech-stacks/rust-and-smalltalk.md`
@@ -298,7 +298,7 @@ The comprehensive restructuring of the error handling documentation provides:
 
 ### References
 
-- **Rust Style Guide**: `ai-squads/standards/code/rust-style.md` - Error Handling section
+- **Rust Style Guide**: `.ai-squads/standards/code/rust-style.md` - Error Handling section
 - **Implementation Examples**: Session management module error patterns
 - **Quality Gates**: Error handling standards integrated into local development setup
 - **Tech Stack Standards**: `../tech-stacks/rust-and-smalltalk.md`
@@ -367,7 +367,7 @@ We have decided to integrate a **Jobs To Be Done (JTBD) Expert Agent** into the 
 
 #### JTBD Agent Integration
 
-- **Agent Location**: Properly placed in `ai-squads/agents/jtbd-expert.md`
+- **Agent Location**: Properly placed in `.ai-squads/agents/jtbd-expert.md`
 - **Squad Membership**: Added to Elite Squad (now 8 agents total)
 - **Capabilities**: Customer jobs analysis, satisfaction gap identification, solution validation
 - **Activation**: Automatically activated in all planning workflows
@@ -421,9 +421,9 @@ We have decided to integrate a **Jobs To Be Done (JTBD) Expert Agent** into the 
 
 #### Workflow Updates
 
-- **Core Instructions**: `ai-squads/instructions/planning-workflows.md` fully updated
-- **Cursor Rules**: `ai-squads/instructions/plan-feature.mdc` enhanced with JTBD
-- **Startup Instructions**: `ai-squads/instructions/startup.md` includes JTBD methodology
+- **Core Instructions**: `.ai-squads/workflows/planning-workflows.md` fully updated
+- **Cursor Rules**: `.ai-squads/workflows/plan-feature.mdc` enhanced with JTBD
+- **Startup Instructions**: `.ai-squads/workflows/startup.md` includes JTBD methodology
 - **Quality Gates**: JTBD validation integrated into all quality gates
 
 #### Agent Coordination
@@ -470,10 +470,10 @@ The integration aligns with SquadsAI's philosophy of **planning-first, execution
 
 ### References
 
-- **JTBD Agent**: `ai-squads/agents/jtbd-expert.md` - Complete agent specification
-- **Elite Squad**: `ai-squads/squads/elite.md` - Squad with JTBD expert
-- **Workflow Instructions**: `ai-squads/instructions/planning-workflows.md` - JTBD integration
-- **Feature Planning**: `ai-squads/instructions/plan-feature.mdc` - Enhanced with JTBD
+- **JTBD Agent**: `.ai-squads/agents/jtbd-expert.md` - Complete agent specification
+- **Elite Squad**: `.ai-squads/squads/elite.md` - Squad with JTBD expert
+- **Workflow Instructions**: `.ai-squads/workflows/planning-workflows.md` - JTBD integration
+- **Feature Planning**: `.ai-squads/workflows/plan-feature.mdc` - Enhanced with JTBD
 - **Integration Guide**: JTBD integration now handled by @agent:collaboration - Complete system integration
 
 ---
@@ -544,7 +544,7 @@ We have decided to integrate a **Writer Agent** into the SquadsAI system to enha
 
 #### Writer Agent Integration
 
-- **Agent Location**: Properly placed in `ai-squads/agents/writer.md`
+- **Agent Location**: Properly placed in `.ai-squads/agents/writer.md`
 - **Squad Membership**: Integrated into collaboration workflows
 - **Capabilities**: Product storytelling, brand narrative, marketing copy, user documentation
 - **Activation**: Automatically activated in content creation workflows
@@ -598,7 +598,7 @@ We have decided to integrate a **Writer Agent** into the SquadsAI system to enha
 
 #### Workflow Updates
 
-- **Collaboration Agent**: `ai-squads/agents/collaboration.md` enhanced with writer integration
+- **Collaboration Agent**: `.ai-squads/agents/collaboration.md` enhanced with writer integration
 - **Feature Development**: Story creation integrated into feature development cycle
 - **Quality Gates**: Content validation integrated into quality gates
 - **Content Workflows**: Dedicated content creation and storytelling workflows
@@ -649,7 +649,7 @@ The integration aligns with SquadsAI's philosophy of **comprehensive project del
 
 ### References
 
-- **Writer Agent**: `ai-squads/agents/writer.md` - Complete agent specification
-- **Collaboration Agent**: `ai-squads/agents/collaboration.md` - Enhanced with writer integration
+- **Writer Agent**: `.ai-squads/agents/writer.md` - Complete agent specification
+- **Collaboration Agent**: `.ai-squads/agents/collaboration.md` - Enhanced with writer integration
 - **Content Workflows**: Content creation integrated into feature development cycles
 - **Quality Gates**: Content validation integrated into all quality gates

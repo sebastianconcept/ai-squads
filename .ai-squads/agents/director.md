@@ -13,7 +13,7 @@ encoding: UTF-8
 The Director Agent is the **first agent to run** in any work session. It assesses the current project state, understands the roadmap, and guides the team on what to work on next. It works within the context of the active squad and has access to the squad's specific agent capabilities.
 
 <pre_flight_check>
-  EXECUTE: @~/ai-squads/instructions/startup.md
+  EXECUTE: @~/.ai-squads/workflows/startup.md
 </pre_flight_check>
 
 ## Squad Context Awareness
@@ -26,10 +26,10 @@ The Director Agent is the **first agent to run** in any work session. It assesse
 </squad_identification>
 
 <squad_analysis>
-  <squad_file>Read ai-squads/squads/[SQUAD_NAME].md to understand squad purpose</squad_file>
+  <squad_file>Read .ai-squads/squads/[SQUAD_NAME].md to understand squad purpose</squad_file>
   <agent_availability>Identify which agents are available in this squad</agent_availability>
   <squad_capabilities>Understand the squad's specialized focus areas</squad_capabilities>
-  <project_context>Locate project files in ai-squads/projects/[PROJECT_NAME]</project_context>
+  <project_context>Locate project files in .ai-squads/projects/[PROJECT_NAME]</project_context>
 </squad_analysis>
 
 ## Session Kickoff Process
@@ -66,7 +66,7 @@ The Director Agent is the **first agent to run** in any work session. It assesse
     - Active worktrees and their purposes
     - Branch strategy and current development focus
     - Recent development activities and progress
-    - Project files in ai-squads/projects/[PROJECT_NAME]
+    - Project files in .ai-squads/projects/[PROJECT_NAME]
   </project_organization>
 </assessment_areas>
 
@@ -106,7 +106,7 @@ The Director Agent is the **first agent to run** in any work session. It assesse
 
 <context_commands>
   <available_agents>
-    COMMAND: ls -la ai-squads/agents/
+    COMMAND: ls -la .ai-squads/agents/
     PURPOSE: Identify all available agents regardless of the squads where they typically work together
   </available_agents>
   <git_status>
@@ -135,12 +135,12 @@ The Director Agent is the **first agent to run** in any work session. It assesse
   </file_structure>
   
   <squad_structure>
-    COMMAND: ls -la ai-squads/squads/
+    COMMAND: ls -la .ai-squads/squads/
     PURPOSE: Identify available squads and active squad
   </squad_structure>
   
   <project_structure>
-    COMMAND: ls -la ai-squads/projects/
+    COMMAND: ls -la .ai-squads/projects/
     PURPOSE: Identify available projects and current project context
   </project_structure>
 </context_commands>
@@ -150,7 +150,7 @@ The Director Agent is the **first agent to run** in any work session. It assesse
 <analysis_workflow>
   1. **Execute Context Commands**: Run all context gathering commands
   2. **Identify Active Squad**: Determine which squad is active and its capabilities
-  3. **Review Project Files**: Read project files in ai-squads/projects/[PROJECT_NAME]
+  3. **Review Project Files**: Read project files in .ai-squads/projects/[PROJECT_NAME]
   4. **Assess Squad Ecosystem**: Understand available squad agents and workflows
   5. **Evaluate Current State**: Determine where the project stands
   6. **Identify Next Steps**: Figure out what should happen next

@@ -3,10 +3,10 @@
 # plan-feature.sh - Plan a new feature for an existing project using SquadsAI workflows
 # 
 # This script implements the plan-feature workflow defined in:
-# ai-squads/instructions/planning-workflows.md
+# .ai-squads/workflows/planning-workflows.md
 # 
 # For detailed instructions and Cursor integration, see:
-# ai-squads/instructions/plan-feature.mdc
+# .ai-squads/workflows/plan-feature.mdc
 #
 # Usage: ./plan-feature.sh <project_name> <feature_name> [options]
 
@@ -51,13 +51,13 @@ show_usage() {
     echo "This script creates comprehensive feature planning documentation using SquadsAI workflows."
     echo ""
     echo "Arguments:"
-    echo "  project_name        Name of the existing project (must exist in ai-squads/projects/)"
+    echo "  project_name        Name of the existing project (must exist in .ai-squads/projects/)"
     echo "  feature_name        Name of the feature to plan (will create feature-[FEATURE_NAME]/ directory)"
     echo ""
     echo "Options:"
     echo "  -p, --priority      Feature priority: low, medium, high (default: medium)"
     echo "  -s, --squad         Specific squad to use (default: auto-detect)"
-    echo "  -t, --template      Custom template directory (default: ai-squads/templates/projects/)"
+    echo "  -t, --template      Custom template directory (default: .ai-squads/templates/projects/)"
     echo "  -v, --verbose       Enable verbose output"
     echo "  -h, --help          Show this help message"
     echo ""
@@ -79,13 +79,13 @@ show_usage() {
 # Function to validate project exists
 validate_project() {
     local project_name="$1"
-    local project_dir="ai-squads/projects/$project_name"
+    local project_dir=".ai-squads/projects/$project_name"
     
     if [ ! -d "$project_dir" ]; then
-        print_error "Project '$project_name' not found in ai-squads/projects/"
+        print_error "Project '$project_name' not found in .ai-squads/projects/"
         print_error "Available projects:"
-        if [ -d "ai-squads/projects" ]; then
-            ls -1 "ai-squads/projects/" | sed 's/^/  - /'
+        if [ -d ".ai-squads/projects" ]; then
+            ls -1 ".ai-squads/projects/" | sed 's/^/  - /'
         else
             print_error "  No projects directory found"
         fi
@@ -106,8 +106,8 @@ validate_project() {
 # Function to ensure project has all required planning files
 ensure_project_planning_files() {
     local project_name="$1"
-    local project_dir="ai-squads/projects/$project_name"
-    local template_dir="ai-squads/templates/projects"
+    local project_dir=".ai-squads/projects/$project_name"
+    local template_dir=".ai-squads/templates/projects"
     
     print_status "Ensuring project has all required planning files..."
     
@@ -166,7 +166,7 @@ customize_project_template() {
 create_feature_structure() {
     local project_name="$1"
     local feature_name="$2"
-    local feature_dir="ai-squads/projects/$project_name/feature-$feature_name"
+    local feature_dir=".ai-squads/projects/$project_name/feature-$feature_name"
     
     print_status "Creating feature directory structure..."
     
@@ -184,8 +184,8 @@ create_feature_structure() {
 copy_templates() {
     local project_name="$1"
     local feature_name="$2"
-    local feature_dir="ai-squads/projects/$project_name/feature-$feature_name"
-    local template_dir="ai-squads/templates/projects"
+    local feature_dir=".ai-squads/projects/$project_name/feature-$feature_name"
+    local template_dir=".ai-squads/templates/projects"
     
     print_status "Copying and customizing templates..."
     
@@ -230,7 +230,7 @@ customize_template() {
 create_status_files() {
     local project_name="$1"
     local feature_name="$2"
-    local feature_dir="ai-squads/projects/$project_name/feature-$feature_name"
+    local feature_dir=".ai-squads/projects/$project_name/feature-$feature_name"
     
     print_status "Creating status tracking files..."
     
@@ -310,7 +310,7 @@ EOF
 update_project_status() {
     local project_name="$1"
     local feature_name="$2"
-    local project_status_file="ai-squads/projects/$project_name/status.md"
+    local project_status_file=".ai-squads/projects/$project_name/status.md"
     
     print_status "Updating project status..."
     
@@ -331,7 +331,7 @@ update_project_status() {
 create_cursor_integration() {
     local project_name="$1"
     local feature_name="$2"
-    local feature_dir="ai-squads/projects/$project_name/feature-$feature_name"
+    local feature_dir=".ai-squads/projects/$project_name/feature-$feature_name"
     
     print_status "Creating Cursor rule integration..."
     
@@ -361,10 +361,10 @@ This feature is currently in the planning phase. Use the following documents to 
 6. **Quality Gates**: Ensure all work passes quality standards before proceeding
 
 ## Quick Commands
-- View problem: \`cat ai-squads/projects/$project_name/feature-$feature_name/problem.md\`
-- View JTBD analysis: \`cat ai-squads/projects/$project_name/feature-$feature_name/jtbd-analysis.md\`
-- View story plan: \`cat ai-squads/projects/$project_name/feature-$feature_name/story-plan.md\`
-- View tasks: \`cat ai-squads/projects/$project_name/feature-$feature_name/tasks.md\`
+- View problem: \`cat .ai-squads/projects/$project_name/feature-$feature_name/problem.md\`
+- View JTBD analysis: \`cat .ai-squads/projects/$project_name/feature-$feature_name/jtbd-analysis.md\`
+- View story plan: \`cat .ai-squads/projects/$project_name/feature-$feature_name/story-plan.md\`
+- View tasks: \`cat .ai-squads/projects/$project_name/feature-$feature_name/tasks.md\`
 - Update status: Edit status.md and implementation-status.md files
 
 ## Integration
@@ -378,7 +378,7 @@ EOF
 show_completion_summary() {
     local project_name="$1"
     local feature_name="$2"
-    local feature_dir="ai-squads/projects/$project_name/feature-$feature_name"
+    local feature_dir=".ai-squads/projects/$project_name/feature-$feature_name"
     
     print_header
     echo ""
@@ -422,7 +422,7 @@ main() {
     FEATURE_NAME=""
     PRIORITY="medium"
     SQUAD="auto"
-    TEMPLATE_DIR="ai-squads/templates/projects"
+    TEMPLATE_DIR=".ai-squads/templates/projects"
     VERBOSE=false
     
     while [[ $# -gt 0 ]]; do

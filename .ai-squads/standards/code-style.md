@@ -180,8 +180,8 @@ IF current task involves writing or updating HTML, CSS, or TailwindCSS:
         PROCESS: Returned style rules
       ELSE:
         READ the following style guides (only if not already in context):
-        - @~/ai-squads/standards/code/html-style.md (if not in context)
-- @~/ai-squads/standards/code/css-style.md (if not in context)
+        - @~/.ai-squads/standards/code/html-style.md (if not in context)
+- @~/.ai-squads/standards/code/css-style.md (if not in context)
     </context_fetcher_strategy>
 ELSE:
   SKIP: HTML/CSS style guides not relevant to current task
@@ -199,7 +199,7 @@ IF current task involves writing or updating JavaScript:
         REQUEST: "Get JavaScript style rules from standards/code/javascript-style.md"
         PROCESS: Returned style rules
       ELSE:
-        READ: @~/ai-squads/standards/code/javascript-style.md
+        READ: @~/.ai-squads/standards/code/javascript-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: JavaScript style guide not relevant to current task
@@ -217,7 +217,7 @@ IF current task involves writing or updating Ruby or Ruby on Rails code:
         REQUEST: "Get Ruby style rules from standards/code/ruby-style.md"
         PROCESS: Returned style rules
       ELSE:
-        READ: @~/ai-squads/standards/code/ruby-style.md
+        READ: @~/.ai-squads/standards/code/ruby-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: Ruby style guide not relevant to current task
@@ -235,7 +235,7 @@ IF current task involves writing or updating Rust code:
         REQUEST: "Get Rust style rules from standards/code/rust-style.md"
         PROCESS: Returned style rules
       ELSE:
-        READ: @~/ai-squads/standards/code/rust-style.md
+        READ: @~/.ai-squads/standards/code/rust-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: Rust style guide not relevant to current task
@@ -253,7 +253,7 @@ IF current task involves writing or updating Smalltalk or Pharo code:
         REQUEST: "Get Smalltalk and Pharo style rules from standards/code/smalltalk-style.md"
         PROCESS: Returned style rules
       ELSE:
-        READ: @~/ai-squads/standards/code/smalltalk-style.md
+        READ: @~/.ai-squads/standards/code/smalltalk-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: Smalltalk/Pharo style guide not relevant to current task

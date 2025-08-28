@@ -89,7 +89,7 @@ IF current task involves development in a specific language:
         REQUEST: "Get [LANGUAGE] best practices from standards/code/[LANGUAGE]-style.md"
         PROCESS: Returned language-specific best practices
       ELSE:
-        READ: @~/ai-squads/standards/code/[LANGUAGE]-style.md
+        READ: @~/.ai-squads/standards/code/[LANGUAGE]-style.md
     </context_fetcher_strategy>
 ELSE:
   SKIP: Language-specific best practices not relevant to current task
@@ -132,7 +132,7 @@ ELSE:
 - Implement **rollback strategies** for deployments
 
 ### Project-Specific Best Practices
-- Follow **project-specific conventions** defined in `ai-squads/projects/[PROJECT_NAME NAME]` directory
+- Follow **project-specific conventions** defined in `.ai-squads/projects/[PROJECT_NAME NAME]` directory
 - Use **consistent patterns** established by the development team
 - Maintain **backward compatibility** when making changes
 - Document **project-specific decisions** and rationale
