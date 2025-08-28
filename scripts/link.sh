@@ -259,22 +259,62 @@ fi
 print_status "Creating symlink to source .ai-squads directory"
 ln -sf "$SOURCE_ABSOLUTE_PATH" "$TARGET_SQUADS_LINK"
 
-# Update .gitignore to exclude the symlinked directory
+# Ensure .ai-squads is excluded from git tracking
 TARGET_GITIGNORE="$TARGET_REPO/.gitignore"
+print_status "Ensuring .ai-squads is excluded from git tracking..."
+
+# Check if .ai-squads is already in .gitignore
 if [ -f "$TARGET_GITIGNORE" ]; then
-    # Check if .ai-squads is already in .gitignore
     if ! grep -q "\.ai-squads" "$TARGET_GITIGNORE"; then
-        print_status "Adding .ai-squads to .gitignore"
+        print_status "Adding .ai-squads to existing .gitignore"
         echo "" >> "$TARGET_GITIGNORE"
         echo "# Exclude symlinked .ai-squads directory" >> "$TARGET_GITIGNORE"
         echo ".ai-squads" >> "$TARGET_GITIGNORE"
+        print_success "✓ Added .ai-squads to .gitignore"
     else
-        print_status ".ai-squads already in .gitignore"
+        print_status "✓ .ai-squads already in .gitignore"
     fi
 else
-    print_status "Creating .gitignore with .ai-squads exclusion"
+    print_status "Creating new .gitignore with .ai-squads exclusion"
     echo "# Exclude symlinked .ai-squads directory" > "$TARGET_GITIGNORE"
     echo ".ai-squads" >> "$TARGET_GITIGNORE"
+    print_success "✓ Created .gitignore with .ai-squads exclusion"
+fi
+
+# Also ensure .cursor/rules is excluded if it contains symlinks
+if [ -f "$TARGET_GITIGNORE" ]; then
+    if ! grep -q "\.cursor/rules" "$TARGET_GITIGNORE"; then
+        print_status "Adding .cursor/rules to .gitignore (contains symlinks)"
+        echo "" >> "$TARGET_GITIGNORE"
+        echo "# Exclude .cursor/rules directory (contains symlinks)" >> "$TARGET_GITIGNORE"
+        echo ".cursor/rules" >> "$TARGET_GITIGNORE"
+        print_success "✓ Added .cursor/rules to .gitignore"
+    else
+        print_status "✓ .cursor/rules already in .gitignore"
+    fi
+else
+    print_status "Adding .cursor/rules to new .gitignore"
+    echo "# Exclude .cursor/rules directory (contains symlinks)" >> "$TARGET_GITIGNORE"
+    echo ".cursor/rules" >> "$TARGET_GITIGNORE"
+    print_success "✓ Added .cursor/rules to .gitignore"
+fi
+
+# Check if .ai-squads is already tracked in git (safety check)
+if [ -d "$TARGET_REPO/.git" ]; then
+    cd "$TARGET_REPO"
+    if git ls-files | grep -q "\.ai-squads"; then
+        print_warning "⚠️  WARNING: .ai-squads is already tracked in git!"
+        print_warning "This could cause issues with your repository."
+        print_status "Consider running: git rm -r --cached .ai-squads"
+        print_status "Then commit the removal to stop tracking it."
+    fi
+    if git ls-files | grep -q "\.cursor/rules"; then
+        print_warning "⚠️  WARNING: .cursor/rules is already tracked in git!"
+        print_warning "This could cause issues with your repository."
+        print_status "Consider running: git rm -r --cached .cursor/rules"
+        print_status "Then commit the removal to stop tracking it."
+    fi
+    cd - > /dev/null
 fi
 
 # Create a README in the target .cursor/rules directory
@@ -327,7 +367,17 @@ print_success "Linking completed successfully!"
 print_status "Target repository now has access to all .ai-squads agents, projects, and workflows"
 print_status "Symlinks created at: $TARGET_RULES_DIR (with .mdc extensions for Cursor)"
 print_status "Source symlink created at: $TARGET_SQUADS_LINK"
-print_status ".gitignore updated to exclude symlinked directories"
+
+# Show .gitignore status
+print_status "Git tracking exclusions:"
+if [ -f "$TARGET_GITIGNORE" ]; then
+    echo "  📁 .gitignore updated to exclude:"
+    grep -E "\.ai-squads|\.cursor/rules" "$TARGET_GITIGNORE" | while read line; do
+        echo "    $line"
+    done
+else
+    print_warning "No .gitignore found - please ensure .ai-squads is not tracked"
+fi
 
 # Show what was linked
 print_status "Linked files:"
