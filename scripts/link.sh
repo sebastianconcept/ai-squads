@@ -34,6 +34,7 @@ show_usage() {
     echo "Usage: $0 <target_repo_path>"
     echo ""
     echo "This script will link .cursor/rules from .ai-squads into the target repository."
+echo "The script is idempotent - it will skip installation if .ai-squads is already present."
     echo ""
     echo "Arguments:"
     echo "  target_repo_path    Path to the target repository where .cursor/rules will be installed"
@@ -44,11 +45,12 @@ show_usage() {
     echo ""
     echo "The script will:"
 echo "  1. Verify the target repository exists and is a git repo"
-echo "  2. Create .cursor/rules directory if it doesn't exist"
-echo "  3. Create symlinks to all agent, project, and workflow rules from .ai-squads"
-echo "  4. Convert .md files to .mdc for Cursor compatibility"
-echo "  5. Create a symlink to the source .ai-squads directory"
-echo "  6. Update .gitignore to exclude the symlinked directory"
+echo "  2. Check if .ai-squads is already installed (idempotent)"
+echo "  3. Create .cursor/rules directory if it doesn't exist"
+echo "  4. Create symlinks to all agent, project, and workflow rules from .ai-squads"
+echo "  5. Convert .md files to .mdc for Cursor compatibility"
+echo "  6. Create a symlink to the source .ai-squads directory"
+echo "  7. Update .gitignore to exclude the symlinked directory"
 }
 
 # Check if help is requested
@@ -100,6 +102,44 @@ if [ ! -d "$TARGET_REPO/.git" ]; then
     fi
 fi
 
+# Check if .ai-squads is already installed (idempotency check)
+TARGET_SQUADS_LINK="$TARGET_REPO/.ai-squads"
+if [ -L "$TARGET_SQUADS_LINK" ] || [ -d "$TARGET_SQUADS_LINK" ]; then
+    print_status ".ai-squads already installed in target repository"
+    print_status "Checking if installation is up to date..."
+    
+    # Check if it's a symlink to our source
+    if [ -L "$TARGET_SQUADS_LINK" ]; then
+        LINK_TARGET=$(readlink "$TARGET_SQUADS_LINK")
+        if [ "$LINK_TARGET" = "$SOURCE_ABSOLUTE_PATH" ]; then
+            print_success ".ai-squads is already properly linked and up to date!"
+            print_status "No action needed - installation is current"
+            exit 0
+        else
+            print_warning "Found existing .ai-squads but it links to different location: $LINK_TARGET"
+            print_status "This might be from a different installation"
+        fi
+    else
+        print_warning "Found existing .ai-squads directory (not a symlink)"
+        print_status "This might be from a different installation"
+    fi
+    
+    read -p "Replace existing installation? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        print_status "Installation skipped - keeping existing .ai-squads"
+        exit 0
+    fi
+    
+    # Remove existing installation
+    print_status "Removing existing .ai-squads installation..."
+    if [ -L "$TARGET_SQUADS_LINK" ]; then
+        rm "$TARGET_SQUADS_LINK"
+    else
+        rm -rf "$TARGET_SQUADS_LINK"
+    fi
+fi
+
 # Create .cursor directory in target if it doesn't exist
 TARGET_CURSOR_DIR="$TARGET_REPO/.cursor"
 if [ ! -d "$TARGET_CURSOR_DIR" ]; then
@@ -112,6 +152,37 @@ TARGET_RULES_DIR="$TARGET_CURSOR_DIR/rules"
 if [ ! -d "$TARGET_RULES_DIR" ]; then
     print_status "Creating .cursor/rules directory in target repository"
     mkdir -p "$TARGET_RULES_DIR"
+fi
+
+# Check if .cursor/rules already has .ai-squads symlinks
+if [ -d "$TARGET_RULES_DIR" ] && [ "$(ls -A "$TARGET_RULES_DIR" 2>/dev/null)" ]; then
+    # Check if there are any .mdc files that look like they're from .ai-squads
+    AI_SQUADS_FILES=$(find "$TARGET_RULES_DIR" -name "*.mdc" -type l 2>/dev/null | wc -l)
+    if [ "$AI_SQUADS_FILES" -gt 0 ]; then
+        print_status "Found existing .mdc symlinks in .cursor/rules"
+        print_status "Checking if they're from .ai-squads..."
+        
+        # Sample check - look for a few key files
+        SAMPLE_FILES=("director.mdc" "software-engineer.mdc" "elite.mdc")
+        EXISTING_COUNT=0
+        for file in "${SAMPLE_FILES[@]}"; do
+            if [ -L "$TARGET_RULES_DIR/$file" ]; then
+                EXISTING_COUNT=$((EXISTING_COUNT + 1))
+            fi
+        done
+        
+        if [ "$EXISTING_COUNT" -ge 2 ]; then
+            print_status "Found existing .ai-squads symlinks in .cursor/rules"
+            print_status "Checking if installation is complete..."
+            
+            # Check if the README.mdc exists and mentions .ai-squads
+            if [ -f "$TARGET_RULES_DIR/README.mdc" ] && grep -q "\.ai-squads" "$TARGET_RULES_DIR/README.mdc"; then
+                print_success ".cursor/rules already has .ai-squads installation!"
+                print_status "No action needed - rules are already linked"
+                exit 0
+            fi
+        fi
+    fi
 fi
 
 # Create symlinks from .ai-squads to .cursor/rules for automatic updates
@@ -185,12 +256,6 @@ if [ -f "$SOURCE_DIR/README.md" ]; then
 fi
 
 # Create a symlink to the source .ai-squads directory for easy updates
-TARGET_SQUADS_LINK="$TARGET_REPO/.ai-squads"
-if [ -L "$TARGET_SQUADS_LINK" ]; then
-    print_status "Removing existing symlink..."
-    rm "$TARGET_SQUADS_LINK"
-fi
-
 print_status "Creating symlink to source .ai-squads directory"
 ln -sf "$SOURCE_ABSOLUTE_PATH" "$TARGET_SQUADS_LINK"
 
