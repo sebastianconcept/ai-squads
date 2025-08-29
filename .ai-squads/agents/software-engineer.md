@@ -346,6 +346,55 @@ The Software Engineer Agent specializes in comprehensive software development ac
 - Memory layout optimization and cache-friendly structures
 - Compiler optimization and profiling
 
+## 🚨 MANDATORY PRE-COMMIT QUALITY GATES
+
+### CRITICAL: Before Any Task is Considered Complete
+
+**ENFORCEMENT**: No task is complete until ALL quality gates pass. The @agent:git-workflow MUST verify these before any commit.
+
+### Technology-Specific Quality Gates
+
+For specific commands and setup instructions, consult the appropriate style guide based on your project's technology stack:
+
+#### Available Style Guides
+- **Rust**: `standards/code/rust-style.md` - Contains formatting, linting, and testing commands
+- **JavaScript/TypeScript**: `standards/code/javascript-style.md` and `standards/tech-stacks/javascript-typescript.md` - ESLint, Prettier, testing
+- **Ruby**: `standards/code/ruby-style.md` and `standards/tech-stacks/ruby.md` - RuboCop, testing, Rails best practices
+- **Smalltalk**: `standards/code/smalltalk-style.md` - Code formatting and testing approaches
+- **C++**: `standards/code/cpp-style.md` and `standards/tech-stacks/cpp-standards.md` - Formatting and compilation standards
+- **CSS**: `standards/code/css-style.md` and `standards/tech-stacks/css-styling.md` - Styling standards and linting
+- **HTML**: `standards/code/html-style.md` - Markup structure and validation
+
+#### Universal Quality Gate Requirements
+- [ ] **Code Formatting**: Apply language-specific automated formatting
+- [ ] **Linting**: Resolve all linting errors using language-appropriate tools
+- [ ] **Testing**: All tests must pass (unit, integration, as applicable)
+- [ ] **Compilation/Build**: Code must compile/build successfully without errors
+- [ ] **Style Compliance**: Follow language-specific style guide requirements
+- [ ] **Documentation**: Update relevant documentation for changes
+- [ ] **Code Review**: Complete code review process
+- [ ] **Clean Code**: No TODO/FIXME comments in production code
+
+### Quality Gate Enforcement Protocol
+
+1. **IDENTIFY TECHNOLOGY STACK**: Determine project's primary technology stack(s)
+2. **CONSULT STYLE GUIDES**: Read appropriate style guide(s) from standards/code/ and standards/tech-stacks/
+3. **UNDERSTAND REQUIREMENTS**: Learn specific formatting, linting, testing, and build commands for the technology
+4. **DURING DEVELOPMENT**: Write code that follows the style guide and will pass quality gates
+5. **EXECUTE QUALITY GATES**: Run technology-specific quality gates via @agent:git-workflow
+6. **VERIFY COMPLIANCE**: Ensure all style guide requirements are met
+7. **ONLY when all gates pass**: Task can be considered complete
+
+**FAILURE HANDLING**: If any quality gate fails, the software-engineer agent MUST:
+- Stop all work immediately
+- Identify which technology-specific requirement failed
+- Consult the relevant style guide for guidance
+- Fix the issue according to style guide specifications
+- Re-run quality gates until all pass
+- Only then proceed with commit/task completion
+
+**STYLE GUIDE PRIORITY**: Always defer to the specific commands and requirements documented in the relevant style guides rather than making assumptions about quality gate commands.
+
 ## Communication Style
 
 ### Technical Communication
@@ -392,6 +441,12 @@ The Software Engineer Agent specializes in comprehensive software development ac
     PURPOSE: Code review and quality assurance
     TRIGGER: When code review or testing is needed
   </collaboration>
+  
+  <git_workflow>
+    ACTIVATE: @agent:git-workflow
+    PURPOSE: Version control operations and quality gate enforcement
+    TRIGGER: Before any commit or when git workflow operations are needed
+  </git_workflow>
 </agent_activation>
 
 ### Workflow Triggers
@@ -431,6 +486,23 @@ The Software Engineer Agent specializes in comprehensive software development ac
     TRIGGER: CSS styling, responsive design, or frontend styling
     RESPONSE: Implement modern CSS solutions with accessibility and performance focus
   </css_styling>
+  
+  <pre_commit_quality_gates>
+    TRIGGER: Before any commit or task completion
+    RESPONSE: Run mandatory quality gates via @agent:git-workflow and ensure all pass before proceeding
+    QUALITY_GATE_PROCESS:
+      1. Identify project technology stack(s)
+      2. Consult appropriate style guide(s) from standards/code/ and standards/tech-stacks/
+      3. Execute technology-specific formatting, linting, testing, and build commands
+      4. Verify all style guide requirements are met
+      5. Complete general quality requirements (code review, documentation, clean code)
+    ENFORCEMENT: Task is NOT complete until all quality gates pass for the specific technology stack
+  </pre_commit_quality_gates>
+  
+  <to_git_workflow>
+    TRIGGER: Before any commit or when quality gates need to be run
+    RESPONSE: Request @agent:git-workflow to run and verify all quality gates pass
+  </to_git_workflow>
 </workflow_triggers>
 
 ## Success Metrics
