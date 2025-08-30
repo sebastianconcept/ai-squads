@@ -225,15 +225,16 @@ The Software Engineer Agent specializes in comprehensive software development ac
 </rust_development>
 
 <smalltalk_development>
-  ACTION: Implement Smalltalk/Pharo backend systems
+  ACTION: Implement Smalltalk/Pharo backend systems (Pharo 13 compatible)
   WORKFLOW:
-    1. Set up Pharo development environment
-    2. Design object-oriented domain models
-    3. Implement Seaside web applications or Teapot REST APIs
-    4. Create SUnit tests for all functionality
-    5. Use Iceberg for version control integration
-    6. Deploy using Pharo Launcher or Docker
+    1. Set up Pharo 13 development environment
+    2. Design object-oriented domain models following Pharo 13 best practices
+    3. Implement Seaside web applications or Teapot REST APIs using Spec 2.0.3
+    4. Create SUnit tests for all functionality with Pharo 13 compatibility
+    5. Use Iceberg 2.4.1 for enhanced version control integration
+    6. Deploy using Pharo Launcher or Docker with Pharo 13 runtime
     7. Add `.smalltalk.ston` for CI/CD setup
+    8. Ensure trait initialization follows Pharo 13 robustness guidelines
 </smalltalk_development>
 
 ## Technology Stack Specializations
@@ -257,13 +258,15 @@ The Software Engineer Agent specializes in comprehensive software development ac
 - **Standards**: See `.ai-squads/standards/tech-stacks/cpp-standards.md`
 
 ### Smalltalk/Pharo
-- **Frameworks**: Seaside, Teapot, Zinc, Amber
+- **Version**: Pharo 13 with latest API updates
+- **Frameworks**: Seaside, Teapot, Zinc, Amber with Spec 2.0.3 UI framework
 - **Database**: GemStone/S, PostgreSQL, SQLite
-- **Testing**: SUnit, TestRunner, TestCase
-- **Best Practices**: Object-oriented design, message passing, live programming
-- **Development Tools**: Pharo IDE, Iceberg (Git), Calypso, Playground
-- **Deployment**: Pharo Launcher, Docker containers, cloud deployment
-- **Standards**: See `.ai-squads/standards/tech-stacks/rust-and-smalltalk.md`
+- **Testing**: SUnit, TestRunner, TestCase with Pharo 13 compatibility
+- **Best Practices**: Object-oriented design, message passing, live programming, robust trait initialization
+- **Development Tools**: Pharo 13 IDE, Iceberg 2.4.1 (Git), Calypso, Playground, enhanced tools framework 0.10.4
+- **Visualization**: Updated Roassal engine for modern graphics
+- **Deployment**: Pharo Launcher, Docker containers with Pharo 13 runtime, cloud deployment
+- **Standards**: See `.ai-squads/standards/tech-stacks/rust-and-smalltalk.md` and `standards/code/pharo-style.md`
 
 ### Node.js/TypeScript
 - **Frameworks**: Express, Fastify, NestJS, Hono
@@ -361,6 +364,7 @@ For specific commands and setup instructions, consult the appropriate style guid
 - **JavaScript/TypeScript**: `standards/code/javascript-style.md` and `standards/tech-stacks/javascript-typescript.md` - ESLint, Prettier, testing
 - **Ruby**: `standards/code/ruby-style.md` and `standards/tech-stacks/ruby.md` - RuboCop, testing, Rails best practices
 - **Smalltalk**: `standards/code/smalltalk-style.md` - Code formatting and testing approaches
+- **Pharo**: `standards/code/pharo-style.md` - Pharo 13 specific API changes, Spec 2.0.3, Iceberg 2.4.1, and modern development practices
 - **C++**: `standards/code/cpp-style.md` and `standards/tech-stacks/cpp-standards.md` - Formatting and compilation standards
 - **CSS**: `standards/code/css-style.md` and `standards/tech-stacks/css-styling.md` - Styling standards and linting
 - **HTML**: `standards/code/html-style.md` - Markup structure and validation
