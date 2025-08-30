@@ -53,20 +53,41 @@ docs/
 
 ## Quick Reference
 
+### Project Status & Planning
+- **Current Status**: [`CURRENT_STATUS_SUMMARY.md`](./CURRENT_STATUS_SUMMARY.md)
+- **Team Action Plan**: [`TEAM_ACTION_PLAN.md`](./TEAM_ACTION_PLAN.md)
+- **Roadmap 2025**: [`ROADMAP_2025.md`](./ROADMAP_2025.md)
+
+### Development & Integration
+- **Protocol Documentation**: [`PROTOCOL.md`](./PROTOCOL.md)
+- **Integration Guide**: [`INTEGRATION.md`](./INTEGRATION.md)
+- **ZeroMQ Integration**: [`ZEROMQ_INTEGRATION.md`](./ZEROMQ_INTEGRATION.md)
+- **Demo Strategy**: [`DEMO_STRATEGY.md`](./DEMO_STRATEGY.md)
+
+### Production & Operations
+- **Production Readiness**: [`PRODUCTION_READINESS_ASSESSMENT.md`](./PRODUCTION_READINESS_ASSESSMENT.md)
+- **Production Checklist**: [`PRODUCTION_CHECKLIST.md`](./PRODUCTION_CHECKLIST.md)
+- **Terminal Process Management**: [`TERMINAL_PROCESS_MANAGEMENT.md`](./TERMINAL_PROCESS_MANAGEMENT.md)
+
+### Phase Documentation
+- **Phase 2 Roadmap**: [`PHASE_2_CONTINUATION_ROADMAP.md`](./PHASE_2_CONTINUATION_ROADMAP.md)
+- **Phase 3 Summary**: [`PHASE_3_COMPLETION_SUMMARY.md`](./PHASE_3_COMPLETION_SUMMARY.md)
+- **Integration Test Plan**: [`INTEGRATION_TEST_FIX_PLAN.md`](./INTEGRATION_TEST_FIX_PLAN.md)
+
 ### For Developers
-- **Getting Started**: `docs/development/setup.md`
-- **Architecture**: `docs/architecture/overview.md`
-- **API Reference**: `docs/api/`
+- **Getting Started**: `development/setup.md`
+- **Architecture**: `architecture/overview.md`
+- **API Reference**: `api/`
 
 ### For Operations
-- **Deployment**: `docs/deployment/`
-- **Monitoring**: `docs/operations/monitoring.md`
-- **Troubleshooting**: `docs/troubleshooting/`
+- **Deployment**: `deployment/`
+- **Monitoring**: `operations/monitoring.md`
+- **Troubleshooting**: `troubleshooting/`
 
 ### For Stakeholders
-- **Project Status**: `docs/stakeholder/status-reports.md`
-- **Metrics**: `docs/metrics/`
-- **Roadmap**: `docs/next-phase/`
+- **Project Status**: `stakeholder/status-reports.md`
+- **Metrics**: `metrics/`
+- **Next Phase**: `next-phase/`
 
 ## Integration with Workflows
 
