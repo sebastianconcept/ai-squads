@@ -257,3 +257,6 @@ encoding: UTF-8
 **Priority**: **CRITICAL - Production deployment and team handoff** 🚀
 
 **🎯 ACHIEVEMENT LEVEL: WORLD-CLASS SOFTWARE ENGINEERING EXCELLENCE!** 🌟
+
+## Features in Planning
+- [ ] **core-smalltalk-tools** - Currently in planning phase

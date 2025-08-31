@@ -84,43 +84,61 @@ encoding: UTF-8
 
 **Result: Phase 2 EXCEEDED expectations - Complete professional development environment established**
 
-## Phase 3: Production Foundation & Market Expansion (Q4 2025 - Q1 2026)
+## Phase 3: Core Smalltalk Development Tools (Q4 2025)
 
-**Goal:** Transform STUI into an enterprise-ready platform with advanced features and market expansion
-**Success Criteria:** Production deployment capability, enterprise features, user growth foundation
+**Goal:** Deliver the essential Smalltalk development experience with core tools that demonstrate professional-grade capabilities
+**Success Criteria:** Complete core development environment with Workspace, Inspector, Class Hierarchy Browser, and Transcript
+**Timeline:** 12 weeks focused on user-facing development tools
 
-### Security & Authentication (Weeks 1-4: Enterprise Readiness)
+### Core Development Tools (Weeks 1-8: Essential Smalltalk Experience)
+
+- [ ] **[Workspace]** `L` - Interactive code execution and evaluation environment
+- [ ] **[Inspector]** `L` - Object inspection and property exploration with live updates
+- [ ] **[Class Hierarchy Browser]** `L` - Class navigation, inheritance visualization, and method browsing
+- [ ] **[Transcript]** `M` - System output and logging with filtering and search capabilities
+
+### Enhanced Development Experience (Weeks 9-12: Professional Polish)
+
+- [ ] **[Advanced Code Completion]** `M` - Context-aware suggestions with Smalltalk method signatures
+- [ ] **[Syntax Highlighting]** `S` - Smalltalk-specific syntax coloring and formatting
+- [ ] **[Error Context Display]** `M` - Rich error information with stack trace visualization
+- [ ] **[Session State Management]** `M` - Persistent workspace state and object references
+
+### Dependencies
+
+- **Enhanced Protocol Extensions** - Additional message types for tool-specific operations
+- **Object Serialization** - Rich object representation for inspection and browsing
+- **State Persistence** - Workspace and session state management
+- **UI Framework Enhancements** - Advanced terminal interface components
+
+## Phase 4: Advanced Development Tools & Debugging (Q1 2026)
+
+**Goal:** Add professional debugging and advanced development capabilities to complete the development environment
+**Success Criteria:** Full debugging support, performance tools, and enterprise-ready features
+**Timeline:** 12 weeks focused on debugging and advanced capabilities
+
+### Debugging & Development Tools (Weeks 1-8: Professional Debugging)
+
+- [ ] **[Debugger]** `L` - Breakpoint management, step-through execution, and stack trace analysis
+- [ ] **[Profiling Tools]** `M` - Performance profiling and bottleneck identification
+- [ ] **[Advanced Workflows]** `M` - Custom workflow definitions and automation
+- [ ] **[Plugin System]** `L` - Extensible architecture for third-party integrations
+
+### Enterprise Foundation (Weeks 9-12: Production Readiness)
 
 - [ ] **[TLS Encryption]** `L` - Secure ZeroMQ communication with certificate management
 - [ ] **[Token-Based Authentication]** `M` - JWT/OAuth2 integration for multi-user environments
 - [ ] **[Role-Based Access Control]** `L` - User permissions and audit logging for compliance
-- [ ] **[API Rate Limiting]** `S` - Protection against abuse and DoS attacks
-- [ ] **[Security Audit]** `M` - Comprehensive security assessment and hardening
-
-### Performance & Monitoring (Weeks 5-8: Production Operations)
-
-- [ ] **[Performance Optimization]** `L` - Response time optimization and load testing
-- [ ] **[Monitoring & Metrics]** `M` - Prometheus integration and custom metrics
-- [ ] **[Logging & Tracing]** `M` - Structured logging and distributed tracing
-- [ ] **[Health Checks]** `S` - Comprehensive health monitoring and alerting
-- [ ] **[Load Balancing]** `L` - Multi-server deployment and load distribution
-
-### Advanced Development Tools (Weeks 9-12: Developer Experience)
-
-- [ ] **[Debugging Support]** `L` - Breakpoint management and stack trace analysis
-- [ ] **[Profiling Tools]** `M` - Performance profiling and bottleneck identification
-- [ ] **[Advanced Workflows]** `M` - Custom workflow definitions and automation
-- [ ] **[Plugin System]** `L` - Extensible architecture for third-party integrations
-- [ ] **[Multi-User Collaboration]** `L` - Real-time collaborative development sessions
+- [ ] **[Performance Optimization]** `M` - Response time optimization and load testing
 
 ### Dependencies
 
-- **TLS Libraries** (Rust TLS, Pharo SSL support)
-- **Authentication Providers** (OAuth2, JWT libraries)
-- **Monitoring Stack** (Prometheus, Grafana integration)
-- **Deployment Infrastructure** (Docker, Kubernetes support)
+- **Debug Protocol Extensions** - Breakpoint and execution control messages
+- **Performance Monitoring** - Execution time and resource usage tracking
+- **Security Libraries** - TLS and authentication frameworks
+- **Enterprise Infrastructure** - Multi-user and compliance features
 
-## Phase 4: Real-Time Collaboration & Platform Expansion (Q2 2026)
+## Phase 5: Real-Time Collaboration & Platform Expansion (Q2 2026)
 
 **Goal:** Establish STUI as the leading collaborative Smalltalk development platform
 **Success Criteria:** Multi-user collaboration, platform expansion, community growth
@@ -148,7 +166,7 @@ encoding: UTF-8
 - **Cloud Platforms** (Multi-cloud deployment support)
 - **API Standards** (OpenAPI, GraphQL support)
 
-## Phase 5: Enterprise Dominance & Market Leadership (Q3-Q4 2026)
+## Phase 6: Enterprise Dominance & Market Leadership (Q3-Q4 2026)
 
 **Goal:** Establish STUI as the dominant enterprise Smalltalk development platform
 **Success Criteria:** Market leadership, enterprise adoption, commercial success
@@ -188,9 +206,10 @@ encoding: UTF-8
 
 - **Phase 1**: Core MVP functionality with validation ✅ **COMPLETED**
 - **Phase 2**: Key differentiators and essential tools ✅ **COMPLETED**
-- **Phase 3**: Advanced features and business infrastructure 🔄 **IN PROGRESS**
-- **Phase 4**: Enterprise features and market expansion 📋 **PLANNED**
-- **Phase 5**: Scale, optimization, and growth 📋 **PLANNED**
+- **Phase 3**: Core Smalltalk development tools (Workspace, Inspector, Class Browser, Transcript) 📋 **READY TO START**
+- **Phase 4**: Advanced debugging and enterprise foundation 📋 **PLANNED**
+- **Phase 5**: Real-time collaboration and platform expansion 📋 **PLANNED**
+- **Phase 6**: Enterprise dominance and market leadership 📋 **PLANNED**
 
 ## Current Status Summary
 
@@ -200,8 +219,8 @@ encoding: UTF-8
 - **Phase 3**: 🔄 **READY TO START** - Production foundation and market expansion
 
 ### 🚀 **WHAT'S NEXT**
-1. **Production Foundation** - TLS, authentication, monitoring, and enterprise features
-2. **Advanced Development Tools** - Debugging, profiling, and advanced workflows
+1. **Core Development Tools** - Workspace, Inspector, Class Hierarchy Browser, and Transcript
+2. **Advanced Debugging** - Debugger, profiling tools, and professional development capabilities
 3. **Real-Time Collaboration** - Server-initiated messaging and multi-user support
 4. **Market Expansion** - User growth, platform expansion, and community building
 
