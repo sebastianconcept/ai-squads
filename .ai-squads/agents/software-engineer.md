@@ -446,6 +446,12 @@ For specific commands and setup instructions, consult the appropriate style guid
     TRIGGER: When code review or testing is needed
   </collaboration>
   
+  <smalltalker>
+    ACTIVATE: @agent:smalltalker
+    PURPOSE: Pharo/Smalltalk development workflow and image-centric development
+    TRIGGER: When working on Pharo/Smalltalk projects requiring specialized workflow
+  </smalltalker>
+  
   <git_workflow>
     ACTIVATE: @agent:git-workflow
     PURPOSE: Version control operations and quality gate enforcement
@@ -490,6 +496,11 @@ For specific commands and setup instructions, consult the appropriate style guid
     TRIGGER: CSS styling, responsive design, or frontend styling
     RESPONSE: Implement modern CSS solutions with accessibility and performance focus
   </css_styling>
+  
+  <smalltalk_pharo_development>
+    TRIGGER: Pharo/Smalltalk project development or image-centric workflow needs
+    RESPONSE: Delegate to @agent:smalltalker for specialized Pharo development workflow
+  </smalltalk_pharo_development>
   
   <pre_commit_quality_gates>
     TRIGGER: Before any commit or task completion
