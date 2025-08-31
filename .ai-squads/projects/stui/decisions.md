@@ -152,6 +152,50 @@ This document tracks key architectural and implementation decisions made during 
 - ⚠️ **Neutral**: Increased complexity, more storage requirements
 - ❌ **Negative**: More complex testing and deployment
 
+---
+
+### Decision: Use Git Submodules for Smalltalk Implementation Management
+
+**Context**: Need to manage multiple Smalltalk implementations (Pharo, Squeak, etc.) within the STUI project while maintaining clean separation, version control, and team collaboration.
+
+**Decision**: Implement each Smalltalk implementation as a separate git submodule within the STUI project structure:
+1. **Pharo Implementation**: `smalltalk/pharo/` as git submodule
+2. **Future Implementations**: `smalltalk/squeak/`, `smalltalk/dolphin/` as separate submodules
+3. **Independent Versioning**: Each implementation can evolve independently
+4. **Clean Integration**: Main STUI repository references specific submodule commits
+
+**Rationale**:
+- **Separation of Concerns**: Each Smalltalk implementation is isolated and independently managed
+- **Version Control**: Independent commit history and release cycles for each implementation
+- **Team Collaboration**: Different teams can work on different Smalltalk implementations
+- **Clean Architecture**: Main STUI repository remains focused on core functionality
+- **Dependency Management**: Clear dependency boundaries and update control
+- **Scalability**: Easy to add new Smalltalk implementations without cluttering main repo
+
+**Alternatives Considered**:
+- **Monolithic Repository**: All implementations in one repo - would become unwieldy
+- **Separate Repositories**: No integration - harder to coordinate development
+- **Copy-Paste Approach**: Manual copying - no version control, hard to maintain
+- **Package Management**: External dependency system - adds complexity, less control
+
+**Implementation Details**:
+- **Submodule Structure**: `smalltalk/[implementation-name]/` directories
+- **Version Pinning**: Main repo pins specific submodule commits for stability
+- **Update Process**: Manual submodule updates with testing and validation
+- **Documentation**: Clear instructions for submodule management and updates
+
+**Consequences**:
+- ✅ **Positive**: Clean separation, independent versioning, team collaboration
+- ✅ **Positive**: Scalable architecture for multiple Smalltalk implementations
+- ✅ **Positive**: Maintains focus in main STUI repository
+- ⚠️ **Neutral**: Requires understanding of git submodule workflow
+- ⚠️ **Neutral**: Slightly more complex repository management
+- ❌ **Negative**: Submodule updates require coordination and testing
+
+**Status**: Implemented with Pharo submodule, ready for additional implementations
+
+---
+
 ## Session Persistence Feature (2025-08-23)
 
 ### Decision: Implement Session Persistence with File-Based Storage
