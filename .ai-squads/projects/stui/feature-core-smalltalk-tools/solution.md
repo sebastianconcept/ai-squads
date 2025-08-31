@@ -98,6 +98,244 @@ The solution extends the existing STUI client-server architecture with new tool-
 - **User Feedback**: Gather feedback on tool functionality and interface
 - **Iteration**: Refine tools based on user input and testing results
 
+## Detailed UX Specifications
+
+### 1. Login Flow & Host Management
+
+#### **Host Selection & Connection Screen**
+```
+Screen Layout: Full-screen terminal interface
+Color Scheme: High contrast with professional appearance
+Navigation: Keyboard-only navigation (Tab, Enter, Arrow keys)
+
+Components:
+┌─────────────────────────────────────────────────────────────┐
+│                    STUI - Smalltalk Terminal UI            │
+├─────────────────────────────────────────────────────────────┤
+│  Host Selection:                                           │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │ [Recent Hosts]                                     │   │
+│  │ • pharo-dev.company.com:40423  ★                   │   │
+│  │ • localhost:40423              ★                   │   │
+│  │ • staging.smalltalk.org:40423                     │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  [New Connection]                                           │
+│  Host: [________________] Port: [40423]                    │
+│  Username: [_____________] Password: [********]            │
+│                                                             │
+│  [Connect] [Save as Favorite] [Cancel]                     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### **UX Features**
+- **Favorites System**: Star frequently used hosts for quick access
+- **Recent Connections**: Show last 5-10 connections with timestamps
+- **Smart Defaults**: Remember last used port and username per host
+- **Connection Status**: Clear visual feedback during connection process
+- **Error Handling**: Helpful error messages with recovery suggestions
+
+### 2. Main Dashboard - Developer's Command Center
+
+#### **Main Screen Layout**
+```
+Layout: Tabbed interface with quick access toolbar
+Navigation: Keyboard shortcuts + mouse support
+Responsive: Adapts to terminal size changes
+
+Main Components:
+┌─────────────────────────────────────────────────────────────┐
+│  STUI - Connected to [HOST] - [USERNAME]                  │
+├─────────────────────────────────────────────────────────────┤
+│  🚀 Quick Access: [W]orkspace [T]ranscript [I]nspector   │
+│  📚 Tools: [C]lass Browser [D]ebugger [S]ettings [H]elp  │
+│                                                             │
+│  Current Tool: [Workspace]                                 │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │                                                   │   │
+│  │  [Tool-specific content area]                     │   │
+│  │                                                   │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  Status: [Connected] | [Tool: Workspace] | [Ready]         │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### **Navigation System**
+- **Keyboard Shortcuts**: Single-key access to primary tools
+- **Tool Switching**: Seamless transitions between development tools
+- **Context Awareness**: Always show current tool and connection status
+- **Quick Actions**: One-click access to most common operations
+
+### 3. Workspace Tool - Interactive Code Development
+
+#### **Workspace Layout**
+```
+Layout: Split-panel with input and output areas
+Input: Multi-line text editor with syntax highlighting
+Output: Scrollable result display with object references
+
+Workspace Layout:
+┌─────────────────────────────────────────────────────────────┐
+│  Workspace - [HOST]                                       │
+├─────────────────────────────────────────────────────────────┤
+│  Code Input:                                              │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │ [Enter Smalltalk code here...]                     │   │
+│  │                                                     │   │
+│  │ Example:                                            │   │
+│  │ • 3 + 4                                            │   │
+│  │ • String new: 'Hello World'                        │   │
+│  │ • Object new inspect                               │   │
+│  └─────────────────────────────────────────────────────┘   │
+│  [Evaluate] [Clear] [Save Snippet] [Load Snippet]        │
+├─────────────────────────────────────────────────────────────┤
+│  Results:                                                │
+│  → 7                                                    │
+│  → 'Hello World'                                        │
+│  → Inspector opened for Object_123                      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### **Workspace UX Features**
+- **Smart Input**: Auto-complete for common Smalltalk expressions
+- **History**: Previous expressions accessible via up/down arrows
+- **Snippets**: Save and load frequently used code patterns
+- **Multi-line Support**: Handle complex expressions and blocks
+- **Error Highlighting**: Clear indication of syntax errors
+- **Object References**: Clickable object references that open Inspector
+
+### 4. Transcript Tool - System Output Monitoring
+
+#### **Transcript Layout**
+```
+Layout: Scrollable log display with filtering controls
+Display: Timestamped entries with color-coded log levels
+Controls: Filter, search, clear, export functionality
+
+Transcript Layout:
+┌─────────────────────────────────────────────────────────────┐
+│  Transcript - System Output                               │
+├─────────────────────────────────────────────────────────────┤
+│  [Filter: All] [Clear] [Save] [Export] [Auto-scroll: ✓]  │
+│                                                             │
+│  [2025-08-31 14:30:15] Connected to [HOST]               │
+│  [2025-08-31 14:30:16] Workspace initialized             │
+│  [2025-08-31 14:30:17] Code evaluated: 3 + 4 → 7         │
+│  [2025-08-31 14:30:18] Inspector opened for Object_123   │
+│                                                             │
+│  [Level: Info] [Search: ________] [Timestamp: ✓]          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### **Transcript UX Features**
+- **Filtering**: By log level, timestamp, or content
+- **Search**: Find specific messages or errors
+- **Export**: Save logs for debugging or sharing
+- **Auto-scroll**: Follow new output automatically
+- **Context Links**: Click on object references to open Inspector
+- **Log Levels**: Color-coded information, warnings, and errors
+
+### 5. Inspector Tool - Object Property Exploration
+
+#### **Inspector Layout**
+```
+Layout: Tree-view with property panels
+Navigation: Expandable/collapsible object hierarchy
+Display: Property name, value, and type information
+
+Inspector Layout:
+┌─────────────────────────────────────────────────────────────┐
+│  Inspector - [Object Type]                                │
+├─────────────────────────────────────────────────────────────┤
+│  Object: [Object_123] (String)                            │
+│                                                             │
+│  Properties:                                               │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │ ▼ basicSize: 11                                     │   │
+│  │ ▼ contents: 'Hello World'                           │   │
+│  │ ▼ hash: 123456789                                   │   │
+│  │ ▼ class: String                                     │   │
+│  │   ▼ superclass: Object                              │   │
+│  │   ▼ methods: [count: 45]                            │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  [Refresh] [Inspect Parent] [Browse Class] [Copy Value]   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### **Inspector UX Features**
+- **Hierarchical Navigation**: Expand/collapse object properties
+- **Live Updates**: Real-time property value monitoring
+- **Object References**: Clickable references to inspect other objects
+- **Property Search**: Find specific properties quickly
+- **Value Copying**: Copy property values to clipboard
+- **Class Navigation**: Jump to class browser for selected objects
+
+### 6. Class Hierarchy Browser - Code Structure Navigation
+
+#### **Class Browser Layout**
+```
+Layout: Three-panel layout (class tree, method list, details)
+Navigation: Tree navigation with search and filtering
+Display: Class information, method signatures, inheritance
+
+Class Browser Layout:
+┌─────────────────────────────────────────────────────────────┐
+│  Class Browser - [HOST]                                   │
+├─────────────────────────────────────────────────────────────┤
+│  Classes:                    │ Methods:                    │
+│  ┌─────────────────────┐    │ ┌─────────────────────┐     │
+│  │ ▼ Object            │    │ │ basicSize           │     │
+│  │   ▼ String         │    │ │ contents            │     │
+│  │     ▼ Array        │    │ │ hash                │     │
+│  │   ▼ Number         │    │ │ class               │     │
+│  │     ▼ Integer      │    │ │ superclass          │     │
+│  └─────────────────────┘    │ └─────────────────────┘     │
+│                             │                             │
+│  [Search Classes: _____]    │ [Search Methods: _____]     │
+│  [Expand All] [Collapse]    │ [Filter: All] [Instance]   │
+└─────────────────────────────────────────────┘
+│  Details:                                                   │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │ Class: String                                       │   │
+│  │ Superclass: Object                                  │   │
+│  │ Instance Variables: 0                               │   │
+│  │ Class Variables: 0                                  │   │
+│  │ Methods: 45                                         │   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### **Class Browser UX Features**
+- **Tree Navigation**: Expandable class hierarchy with inheritance
+- **Method Browsing**: List and filter methods by class
+- **Search System**: Fast class and method search with fuzzy matching
+- **Inheritance Visualization**: Clear parent-child relationships
+- **Method Details**: View method signatures and documentation
+- **Quick Navigation**: Jump between related classes and methods
+
+## Critical UX Success Factors
+
+### **1. Zero-Learning-Curve for Basic Operations**
+- **Workspace**: Should feel like typing in a REPL
+- **Transcript**: Should be as familiar as a console log
+- **Navigation**: Intuitive shortcuts that feel natural
+
+### **2. Responsive Feedback**
+- **Immediate Response**: Code evaluation under 500ms
+- **Clear Status**: Always know what's happening
+- **Error Recovery**: Helpful suggestions for common mistakes
+
+### **3. Terminal Optimization**
+- **Screen Real Estate**: Efficient use of limited space
+- **Color Coding**: Meaningful use of colors for different types of information
+- **Keyboard Navigation**: Full functionality without mouse dependency
+
+### **4. Smalltalk-Specific UX**
+- **Object-Centric**: Everything is an object, show object relationships
+- **Live Programming**: Immediate feedback and iteration
+- **Exploration**: Easy to discover and understand code structure
+
 ## Implementation Plan
 
 ### Phase 1: Foundation (Weeks 1-2)

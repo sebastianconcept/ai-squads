@@ -191,6 +191,35 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 ## Task Assignment by Squad Agent
 
+### @agent:ui-implementor
+**Responsibilities**: Terminal UI components, interface design, user interaction
+
+- [ ] Workspace UI components and layout (2.1)
+- [ ] Syntax highlighting and error handling (2.3)
+- [ ] Command history and undo/redo UI (2.4)
+- [ ] Inspector UI components and navigation (3.1)
+- [ ] Property filtering and search UI (3.4)
+- [ ] Class Browser UI components and layout (4.1)
+- [ ] Class and method search functionality (4.4)
+- [ ] Transcript UI components and layout (5.1)
+- [ ] Filtering and search capabilities (5.3)
+- [ ] Tool integration with STUI interface (6.1)
+- [ ] Host selection screen UI (8.1)
+- [ ] Connection form with validation (8.3)
+- [ ] Connection status indicators (8.5)
+- [ ] Main dashboard layout (9.1)
+- [ ] Keyboard shortcuts and navigation (9.3)
+- [ ] Syntax highlighting for Smalltalk (10.1)
+- [ ] Multi-line code input support (10.4)
+- [ ] Error highlighting and recovery (10.5)
+- [ ] Log level filtering and color coding (11.1)
+- [ ] Auto-scroll and timestamp controls (11.4)
+- [ ] Hierarchical property navigation (12.1)
+- [ ] Property search and filtering (12.2)
+- [ ] Class hierarchy tree visualization (13.1)
+- [ ] Method browsing and filtering (13.3)
+- [ ] Quick navigation between classes (13.5)
+
 ### @agent:software-engineer
 **Responsibilities**: Core tool implementation, protocol extensions, backend integration
 
@@ -209,20 +238,20 @@ This document tracks all tasks required to complete the core Smalltalk developme
 - [ ] Comprehensive error handling and recovery (6.3)
 - [ ] Advanced features and optimizations (7.1)
 - [ ] Performance improvements and caching (7.2)
-
-### @agent:ui-implementor
-**Responsibilities**: Terminal UI components, interface design, user interaction
-
-- [ ] Workspace UI components and layout (2.1)
-- [ ] Syntax highlighting and error handling (2.3)
-- [ ] Command history and undo/redo UI (2.4)
-- [ ] Inspector UI components and navigation (3.1)
-- [ ] Property filtering and search UI (3.4)
-- [ ] Class Browser UI components and layout (4.1)
-- [ ] Class and method search functionality (4.4)
-- [ ] Transcript UI components and layout (5.1)
-- [ ] Filtering and search capabilities (5.3)
-- [ ] Tool integration with STUI interface (6.1)
+- [ ] Favorites system and recent connections (8.2)
+- [ ] Secure credential storage (8.4)
+- [ ] Tool switching mechanism (9.2)
+- [ ] Status bar and connection monitoring (9.4)
+- [ ] Command history with search (10.2)
+- [ ] Code snippets system (10.3)
+- [ ] Search functionality with highlighting (11.2)
+- [ ] Export capabilities (11.3)
+- [ ] Object reference linking (11.5)
+- [ ] Object reference navigation (12.3)
+- [ ] Value copying and export features (12.4)
+- [ ] Live property monitoring (12.5)
+- [ ] Class and method search with fuzzy matching (13.2)
+- [ ] Method details and documentation (13.4)
 
 ### @agent:collaboration
 **Responsibilities**: Team coordination, quality assurance, testing coordination
