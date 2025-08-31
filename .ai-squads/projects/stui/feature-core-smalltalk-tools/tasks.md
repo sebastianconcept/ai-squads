@@ -40,14 +40,14 @@ This document tracks all tasks required to complete the core Smalltalk developme
 **Priority**: High
 
 ### [ ] 2. Workspace Tool Implementation
-**Description**: Implement interactive code evaluation environment following Smalltalk displayIt conventions
+**Description**: Implement interactive code evaluation environment following Dolphin Smalltalk result display conventions
 
 - [ ] 2.1 Implement single-panel workspace layout
   - **Acceptance Criteria**: Single-panel design with inline results display, maximized space for code
   - **Agent**: @agent:ui-implementor
   - **Effort**: Small (3 days)
-- [ ] 2.2 Implement code evaluation engine with inline results
-  - **Acceptance Criteria**: Results appear below each expression following Smalltalk displayIt style
+- [ ] 2.2 Implement code evaluation engine with plain text results
+  - **Acceptance Criteria**: Results appear as plain text below expressions, can be used in subsequent code
   - **Agent**: @agent:software-engineer
   - **Effort**: Medium (1 week)
 - [ ] 2.3 Implement syntax highlighting and error handling
@@ -224,8 +224,8 @@ This document tracks all tasks required to complete the core Smalltalk developme
   - **Acceptance Criteria**: Automatic indentation for Smalltalk blocks and expressions
   - **Agent**: @agent:ui-implementor
   - **Effort**: Small (3 days)
-- [ ] 10.7 Implement expression separation and result persistence
-  - **Acceptance Criteria**: Clear visual separation between expressions, results remain visible
+- [ ] 10.7 Implement result styling and visual separation
+  - **Acceptance Criteria**: Results displayed in different color/style to distinguish from code
   - **Agent**: @agent:ui-implementor
   - **Effort**: Small (3 days)
 - [ ] 10.8 Verify all enhanced Workspace UX tasks are complete
@@ -243,7 +243,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 - [ ] Enhanced object serialization (1.2)
 - [ ] Tool manager and lifecycle management (1.3)
 - [ ] State persistence framework (1.4)
-- [ ] Code evaluation engine with inline results (2.2)
+- [ ] Code evaluation engine with plain text results (2.2)
 - [ ] Command history and navigation (2.4)
 - [ ] Code snippets system (2.5)
 - [ ] Object property retrieval and display (3.2)

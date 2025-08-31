@@ -289,7 +289,7 @@ The tools must be designed with extensibility in mind, as they will serve as the
 ```
 Layout: Single-panel with inline results display
 Input: Multi-line text editor with syntax highlighting
-Results: Inline display following Smalltalk displayIt convention
+Results: Plain text display following Dolphin Smalltalk convention
 Space: Maximized for code snippets and expressions
 
 Workspace Layout:
@@ -299,23 +299,27 @@ Workspace Layout:
 │  Code Input & Results:                                    │
 │  ┌─────────────────────────────────────────────────────┐   │
 │  │ 3 + 4                                              │   │
-│  │ → 7                                                │   │
+│  │ 7                                                  │   │
 │  │                                                     │   │
 │  │ String new: 'Hello World'                          │   │
-│  │ → 'Hello World'                                    │   │
+│  │ Hello World                                         │   │
 │  │                                                     │   │
 │  │ Object new inspect                                 │   │
-│  │ → Inspector opened for Object_123                  │   │
+│  │ Inspector opened for Object_123                     │   │
 │  │                                                     │   │
 │  │ [Enter new Smalltalk code here...]                 │   │
 │  │                                                     │   │
-│  │ # Example: Complex expression                      │   │
+│  │ # Example: Use result in next expression           │   │
 │  │ Array with: 1 with: 2 with: 3                     │   │
-│  │ → #(1 2 3)                                         │   │
+│  │ #(1 2 3)                                           │   │
 │  │                                                     │   │
-│  │ # Example: Block evaluation                        │   │
+│  │ # Now use the result directly                       │   │
+│  │ #(1 2 3) size                                      │   │
+│  │ 3                                                   │   │
+│  │                                                     │   │
+│  │ # Example: Block evaluation                         │   │
 │  │ [ :x | x * 2 ] value: 5                           │   │
-│  │ → 10                                                │   │
+│  │ 10                                                  │   │
 │  └─────────────────────────────────────────────────────┘   │
 │                                                             │
 │  [Evaluate] [Clear] [Save Snippet] [Load Snippet] [Help]  │
@@ -324,7 +328,8 @@ Workspace Layout:
 ```
 
 #### **Workspace UX Features**
-- **Inline Results**: Results appear below each expression (Smalltalk displayIt style)
+- **Plain Text Results**: Results appear as plain text below expressions (Dolphin Smalltalk style)
+- **Direct Usage**: Results can be copied/pasted directly into next expressions
 - **Smart Input**: Auto-complete for common Smalltalk expressions
 - **History Navigation**: Previous expressions accessible via up/down arrows
 - **Snippets System**: Save and load frequently used code patterns
@@ -334,3 +339,4 @@ Workspace Layout:
 - **Code Formatting**: Automatic indentation and formatting for Smalltalk blocks
 - **Expression Separation**: Clear visual separation between different code expressions
 - **Result Persistence**: Results remain visible until explicitly cleared
+- **Result Styling**: Results displayed in different color/style to distinguish from code
