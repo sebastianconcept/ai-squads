@@ -334,7 +334,7 @@ Workspace Layout:
 - **Inspector Integration**: doIt opens inspector silently, displayIt shows tool references
 - **Smart Input**: Auto-complete for common Smalltalk expressions
 - **History Navigation**: Previous expressions accessible via up/down arrows
-- **Advanced Snippets System**: Local storage with naming, favorites, and snippet browser
+- **Advanced Snippets System**: File-based storage with `.st` files and directory organization
 - **Multi-line Support**: Handle complex expressions and blocks with proper formatting
 - **Error Highlighting**: Clear indication of syntax errors with helpful suggestions
 - **Object References**: Clickable object references that open Inspector
@@ -344,50 +344,6 @@ Workspace Layout:
 - **Result Styling**: Results displayed in different color/style to distinguish from code
 - **Save on Close**: Prompt to save unsaved changes before closing workspace
 - **Auto-save**: Periodic auto-save to prevent data loss
-
-### **Advanced Snippets System - Key Differentiator**
-
-#### **Snippet Management Features**
-- **Local Storage**: Snippets saved locally on client side for privacy and offline access
-- **User Naming**: Custom names for easy identification and organization
-- **Favorites System**: Mark frequently used snippets as favorites for quick access
-- **Snippet Browser**: Dedicated window showing all saved snippets with search and filtering
-- **Categories**: Organize snippets by purpose (daily tasks, debugging, examples, etc.)
-- **Import/Export**: Share snippets between team members or backup/restore
-
-#### **Snippet Browser Window**
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Snippet Browser - [HOST]                                  │
-├─────────────────────────────────────────────────────────────┤
-│  [Search: ________] [Filter: All] [Sort: Name] [New]       │
-│                                                             │
-│  Favorites:                                                 │
-│  ★ Daily Debug Setup                                       │
-│  ★ Array Operations                                        │
-│  ★ Object Inspection                                       │
-│                                                             │
-│  All Snippets:                                             │
-│  ▼ Debugging                                               │
-│    • Breakpoint Setup                                      │
-│    • Exception Handler                                     │
-│  ▼ Data Processing                                         │
-│    • CSV Parser                                            │
-│    • JSON Handler                                          │
-│  ▼ Examples                                                │
-│    • Hello World                                           │
-│    • Basic Math                                            │
-│                                                             │
-│  [Open Selected] [Edit] [Delete] [Export] [Close]          │
-└─────────────────────────────────────────────────────────────┘
-```
-
-#### **Snippet Workflow**
-1. **Save Snippet**: User selects code, clicks [Save Snippet], enters name and category
-2. **Quick Access**: Favorites appear in dropdown for instant loading
-3. **Snippet Browser**: Full window for browsing, searching, and organizing all snippets
-4. **Smart Loading**: Snippets load with proper formatting and indentation
-5. **Version History**: Track changes to snippets over time
 
 ### **Workspace Save-on-Close Behavior**
 
@@ -410,3 +366,81 @@ Workspace Layout:
 - **Multiple Save Options**: Save as snippet, save to file, or save to workspace history
 - **Cancel Option**: Allow user to return to workspace without saving
 - **Keyboard Shortcuts**: Quick save (Ctrl+S) and quick close (Ctrl+W) support
+
+### **Advanced Snippets System - Key Differentiator**
+
+#### **Snippet Management Features**
+- **File System Storage**: Snippets saved as `.st` files in organized directory structure
+- **User Naming**: Custom names for easy identification and organization
+- **Favorites System**: Mark frequently used snippets as favorites for quick access
+- **Snippet Browser**: Dedicated window showing all saved snippets with search and filtering
+- **Categories**: Organize snippets by purpose (daily tasks, debugging, examples, etc.)
+- **Import/Export**: Share snippets between team members via shared directories or Git repos
+- **Version Control**: Snippets can be managed with Git, SVN, or any VCS
+- **Backup & Sync**: Standard file backup and cloud sync tools work automatically
+
+#### **Snippet Directory Structure**
+```
+~/stui-snippets/
+├── favorites/
+│   ├── daily-debug-setup.st
+│   ├── array-operations.st
+│   └── object-inspection.st
+├── debugging/
+│   ├── breakpoint-setup.st
+│   ├── exception-handler.st
+│   └── performance-profiling.st
+├── data-processing/
+│   ├── csv-parser.st
+│   ├── json-handler.st
+│   └── database-queries.st
+├── examples/
+│   ├── hello-world.st
+│   ├── basic-math.st
+│   └── block-evaluation.st
+└── team-shared/
+    ├── common-utilities.st
+    ├── testing-patterns.st
+    └── deployment-scripts.st
+```
+
+#### **Snippet Browser Window**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Snippet Browser - [HOST]                                  │
+├─────────────────────────────────────────────────────────────┤
+│  [Search: ________] [Filter: All] [Sort: Name] [New]       │
+│  [Open in File Manager] [Git Status] [Sync]                │
+│                                                             │
+│  Favorites:                                                 │
+│  ★ daily-debug-setup.st                                    │
+│  ★ array-operations.st                                     │
+│  ★ object-inspection.st                                    │
+│                                                             │
+│  All Snippets:                                             │
+│  ▼ debugging/                                              │
+│    • breakpoint-setup.st                                   │
+│    • exception-handler.st                                  │
+│    • performance-profiling.st                               │
+│  ▼ data-processing/                                         │
+│    • csv-parser.st                                         │
+│    • json-handler.st                                       │
+│    • database-queries.st                                   │
+│  ▼ examples/                                                │
+│    • hello-world.st                                         │
+│    • basic-math.st                                         │
+│    • block-evaluation.st                                   │
+│                                                             │
+│  [Open Selected] [Edit in External Editor] [Delete] [Git]  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### **Snippet Workflow**
+1. **Save Snippet**: User selects code, clicks [Save Snippet], enters name and category
+2. **File Creation**: Creates `.st` file in appropriate directory with proper formatting
+3. **Quick Access**: Favorites appear in dropdown for instant loading
+4. **Snippet Browser**: Full window for browsing, searching, and organizing all snippets
+5. **Smart Loading**: Snippets load with proper formatting and indentation
+6. **File Management**: Users can edit snippets with any text editor or IDE
+7. **Version Control**: Git integration shows status and allows commits
+8. **Team Sharing**: Share entire snippet directories via Git repos or shared folders
