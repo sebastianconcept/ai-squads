@@ -74,43 +74,14 @@ This document tracks all tasks required to complete the core Smalltalk developme
   - **Acceptance Criteria**: doIt opens tools silently, displayIt shows tool references (e.g., Inspector)
   - **Agent**: @agent:software-engineer
   - **Effort**: Small (3 days)
-- [ ] 2.9 Verify all Workspace tool tasks are complete
+- [ ] 2.9 Implement workspace save-on-close behavior
+  - **Acceptance Criteria**: Prompt to save unsaved changes before closing, with auto-save integration
+  - **Agent**: @agent:software-engineer
+  - **Effort**: Small (3 days)
+- [ ] 2.10 Verify all Workspace tool tasks are complete
 
 **Dependencies**: Foundation and protocol extensions complete
 **Estimated Effort**: Large (5 weeks)
-**Priority**: High
-
-### [ ] 10. Enhanced Workspace UX Features
-**Description**: Add advanced UX features to Workspace tool for professional development experience
-
-- [ ] 10.1 Implement syntax highlighting for Smalltalk code
-  - **Acceptance Criteria**: Smalltalk syntax properly highlighted with color coding
-  - **Agent**: @agent:ui-implementor
-  - **Effort**: Medium (1 week)
-- [ ] 10.2 Add command history with search and navigation
-  - **Acceptance Criteria**: Previous expressions accessible via up/down arrows with search
-  - **Agent**: @agent:software-engineer
-  - **Effort**: Medium (1 week)
-- [ ] 10.3 Implement error highlighting and recovery suggestions
-  - **Acceptance Criteria**: Clear indication of syntax errors with helpful suggestions
-  - **Agent**: @agent:ui-implementor
-  - **Effort**: Small (3 days)
-- [ ] 10.4 Add code formatting and indentation
-  - **Acceptance Criteria**: Automatic indentation for Smalltalk blocks and expressions
-  - **Agent**: @agent:ui-implementor
-  - **Effort**: Small (3 days)
-- [ ] 10.5 Implement result styling and visual separation
-  - **Acceptance Criteria**: Results displayed in different color/style to distinguish from code
-  - **Agent**: @agent:ui-implementor
-  - **Effort**: Small (3 days)
-- [ ] 10.6 Implement doIt vs displayIt UI indicators
-  - **Acceptance Criteria**: Clear visual indication of evaluation mode and expected behavior
-  - **Agent**: @agent:ui-implementor
-  - **Effort**: Small (3 days)
-- [ ] 10.7 Verify all enhanced Workspace UX tasks are complete
-
-**Dependencies**: Basic Workspace tool implementation complete
-**Estimated Effort**: Medium (3 weeks)
 **Priority**: High
 
 ### [ ] 3. Inspector Tool Implementation
@@ -297,7 +268,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 ### Phase 2: Core Tools Implementation (Weeks 3-8)
 **Dependencies**: Phase 1 completion
-**Tasks**: 2.1-2.9, 3.1-3.5, 4.1-4.5, 5.1-5.5 (All four core tools implementation)
+**Tasks**: 2.1-2.10, 3.1-3.5, 4.1-4.5, 5.1-5.5 (All four core tools implementation)
 
 ### Phase 3: Integration and Testing (Weeks 9-10)
 **Dependencies**: Phase 2 completion
@@ -350,7 +321,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 ## Progress Tracking
 
 ### Overall Progress
-- **Total Tasks**: 38
+- **Total Tasks**: 39
 - **Completed**: 0
 - **In Progress**: 0
 - **Blocked**: 0
@@ -358,7 +329,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 ### Category Progress
 - **Foundation**: 0/5 tasks complete
-- **Workspace Tool**: 0/9 tasks complete
+- **Workspace Tool**: 0/10 tasks complete
 - **Inspector Tool**: 0/5 tasks complete
 - **Class Browser**: 0/5 tasks complete
 - **Transcript Tool**: 0/5 tasks complete

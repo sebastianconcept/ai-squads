@@ -342,6 +342,8 @@ Workspace Layout:
 - **Expression Separation**: Clear visual separation between different code expressions
 - **Result Persistence**: Results remain visible until explicitly cleared
 - **Result Styling**: Results displayed in different color/style to distinguish from code
+- **Save on Close**: Prompt to save unsaved changes before closing workspace
+- **Auto-save**: Periodic auto-save to prevent data loss
 
 ### **Advanced Snippets System - Key Differentiator**
 
@@ -386,3 +388,25 @@ Workspace Layout:
 3. **Snippet Browser**: Full window for browsing, searching, and organizing all snippets
 4. **Smart Loading**: Snippets load with proper formatting and indentation
 5. **Version History**: Track changes to snippets over time
+
+### **Workspace Save-on-Close Behavior**
+
+#### **Save Prompt Dialog**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Save Workspace Changes?                                   │
+├─────────────────────────────────────────────────────────────┤
+│  The workspace has unsaved changes.                        │
+│  Do you want to save before closing?                       │
+│                                                             │
+│  [Save] [Don't Save] [Cancel]                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### **Save-on-Close Features**
+- **Change Detection**: Monitor workspace content for unsaved modifications
+- **Smart Prompting**: Only show save dialog when there are actual changes
+- **Auto-save Integration**: Offer to save to auto-save location if no manual save exists
+- **Multiple Save Options**: Save as snippet, save to file, or save to workspace history
+- **Cancel Option**: Allow user to return to workspace without saving
+- **Keyboard Shortcuts**: Quick save (Ctrl+S) and quick close (Ctrl+W) support
