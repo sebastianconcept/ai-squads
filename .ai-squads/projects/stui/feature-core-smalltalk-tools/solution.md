@@ -296,35 +296,32 @@ Workspace Layout:
 ┌─────────────────────────────────────────────────────────────┐
 │  Workspace - [HOST]                                       │
 ├─────────────────────────────────────────────────────────────┤
-│  Code Input & Results:                                    │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │ 3 + 4                                              │   │
-│  │ 7                                                  │   │
-│  │                                                     │   │
-│  │ String new: 'Hello World'                          │   │
-│  │ Hello World                                         │   │
-│  │                                                     │   │
-│  │ # Example: doIt vs displayIt behavior               │   │
-│  │ Object new inspect                                  │   │
-│  │ # doIt: Opens inspector silently, no output        │   │
-│  │ # displayIt: Shows inspector reference              │   │
-│  │ an Inspector(anObject)                              │   │
-│  │                                                     │   │
-│  │ [Enter new Smalltalk code here...]                 │   │
-│  │                                                     │   │
-│  │ # Example: Use result in next expression           │   │
-│  │ Array with: 1 with: 2 with: 3                     │   │
-│  │ #(1 2 3)                                           │   │
-│  │                                                     │   │
-│  │ # Now use the result directly                       │   │
-│  │ #(1 2 3) size                                      │   │
-│  │ 3                                                   │   │
-│  │                                                     │   │
-│  │ # Example: Block evaluation                         │   │
-│  │ [ :x | x * 2 ] value: 5                           │   │
-│  │ 10                                                  │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
+│  3 + 4                                                    │
+│  7                                                        │
+│                                                           │
+│  String new: 'Hello World'                                │
+│  Hello World                                              │
+│                                                           │
+│  # Example: doIt vs displayIt behavior                    │
+│  Object new inspect                                       │
+│  # doIt: Opens inspector silently, no output              │
+│  # displayIt: Shows inspector reference                   │
+│  an Inspector(anObject)                                   │
+│                                                           │
+│  [Enter new Smalltalk code here...]                       │
+│                                                           │
+│  # Example: Use result in next expression                 │
+│  Array with: 1 with: 2 with: 3                           │
+│  #(1 2 3)                                                │
+│                                                           │
+│  # Now use the result directly                             │
+│  #(1 2 3) size                                           │
+│  3                                                        │
+│                                                           │
+│  # Example: Block evaluation                              │
+│  [ :x | x * 2 ] value: 5                                │
+│  10                                                       │
+├─────────────────────────────────────────────────────────────┤
 │  [Evaluate] [Clear] [Save Snippet] [Load Snippet] [Help]  │
 │  [History: ↑↓] [Undo] [Redo] [Format Code]               │
 └─────────────────────────────────────────────────────────────┘
@@ -334,7 +331,7 @@ Workspace Layout:
 - **Plain Text Results**: Results appear as plain text below expressions (Dolphin Smalltalk style)
 - **Direct Usage**: Results can be copied/pasted directly into subsequent code expressions
 - **doIt vs displayIt Support**: Handle both evaluation modes with appropriate outputs
-- **Inspector Integration**: doIt opens inspector silently, displayIt shows inspector reference
+- **Inspector Integration**: doIt opens inspector silently, displayIt shows tool references
 - **Smart Input**: Auto-complete for common Smalltalk expressions
 - **History Navigation**: Previous expressions accessible via up/down arrows
 - **Snippets System**: Save and load frequently used code patterns
