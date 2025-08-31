@@ -323,7 +323,7 @@ Workspace Layout:
 │  10                                                       │
 ├─────────────────────────────────────────────────────────────┤
 │  [Evaluate] [Clear] [Save Snippet] [Load Snippet] [Help]  │
-│  [History: ↑↓] [Undo] [Redo] [Format Code]               │
+│  [History: ↑↓] [Undo] [Redo] [Format Code] [Snippet Browser] │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -334,7 +334,7 @@ Workspace Layout:
 - **Inspector Integration**: doIt opens inspector silently, displayIt shows tool references
 - **Smart Input**: Auto-complete for common Smalltalk expressions
 - **History Navigation**: Previous expressions accessible via up/down arrows
-- **Snippets System**: Save and load frequently used code patterns
+- **Advanced Snippets System**: Local storage with naming, favorites, and snippet browser
 - **Multi-line Support**: Handle complex expressions and blocks with proper formatting
 - **Error Highlighting**: Clear indication of syntax errors with helpful suggestions
 - **Object References**: Clickable object references that open Inspector
@@ -342,3 +342,47 @@ Workspace Layout:
 - **Expression Separation**: Clear visual separation between different code expressions
 - **Result Persistence**: Results remain visible until explicitly cleared
 - **Result Styling**: Results displayed in different color/style to distinguish from code
+
+### **Advanced Snippets System - Key Differentiator**
+
+#### **Snippet Management Features**
+- **Local Storage**: Snippets saved locally on client side for privacy and offline access
+- **User Naming**: Custom names for easy identification and organization
+- **Favorites System**: Mark frequently used snippets as favorites for quick access
+- **Snippet Browser**: Dedicated window showing all saved snippets with search and filtering
+- **Categories**: Organize snippets by purpose (daily tasks, debugging, examples, etc.)
+- **Import/Export**: Share snippets between team members or backup/restore
+
+#### **Snippet Browser Window**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Snippet Browser - [HOST]                                  │
+├─────────────────────────────────────────────────────────────┤
+│  [Search: ________] [Filter: All] [Sort: Name] [New]       │
+│                                                             │
+│  Favorites:                                                 │
+│  ★ Daily Debug Setup                                       │
+│  ★ Array Operations                                        │
+│  ★ Object Inspection                                       │
+│                                                             │
+│  All Snippets:                                             │
+│  ▼ Debugging                                               │
+│    • Breakpoint Setup                                      │
+│    • Exception Handler                                     │
+│  ▼ Data Processing                                         │
+│    • CSV Parser                                            │
+│    • JSON Handler                                          │
+│  ▼ Examples                                                │
+│    • Hello World                                           │
+│    • Basic Math                                            │
+│                                                             │
+│  [Open Selected] [Edit] [Delete] [Export] [Close]          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### **Snippet Workflow**
+1. **Save Snippet**: User selects code, clicks [Save Snippet], enters name and category
+2. **Quick Access**: Favorites appear in dropdown for instant loading
+3. **Snippet Browser**: Full window for browsing, searching, and organizing all snippets
+4. **Smart Loading**: Snippets load with proper formatting and indentation
+5. **Version History**: Track changes to snippets over time
