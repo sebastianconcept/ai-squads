@@ -304,8 +304,11 @@ Workspace Layout:
 │  │ String new: 'Hello World'                          │   │
 │  │ Hello World                                         │   │
 │  │                                                     │   │
-│  │ Object new inspect                                 │   │
-│  │ Inspector opened for Object_123                     │   │
+│  │ # Example: doIt vs displayIt behavior               │   │
+│  │ Object new inspect                                  │   │
+│  │ # doIt: Opens inspector silently, no output        │   │
+│  │ # displayIt: Shows inspector reference              │   │
+│  │ an Inspector(anObject)                              │   │
 │  │                                                     │   │
 │  │ [Enter new Smalltalk code here...]                 │   │
 │  │                                                     │   │
@@ -329,7 +332,9 @@ Workspace Layout:
 
 #### **Workspace UX Features**
 - **Plain Text Results**: Results appear as plain text below expressions (Dolphin Smalltalk style)
-- **Direct Usage**: Results can be copied/pasted directly into next expressions
+- **Direct Usage**: Results can be copied/pasted directly into subsequent code expressions
+- **doIt vs displayIt Support**: Handle both evaluation modes with appropriate outputs
+- **Inspector Integration**: doIt opens inspector silently, displayIt shows inspector reference
 - **Smart Input**: Auto-complete for common Smalltalk expressions
 - **History Navigation**: Previous expressions accessible via up/down arrows
 - **Snippets System**: Save and load frequently used code patterns

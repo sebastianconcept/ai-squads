@@ -66,7 +66,11 @@ This document tracks all tasks required to complete the core Smalltalk developme
   - **Acceptance Criteria**: Handle complex expressions and blocks with automatic indentation
   - **Agent**: @agent:ui-implementor
   - **Effort**: Small (3 days)
-- [ ] 2.7 Verify all Workspace tool tasks are complete
+- [ ] 2.7 Implement doIt vs displayIt behavior handling
+  - **Acceptance Criteria**: doIt opens tools silently, displayIt shows tool references (e.g., Inspector)
+  - **Agent**: @agent:software-engineer
+  - **Effort**: Small (3 days)
+- [ ] 2.8 Verify all Workspace tool tasks are complete
 
 **Dependencies**: Foundation and protocol extensions complete
 **Estimated Effort**: Medium (4 weeks)
@@ -228,7 +232,11 @@ This document tracks all tasks required to complete the core Smalltalk developme
   - **Acceptance Criteria**: Results displayed in different color/style to distinguish from code
   - **Agent**: @agent:ui-implementor
   - **Effort**: Small (3 days)
-- [ ] 10.8 Verify all enhanced Workspace UX tasks are complete
+- [ ] 10.8 Implement doIt vs displayIt UI indicators
+  - **Acceptance Criteria**: Clear visual indication of evaluation mode and expected behavior
+  - **Agent**: @agent:ui-implementor
+  - **Effort**: Small (3 days)
+- [ ] 10.9 Verify all enhanced Workspace UX tasks are complete
 
 **Dependencies**: Basic Workspace tool implementation complete
 **Estimated Effort**: Medium (3 weeks)
@@ -243,9 +251,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 - [ ] Enhanced object serialization (1.2)
 - [ ] Tool manager and lifecycle management (1.3)
 - [ ] State persistence framework (1.4)
-- [ ] Code evaluation engine with plain text results (2.2)
-- [ ] Command history and navigation (2.4)
-- [ ] Code snippets system (2.5)
+- [ ] Code evaluation engine (2.2)
 - [ ] Object property retrieval and display (3.2)
 - [ ] Live updates and property modification (3.3)
 - [ ] Class hierarchy retrieval and display (4.2)
@@ -260,9 +266,9 @@ This document tracks all tasks required to complete the core Smalltalk developme
 ### @agent:ui-implementor
 **Responsibilities**: Terminal UI components, interface design, user interaction
 
-- [ ] Single-panel workspace layout (2.1)
+- [ ] Workspace UI components and layout (2.1)
 - [ ] Syntax highlighting and error handling (2.3)
-- [ ] Multi-line code input and formatting (2.6)
+- [ ] Command history and undo/redo UI (2.4)
 - [ ] Inspector UI components and navigation (3.1)
 - [ ] Property filtering and search UI (3.4)
 - [ ] Class Browser UI components and layout (4.1)
@@ -295,7 +301,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 ### Phase 2: Core Tools Implementation (Weeks 3-8)
 **Dependencies**: Phase 1 completion
-**Tasks**: 2.1-2.7, 3.1-3.5, 4.1-4.5, 5.1-5.5 (All four core tools implementation)
+**Tasks**: 2.1-2.8, 3.1-3.5, 4.1-4.5, 5.1-5.5 (All four core tools implementation)
 
 ### Phase 3: Integration and Testing (Weeks 9-10)
 **Dependencies**: Phase 2 completion
@@ -348,7 +354,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 ## Progress Tracking
 
 ### Overall Progress
-- **Total Tasks**: 35
+- **Total Tasks**: 38
 - **Completed**: 0
 - **In Progress**: 0
 - **Blocked**: 0
@@ -356,7 +362,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 ### Category Progress
 - **Foundation**: 0/5 tasks complete
-- **Workspace Tool**: 0/5 tasks complete
+- **Workspace Tool**: 0/8 tasks complete
 - **Inspector Tool**: 0/5 tasks complete
 - **Class Browser**: 0/5 tasks complete
 - **Transcript Tool**: 0/5 tasks complete
