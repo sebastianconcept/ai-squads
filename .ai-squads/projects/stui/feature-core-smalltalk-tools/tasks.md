@@ -40,28 +40,36 @@ This document tracks all tasks required to complete the core Smalltalk developme
 **Priority**: High
 
 ### [ ] 2. Workspace Tool Implementation
-**Description**: Implement interactive code evaluation and experimentation environment
+**Description**: Implement interactive code evaluation environment following Smalltalk displayIt conventions
 
-- [ ] 2.1 Design Workspace UI components and layout
-  - **Acceptance Criteria**: Terminal-based interface with code input, output display, and controls
+- [ ] 2.1 Implement single-panel workspace layout
+  - **Acceptance Criteria**: Single-panel design with inline results display, maximized space for code
   - **Agent**: @agent:ui-implementor
-  - **Effort**: Medium (1 week)
-- [ ] 2.2 Implement code evaluation engine
-  - **Acceptance Criteria**: Code can be executed and results displayed
-  - **Agent**: @agent:software-engineer
-  - **Effort**: Large (2 weeks)
-- [ ] 2.3 Add syntax highlighting and error handling
-  - **Acceptance Criteria**: Smalltalk syntax highlighted, errors clearly displayed
-  - **Agent**: @agent:ui-implementor
-  - **Effort**: Medium (1 week)
-- [ ] 2.4 Implement command history and undo/redo
-  - **Acceptance Criteria**: Command history accessible, undo/redo functionality working
-  - **Agent**: @agent:software-engineer
   - **Effort**: Small (3 days)
-- [ ] 2.5 Verify all Workspace tool tasks are complete
+- [ ] 2.2 Implement code evaluation engine with inline results
+  - **Acceptance Criteria**: Results appear below each expression following Smalltalk displayIt style
+  - **Agent**: @agent:software-engineer
+  - **Effort**: Medium (1 week)
+- [ ] 2.3 Implement syntax highlighting and error handling
+  - **Acceptance Criteria**: Smalltalk syntax properly highlighted with clear error indicators
+  - **Agent**: @agent:ui-implementor
+  - **Effort**: Medium (1 week)
+- [ ] 2.4 Implement command history and navigation
+  - **Acceptance Criteria**: Previous expressions accessible via up/down arrows with search
+  - **Agent**: @agent:software-engineer
+  - **Effort**: Medium (1 week)
+- [ ] 2.5 Implement code snippets system
+  - **Acceptance Criteria**: Save and load frequently used code patterns
+  - **Agent**: @agent:software-engineer
+  - **Effort**: Medium (1 week)
+- [ ] 2.6 Implement multi-line code input and formatting
+  - **Acceptance Criteria**: Handle complex expressions and blocks with automatic indentation
+  - **Agent**: @agent:ui-implementor
+  - **Effort**: Small (3 days)
+- [ ] 2.7 Verify all Workspace tool tasks are complete
 
 **Dependencies**: Foundation and protocol extensions complete
-**Estimated Effort**: Large (4 weeks)
+**Estimated Effort**: Medium (4 weeks)
 **Priority**: High
 
 ### [ ] 3. Inspector Tool Implementation
@@ -189,36 +197,44 @@ This document tracks all tasks required to complete the core Smalltalk developme
 **Estimated Effort**: Medium (3 weeks)
 **Priority**: High
 
+### [ ] 10. Enhanced Workspace UX Features
+**Description**: Add advanced UX features to Workspace tool for professional development experience
+
+- [ ] 10.1 Implement syntax highlighting for Smalltalk code
+  - **Acceptance Criteria**: Smalltalk syntax properly highlighted with color coding
+  - **Agent**: @agent:ui-implementor
+  - **Effort**: Medium (1 week)
+- [ ] 10.2 Add command history with search and navigation
+  - **Acceptance Criteria**: Previous expressions accessible via up/down arrows with search
+  - **Agent**: @agent:software-engineer
+  - **Effort**: Medium (1 week)
+- [ ] 10.3 Implement code snippets system
+  - **Acceptance Criteria**: Save and load frequently used code patterns
+  - **Agent**: @agent:software-engineer
+  - **Effort**: Medium (1 week)
+- [ ] 10.4 Add multi-line code input support
+  - **Acceptance Criteria**: Handle complex expressions and blocks with proper formatting
+  - **Agent**: @agent:ui-implementor
+  - **Effort**: Small (3 days)
+- [ ] 10.5 Implement error highlighting and recovery suggestions
+  - **Acceptance Criteria**: Clear indication of syntax errors with helpful suggestions
+  - **Agent**: @agent:ui-implementor
+  - **Effort**: Small (3 days)
+- [ ] 10.6 Add code formatting and indentation
+  - **Acceptance Criteria**: Automatic indentation for Smalltalk blocks and expressions
+  - **Agent**: @agent:ui-implementor
+  - **Effort**: Small (3 days)
+- [ ] 10.7 Implement expression separation and result persistence
+  - **Acceptance Criteria**: Clear visual separation between expressions, results remain visible
+  - **Agent**: @agent:ui-implementor
+  - **Effort**: Small (3 days)
+- [ ] 10.8 Verify all enhanced Workspace UX tasks are complete
+
+**Dependencies**: Basic Workspace tool implementation complete
+**Estimated Effort**: Medium (3 weeks)
+**Priority**: High
+
 ## Task Assignment by Squad Agent
-
-### @agent:ui-implementor
-**Responsibilities**: Terminal UI components, interface design, user interaction
-
-- [ ] Workspace UI components and layout (2.1)
-- [ ] Syntax highlighting and error handling (2.3)
-- [ ] Command history and undo/redo UI (2.4)
-- [ ] Inspector UI components and navigation (3.1)
-- [ ] Property filtering and search UI (3.4)
-- [ ] Class Browser UI components and layout (4.1)
-- [ ] Class and method search functionality (4.4)
-- [ ] Transcript UI components and layout (5.1)
-- [ ] Filtering and search capabilities (5.3)
-- [ ] Tool integration with STUI interface (6.1)
-- [ ] Host selection screen UI (8.1)
-- [ ] Connection form with validation (8.3)
-- [ ] Connection status indicators (8.5)
-- [ ] Main dashboard layout (9.1)
-- [ ] Keyboard shortcuts and navigation (9.3)
-- [ ] Syntax highlighting for Smalltalk (10.1)
-- [ ] Multi-line code input support (10.4)
-- [ ] Error highlighting and recovery (10.5)
-- [ ] Log level filtering and color coding (11.1)
-- [ ] Auto-scroll and timestamp controls (11.4)
-- [ ] Hierarchical property navigation (12.1)
-- [ ] Property search and filtering (12.2)
-- [ ] Class hierarchy tree visualization (13.1)
-- [ ] Method browsing and filtering (13.3)
-- [ ] Quick navigation between classes (13.5)
 
 ### @agent:software-engineer
 **Responsibilities**: Core tool implementation, protocol extensions, backend integration
@@ -227,7 +243,9 @@ This document tracks all tasks required to complete the core Smalltalk developme
 - [ ] Enhanced object serialization (1.2)
 - [ ] Tool manager and lifecycle management (1.3)
 - [ ] State persistence framework (1.4)
-- [ ] Code evaluation engine (2.2)
+- [ ] Code evaluation engine with inline results (2.2)
+- [ ] Command history and navigation (2.4)
+- [ ] Code snippets system (2.5)
 - [ ] Object property retrieval and display (3.2)
 - [ ] Live updates and property modification (3.3)
 - [ ] Class hierarchy retrieval and display (4.2)
@@ -238,20 +256,20 @@ This document tracks all tasks required to complete the core Smalltalk developme
 - [ ] Comprehensive error handling and recovery (6.3)
 - [ ] Advanced features and optimizations (7.1)
 - [ ] Performance improvements and caching (7.2)
-- [ ] Favorites system and recent connections (8.2)
-- [ ] Secure credential storage (8.4)
-- [ ] Tool switching mechanism (9.2)
-- [ ] Status bar and connection monitoring (9.4)
-- [ ] Command history with search (10.2)
-- [ ] Code snippets system (10.3)
-- [ ] Search functionality with highlighting (11.2)
-- [ ] Export capabilities (11.3)
-- [ ] Object reference linking (11.5)
-- [ ] Object reference navigation (12.3)
-- [ ] Value copying and export features (12.4)
-- [ ] Live property monitoring (12.5)
-- [ ] Class and method search with fuzzy matching (13.2)
-- [ ] Method details and documentation (13.4)
+
+### @agent:ui-implementor
+**Responsibilities**: Terminal UI components, interface design, user interaction
+
+- [ ] Single-panel workspace layout (2.1)
+- [ ] Syntax highlighting and error handling (2.3)
+- [ ] Multi-line code input and formatting (2.6)
+- [ ] Inspector UI components and navigation (3.1)
+- [ ] Property filtering and search UI (3.4)
+- [ ] Class Browser UI components and layout (4.1)
+- [ ] Class and method search functionality (4.4)
+- [ ] Transcript UI components and layout (5.1)
+- [ ] Filtering and search capabilities (5.3)
+- [ ] Tool integration with STUI interface (6.1)
 
 ### @agent:collaboration
 **Responsibilities**: Team coordination, quality assurance, testing coordination
@@ -277,7 +295,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 ### Phase 2: Core Tools Implementation (Weeks 3-8)
 **Dependencies**: Phase 1 completion
-**Tasks**: 2.1-2.5, 3.1-3.5, 4.1-4.5, 5.1-5.5 (All four core tools implementation)
+**Tasks**: 2.1-2.7, 3.1-3.5, 4.1-4.5, 5.1-5.5 (All four core tools implementation)
 
 ### Phase 3: Integration and Testing (Weeks 9-10)
 **Dependencies**: Phase 2 completion
