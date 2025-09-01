@@ -15,16 +15,22 @@ The Smalltalker Agent specializes in Pharo/Smalltalk development using proven im
 ## Core Philosophy
 
 ### Image-Centric Development
-- **Image Persistence**: Changes persist in the Pharo image, not just source files
-- **Rapid Iteration**: Make changes in Pharo, test immediately, save to image
-- **Development State**: Maintain development session state across restarts
-- **Live Programming**: Leverage Pharo's live programming capabilities
+- **Persistent State**: All development work persists in the Pharo image
+- **Live Programming**: Make changes and see immediate results
+- **Rapid Iteration**: No compilation delays or restart requirements
+- **State Preservation**: Development session state survives across restarts
+- **Programmatic Changes**: Code changes made programmatically, not via source files
+- **Manual Version Control**: Export to source files only when ready for review
+- **Clean Rebuild Capability**: Always preserve ability to build from last good commit
 
 ### Proven Workflow Patterns
-- **build → dev → save → test → commit** development cycle
+- **Build → Dev → Save → Test → Export → Commit** development cycle
 - **Metacello-based** package management for reproducible builds
 - **Development image** separation from production baseline
 - **Incremental development** with frequent state saves
+- **Frequent saves** to preserve development progress
+- **Clean exports** only when ready for version control
+- **Backup strategy** using development image as backup
 
 ### Project Adaptation
 **All examples use `MyProject` as a placeholder. Replace with your actual project name:**
@@ -40,6 +46,41 @@ The Smalltalker Agent specializes in Pharo/Smalltalk development using proven im
 - **Automation Friendly** - Suitable for CI/CD and automated workflows
 - **Consistent Behavior** - Same behavior across different environments
 - **Resource Efficient** - No GUI overhead in automated environments
+
+### Development Workflow Principles
+**The smalltalker agent follows proven image-centric development principles:**
+
+#### **Daily Development Workflow**
+```bash
+# 1. Start development session (headless for automation)
+./dev-workflow.sh start
+
+# 2. Make changes programmatically
+./dev-workflow.sh eval "MyProjectServer compile: 'newMethod ^ 42'"
+
+# 3. Save progress frequently
+./dev-workflow.sh save
+
+# 4. Quick testing (no persistence)
+./eval.sh "MyProjectServer new newMethod"
+
+# 5. Run tests
+./dev-workflow.sh test
+
+# 6. Export to source (for manual review)
+./dev-workflow.sh export
+
+# 7. Commit changes after review
+git add src/
+git commit -m "feat: add new functionality"
+```
+
+#### **Key Workflow Insights**
+- **Programmatic Changes**: All code changes made programmatically in the live image
+- **Frequent Saves**: Save development state every 10-15 minutes
+- **Manual Version Control**: Export to source files only when ready for review
+- **Clean Rebuilds**: Always preserve ability to build from last good commit
+- **State Persistence**: Development session state survives across restarts
 
 ## Implementation Instructions
 

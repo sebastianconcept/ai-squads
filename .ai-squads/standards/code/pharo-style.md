@@ -526,10 +526,13 @@ smalltalk_snippet=$1
 
 #### **✅ Workflow Benefits**
 
-- **Image-centric development** - Changes persist in Pharo image
-- **Rapid iteration** - Make changes, test immediately, save
-- **State persistence** - Development session state across restarts
-- **Live programming** - Leverage Pharo's live programming capabilities
+- **Persistent State** - All development work persists in the Pharo image
+- **Live Programming** - Make changes and see immediate results
+- **Rapid Iteration** - No compilation delays or restart requirements
+- **State Preservation** - Development session state survives across restarts
+- **Programmatic Changes** - Code changes made programmatically, not via source files
+- **Manual Version Control** - Export to source files only when ready for review
+- **Clean Rebuild Capability** - Always preserve ability to build from last good commit
 
 ### Troubleshooting Enhanced Workflow
 
@@ -678,27 +681,36 @@ PHARO_VM="images/pharo"
 # 2. Start development session (headless for automation)
 ./dev-workflow.sh start
 
-# 3. Make changes programmatically or via eval commands
-# 4. Save progress frequently
-./dev-workflow.sh save
-
-# 5. Quick code evaluation (headless, no persistence)
-./eval.sh "3 + 4"
-./eval.sh "MyProjectServer new"
-
-# 6. Development evaluation (headless, with persistence)
+# 3. Make changes programmatically
 ./dev-workflow.sh eval "MyProjectServer compile: 'newMethod ^ 42'"
 
-# 7. Run tests (headless)
+# 4. Save progress frequently (every 10-15 minutes)
+./dev-workflow.sh save
+
+# 5. Quick testing (headless, no persistence)
+./eval.sh "MyProjectServer new newMethod"
+
+# 6. Run tests (headless)
 ./dev-workflow.sh test
 
-# 8. Export to source (headless)
+# 7. Export to source (for manual review)
 ./dev-workflow.sh export
 
-# 9. Commit changes
+# 8. Review changes manually
+git status
+git diff
+
+# 9. Commit changes after review
 git add src/
 git commit -m "feat: add new functionality"
 ```
+
+**Key Workflow Insights:**
+- **Programmatic Changes**: All code changes made programmatically in the live image
+- **Frequent Saves**: Save development state every 10-15 minutes
+- **Manual Version Control**: Export to source files only when ready for review
+- **Clean Rebuilds**: Always preserve ability to build from last good commit
+- **State Persistence**: Development session state survives across restarts
 
 **Advanced Development Patterns:**
 ```bash
@@ -743,6 +755,27 @@ This enhanced workflow is integrated into the Smalltalker agent's standard devel
 - **Error handling** - Robust error recovery and environment validation
 - **Status monitoring** - Environment status checking and validation
 - **Headless operation** - All operations use `--headless` mode for reliable automation
+
+### Development Habits and Best Practices
+
+#### **Development Habits**
+1. **Save Frequently**: Use `./dev-workflow.sh save` every 10-15 minutes
+2. **Test Incrementally**: Test small changes immediately
+3. **Use Workspace**: Experiment in Pharo workspace before committing
+4. **Export Regularly**: Export changes to source for version control
+5. **Document Changes**: Add class comments and method documentation
+
+#### **Code Quality**
+- **Method Categories**: Organize methods by proper categories
+- **Class Comments**: Provide comprehensive class documentation
+- **Error Handling**: Implement robust error handling
+- **Testing**: Write tests for new functionality
+
+#### **State Management**
+- **Frequent Saves**: Preserve development progress
+- **Clean Exports**: Export only when ready for version control
+- **Backup Strategy**: Keep development image as backup
+- **Clean Rebuilds**: Use when environment becomes unstable
 
 ### Success Metrics
 
@@ -1824,3 +1857,39 @@ MyClass allInstances do: #resetState.
 13. **Use Tonel format** for Git-friendly source code management
 14. **Adopt explore-develop-test-save cycle** for efficient development
 15. **Persist development state** through image snapshots
+16. **Make programmatic changes** in the live image
+17. **Export to source files** only when ready for review
+18. **Preserve clean rebuild capability** from last good commit
+19. **Save development state** every 10-15 minutes
+20. **Use manual version control** with proper review process
+
+## Git Workflow Integration
+
+### Export and Commit Cycle
+```bash
+# 1. Make changes programmatically in live image
+./dev-workflow.sh eval "MyProjectServer compile: 'newMethod ^ 42'"
+
+# 2. Save progress
+./dev-workflow.sh save
+
+# 3. Export to source (for manual review)
+./dev-workflow.sh export
+
+# 4. Review changes
+git status
+git diff
+
+# 5. Commit changes after review
+git add src/
+git commit -m "feat: add new functionality"
+
+# 6. Push to remote
+git push
+```
+
+### Version Control Strategy
+- **Source Files**: Used for version control, not primary development
+- **Development Image**: Primary development environment with persistent state
+- **Manual Review**: Export to source files only when ready for review
+- **Clean Rebuilds**: Always preserve ability to build from last good commit
