@@ -337,6 +337,203 @@ handleDeprecatedAPI
         ifFalse: [ self useCompatibilityAPI ]
 ```
 
+## Proven STUI Development Workflow Integration
+
+### Enhanced Development Workflow Commands
+
+Based on the STUI team's proven workflow, we've integrated their successful patterns into our standard Pharo development approach:
+
+#### **Read-Only Exploration (Returns Control Properly)**
+
+```bash
+# Quick evaluation with base image
+./eval.sh "3 + 4"
+./eval.sh "Transcript show: 'Hello from Pharo!'; cr. 3 + 4"
+
+# Development environment evaluation
+./dev-workflow.sh eval "3 + 4"
+./dev-workflow.sh eval "Transcript show: 'Testing development workflow'; cr. 3 + 4"
+```
+
+#### **Adding Code and Saving Image (Persistent Development)**
+
+```bash
+# Create a class
+./dev-workflow.sh eval "Object subclass: #MyClass instanceVariableNames: 'data' classVariableNames: '' package: 'STUI-Tests'"
+
+# Add methods to the class
+./dev-workflow.sh eval "MyClass compile: 'initialize data := 100'"
+./dev-workflow.sh eval "MyClass compile: 'getData ^ data'"
+
+# Test the methods
+./dev-workflow.sh eval "MyClass new getData"
+
+# Save to development image (persists changes)
+./dev-workflow.sh save
+
+# Verify persistence (changes remain after save)
+./dev-workflow.sh eval "MyClass new getData"
+```
+
+### Enhanced Development Workflow Scripts
+
+#### **dev-workflow.sh - Main Development Orchestration**
+
+```bash
+#!/bin/bash
+# Enhanced development workflow with proven STUI patterns
+
+# Commands:
+#   build    - Create fresh image with packages
+#   dev      - Start development session (persistent image)
+#   eval     - Evaluate Smalltalk code with proper exit handling
+#   save     - Save changes to image (frequent during development)
+#   commit   - Commit changes to baseline (when ready)
+#   clean    - Clean build artifacts and caches
+#   server   - Start server for testing
+#   test     - Run end-to-end tests
+```
+
+#### **eval.sh - Enhanced Evaluation with Timeout**
+
+```bash
+#!/bin/bash
+# Enhanced evaluation with proper exit handling and timeout
+
+smalltalk_snippet=$1
+
+# Create a temporary script file
+temp_script=$(mktemp)
+cat > "$temp_script" << EOF
+"Evaluation script"
+| result |
+result := $smalltalk_snippet.
+Transcript show: result asString; cr.
+Smalltalk snapshot: false andQuit: true.
+EOF
+
+# Execute the script with timeout to ensure it returns control
+timeout 10s ./pharo ./images/Pharo-dev.image --no-default-preferences st "$temp_script" 2>/dev/null | tail -1
+
+# Clean up
+rm "$temp_script"
+```
+
+### Proven Command Patterns
+
+#### **Class Creation and Method Addition**
+
+```bash
+# Create class with instance variables
+./dev-workflow.sh eval "Object subclass: #DemoClass instanceVariableNames: 'data' classVariableNames: '' package: 'STUI-Tests'"
+
+# Add initialize method
+./dev-workflow.sh eval "DemoClass compile: 'initialize data := 100'"
+
+# Add getter method
+./dev-workflow.sh eval "DemoClass compile: 'getData ^ data'"
+
+# Add setter method
+./dev-workflow.sh eval "DemoClass compile: 'setData: value data := value'"
+
+# Test methods
+./dev-workflow.sh eval "DemoClass new getData"
+./dev-workflow.sh eval "| obj | obj := DemoClass new. obj setData: 200. obj getData"
+```
+
+#### **API Exploration and Discovery**
+
+```bash
+# Explore existing classes
+./dev-workflow.sh eval "Smalltalk globals keys select: [:k | k beginsWith: 'STUI']"
+
+# Check class methods
+./dev-workflow.sh eval "STUIServer class methodDict keys"
+
+# Check instance methods
+./dev-workflow.sh eval "STUIServer methodDict keys"
+
+# Check package structure
+./dev-workflow.sh eval "RPackageOrganizer default packages select: [:p | p name beginsWith: 'STUI']"
+```
+
+#### **Development State Persistence**
+
+```bash
+# Save development progress frequently
+./dev-workflow.sh save
+
+# Verify persistence after save
+./dev-workflow.sh eval "MyClass new someMethod"
+
+# Check image size after changes
+./dev-workflow.sh status
+```
+
+### Key Features from STUI Workflow
+
+#### **✅ Verified Working Commands**
+
+- **Read-only exploration** - Returns control immediately
+- **Method addition** - Adds methods to classes in development image
+- **Image saving** - Persists changes with `./dev-workflow.sh save`
+- **State persistence** - Changes remain available after saving
+- **Proper exit behavior** - All commands return control (no hanging)
+- **Development image** - Uses `Pharo-dev.image` for persistent development
+
+#### **✅ What Gets Saved**
+
+- New classes created
+- Methods added to classes
+- Instance variables
+- Package assignments
+- All development state
+
+#### **✅ Workflow Benefits**
+
+- **Image-centric development** - Changes persist in Pharo image
+- **Rapid iteration** - Make changes, test immediately, save
+- **State persistence** - Development session state across restarts
+- **Live programming** - Leverage Pharo's live programming capabilities
+
+### Troubleshooting Enhanced Workflow
+
+#### **Common Issues and Solutions**
+
+1. **Command hangs and doesn't return control**
+   - Solution: Use the updated scripts with temporary files and timeout
+   - All commands now use `timeout 10s` and proper exit handling
+
+2. **Changes not persisting after save**
+   - Solution: Use `./dev-workflow.sh save` (not just eval commands)
+   - Verify with `./dev-workflow.sh eval "MyClass new someMethod"`
+
+3. **Development image not found**
+   - Solution: Run `./dev-workflow.sh build` to create development image
+
+4. **Package loading errors**
+   - Solution: Use `./dev-workflow.sh clean` then `./dev-workflow.sh build`
+
+### Integration with Smalltalker Agent
+
+This enhanced workflow is integrated into the Smalltalker agent's standard development flow:
+
+- **Project initialization** - Sets up complete development environment with proven scripts
+- **Development sessions** - Guides through build → dev → eval → save workflow cycle
+- **Class development** - Uses incremental development with eval patterns and proper exit handling
+- **Package management** - Updates baseline and reloads via Metacello
+- **Testing integration** - Integrates testing into development workflow
+- **Debugging support** - Provides live debugging and recovery strategies
+- **Version control** - Exports packages and updates baseline for reproducible builds
+
+### Success Metrics
+
+- **Rapid iteration** - Time from idea to tested implementation
+- **State persistence** - Reduction in setup/reload time
+- **Error recovery** - Time to recover from development issues
+- **Package management** - Ease of dependency management
+- **Team productivity** - Consistent development practices across team
+
 ## Incremental Development Workflow
 
 ### Modern Pharo Development Setup

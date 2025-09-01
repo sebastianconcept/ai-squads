@@ -97,10 +97,44 @@ echo "Loading project packages..."
 echo "Ready for development!"
 ```
 
-#### Development Workflow Script (dev-workflow.sh)
+#### Enhanced eval.sh - Proven STUI Pattern
 ```bash
 #!/bin/bash
-# Main development workflow orchestration
+# Enhanced evaluation with proper exit handling and timeout
+
+smalltalk_snippet=$1
+
+# Create a temporary script file
+temp_script=$(mktemp)
+cat > "$temp_script" << EOF
+"Evaluation script"
+| result |
+result := $smalltalk_snippet.
+Transcript show: result asString; cr.
+Smalltalk snapshot: false andQuit: true.
+EOF
+
+# Execute the script with timeout to ensure it returns control
+timeout 10s ./pharo ./images/Pharo-dev.image --no-default-preferences st "$temp_script" 2>/dev/null | tail -1
+
+# Clean up
+rm "$temp_script"
+```
+
+#### Enhanced Development Workflow Script (dev-workflow.sh)
+```bash
+#!/bin/bash
+# Enhanced development workflow with proven STUI patterns
+
+# Commands:
+#   build    - Create fresh image with packages
+#   dev      - Start development session (persistent image)
+#   eval     - Evaluate Smalltalk code with proper exit handling
+#   save     - Save changes to image (frequent during development)
+#   commit   - Commit changes to baseline (when ready)
+#   clean    - Clean build artifacts and caches
+#   server   - Start server for testing
+#   test     - Run end-to-end tests
 
 case "${1:-help}" in
     build)
@@ -119,6 +153,10 @@ case "${1:-help}" in
                 load.
             Transcript show: '✅ Development session ready'; cr."
         ;;
+    eval)
+        echo "🔍 Evaluating Smalltalk Code"
+        ./eval.sh \"$2\"
+        ;;
     save)
         echo "💾 Saving Development State"
         ./pharo images/Pharo-dev.image eval "
@@ -129,6 +167,17 @@ case "${1:-help}" in
         echo "🧪 Running Tests"
         ./pharo images/Pharo-dev.image eval "
             TestRunner runPackage: 'Project-Tests'"
+        ;;
+    server)
+        echo "🚀 Starting Server"
+        ./pharo --headless images/Pharo-dev.image eval "
+            Metacello new
+                repository: 'tonel://./src';
+                baseline: 'Project';
+                onConflictUseIncoming;
+                load.
+            ProjectServer start.
+            [ true ] whileTrue: [ 1 second wait ]."
         ;;
     commit)
         echo "📝 Committing Changes"
@@ -221,59 +270,90 @@ setUpPackages: spec [
 ### Development Session Management
 
 <session_workflow>
-  ACTION: Implement efficient development session management
+  ACTION: Implement efficient development session management with proven STUI patterns
   WORKFLOW:
     1. Start with fresh or existing development image
     2. Load packages automatically via Metacello
-    3. Make incremental changes with immediate testing
-    4. Save image state frequently during development
-    5. Use eval.sh for quick exploration and testing
+    3. Make incremental changes with immediate testing using dev-workflow.sh eval
+    4. Save image state frequently during development with dev-workflow.sh save
+    5. Use enhanced eval.sh for quick exploration and testing (with timeout)
     6. Use evalSt.sh for complex script execution
     7. Commit to baseline when ready for team sharing
+    8. Verify persistence after each save operation
 </session_workflow>
+
+#### Proven STUI Workflow Integration
+
+The smalltalker agent incorporates the proven STUI team workflow patterns:
+
+**Enhanced Command Patterns:**
+- **Read-only exploration** - Returns control immediately with timeout protection
+- **Method addition** - Adds methods to classes in development image with proper persistence
+- **Image saving** - Persists changes with `./dev-workflow.sh save`
+- **State persistence** - Changes remain available after saving
+- **Proper exit behavior** - All commands return control (no hanging)
+- **Development image** - Uses `Pharo-dev.image` for persistent development
+
+**Key Features:**
+- **Image-centric development** - Changes persist in Pharo image
+- **Rapid iteration** - Make changes, test immediately, save
+- **State persistence** - Development session state across restarts
+- **Live programming** - Leverage Pharo's live programming capabilities
+- **Timeout protection** - All eval commands use 10s timeout to prevent hanging
 
 #### Development Session Patterns
 
 ##### 1. API Exploration and Discovery
 ```bash
 # Explore existing classes and methods
-./eval.sh "MyProject allClasses"
-./eval.sh "MyClass class methodDict keys"
-./eval.sh "MyClass allInstances"
+./dev-workflow.sh eval "MyProject allClasses"
+./dev-workflow.sh eval "MyClass class methodDict keys"
+./dev-workflow.sh eval "MyClass allInstances"
 
 # Check package structure
-./eval.sh "RPackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
+./dev-workflow.sh eval "RPackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
+
+# Proven STUI patterns for exploration
+./dev-workflow.sh eval "Smalltalk globals keys select: [:k | k beginsWith: 'STUI']"
+./dev-workflow.sh eval "STUIServer class methodDict keys"
+./dev-workflow.sh eval "STUIServer methodDict keys"
 ```
 
 ##### 2. Incremental Class Development
 ```bash
 # Create new class
-./eval.sh "
-Object subclass: #MyNewClass
-    slots: {#data}
-    classVariables: {}
-    package: 'Project-Core'"
+./dev-workflow.sh eval "Object subclass: #MyNewClass instanceVariableNames: 'data' classVariableNames: '' package: 'Project-Core'"
 
 # Add methods incrementally
-./eval.sh "
-MyNewClass compile: 'initialize
-    super initialize.
-    data := Dictionary new'"
+./dev-workflow.sh eval "MyNewClass compile: 'initialize data := 100'"
+./dev-workflow.sh eval "MyNewClass compile: 'getData ^ data'"
+./dev-workflow.sh eval "MyNewClass compile: 'setData: value data := value'"
 
 # Test immediately
-./eval.sh "MyNewClass new class name"
+./dev-workflow.sh eval "MyNewClass new getData"
+./dev-workflow.sh eval "| obj | obj := MyNewClass new. obj setData: 200. obj getData"
+
+# Save changes
+./dev-workflow.sh save
+
+# Verify persistence
+./dev-workflow.sh eval "MyNewClass new getData"
 ```
 
 ##### 3. Development State Persistence
 ```bash
 # Save development progress frequently
-./eval.sh "
-MyClass compile: 'newFeature ^42'.
-Smalltalk snapshot: true andQuit: false.
-'Changes saved to development image'"
+./dev-workflow.sh save
 
-# Verify persistence
-./eval.sh "MyClass new newFeature"
+# Verify persistence after save
+./dev-workflow.sh eval "MyClass new someMethod"
+
+# Check image size after changes
+./dev-workflow.sh status
+
+# Proven STUI pattern for state persistence
+./dev-workflow.sh eval "Smalltalk snapshot: true"
+./dev-workflow.sh eval "Transcript show: 'Changes persisted in: ', Smalltalk imagePath; cr."
 ```
 
 ##### 4. Package and Baseline Management
