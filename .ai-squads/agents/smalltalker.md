@@ -231,6 +231,18 @@ Smalltalk snapshot: true andQuit: true.
     6. Test baseline loading and reloading
 </baseline_creation>
 
+<package_management>
+  ACTION: Implement comprehensive package management workflow
+  WORKFLOW:
+    1. Check existing packages before creating new classes
+    2. Assign classes to appropriate existing packages
+    3. Create new packages only when needed for new features
+    4. Verify package assignments after class creation
+    5. Move classes between packages as needed
+    6. Update baseline when package structure changes
+    7. Maintain clean package organization
+</package_management>
+
 #### Standard Baseline Structure
 ```smalltalk
 BaselineOf subclass: #BaselineOfProject
@@ -319,24 +331,39 @@ The smalltalker agent incorporates the proven STUI team workflow patterns:
 ./dev-workflow.sh eval "STUIServer methodDict keys"
 ```
 
-##### 2. Incremental Class Development
+##### 2. Incremental Class Development with Package Management
 ```bash
-# Create new class
+# 1. Check existing packages first
+./dev-workflow.sh eval "RPackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
+
+# 2. Create new class with proper package assignment
+# Option A: Assign to existing package
 ./dev-workflow.sh eval "Object subclass: #MyNewClass instanceVariableNames: 'data' classVariableNames: '' package: 'Project-Core'"
 
-# Add methods incrementally
+# Option B: Create new package if needed
+./dev-workflow.sh eval "RPackageOrganizer default createPackageNamed: 'Project-NewFeature'"
+./dev-workflow.sh eval "Object subclass: #MyNewClass instanceVariableNames: 'data' classVariableNames: '' package: 'Project-NewFeature'"
+
+# Option C: Assign to package with specific tag/version
+./dev-workflow.sh eval "Object subclass: #MyNewClass instanceVariableNames: 'data' classVariableNames: '' package: 'Project-Core'"
+./dev-workflow.sh eval "MyNewClass package: (RPackageOrganizer default packageNamed: 'Project-Core')"
+
+# 3. Add methods incrementally
 ./dev-workflow.sh eval "MyNewClass compile: 'initialize data := 100'"
 ./dev-workflow.sh eval "MyNewClass compile: 'getData ^ data'"
 ./dev-workflow.sh eval "MyNewClass compile: 'setData: value data := value'"
 
-# Test immediately
+# 4. Verify package assignment
+./dev-workflow.sh eval "MyNewClass package name"
+
+# 5. Test immediately
 ./dev-workflow.sh eval "MyNewClass new getData"
 ./dev-workflow.sh eval "| obj | obj := MyNewClass new. obj setData: 200. obj getData"
 
-# Save changes
+# 6. Save changes
 ./dev-workflow.sh save
 
-# Verify persistence
+# 7. Verify persistence
 ./dev-workflow.sh eval "MyNewClass new getData"
 ```
 
@@ -358,16 +385,34 @@ The smalltalker agent incorporates the proven STUI team workflow patterns:
 
 ##### 4. Package and Baseline Management
 ```bash
-# Reload baseline after changes
-./eval.sh "
+# 1. Explore existing packages
+./dev-workflow.sh eval "RPackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
+
+# 2. Create new package
+./dev-workflow.sh eval "RPackageOrganizer default createPackageNamed: 'Project-NewFeature'"
+
+# 3. Assign class to existing package
+./dev-workflow.sh eval "MyClass package: (RPackageOrganizer default packageNamed: 'Project-Core')"
+
+# 4. Move class between packages
+./dev-workflow.sh eval "MyClass package: (RPackageOrganizer default packageNamed: 'Project-Tests')"
+
+# 5. Check package contents
+./dev-workflow.sh eval "(RPackageOrganizer default packageNamed: 'Project-Core') classes"
+
+# 6. Check which package a class belongs to
+./dev-workflow.sh eval "MyClass package name"
+
+# 7. Reload baseline after changes
+./dev-workflow.sh eval "
 Metacello new
     repository: 'tonel://./src';
     baseline: 'Project';
     onConflictUseIncoming;
     load"
 
-# Check loaded packages
-./eval.sh "Smalltalk packages select: [:p | p name beginsWith: 'Project']"
+# 8. Check loaded packages
+./dev-workflow.sh eval "Smalltalk packages select: [:p | p name beginsWith: 'Project']"
 ```
 
 ### Testing Integration

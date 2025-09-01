@@ -421,24 +421,60 @@ rm "$temp_script"
 
 ### Proven Command Patterns
 
-#### **Class Creation and Method Addition**
+#### **Class Creation and Method Addition with Proper Package Management**
 
 ```bash
-# Create class with instance variables
-./dev-workflow.sh eval "Object subclass: #DemoClass instanceVariableNames: 'data' classVariableNames: '' package: 'STUI-Tests'"
+# 1. Check existing packages first
+./dev-workflow.sh eval "RPackageOrganizer default packages select: [:p | p name beginsWith: 'STUI']"
 
-# Add initialize method
+# 2. Create class with proper package assignment
+# Option A: Assign to existing package
+./dev-workflow.sh eval "Object subclass: #DemoClass instanceVariableNames: 'data' classVariableNames: '' package: 'STUI-Core'"
+
+# Option B: Create new package if needed
+./dev-workflow.sh eval "RPackageOrganizer default createPackageNamed: 'STUI-NewFeature'"
+./dev-workflow.sh eval "Object subclass: #DemoClass instanceVariableNames: 'data' classVariableNames: '' package: 'STUI-NewFeature'"
+
+# Option C: Assign to package with specific tag/version
+./dev-workflow.sh eval "Object subclass: #DemoClass instanceVariableNames: 'data' classVariableNames: '' package: 'STUI-Core'"
+./dev-workflow.sh eval "DemoClass package: (RPackageOrganizer default packageNamed: 'STUI-Core')"
+
+# 3. Add methods to the class
 ./dev-workflow.sh eval "DemoClass compile: 'initialize data := 100'"
-
-# Add getter method
 ./dev-workflow.sh eval "DemoClass compile: 'getData ^ data'"
-
-# Add setter method
 ./dev-workflow.sh eval "DemoClass compile: 'setData: value data := value'"
 
-# Test methods
+# 4. Verify package assignment
+./dev-workflow.sh eval "DemoClass package name"
+
+# 5. Test methods
 ./dev-workflow.sh eval "DemoClass new getData"
 ./dev-workflow.sh eval "| obj | obj := DemoClass new. obj setData: 200. obj getData"
+
+# 6. Save changes
+./dev-workflow.sh save
+```
+
+#### **Package Management and Organization**
+
+```bash
+# 1. Explore existing packages
+./dev-workflow.sh eval "RPackageOrganizer default packages select: [:p | p name beginsWith: 'STUI']"
+
+# 2. Create new package
+./dev-workflow.sh eval "RPackageOrganizer default createPackageNamed: 'STUI-NewFeature'"
+
+# 3. Assign class to existing package
+./dev-workflow.sh eval "MyClass package: (RPackageOrganizer default packageNamed: 'STUI-Core')"
+
+# 4. Move class between packages
+./dev-workflow.sh eval "MyClass package: (RPackageOrganizer default packageNamed: 'STUI-Tests')"
+
+# 5. Check package contents
+./dev-workflow.sh eval "(RPackageOrganizer default packageNamed: 'STUI-Core') classes"
+
+# 6. Remove package (if empty)
+./dev-workflow.sh eval "RPackageOrganizer default removePackageNamed: 'STUI-EmptyPackage'"
 ```
 
 #### **API Exploration and Discovery**
@@ -455,6 +491,9 @@ rm "$temp_script"
 
 # Check package structure
 ./dev-workflow.sh eval "RPackageOrganizer default packages select: [:p | p name beginsWith: 'STUI']"
+
+# Check which package a class belongs to
+./dev-workflow.sh eval "STUIServer package name"
 ```
 
 #### **Development State Persistence**
@@ -514,6 +553,48 @@ rm "$temp_script"
 4. **Package loading errors**
    - Solution: Use `./dev-workflow.sh clean` then `./dev-workflow.sh build`
 
+### Package Naming Conventions and Organization
+
+#### **Standard Package Structure**
+```bash
+# Core packages (main functionality)
+Project-Core          # Main application logic
+Project-Model         # Domain models and business logic
+Project-UI            # User interface components
+Project-Network       # Network and communication
+
+# Extension packages (optional features)
+Project-Extensions    # Optional extensions and plugins
+Project-Integrations  # Third-party integrations
+
+# Test packages (parallel to main packages)
+Project-Core-Tests    # Tests for Project-Core
+Project-Model-Tests   # Tests for Project-Model
+Project-UI-Tests      # Tests for Project-UI
+
+# Development packages
+Project-Dev           # Development tools and utilities
+Project-Debug         # Debugging and profiling tools
+```
+
+#### **Package Assignment Guidelines**
+```bash
+# 1. Always assign classes to packages during creation
+./dev-workflow.sh eval "Object subclass: #MyClass instanceVariableNames: 'data' classVariableNames: '' package: 'Project-Core'"
+
+# 2. Use existing packages when possible
+./dev-workflow.sh eval "MyClass package: (RPackageOrganizer default packageNamed: 'Project-Core')"
+
+# 3. Create new packages only for distinct features
+./dev-workflow.sh eval "RPackageOrganizer default createPackageNamed: 'Project-NewFeature'"
+
+# 4. Verify package assignment immediately
+./dev-workflow.sh eval "MyClass package name"
+
+# 5. Move classes to appropriate packages as needed
+./dev-workflow.sh eval "MyClass package: (RPackageOrganizer default packageNamed: 'Project-Tests')"
+```
+
 ### Integration with Smalltalker Agent
 
 This enhanced workflow is integrated into the Smalltalker agent's standard development flow:
@@ -521,7 +602,7 @@ This enhanced workflow is integrated into the Smalltalker agent's standard devel
 - **Project initialization** - Sets up complete development environment with proven scripts
 - **Development sessions** - Guides through build → dev → eval → save workflow cycle
 - **Class development** - Uses incremental development with eval patterns and proper exit handling
-- **Package management** - Updates baseline and reloads via Metacello
+- **Package management** - Updates baseline and reloads via Metacello with proper package assignment
 - **Testing integration** - Integrates testing into development workflow
 - **Debugging support** - Provides live debugging and recovery strategies
 - **Version control** - Exports packages and updates baseline for reproducible builds
