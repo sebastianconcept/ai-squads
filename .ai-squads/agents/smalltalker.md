@@ -141,13 +141,13 @@ git commit -m "feat: add new functionality"
 #!/bin/bash
 # Download fresh Pharo image and load project packages
 
-if [ ! -f "images/Pharo.image" ]; then
+if [ ! -f "./images/Pharo.image" ] || [ ! -f "./images/pharo" ]; then
     echo "Downloading fresh Pharo image and VM..."
-    cd images
+    cd ./images
     curl get.pharo.org | bash 
     cd ..
 else
-    echo "Pharo image already exists, skipping download..."
+    echo "Pharo image and VM already exist, skipping download..."
 fi
 
 echo "Loading project packages..."
@@ -182,6 +182,34 @@ smalltalk_snippet=$1
 - Rapid iteration with state preservation
 
 #### Enhanced Development Workflow Script (dev-workflow.sh) - Project-Agnostic
+
+**Enhanced Build and Clean Scripts:**
+```bash
+# Enhanced build.sh - Checks for both image AND executable
+if [ ! -f "./images/Pharo.image" ] || [ ! -f "./images/pharo" ]; then
+    echo "Downloading fresh Pharo image and VM..."
+    cd ./images
+    curl get.pharo.org | bash 
+    cd ..
+else
+    echo "Pharo image and VM already exist, skipping download..."
+fi
+
+# Enhanced clean.sh - Removes all Pharo artifacts
+rm -rf ./images/pharo
+rm -rf ./images/pharo-ui
+rm -rf ./images/*.log
+rm -rf ./images/pharo-vm
+rm -rf ./images/Pharo*.image
+rm -rf ./images/Pharo*.changes
+./cleanCaches.sh
+```
+
+**Key Improvements:**
+- **Reliable Detection**: Checks for both Pharo image AND executable
+- **Complete Cleanup**: Removes all Pharo artifacts including logs and UI components
+- **Consistent Behavior**: Works reliably from repository root
+- **Fresh Environment**: Ensures completely clean rebuild capability
 ```bash
 #!/bin/bash
 # Enhanced development workflow with proven Pharo 13 patterns
@@ -503,8 +531,14 @@ Metacello new
     onConflictUseIncoming;
     load.
 
+"Smalltalk saveSession."
 Smalltalk snapshot: true andQuit: true.
 ```
+
+**Enhanced Builder Pattern:**
+- **Session Persistence**: Optional session saving for development state
+- **Clean Exit**: Ensures proper image saving and exit
+- **Conflict Resolution**: Uses `onConflictUseIncoming` for reliable loading
 
 ### Package Management with Metacello
 

@@ -345,6 +345,34 @@ handleDeprecatedAPI
 
 Based on proven Pharo development workflow patterns, we've integrated successful patterns into our standard Pharo 13 development approach for any project:
 
+#### **Enhanced Build and Clean Scripts**
+```bash
+# Enhanced build.sh - Checks for both image AND executable
+if [ ! -f "./images/Pharo.image" ] || [ ! -f "./images/pharo" ]; then
+    echo "Downloading fresh Pharo image and VM..."
+    cd ./images
+    curl get.pharo.org | bash 
+    cd ..
+else
+    echo "Pharo image and VM already exist, skipping download..."
+fi
+
+# Enhanced clean.sh - Removes all Pharo artifacts
+rm -rf ./images/pharo
+rm -rf ./images/pharo-ui
+rm -rf ./images/*.log
+rm -rf ./images/pharo-vm
+rm -rf ./images/Pharo*.image
+rm -rf ./images/Pharo*.changes
+./cleanCaches.sh
+```
+
+**Key Improvements:**
+- **Reliable Detection**: Checks for both Pharo image AND executable
+- **Complete Cleanup**: Removes all Pharo artifacts including logs and UI components
+- **Consistent Behavior**: Works reliably from repository root
+- **Fresh Environment**: Ensures completely clean rebuild capability
+
 #### **Read-Only Exploration (Returns Control Properly)**
 
 ```bash
@@ -870,7 +898,7 @@ echo "Loading project packages..."
 echo "Ready for development!"
 ```
 
-#### Builder Script (`scripts/builder.st`)
+#### Enhanced Builder Script (`scripts/builder.st`)
 ```smalltalk
 Metacello new
     repository: 'tonel://./src';
@@ -878,9 +906,14 @@ Metacello new
     onConflictUseIncoming;
     load.
 
-"Save the loaded state"
+"Smalltalk saveSession."
 Smalltalk snapshot: true andQuit: true.
 ```
+
+**Enhanced Builder Pattern:**
+- **Session Persistence**: Optional session saving for development state
+- **Clean Exit**: Ensures proper image saving and exit
+- **Conflict Resolution**: Uses `onConflictUseIncoming` for reliable loading
 
 ### Interactive Development Commands
 
