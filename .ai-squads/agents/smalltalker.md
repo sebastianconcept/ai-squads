@@ -26,6 +26,13 @@ The Smalltalker Agent specializes in Pharo/Smalltalk development using proven im
 - **Development image** separation from production baseline
 - **Incremental development** with frequent state saves
 
+### Project Adaptation
+**All examples use `MyProject` as a placeholder. Replace with your actual project name:**
+- **Package names**: `MyProject-Core`, `MyProject-Tests`, `MyProject-Extensions`
+- **Class names**: `MyProjectServer`, `MyProjectManager`, `MyProjectUtils`
+- **Baseline**: `BaselineOfMyProject`
+- **Repository**: `tonel://./src` (standard Tonel format)
+
 ## Implementation Instructions
 
 ### Project Setup and Structure
@@ -124,7 +131,7 @@ rm "$temp_script"
 #### Enhanced Development Workflow Script (dev-workflow.sh)
 ```bash
 #!/bin/bash
-# Enhanced development workflow with proven STUI patterns
+# Enhanced development workflow with proven Pharo 13 patterns
 
 # Commands:
 #   build    - Create fresh image with packages
@@ -148,7 +155,7 @@ case "${1:-help}" in
         ./pharo images/Pharo-dev.image eval "
             Metacello new
                 repository: 'tonel://./src';
-                baseline: 'Project';
+                baseline: 'MyProject';
                 onConflictUseIncoming;
                 load.
             Transcript show: '✅ Development session ready'; cr."
@@ -166,17 +173,17 @@ case "${1:-help}" in
     test)
         echo "🧪 Running Tests"
         ./pharo images/Pharo-dev.image eval "
-            TestRunner runPackage: 'Project-Tests'"
+            TestRunner runPackage: 'MyProject-Tests'"
         ;;
     server)
         echo "🚀 Starting Server"
         ./pharo --headless images/Pharo-dev.image eval "
             Metacello new
                 repository: 'tonel://./src';
-                baseline: 'Project';
+                baseline: 'MyProject';
                 onConflictUseIncoming;
                 load.
-            ProjectServer start.
+            MyProjectServer start.
             [ true ] whileTrue: [ 1 second wait ]."
         ;;
     commit)
@@ -211,7 +218,7 @@ esac
 ```smalltalk
 Metacello new
     repository: 'tonel://./src';
-    baseline: 'Project';
+    baseline: 'MyProject';
     onConflictUseIncoming;
     load.
 
@@ -245,10 +252,10 @@ Smalltalk snapshot: true andQuit: true.
 
 #### Standard Baseline Structure
 ```smalltalk
-BaselineOf subclass: #BaselineOfProject
+BaselineOf subclass: #BaselineOfMyProject
     instanceVariableNames: ''
     classVariableNames: ''
-    category: 'BaselineOfProject'
+    category: 'BaselineOfMyProject'
 
 baseline: spec [
     <baseline>
@@ -256,9 +263,9 @@ baseline: spec [
         self setUpDependencies: spec.
         self setUpPackages: spec.
         spec
-            group: 'Core' with: #('Project-Core');
-            group: 'Tests' with: #('Project-Core-Tests');
-            group: 'Extensions' with: #('Project-Extensions');
+            group: 'Core' with: #('MyProject-Core');
+            group: 'Tests' with: #('MyProject-Core-Tests');
+            group: 'Extensions' with: #('MyProject-Extensions');
             group: 'dev' with: #('Tests' 'Extensions');
             group: 'default' with: #('Core')
     ]
@@ -273,9 +280,9 @@ setUpDependencies: spec [
 
 setUpPackages: spec [
     spec
-        package: 'Project-Core';
-        package: 'Project-Core-Tests' with: [ spec requires: 'Project-Core' ];
-        package: 'Project-Extensions' with: [ spec requires: 'Project-Core' ]
+        package: 'MyProject-Core';
+        package: 'MyProject-Core-Tests' with: [ spec requires: 'MyProject-Core' ];
+        package: 'MyProject-Extensions' with: [ spec requires: 'MyProject-Core' ]
 ]
 ```
 
@@ -294,9 +301,9 @@ setUpPackages: spec [
     8. Verify persistence after each save operation
 </session_workflow>
 
-#### Proven STUI Workflow Integration
+#### Proven Pharo 13 Workflow Integration
 
-The smalltalker agent incorporates the proven STUI team workflow patterns:
+The smalltalker agent incorporates the proven STUI team workflow patterns for any Pharo 13 project:
 
 **Enhanced Command Patterns:**
 - **Read-only exploration** - Returns control immediately with timeout protection
@@ -325,10 +332,10 @@ The smalltalker agent incorporates the proven STUI team workflow patterns:
 # Check package structure
 ./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
 
-# Proven STUI patterns for exploration
-./dev-workflow.sh eval "Smalltalk globals keys select: [:k | k beginsWith: 'STUI']"
-./dev-workflow.sh eval "STUIServer class methodDict keys"
-./dev-workflow.sh eval "STUIServer methodDict keys"
+# Proven exploration patterns (replace 'MyProject' with your project name)
+./dev-workflow.sh eval "Smalltalk globals keys select: [:k | k beginsWith: 'MyProject']"
+./dev-workflow.sh eval "MyProjectServer class methodDict keys"
+./dev-workflow.sh eval "MyProjectServer methodDict keys"
 ```
 
 ##### 2. Incremental Class Development with Package Management (Pharo 13)
@@ -385,19 +392,19 @@ The smalltalker agent incorporates the proven STUI team workflow patterns:
 ##### 4. Package and Baseline Management (Pharo 13)
 ```bash
 # 1. Explore existing packages
-./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
 
 # 2. Create new package
-./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'Project-NewFeature')"
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'MyProject-NewFeature')"
 
 # 3. Assign class to existing package
-./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'Project-Core')"
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'MyProject-Core')"
 
 # 4. Move class between packages
-./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'Project-Tests')"
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'MyProject-Tests')"
 
 # 5. Check package contents
-./dev-workflow.sh eval "(PackageOrganizer default packageNamed: 'Project-Core') classes"
+./dev-workflow.sh eval "(PackageOrganizer default packageNamed: 'MyProject-Core') classes"
 
 # 6. Check which package a class belongs to
 ./dev-workflow.sh eval "MyClass package name"
@@ -406,12 +413,12 @@ The smalltalker agent incorporates the proven STUI team workflow patterns:
 ./dev-workflow.sh eval "
 Metacello new
     repository: 'tonel://./src';
-    baseline: 'Project';
+    baseline: 'MyProject';
     onConflictUseIncoming;
     load"
 
 # 8. Check loaded packages
-./dev-workflow.sh eval "Smalltalk packages select: [:p | p name beginsWith: 'Project']"
+./dev-workflow.sh eval "Smalltalk packages select: [:p | p name beginsWith: 'MyProject']"
 ```
 
 ### Testing Integration

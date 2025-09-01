@@ -337,11 +337,11 @@ handleDeprecatedAPI
         ifFalse: [ self useCompatibilityAPI ]
 ```
 
-## Proven STUI Development Workflow Integration
+## Proven Pharo 13 Development Workflow Integration
 
 ### Enhanced Development Workflow Commands
 
-Based on the STUI team's proven workflow, we've integrated their successful patterns into our standard Pharo development approach:
+Based on the STUI team's proven workflow, we've integrated their successful patterns into our standard Pharo 13 development approach for any project:
 
 #### **Read-Only Exploration (Returns Control Properly)**
 
@@ -359,7 +359,7 @@ Based on the STUI team's proven workflow, we've integrated their successful patt
 
 ```bash
 # Create a class
-./dev-workflow.sh eval "Object subclass: #MyClass instanceVariableNames: 'data' classVariableNames: '' package: 'STUI-Tests'"
+./dev-workflow.sh eval "Object subclass: #MyClass slots: {#data} classVariables: {} package: 'MyProject-Core'"
 
 # Add methods to the class
 ./dev-workflow.sh eval "MyClass compile: 'initialize data := 100'"
@@ -425,18 +425,18 @@ rm "$temp_script"
 
 ```bash
 # 1. Check existing packages first
-./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'STUI']"
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
 
 # 2. Create class with proper package assignment
 # Option A: Assign to existing package (Pharo 13 syntax)
-./dev-workflow.sh eval "Object subclass: #DemoClass slots: {#data} classVariables: {} package: 'STUI-Core'"
+./dev-workflow.sh eval "Object subclass: #DemoClass slots: {#data} classVariables: {} package: 'MyProject-Core'"
 
 # Option B: Create new package if needed
-./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'STUI-NewFeature')"
-./dev-workflow.sh eval "Object subclass: #DemoClass slots: {#data} classVariables: {} package: 'STUI-NewFeature'"
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'MyProject-NewFeature')"
+./dev-workflow.sh eval "Object subclass: #DemoClass slots: {#data} classVariables: {} package: 'MyProject-NewFeature'"
 
 # Option C: Assign existing class to package
-./dev-workflow.sh eval "DemoClass package: (PackageOrganizer default packageNamed: 'STUI-Core')"
+./dev-workflow.sh eval "DemoClass package: (PackageOrganizer default packageNamed: 'MyProject-Core')"
 
 # 3. Add methods to the class
 ./dev-workflow.sh eval "DemoClass compile: 'initialize data := 100'"
@@ -458,41 +458,41 @@ rm "$temp_script"
 
 ```bash
 # 1. Explore existing packages
-./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'STUI']"
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
 
 # 2. Create new package
-./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'STUI-NewFeature')"
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'MyProject-NewFeature')"
 
 # 3. Assign class to existing package
-./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'STUI-Core')"
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'MyProject-Core')"
 
 # 4. Move class between packages
-./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'STUI-Tests')"
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'MyProject-Tests')"
 
 # 5. Check package contents
-./dev-workflow.sh eval "(PackageOrganizer default packageNamed: 'STUI-Core') classes"
+./dev-workflow.sh eval "(PackageOrganizer default packageNamed: 'MyProject-Core') classes"
 
 # 6. Remove package (if empty)
-./dev-workflow.sh eval "PackageOrganizer default removePackage: (PackageOrganizer default packageNamed: 'STUI-EmptyPackage')"
+./dev-workflow.sh eval "PackageOrganizer default removePackage: (PackageOrganizer default packageNamed: 'MyProject-EmptyPackage')"
 ```
 
 #### **API Exploration and Discovery**
 
 ```bash
 # Explore existing classes
-./dev-workflow.sh eval "Smalltalk globals keys select: [:k | k beginsWith: 'STUI']"
+./dev-workflow.sh eval "Smalltalk globals keys select: [:k | k beginsWith: 'MyProject']"
 
 # Check class methods
-./dev-workflow.sh eval "STUIServer class methodDict keys"
+./dev-workflow.sh eval "MyProjectServer class methodDict keys"
 
 # Check instance methods
-./dev-workflow.sh eval "STUIServer methodDict keys"
+./dev-workflow.sh eval "MyProjectServer methodDict keys"
 
 # Check package structure
-./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'STUI']"
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
 
 # Check which package a class belongs to
-./dev-workflow.sh eval "STUIServer package name"
+./dev-workflow.sh eval "MyProjectServer package name"
 ```
 
 #### **Development State Persistence**
@@ -579,24 +579,50 @@ Project-Debug         # Debugging and profiling tools
 #### **Package Assignment Guidelines (Pharo 13)**
 ```bash
 # 1. Always assign classes to packages during creation
-./dev-workflow.sh eval "Object subclass: #MyClass slots: {#data} classVariables: {} package: 'Project-Core'"
+./dev-workflow.sh eval "Object subclass: #MyClass slots: {#data} classVariables: {} package: 'MyProject-Core'"
 
 # 2. Use existing packages when possible
-./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'Project-Core')"
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'MyProject-Core')"
 
 # 3. Create new packages only for distinct features
-./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'Project-NewFeature')"
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'MyProject-NewFeature')"
 
 # 4. Verify package assignment immediately
 ./dev-workflow.sh eval "MyClass package name"
 
 # 5. Move classes to appropriate packages as needed
-./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'Project-Tests')"
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'MyProject-Tests')"
+```
+
+### Project Adaptation Guide
+
+**To use these patterns with your own project, replace `MyProject` with your project name:**
+
+```bash
+# Replace 'MyProject' with your actual project name
+# Examples: 'STUI', 'MyApp', 'WebServer', 'DataProcessor', etc.
+
+# Package exploration
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'YourProject']"
+
+# Class creation
+./dev-workflow.sh eval "Object subclass: #YourClass slots: {#data} classVariables: {} package: 'YourProject-Core'"
+
+# Package creation
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'YourProject-NewFeature')"
+
+# Baseline loading
+./dev-workflow.sh eval "
+Metacello new
+    repository: 'tonel://./src';
+    baseline: 'YourProject';
+    onConflictUseIncoming;
+    load"
 ```
 
 ### Integration with Smalltalker Agent
 
-This enhanced workflow is integrated into the Smalltalker agent's standard development flow:
+This enhanced workflow is integrated into the Smalltalker agent's standard development flow for any Pharo 13 project:
 
 - **Project initialization** - Sets up complete development environment with proven scripts
 - **Development sessions** - Guides through build → dev → eval → save workflow cycle
