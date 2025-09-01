@@ -404,30 +404,17 @@ Based on the STUI team's proven workflow, we've integrated their successful patt
 #   - Comprehensive help system
 ```
 
-#### **eval.sh - Enhanced Evaluation with Timeout (Headless)**
+#### **eval.sh - Quick Evaluation (Headless, No Persistence)**
 
 ```bash
 #!/bin/bash
-# Enhanced evaluation with proper exit handling and timeout (headless mode)
+# Quick evaluation for read-only operations (headless mode, does NOT save changes)
 
 smalltalk_snippet=$1
-
-# Create a temporary script file
-temp_script=$(mktemp)
-cat > "$temp_script" << EOF
-"Evaluation script"
-| result |
-result := $smalltalk_snippet.
-Transcript show: result asString; cr.
-Smalltalk snapshot: false andQuit: true.
-EOF
-
-# Execute the script with timeout to ensure it returns control (headless mode)
-timeout 10s ./images/pharo --headless ./images/Pharo-dev.image --no-default-preferences st "$temp_script" 2>/dev/null | tail -1
-
-# Clean up
-rm "$temp_script"
+./images/pharo --headless ./images/Pharo.image eval "$smalltalk_snippet"
 ```
+
+**Important**: `eval.sh` is for **quick evaluation only** and does NOT save changes to the image. Use `./dev-workflow.sh eval` for operations that should persist in the development image.
 
 ### Proven Command Patterns
 
@@ -649,6 +636,38 @@ PHARO_VM="images/pharo"
 - **Consistent Behavior** - Same behavior across different environments
 - **Resource Efficient** - No GUI overhead in automated workflows
 
+### Evaluation Strategy: Quick vs Development
+
+**Two distinct evaluation approaches for different purposes:**
+
+#### **Quick Evaluation (`./eval.sh`)**
+```bash
+# ✅ Quick exploration and testing (no persistence)
+./eval.sh "3 + 4"
+./eval.sh "MyProjectServer allInstances"
+./eval.sh "PackageOrganizer default packages"
+```
+
+**Characteristics:**
+- **No Persistence** - Changes are NOT saved to the image
+- **Read-Only Operations** - Perfect for exploration and testing
+- **Fast Execution** - Quick feedback without overhead
+- **Safe** - Cannot accidentally modify the development state
+
+#### **Development Evaluation (`./dev-workflow.sh eval`)**
+```bash
+# ✅ Development operations (with persistence)
+./dev-workflow.sh eval "MyProjectServer compile: 'newMethod ^ 42'"
+./dev-workflow.sh eval "Object subclass: #MyNewClass slots: {#data} classVariables: {} package: 'MyProject-Core'"
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'MyProject-NewFeature')"
+```
+
+**Characteristics:**
+- **With Persistence** - Changes ARE saved to the development image
+- **Development Operations** - Creating classes, adding methods, modifying packages
+- **State Management** - Requires explicit save with `./dev-workflow.sh save`
+- **Development Workflow** - Part of the build → dev → save → test → export cycle
+
 ### Enhanced Workflow Patterns (Headless Mode)
 
 **Daily Development Workflow:**
@@ -663,17 +682,20 @@ PHARO_VM="images/pharo"
 # 4. Save progress frequently
 ./dev-workflow.sh save
 
-# 5. Quick code evaluation (headless)
-./dev-workflow.sh eval "3 + 4"
-./dev-workflow.sh eval "MyProjectServer new"
+# 5. Quick code evaluation (headless, no persistence)
+./eval.sh "3 + 4"
+./eval.sh "MyProjectServer new"
 
-# 6. Run tests (headless)
+# 6. Development evaluation (headless, with persistence)
+./dev-workflow.sh eval "MyProjectServer compile: 'newMethod ^ 42'"
+
+# 7. Run tests (headless)
 ./dev-workflow.sh test
 
-# 7. Export to source (headless)
+# 8. Export to source (headless)
 ./dev-workflow.sh export
 
-# 8. Commit changes
+# 9. Commit changes
 git add src/
 git commit -m "feat: add new functionality"
 ```

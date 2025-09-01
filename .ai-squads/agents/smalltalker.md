@@ -112,29 +112,16 @@ echo "Loading project packages..."
 echo "Ready for development!"
 ```
 
-#### Enhanced eval.sh - Proven STUI Pattern
+#### Enhanced eval.sh - Proven STUI Pattern (Quick Evaluation Only)
 ```bash
 #!/bin/bash
-# Enhanced evaluation with proper exit handling and timeout
+# Quick evaluation for read-only operations (does NOT save changes)
 
 smalltalk_snippet=$1
-
-# Create a temporary script file
-temp_script=$(mktemp)
-cat > "$temp_script" << EOF
-"Evaluation script"
-| result |
-result := $smalltalk_snippet.
-Transcript show: result asString; cr.
-Smalltalk snapshot: false andQuit: true.
-EOF
-
-# Execute the script with timeout to ensure it returns control
-timeout 10s ./pharo ./images/Pharo-dev.image --no-default-preferences st "$temp_script" 2>/dev/null | tail -1
-
-# Clean up
-rm "$temp_script"
+./images/pharo --headless ./images/Pharo.image eval "$smalltalk_snippet"
 ```
+
+**Important**: `eval.sh` is for **quick evaluation only** and does NOT save changes to the image. Use `./dev-workflow.sh eval` for operations that should persist in the development image.
 
 #### Enhanced Development Workflow Script (dev-workflow.sh)
 ```bash
@@ -560,53 +547,56 @@ The smalltalker agent incorporates the proven STUI team workflow patterns for an
 
 ##### 1. API Exploration and Discovery
 ```bash
-# Explore existing classes and methods
-./dev-workflow.sh eval "MyProject allClasses"
-./dev-workflow.sh eval "MyClass class methodDict keys"
-./dev-workflow.sh eval "MyClass allInstances"
+# Quick exploration (read-only, no persistence)
+./eval.sh "MyProject allClasses"
+./eval.sh "MyClass class methodDict keys"
+./eval.sh "MyClass allInstances"
 
-# Check package structure
-./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
+# Check package structure (read-only)
+./eval.sh "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
 
 # Proven exploration patterns (replace 'MyProject' with your project name)
-./dev-workflow.sh eval "Smalltalk globals keys select: [:k | k beginsWith: 'MyProject']"
-./dev-workflow.sh eval "MyProjectServer class methodDict keys"
-./dev-workflow.sh eval "MyProjectServer methodDict keys"
+./eval.sh "Smalltalk globals keys select: [:k | k beginsWith: 'MyProject']"
+./eval.sh "MyProjectServer class methodDict keys"
+./eval.sh "MyProjectServer methodDict keys"
+
+# Development image exploration (with persistence)
+./dev-workflow.sh eval "MyProject allClasses"
+./dev-workflow.sh eval "MyClass class methodDict keys"
 ```
 
 ##### 2. Incremental Class Development with Package Management (Pharo 13)
 ```bash
-# 1. Check existing packages first
-./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
+# 1. Check existing packages first (quick exploration)
+./eval.sh "PackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
 
-# 2. Create new class with proper package assignment
-# Option A: Assign to existing package (Pharo 13 syntax)
+# 2. Create new class with proper package assignment (persists in dev image)
 ./dev-workflow.sh eval "Object subclass: #MyNewClass slots: {#data} classVariables: {} package: 'Project-Core'"
 
-# Option B: Create new package if needed
+# Option B: Create new package if needed (persists in dev image)
 ./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'Project-NewFeature')"
 ./dev-workflow.sh eval "Object subclass: #MyNewClass slots: {#data} classVariables: {} package: 'Project-NewFeature'"
 
-# Option C: Assign existing class to package
+# Option C: Assign existing class to package (persists in dev image)
 ./dev-workflow.sh eval "MyNewClass package: (PackageOrganizer default packageNamed: 'Project-Core')"
 
-# 3. Add methods incrementally
+# 3. Add methods incrementally (persists in dev image)
 ./dev-workflow.sh eval "MyNewClass compile: 'initialize data := 100'"
 ./dev-workflow.sh eval "MyNewClass compile: 'getData ^ data'"
 ./dev-workflow.sh eval "MyNewClass compile: 'setData: value data := value'"
 
-# 4. Verify package assignment
-./dev-workflow.sh eval "MyNewClass package name"
+# 4. Verify package assignment (quick check)
+./eval.sh "MyNewClass package name"
 
-# 5. Test immediately
-./dev-workflow.sh eval "MyNewClass new getData"
-./dev-workflow.sh eval "| obj | obj := MyNewClass new. obj setData: 200. obj getData"
+# 5. Test immediately (quick test)
+./eval.sh "MyNewClass new getData"
+./eval.sh "| obj | obj := MyNewClass new. obj setData: 200. obj getData"
 
-# 6. Save changes
+# 6. Save changes to development image
 ./dev-workflow.sh save
 
-# 7. Verify persistence
-./dev-workflow.sh eval "MyNewClass new getData"
+# 7. Verify persistence (quick check)
+./eval.sh "MyNewClass new getData"
 ```
 
 ##### 3. Development State Persistence
