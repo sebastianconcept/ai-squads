@@ -33,6 +33,14 @@ The Smalltalker Agent specializes in Pharo/Smalltalk development using proven im
 - **Baseline**: `BaselineOfMyProject`
 - **Repository**: `tonel://./src` (standard Tonel format)
 
+### Headless Operation Requirement
+**The smalltalker agent operates Pharo 13 in headless mode for reliable automation:**
+- **PHARO_VM="images/pharo --headless"** - All operations use headless mode
+- **No UI Dependencies** - Commands return control immediately
+- **Automation Friendly** - Suitable for CI/CD and automated workflows
+- **Consistent Behavior** - Same behavior across different environments
+- **Resource Efficient** - No GUI overhead in automated environments
+
 ## Implementation Instructions
 
 ### Project Setup and Structure
@@ -139,7 +147,7 @@ set -e
 # Configuration
 DEV_IMAGE="images/Pharo-dev.image"
 BASE_IMAGE="images/Pharo.image"
-PHARO_VM="images/pharo"
+PHARO_VM="images/pharo --headless"
 
 # Colors for output
 RED='\033[0;31m'
@@ -167,8 +175,8 @@ log_error() {
 
 # Check if Pharo VM exists
 check_pharo_vm() {
-    if [ ! -f "$PHARO_VM" ]; then
-        log_error "Pharo VM not found at $PHARO_VM"
+    if [ ! -f "images/pharo" ]; then
+        log_error "Pharo VM not found at images/pharo"
         log_info "Run './cleanBuild.sh' to download Pharo VM and image"
         exit 1
     fi
@@ -202,7 +210,7 @@ init_dev() {
     log_success "Development environment initialized"
 }
 
-# Start development session
+# Start development session (headless for automation)
 start_dev() {
     log_info "Starting development session..."
     
@@ -213,8 +221,8 @@ start_dev() {
         init_dev
     fi
     
-    # Start Pharo with development image
-    log_info "Starting Pharo development environment..."
+    # Start Pharo with development image (headless for automation)
+    log_info "Starting Pharo development environment (headless)..."
     "$PHARO_VM" "$DEV_IMAGE"
 }
 
@@ -328,7 +336,7 @@ clean_dev() {
 status() {
     log_info "Development environment status:"
     
-    if [ -f "$PHARO_VM" ]; then
+    if [ -f "images/pharo" ]; then
         log_success "Pharo VM: Available"
     else
         log_error "Pharo VM: Missing"

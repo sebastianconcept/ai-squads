@@ -404,11 +404,11 @@ Based on the STUI team's proven workflow, we've integrated their successful patt
 #   - Comprehensive help system
 ```
 
-#### **eval.sh - Enhanced Evaluation with Timeout**
+#### **eval.sh - Enhanced Evaluation with Timeout (Headless)**
 
 ```bash
 #!/bin/bash
-# Enhanced evaluation with proper exit handling and timeout
+# Enhanced evaluation with proper exit handling and timeout (headless mode)
 
 smalltalk_snippet=$1
 
@@ -422,8 +422,8 @@ Transcript show: result asString; cr.
 Smalltalk snapshot: false andQuit: true.
 EOF
 
-# Execute the script with timeout to ensure it returns control
-timeout 10s ./pharo ./images/Pharo-dev.image --no-default-preferences st "$temp_script" 2>/dev/null | tail -1
+# Execute the script with timeout to ensure it returns control (headless mode)
+timeout 10s ./images/pharo --headless ./images/Pharo-dev.image --no-default-preferences st "$temp_script" 2>/dev/null | tail -1
 
 # Clean up
 rm "$temp_script"
@@ -630,28 +630,47 @@ Metacello new
     load"
 ```
 
-### Enhanced Workflow Patterns
+### Headless Operation Requirements
+
+**The smalltalker agent requires headless operation for reliable automation:**
+
+```bash
+# ✅ CORRECT: Headless mode for automation
+PHARO_VM="images/pharo --headless"
+
+# ❌ INCORRECT: GUI mode (not suitable for automation)
+PHARO_VM="images/pharo"
+```
+
+**Benefits of Headless Operation:**
+- **Immediate Return Control** - Commands return control immediately
+- **No UI Dependencies** - Works in server environments without display
+- **Automation Friendly** - Suitable for CI/CD pipelines
+- **Consistent Behavior** - Same behavior across different environments
+- **Resource Efficient** - No GUI overhead in automated workflows
+
+### Enhanced Workflow Patterns (Headless Mode)
 
 **Daily Development Workflow:**
 ```bash
 # 1. Initialize development environment (one-time setup)
 ./dev-workflow.sh init
 
-# 2. Start development session
+# 2. Start development session (headless for automation)
 ./dev-workflow.sh start
 
-# 3. Make changes in Pharo IDE
+# 3. Make changes programmatically or via eval commands
 # 4. Save progress frequently
 ./dev-workflow.sh save
 
-# 5. Quick code evaluation
+# 5. Quick code evaluation (headless)
 ./dev-workflow.sh eval "3 + 4"
 ./dev-workflow.sh eval "MyProjectServer new"
 
-# 6. Run tests
+# 6. Run tests (headless)
 ./dev-workflow.sh test
 
-# 7. Export to source
+# 7. Export to source (headless)
 ./dev-workflow.sh export
 
 # 8. Commit changes
@@ -701,6 +720,7 @@ This enhanced workflow is integrated into the Smalltalker agent's standard devel
 - **Version control** - Exports packages and updates baseline for reproducible builds
 - **Error handling** - Robust error recovery and environment validation
 - **Status monitoring** - Environment status checking and validation
+- **Headless operation** - All operations use `--headless` mode for reliable automation
 
 ### Success Metrics
 
