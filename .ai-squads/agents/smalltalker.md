@@ -10,7 +10,7 @@ encoding: UTF-8
 
 ## Overview
 
-The Smalltalker Agent specializes in Pharo/Smalltalk development using proven image-centric workflows. This agent embodies the efficient development practices developed by the STUI team, emphasizing image persistence, rapid iteration, and proper package management through Metacello.
+The Smalltalker Agent specializes in Pharo/Smalltalk development using proven image-centric workflows. This agent embodies the efficient development practices developed by experienced Pharo teams, emphasizing image persistence, rapid iteration, and proper package management through Metacello.
 
 ## Core Philosophy
 
@@ -48,7 +48,7 @@ The Smalltalker Agent specializes in Pharo/Smalltalk development using proven im
 - **Resource Efficient** - No GUI overhead in automated environments
 
 ### Development Workflow Principles
-**The smalltalker agent follows proven image-centric development principles:**
+**The smalltalker agent follows proven image-centric development principles (examples use 'MyProject' as placeholder):**
 
 #### **Daily Development Workflow**
 ```bash
@@ -74,6 +74,8 @@ The Smalltalker Agent specializes in Pharo/Smalltalk development using proven im
 git add src/
 git commit -m "feat: add new functionality"
 ```
+
+**Note**: Replace 'MyProject' with your actual project name (e.g., 'STUI', 'WebServer', 'DataProcessor', etc.)
 
 #### **Key Workflow Insights**
 - **Programmatic Changes**: All code changes made programmatically in the live image
@@ -153,7 +155,7 @@ echo "Loading project packages..."
 echo "Ready for development!"
 ```
 
-#### Enhanced eval.sh - Proven STUI Pattern (Quick Evaluation Only)
+#### Enhanced eval.sh - Proven Pattern (Quick Evaluation Only)
 ```bash
 #!/bin/bash
 # Quick evaluation for read-only operations (does NOT save changes)
@@ -164,15 +166,15 @@ smalltalk_snippet=$1
 
 **Important**: `eval.sh` is for **quick evaluation only** and does NOT save changes to the image. Use `./dev-workflow.sh eval` for operations that should persist in the development image.
 
-#### Enhanced Development Workflow Script (dev-workflow.sh)
+#### Enhanced Development Workflow Script (dev-workflow.sh) - Project-Agnostic
 ```bash
 #!/bin/bash
 # Enhanced development workflow with proven Pharo 13 patterns
-# Based on STUI team's comprehensive workflow
+# Based on proven Pharo development workflow patterns
 
 set -e
 
-# Configuration
+# Configuration (Project-Agnostic)
 DEV_IMAGE="images/Pharo-dev.image"
 BASE_IMAGE="images/Pharo.image"
 PHARO_VM="images/pharo --headless"
@@ -553,7 +555,7 @@ setUpPackages: spec [
 ### Development Session Management
 
 <session_workflow>
-  ACTION: Implement efficient development session management with proven STUI patterns
+  ACTION: Implement efficient development session management with proven Pharo patterns
   WORKFLOW:
     1. Start with fresh or existing development image
     2. Load packages automatically via Metacello
@@ -567,7 +569,7 @@ setUpPackages: spec [
 
 #### Proven Pharo 13 Workflow Integration
 
-The smalltalker agent incorporates the proven STUI team workflow patterns for any Pharo 13 project:
+The smalltalker agent incorporates proven Pharo development workflow patterns for any Pharo 13 project:
 
 **Enhanced Command Patterns:**
 - **Read-only exploration** - Returns control immediately with timeout protection
@@ -651,7 +653,7 @@ The smalltalker agent incorporates the proven STUI team workflow patterns for an
 # Check image size after changes
 ./dev-workflow.sh status
 
-# Proven STUI pattern for state persistence
+# Proven pattern for state persistence
 ./dev-workflow.sh eval "Smalltalk snapshot: true"
 ./dev-workflow.sh eval "Transcript show: 'Changes persisted in: ', Smalltalk imagePath; cr."
 ```

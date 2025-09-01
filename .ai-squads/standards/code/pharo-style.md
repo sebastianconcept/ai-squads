@@ -4,6 +4,8 @@
 
 Pharo-specific code style rules for SquadsAI projects using Pharo for object-oriented development. This guide aligns with our comprehensive tech stack standards documented in `../tech-stacks/rust-and-smalltalk.md` and includes important updates for Pharo 13 compatibility.
 
+**Project-Agnostic Design**: This guide is designed to work with any Pharo 13 project. Examples use `MyProject` as a placeholder and may include STUI-specific examples for illustration purposes. Replace `MyProject` with your actual project name.
+
 ## Pharo 13 API Changes and Compatibility
 
 ### Critical Pharo 13 Updates
@@ -341,7 +343,7 @@ handleDeprecatedAPI
 
 ### Enhanced Development Workflow Commands
 
-Based on the STUI team's proven workflow, we've integrated their successful patterns into our standard Pharo 13 development approach for any project:
+Based on proven Pharo development workflow patterns, we've integrated successful patterns into our standard Pharo 13 development approach for any project:
 
 #### **Read-Only Exploration (Returns Control Properly)**
 
@@ -381,8 +383,8 @@ Based on the STUI team's proven workflow, we've integrated their successful patt
 
 ```bash
 #!/bin/bash
-# Enhanced development workflow with proven STUI patterns
-# Based on STUI team's comprehensive workflow
+# Enhanced development workflow with proven Pharo patterns
+# Based on comprehensive Pharo development workflow
 
 # Commands:
 #   init        - Initialize development environment
@@ -505,7 +507,7 @@ smalltalk_snippet=$1
 ./dev-workflow.sh status
 ```
 
-### Key Features from STUI Workflow
+### Key Features from Proven Pharo Workflow
 
 #### **✅ Verified Working Commands**
 
@@ -619,6 +621,8 @@ Metacello new
     onConflictUseIncoming;
     load"
 ```
+
+**Note**: All examples in this guide use `MyProject` as a placeholder. The STUI examples shown are for illustration purposes only - replace with your actual project name.
 
 ### Headless Operation Requirements
 
@@ -1049,7 +1053,7 @@ Pharo excels at incremental, interactive development. Set up your project with p
 #### Essential Scripts for Development
 ```bash
 # eval.sh - Quick evaluation with immediate return
-./eval.sh "STUIServer allInstances"
+./eval.sh "MyProjectServer allInstances"
 
 # evalSt.sh - Interactive session for complex development
 ./evalSt.sh script.st
