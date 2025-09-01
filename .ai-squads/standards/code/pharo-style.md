@@ -406,17 +406,32 @@ Based on proven Pharo development workflow patterns, we've integrated successful
 #   - Comprehensive help system
 ```
 
-#### **eval.sh - Quick Evaluation (Headless, No Persistence)**
+#### **eval.sh - Read Only Evaluation (Headless, No Persistence)**
 
 ```bash
 #!/bin/bash
-# Quick evaluation for read-only operations (headless mode, does NOT save changes)
+# Read-only evaluation (headless mode, does NOT save changes)
 
 smalltalk_snippet=$1
 ./images/pharo --headless ./images/Pharo.image eval "$smalltalk_snippet"
 ```
 
-**Important**: `eval.sh` is for **quick evaluation only** and does NOT save changes to the image. Use `./dev-workflow.sh eval` for operations that should persist in the development image.
+**Important**: `eval.sh` is for **read-only evaluation** and does NOT save changes to the image. For persistent changes, use `./dev-workflow.sh eval` or the `evalAndSave` pattern below.
+
+#### **evalAndSave Pattern (Persistent Snippet Evaluation)**
+```bash
+# Use eval.sh for evaluation and save
+./eval.sh "
+    $code.
+    Smalltalk snapshot: true.
+    Transcript show: '✅ Changes evaluated and saved'; cr."
+```
+
+**Use Cases for evalAndSave:**
+- Quick code changes that need to persist
+- Simple method additions or modifications
+- Immediate testing with persistence
+- Rapid iteration with state preservation
 
 ### Proven Command Patterns
 
@@ -647,9 +662,9 @@ PHARO_VM="images/pharo"
 
 **Two distinct evaluation approaches for different purposes:**
 
-#### **Quick Evaluation (`./eval.sh`)**
+#### **Read-Only Evaluation (`./eval.sh`)**
 ```bash
-# ✅ Quick exploration and testing (no persistence)
+# ✅ Read-only exploration and testing (no persistence)
 ./eval.sh "3 + 4"
 ./eval.sh "MyProjectServer allInstances"
 ./eval.sh "PackageOrganizer default packages"
@@ -691,7 +706,7 @@ PHARO_VM="images/pharo"
 # 4. Save progress frequently (every 10-15 minutes)
 ./dev-workflow.sh save
 
-# 5. Quick testing (headless, no persistence)
+# 5. Read-only testing (headless, no persistence)
 ./eval.sh "MyProjectServer new newMethod"
 
 # 6. Run tests (headless)
@@ -710,7 +725,7 @@ git commit -m "feat: add new functionality"
 ```
 
 **Key Workflow Insights:**
-- **Programmatic Changes**: All code changes made programmatically in the live image
+- **Programmatic Changes**: All code changes made programmatically in the live image (preferred over source file editing)
 - **Frequent Saves**: Save development state every 10-15 minutes
 - **Manual Version Control**: Export to source files only when ready for review
 - **Clean Rebuilds**: Always preserve ability to build from last good commit
@@ -1890,6 +1905,25 @@ git commit -m "feat: add new functionality"
 
 # 6. Push to remote
 git push
+```
+
+### Preferred Development Approach
+**The smalltalker agent prefers programmatic changes in the live image over source file editing:**
+
+#### **✅ Preferred: Programmatic Changes**
+```bash
+# Make changes programmatically in the live image
+./dev-workflow.sh eval "MyProjectServer compile: 'newMethod ^ 42'"
+./eval.sh "
+    MyProjectServer compile: 'newMethod ^ 42'.
+    Smalltalk snapshot: true.
+    Transcript show: '✅ Changes evaluated and saved'; cr."
+```
+
+#### **❌ Avoid: Direct Source File Editing**
+```bash
+# Don't edit source files during development
+# Source files are for version control, not primary development
 ```
 
 ### Version Control Strategy

@@ -78,7 +78,7 @@ git commit -m "feat: add new functionality"
 **Note**: Replace 'MyProject' with your actual project name (e.g., 'STUI', 'WebServer', 'DataProcessor', etc.)
 
 #### **Key Workflow Insights**
-- **Programmatic Changes**: All code changes made programmatically in the live image
+- **Programmatic Changes**: All code changes made programmatically in the live image (preferred over source file editing)
 - **Frequent Saves**: Save development state every 10-15 minutes
 - **Manual Version Control**: Export to source files only when ready for review
 - **Clean Rebuilds**: Always preserve ability to build from last good commit
@@ -155,16 +155,31 @@ echo "Loading project packages..."
 echo "Ready for development!"
 ```
 
-#### Enhanced eval.sh - Proven Pattern (Quick Evaluation Only)
+#### Enhanced eval.sh - Proven Pattern (Read Only Evaluation)
 ```bash
 #!/bin/bash
-# Quick evaluation for read-only operations (does NOT save changes)
+# Read-only evaluation (does NOT save changes)
 
 smalltalk_snippet=$1
 ./images/pharo --headless ./images/Pharo.image eval "$smalltalk_snippet"
 ```
 
-**Important**: `eval.sh` is for **quick evaluation only** and does NOT save changes to the image. Use `./dev-workflow.sh eval` for operations that should persist in the development image.
+**Important**: `eval.sh` is for **read-only evaluation** and does NOT save changes to the image. For persistent changes, use `./dev-workflow.sh eval` or the `evalAndSave` pattern below.
+
+#### evalAndSave Pattern (Persistent Snippet Evaluation)
+```bash
+# Use eval.sh for evaluation and save
+./eval.sh "
+    $code.
+    Smalltalk snapshot: true.
+    Transcript show: '✅ Changes evaluated and saved'; cr."
+```
+
+**Use Cases for evalAndSave:**
+- Quick code changes that need to persist
+- Simple method additions or modifications
+- Immediate testing with persistence
+- Rapid iteration with state preservation
 
 #### Enhanced Development Workflow Script (dev-workflow.sh) - Project-Agnostic
 ```bash
@@ -590,7 +605,7 @@ The smalltalker agent incorporates proven Pharo development workflow patterns fo
 
 ##### 1. API Exploration and Discovery
 ```bash
-# Quick exploration (read-only, no persistence)
+# Read-only exploration (no persistence)
 ./eval.sh "MyProject allClasses"
 ./eval.sh "MyClass class methodDict keys"
 ./eval.sh "MyClass allInstances"
@@ -610,7 +625,7 @@ The smalltalker agent incorporates proven Pharo development workflow patterns fo
 
 ##### 2. Incremental Class Development with Package Management (Pharo 13)
 ```bash
-# 1. Check existing packages first (quick exploration)
+# 1. Check existing packages first (read-only exploration)
 ./eval.sh "PackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
 
 # 2. Create new class with proper package assignment (persists in dev image)
@@ -628,17 +643,17 @@ The smalltalker agent incorporates proven Pharo development workflow patterns fo
 ./dev-workflow.sh eval "MyNewClass compile: 'getData ^ data'"
 ./dev-workflow.sh eval "MyNewClass compile: 'setData: value data := value'"
 
-# 4. Verify package assignment (quick check)
+# 4. Verify package assignment (read-only check)
 ./eval.sh "MyNewClass package name"
 
-# 5. Test immediately (quick test)
+# 5. Test immediately (read-only test)
 ./eval.sh "MyNewClass new getData"
 ./eval.sh "| obj | obj := MyNewClass new. obj setData: 200. obj getData"
 
 # 6. Save changes to development image
 ./dev-workflow.sh save
 
-# 7. Verify persistence (quick check)
+# 7. Verify persistence (read-only check)
 ./eval.sh "MyNewClass new getData"
 ```
 
