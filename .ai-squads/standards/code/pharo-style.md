@@ -446,7 +446,7 @@ smalltalk_snippet=$1
 
 **Important**: `eval.sh` is for **read-only evaluation** and does NOT save changes to the image. For persistent changes, use `./dev-workflow.sh eval` or the `evalAndSave` pattern below.
 
-#### **evalAndSave Pattern (Persistent Snippet Evaluation)**
+#### **evalAndSave Pattern (Persistent Snippet Evaluation) - CRITICAL INSIGHT**
 ```bash
 # Use eval.sh for evaluation and save
 ./eval.sh "
@@ -460,6 +460,8 @@ smalltalk_snippet=$1
 - Simple method additions or modifications
 - Immediate testing with persistence
 - Rapid iteration with state preservation
+
+**This is the CRITICAL pattern for rapid development!**
 
 ### Proven Command Patterns
 
@@ -1891,6 +1893,52 @@ Smalltalk cleanUp: true.
 "Reset development state when needed"
 MyClass allInstances do: #resetState.
 ```
+
+## Smalltalker Quick Reference
+
+### 🚀 CRITICAL PATTERNS
+
+#### **evalAndSave Pattern (Most Important!)**
+```bash
+# Quick persistent changes - THE KEY TO RAPID DEVELOPMENT
+./eval.sh "
+    MyProjectServer compile: 'newMethod ^ 42'.
+    Smalltalk snapshot: true.
+    Transcript show: '✅ Changes evaluated and saved'; cr."
+```
+
+#### **Three Evaluation Approaches**
+1. **Read-Only** (`./eval.sh`) - Exploration only, no persistence
+2. **Development** (`./dev-workflow.sh eval`) - Persistent changes in dev image
+3. **evalAndSave** (`./eval.sh` + snapshot) - Quick persistent changes
+
+#### **Daily Workflow**
+```bash
+# 1. Start development
+./dev-workflow.sh start
+
+# 2. Make changes programmatically
+./eval.sh "
+    MyProjectServer compile: 'newMethod ^ 42'.
+    Smalltalk snapshot: true.
+    Transcript show: '✅ Changes evaluated and saved'; cr."
+
+# 3. Test immediately
+./eval.sh "MyProjectServer new newMethod"
+
+# 4. Save progress
+./dev-workflow.sh save
+
+# 5. Export when ready
+./dev-workflow.sh export
+```
+
+#### **Key Principles**
+- **Programmatic Changes**: Always make changes in live image
+- **evalAndSave**: Use for quick persistent changes
+- **Frequent Saves**: Every 10-15 minutes
+- **Manual Version Control**: Export only when ready for review
+- **Clean Rebuilds**: Always preserve ability to build from source
 
 ## Best Practices Summary
 
