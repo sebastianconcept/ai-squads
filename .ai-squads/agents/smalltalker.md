@@ -132,70 +132,298 @@ rm "$temp_script"
 ```bash
 #!/bin/bash
 # Enhanced development workflow with proven Pharo 13 patterns
+# Based on STUI team's comprehensive workflow
 
-# Commands:
-#   build    - Create fresh image with packages
-#   dev      - Start development session (persistent image)
-#   eval     - Evaluate Smalltalk code with proper exit handling
-#   save     - Save changes to image (frequent during development)
-#   commit   - Commit changes to baseline (when ready)
-#   clean    - Clean build artifacts and caches
-#   server   - Start server for testing
-#   test     - Run end-to-end tests
+set -e
 
+# Configuration
+DEV_IMAGE="images/Pharo-dev.image"
+BASE_IMAGE="images/Pharo.image"
+PHARO_VM="images/pharo"
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Helper functions
+log_info() {
+    echo -e "${BLUE}ℹ️  $1${NC}"
+}
+
+log_success() {
+    echo -e "${GREEN}✅ $1${NC}"
+}
+
+log_warning() {
+    echo -e "${YELLOW}⚠️  $1${NC}"
+}
+
+log_error() {
+    echo -e "${RED}❌ $1${NC}"
+}
+
+# Check if Pharo VM exists
+check_pharo_vm() {
+    if [ ! -f "$PHARO_VM" ]; then
+        log_error "Pharo VM not found at $PHARO_VM"
+        log_info "Run './cleanBuild.sh' to download Pharo VM and image"
+        exit 1
+    fi
+}
+
+# Initialize development environment
+init_dev() {
+    log_info "Initializing development environment..."
+    
+    check_pharo_vm
+    
+    if [ ! -f "$DEV_IMAGE" ]; then
+        log_info "Creating development image from base image..."
+        cp "$BASE_IMAGE" "$DEV_IMAGE"
+        log_success "Development image created"
+    else
+        log_info "Development image already exists"
+    fi
+    
+    # Load baseline into development image
+    log_info "Loading MyProject baseline into development image..."
+    "$PHARO_VM" "$DEV_IMAGE" eval "
+        Metacello new
+            repository: 'tonel://./src';
+            baseline: 'MyProject';
+            onConflictUseIncoming;
+            load.
+        Smalltalk snapshot: true andQuit: false.
+        Transcript show: '✅ Development environment ready'; cr." 2>/dev/null || true
+    
+    log_success "Development environment initialized"
+}
+
+# Start development session
+start_dev() {
+    log_info "Starting development session..."
+    
+    check_pharo_vm
+    
+    if [ ! -f "$DEV_IMAGE" ]; then
+        log_warning "Development image not found. Initializing..."
+        init_dev
+    fi
+    
+    # Start Pharo with development image
+    log_info "Starting Pharo development environment..."
+    "$PHARO_VM" "$DEV_IMAGE"
+}
+
+# Save current development state
+save_dev() {
+    log_info "Saving development state..."
+    
+    check_pharo_vm
+    
+    if [ ! -f "$DEV_IMAGE" ]; then
+        log_error "Development image not found"
+        exit 1
+    fi
+    
+    "$PHARO_VM" "$DEV_IMAGE" eval "
+        Smalltalk snapshot: true andQuit: false.
+        Transcript show: '✅ Development state saved'; cr." 2>/dev/null || true
+    
+    log_success "Development state saved"
+}
+
+# Quick evaluation of Smalltalk code
+eval_code() {
+    local code="$1"
+    
+    if [ -z "$code" ]; then
+        log_error "No code provided for evaluation"
+        echo "Usage: $0 eval 'your Smalltalk code here'"
+        exit 1
+    fi
+    
+    log_info "Evaluating Smalltalk code..."
+    "$PHARO_VM" "$DEV_IMAGE" eval "$code"
+}
+
+# Evaluate Smalltalk script file
+eval_script() {
+    local script_file="$1"
+    
+    if [ -z "$script_file" ]; then
+        log_error "No script file provided"
+        echo "Usage: $0 eval-script path/to/script.st"
+        exit 1
+    fi
+    
+    if [ ! -f "$script_file" ]; then
+        log_error "Script file not found: $script_file"
+        exit 1
+    fi
+    
+    log_info "Evaluating Smalltalk script: $script_file"
+    "$PHARO_VM" "$DEV_IMAGE" st "$script_file"
+}
+
+# Run tests
+run_tests() {
+    log_info "Running MyProject tests..."
+    
+    check_pharo_vm
+    
+    if [ ! -f "$DEV_IMAGE" ]; then
+        log_warning "Development image not found. Initializing..."
+        init_dev
+    fi
+    
+    "$PHARO_VM" "$DEV_IMAGE" eval "
+        Metacello new
+            repository: 'tonel://./src';
+            baseline: 'MyProject';
+            onConflictUseIncoming;
+            load: #('Tests').
+        Transcript show: '✅ Tests loaded successfully'; cr." 2>/dev/null || true
+    
+    log_success "Tests completed"
+}
+
+# Export packages to source
+export_packages() {
+    log_info "Exporting packages to source..."
+    
+    check_pharo_vm
+    
+    if [ ! -f "$DEV_IMAGE" ]; then
+        log_error "Development image not found"
+        exit 1
+    fi
+    
+    "$PHARO_VM" "$DEV_IMAGE" eval "
+        IceRepository repositoryFor: './'.
+        IcePackage allInstances 
+            select: [:p | p name beginsWith: 'MyProject']
+            thenDo: [:p | p save].
+        Transcript show: '✅ Packages exported to source'; cr." 2>/dev/null || true
+    
+    log_success "Packages exported to source"
+}
+
+# Clean development environment
+clean_dev() {
+    log_warning "Cleaning development environment..."
+    
+    if [ -f "$DEV_IMAGE" ]; then
+        rm -f "$DEV_IMAGE"
+        log_success "Development image removed"
+    else
+        log_info "Development image not found"
+    fi
+}
+
+# Show development status
+status() {
+    log_info "Development environment status:"
+    
+    if [ -f "$PHARO_VM" ]; then
+        log_success "Pharo VM: Available"
+    else
+        log_error "Pharo VM: Missing"
+    fi
+    
+    if [ -f "$BASE_IMAGE" ]; then
+        log_success "Base image: Available"
+    else
+        log_error "Base image: Missing"
+    fi
+    
+    if [ -f "$DEV_IMAGE" ]; then
+        log_success "Development image: Available"
+        # Show image size
+        size=$(du -h "$DEV_IMAGE" | cut -f1)
+        log_info "  Size: $size"
+    else
+        log_warning "Development image: Not created"
+    fi
+}
+
+# Show help
+show_help() {
+    echo "MyProject Development Workflow"
+    echo ""
+    echo "Usage: $0 <command> [options]"
+    echo ""
+    echo "Commands:"
+    echo "  init        Initialize development environment"
+    echo "  start       Start development session (opens Pharo IDE)"
+    echo "  save        Save current development state"
+    echo "  eval <code> Evaluate Smalltalk code"
+    echo "  eval-script <file> Evaluate Smalltalk script file"
+    echo "  test        Run all tests"
+    echo "  export      Export packages to source (for Git)"
+    echo "  clean       Clean development environment"
+    echo "  status      Show development environment status"
+    echo "  help        Show this help message"
+    echo ""
+    echo "Examples:"
+    echo "  $0 init                    # Initialize dev environment"
+    echo "  $0 start                   # Start Pharo IDE"
+    echo "  $0 eval '3 + 4'           # Evaluate Smalltalk expression"
+    echo "  $0 eval-script test.st     # Run Smalltalk script"
+    echo "  $0 test                    # Run all tests"
+    echo "  $0 export                  # Export changes to source"
+    echo ""
+    echo "Development Workflow:"
+    echo "  1. ./dev-workflow.sh init    # One-time setup"
+    echo "  2. ./dev-workflow.sh start   # Start development"
+    echo "  3. Make changes in Pharo IDE"
+    echo "  4. ./dev-workflow.sh save    # Save progress"
+    echo "  5. ./dev-workflow.sh export  # Export to source"
+    echo "  6. Commit changes with Git"
+    echo ""
+    echo "For clean rebuild: ./cleanBuild.sh"
+}
+
+# Main command handling
 case "${1:-help}" in
-    build)
-        echo "🔨 Building Fresh Pharo Image"
-        ./scripts/build.sh
-        cp images/Pharo.image images/Pharo-dev.image
-        echo "✅ Development image created"
+    init)
+        init_dev
         ;;
-    dev)
-        echo "💻 Starting Development Session"
-        ./pharo images/Pharo-dev.image eval "
-            Metacello new
-                repository: 'tonel://./src';
-                baseline: 'MyProject';
-                onConflictUseIncoming;
-                load.
-            Transcript show: '✅ Development session ready'; cr."
-        ;;
-    eval)
-        echo "🔍 Evaluating Smalltalk Code"
-        ./eval.sh \"$2\"
+    start)
+        start_dev
         ;;
     save)
-        echo "💾 Saving Development State"
-        ./pharo images/Pharo-dev.image eval "
-            Smalltalk snapshot: true.
-            Transcript show: '✅ State saved to image'; cr."
+        save_dev
+        ;;
+    eval)
+        eval_code "$2"
+        ;;
+    eval-script)
+        eval_script "$2"
         ;;
     test)
-        echo "🧪 Running Tests"
-        ./pharo images/Pharo-dev.image eval "
-            TestRunner runPackage: 'MyProject-Tests'"
+        run_tests
         ;;
-    server)
-        echo "🚀 Starting Server"
-        ./pharo --headless images/Pharo-dev.image eval "
-            Metacello new
-                repository: 'tonel://./src';
-                baseline: 'MyProject';
-                onConflictUseIncoming;
-                load.
-            MyProjectServer start.
-            [ true ] whileTrue: [ 1 second wait ]."
-        ;;
-    commit)
-        echo "📝 Committing Changes"
-        # Export packages to src/ via Iceberg
-        # Update baseline if needed
-        # Commit to git
+    export)
+        export_packages
         ;;
     clean)
-        echo "🧹 Cleaning Build Artifacts"
-        rm -f images/Pharo-dev.image
-        ./scripts/clean.sh
+        clean_dev
+        ;;
+    status)
+        status
+        ;;
+    help|--help|-h)
+        show_help
+        ;;
+    *)
+        log_error "Unknown command: $1"
+        echo ""
+        show_help
+        exit 1
         ;;
 esac
 ```
@@ -485,6 +713,57 @@ BaselineOfProject recompile.
     3. Provide debugging support for development issues
     4. Maintain backup strategies for development progress
 </error_recovery>
+
+### Confidence Indicators and Best Practices
+
+The Smalltalker agent can be confident in this workflow when:
+
+**✅ Environment Setup**
+- `./dev-workflow.sh init` completes successfully
+- `./dev-workflow.sh status` shows all components available
+- Development image loads without errors
+
+**✅ Development Flow**
+- Can add code and persist it in image anytime
+- `./dev-workflow.sh save` works reliably
+- `./dev-workflow.sh eval` executes code successfully
+- Changes persist across restarts
+
+**✅ Testing and Quality**
+- `./dev-workflow.sh test` loads test packages
+- Can run individual tests and see results
+- Baseline loads cleanly with all dependencies
+
+**✅ Export and Version Control**
+- `./dev-workflow.sh export` works correctly
+- Changes export to source files properly
+- Git integration works seamlessly
+
+**✅ Recovery and Clean Rebuilds**
+- `./cleanBuild.sh` provides fresh environment
+- Can recover from corrupted states
+- Development workflow restarts cleanly
+
+#### Best Practices
+
+**Development Habits:**
+1. **Save Frequently**: Use `./dev-workflow.sh save` every 10-15 minutes
+2. **Test Incrementally**: Test small changes immediately
+3. **Use Workspace**: Experiment in Pharo workspace before committing
+4. **Export Regularly**: Export changes to source for version control
+5. **Document Changes**: Add class comments and method documentation
+
+**Code Quality:**
+- **Method Categories**: Organize methods by proper categories
+- **Class Comments**: Provide comprehensive class documentation
+- **Error Handling**: Implement robust error handling
+- **Testing**: Write tests for new functionality
+
+**State Management:**
+- **Frequent Saves**: Preserve development progress
+- **Clean Exports**: Export only when ready for version control
+- **Backup Strategy**: Keep development image as backup
+- **Clean Rebuilds**: Use when environment becomes unstable
 
 #### Error Recovery Patterns
 ```bash

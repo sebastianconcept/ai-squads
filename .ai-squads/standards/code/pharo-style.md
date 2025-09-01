@@ -377,21 +377,31 @@ Based on the STUI team's proven workflow, we've integrated their successful patt
 
 ### Enhanced Development Workflow Scripts
 
-#### **dev-workflow.sh - Main Development Orchestration**
+#### **dev-workflow.sh - Enhanced Development Orchestration**
 
 ```bash
 #!/bin/bash
 # Enhanced development workflow with proven STUI patterns
+# Based on STUI team's comprehensive workflow
 
 # Commands:
-#   build    - Create fresh image with packages
-#   dev      - Start development session (persistent image)
-#   eval     - Evaluate Smalltalk code with proper exit handling
-#   save     - Save changes to image (frequent during development)
-#   commit   - Commit changes to baseline (when ready)
-#   clean    - Clean build artifacts and caches
-#   server   - Start server for testing
-#   test     - Run end-to-end tests
+#   init        - Initialize development environment
+#   start       - Start development session (opens Pharo IDE)
+#   save        - Save current development state
+#   eval <code> - Evaluate Smalltalk code
+#   eval-script <file> - Evaluate Smalltalk script file
+#   test        - Run all tests
+#   export      - Export packages to source (for Git)
+#   clean       - Clean development environment
+#   status      - Show development environment status
+#   help        - Show help message
+
+# Features:
+#   - Colored output with status indicators
+#   - Error handling and validation
+#   - Persistent development image management
+#   - Environment status checking
+#   - Comprehensive help system
 ```
 
 #### **eval.sh - Enhanced Evaluation with Timeout**
@@ -620,17 +630,77 @@ Metacello new
     load"
 ```
 
+### Enhanced Workflow Patterns
+
+**Daily Development Workflow:**
+```bash
+# 1. Initialize development environment (one-time setup)
+./dev-workflow.sh init
+
+# 2. Start development session
+./dev-workflow.sh start
+
+# 3. Make changes in Pharo IDE
+# 4. Save progress frequently
+./dev-workflow.sh save
+
+# 5. Quick code evaluation
+./dev-workflow.sh eval "3 + 4"
+./dev-workflow.sh eval "MyProjectServer new"
+
+# 6. Run tests
+./dev-workflow.sh test
+
+# 7. Export to source
+./dev-workflow.sh export
+
+# 8. Commit changes
+git add src/
+git commit -m "feat: add new functionality"
+```
+
+**Advanced Development Patterns:**
+```bash
+# Incremental class development
+./dev-workflow.sh eval "
+Object subclass: #MyNewClass
+    slots: {#data}
+    classVariables: {}
+    package: 'MyProject-Core'"
+
+./dev-workflow.sh eval "
+MyNewClass compile: 'initialize
+    super initialize.
+    data := Dictionary new'"
+
+./dev-workflow.sh eval "MyNewClass new class name"
+
+# Package management
+./dev-workflow.sh eval "
+Metacello new
+    repository: 'tonel://./src';
+    baseline: 'MyProject';
+    onConflictUseIncoming;
+    load"
+
+# Debugging and exploration
+./dev-workflow.sh eval "MyProjectServer allMethods"
+./dev-workflow.sh eval "MyProjectServer allInstances"
+```
+
 ### Integration with Smalltalker Agent
 
 This enhanced workflow is integrated into the Smalltalker agent's standard development flow for any Pharo 13 project:
 
 - **Project initialization** - Sets up complete development environment with proven scripts
-- **Development sessions** - Guides through build → dev → eval → save workflow cycle
+- **Development sessions** - Guides through init → start → save → test → export workflow cycle
 - **Class development** - Uses incremental development with eval patterns and proper exit handling
 - **Package management** - Updates baseline and reloads via Metacello with proper package assignment
 - **Testing integration** - Integrates testing into development workflow
 - **Debugging support** - Provides live debugging and recovery strategies
 - **Version control** - Exports packages and updates baseline for reproducible builds
+- **Error handling** - Robust error recovery and environment validation
+- **Status monitoring** - Environment status checking and validation
 
 ### Success Metrics
 
