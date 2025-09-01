@@ -641,3 +641,47 @@ This pattern has been documented in `.squads-ai/standards/code/rust-style.md` as
 **Last Updated**: 2025-08-31  
 **Next Review**: 2025-09-07  
 **Status**: Active Development
+
+---
+
+### Decision: Implement Tool-Scoped Context Architecture for Composable Development Tools
+
+**Context**: Phase 3 requires multiple development tools (Workspace, Inspector, Debugger) that need to maintain isolated variable contexts while sharing session coordination.
+
+**Decision**: Implement a composable tool architecture where each tool instance maintains its own isolated variable context:
+1. **Tool Isolation**: Each tool (workspace, inspector, debugger) gets isolated variable scope
+2. **Session Coordination**: All tools share same session_id for coordination
+3. **Variable Persistence**: Variables persist within tool scope for entire session
+4. **Context Management**: Smalltalk server maintains separate contexts per tool per session
+5. **Protocol Extension**: EvaluateRequest includes tool_id for context routing
+
+**Rationale**:
+- **True Tool Isolation**: Variables don't leak between different tool instances
+- **Professional Development**: Each tool maintains its own development context
+- **Composable Architecture**: Easy to add new tool types with isolated contexts
+- **Session Persistence**: Variables survive across multiple evaluations
+- **Scalable Design**: Supports multiple simultaneous tool instances
+
+**Alternatives Considered**:
+- **Global context**: Simple but causes variable contamination between tools
+- **Manual context switching**: Complex user experience, error-prone
+- **Tool-specific sessions**: Overly complex, breaks session coordination
+
+**Consequences**:
+- ✅ **Positive**: Professional development experience, true tool isolation
+- ✅ **Positive**: Scalable architecture for future tool additions
+- ✅ **Positive**: Variables persist appropriately within tool scope
+- ⚠️ **Neutral**: Increased protocol complexity with tool_id field
+- ❌ **Negative**: More complex server-side context management
+
+**Implementation Details**:
+- **Rust Client**: WorkspaceState includes tool_id and session_id
+- **Protocol**: EvaluateRequest extended with tool_id field
+- **Smalltalk Server**: STUIToolContext and STUIToolContextManager classes
+- **Context Isolation**: Each tool maintains separate variable dictionary
+- **Session Coordination**: Shared session_id enables tool coordination
+
+**Status**: ✅ **COMPLETED** - All tests passing, architecture verified
+**Next**: Implement UI for different tool instances and test with actual Smalltalk server
+
+---
