@@ -323,7 +323,7 @@ The smalltalker agent incorporates the proven STUI team workflow patterns:
 ./dev-workflow.sh eval "MyClass allInstances"
 
 # Check package structure
-./dev-workflow.sh eval "RPackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
 
 # Proven STUI patterns for exploration
 ./dev-workflow.sh eval "Smalltalk globals keys select: [:k | k beginsWith: 'STUI']"
@@ -331,22 +331,21 @@ The smalltalker agent incorporates the proven STUI team workflow patterns:
 ./dev-workflow.sh eval "STUIServer methodDict keys"
 ```
 
-##### 2. Incremental Class Development with Package Management
+##### 2. Incremental Class Development with Package Management (Pharo 13)
 ```bash
 # 1. Check existing packages first
-./dev-workflow.sh eval "RPackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
 
 # 2. Create new class with proper package assignment
-# Option A: Assign to existing package
-./dev-workflow.sh eval "Object subclass: #MyNewClass instanceVariableNames: 'data' classVariableNames: '' package: 'Project-Core'"
+# Option A: Assign to existing package (Pharo 13 syntax)
+./dev-workflow.sh eval "Object subclass: #MyNewClass slots: {#data} classVariables: {} package: 'Project-Core'"
 
 # Option B: Create new package if needed
-./dev-workflow.sh eval "RPackageOrganizer default createPackageNamed: 'Project-NewFeature'"
-./dev-workflow.sh eval "Object subclass: #MyNewClass instanceVariableNames: 'data' classVariableNames: '' package: 'Project-NewFeature'"
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'Project-NewFeature')"
+./dev-workflow.sh eval "Object subclass: #MyNewClass slots: {#data} classVariables: {} package: 'Project-NewFeature'"
 
-# Option C: Assign to package with specific tag/version
-./dev-workflow.sh eval "Object subclass: #MyNewClass instanceVariableNames: 'data' classVariableNames: '' package: 'Project-Core'"
-./dev-workflow.sh eval "MyNewClass package: (RPackageOrganizer default packageNamed: 'Project-Core')"
+# Option C: Assign existing class to package
+./dev-workflow.sh eval "MyNewClass package: (PackageOrganizer default packageNamed: 'Project-Core')"
 
 # 3. Add methods incrementally
 ./dev-workflow.sh eval "MyNewClass compile: 'initialize data := 100'"
@@ -383,22 +382,22 @@ The smalltalker agent incorporates the proven STUI team workflow patterns:
 ./dev-workflow.sh eval "Transcript show: 'Changes persisted in: ', Smalltalk imagePath; cr."
 ```
 
-##### 4. Package and Baseline Management
+##### 4. Package and Baseline Management (Pharo 13)
 ```bash
 # 1. Explore existing packages
-./dev-workflow.sh eval "RPackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
 
 # 2. Create new package
-./dev-workflow.sh eval "RPackageOrganizer default createPackageNamed: 'Project-NewFeature'"
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'Project-NewFeature')"
 
 # 3. Assign class to existing package
-./dev-workflow.sh eval "MyClass package: (RPackageOrganizer default packageNamed: 'Project-Core')"
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'Project-Core')"
 
 # 4. Move class between packages
-./dev-workflow.sh eval "MyClass package: (RPackageOrganizer default packageNamed: 'Project-Tests')"
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'Project-Tests')"
 
 # 5. Check package contents
-./dev-workflow.sh eval "(RPackageOrganizer default packageNamed: 'Project-Core') classes"
+./dev-workflow.sh eval "(PackageOrganizer default packageNamed: 'Project-Core') classes"
 
 # 6. Check which package a class belongs to
 ./dev-workflow.sh eval "MyClass package name"
