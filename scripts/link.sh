@@ -34,7 +34,7 @@ show_usage() {
     echo "Usage: $0 <target_repo_path>"
     echo ""
     echo "This script will link .cursor/rules from .ai-squads into the target repository."
-echo "The script is idempotent - it will skip installation if .ai-squads is already present."
+    echo "The script is idempotent and incremental - it will add new agents and update existing ones."
     echo ""
     echo "Arguments:"
     echo "  target_repo_path    Path to the target repository where .cursor/rules will be installed"
@@ -44,13 +44,19 @@ echo "The script is idempotent - it will skip installation if .ai-squads is alre
     echo "  $0 /path/to/another/repo"
     echo ""
     echo "The script will:"
-echo "  1. Verify the target repository exists and is a git repo"
-echo "  2. Check if .ai-squads is already installed (idempotent)"
-echo "  3. Create .cursor/rules directory if it doesn't exist"
-echo "  4. Create symlinks to all agent, project, and workflow rules from .ai-squads"
-echo "  5. Convert .md files to .mdc for Cursor compatibility"
-echo "  6. Create a symlink to the source .ai-squads directory"
-echo "  7. Update .gitignore to exclude the symlinked directory"
+    echo "  1. Verify the target repository exists and is a git repo"
+    echo "  2. Check if .ai-squads is already installed (idempotent)"
+    echo "  3. Create .cursor/rules directory if it doesn't exist"
+    echo "  4. Create/update symlinks to all agent, project, and workflow rules from .ai-squads"
+    echo "  5. Convert .md files to .mdc for Cursor compatibility"
+    echo "  6. Create/update symlink to the source .ai-squads directory"
+    echo "  7. Update .gitignore to exclude the symlinked directory"
+    echo ""
+    echo "Idempotent behavior:"
+    echo "  - Can be run multiple times safely"
+    echo "  - Adds new agents without removing existing ones"
+    echo "  - Updates existing symlinks to point to current source"
+    echo "  - Provides detailed feedback about what was added/updated"
 }
 
 # Check if help is requested
@@ -106,38 +112,26 @@ fi
 TARGET_SQUADS_LINK="$TARGET_REPO/.ai-squads"
 if [ -L "$TARGET_SQUADS_LINK" ] || [ -d "$TARGET_SQUADS_LINK" ]; then
     print_status ".ai-squads already installed in target repository"
-    print_status "Checking if installation is up to date..."
     
     # Check if it's a symlink to our source
     if [ -L "$TARGET_SQUADS_LINK" ]; then
         LINK_TARGET=$(readlink "$TARGET_SQUADS_LINK")
         if [ "$LINK_TARGET" = "$SOURCE_ABSOLUTE_PATH" ]; then
-            print_success ".ai-squads is already properly linked and up to date!"
-            print_status "No action needed - installation is current"
-            exit 0
+            print_status "✓ .ai-squads is properly linked to current source"
         else
             print_warning "Found existing .ai-squads but it links to different location: $LINK_TARGET"
-            print_status "This might be from a different installation"
+            print_status "This might be from a different installation - will update to current source"
+            # Remove the old symlink to replace with correct one
+            rm "$TARGET_SQUADS_LINK"
         fi
     else
         print_warning "Found existing .ai-squads directory (not a symlink)"
-        print_status "This might be from a different installation"
-    fi
-    
-    read -p "Replace existing installation? (y/N): " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        print_status "Installation skipped - keeping existing .ai-squads"
-        exit 0
-    fi
-    
-    # Remove existing installation
-    print_status "Removing existing .ai-squads installation..."
-    if [ -L "$TARGET_SQUADS_LINK" ]; then
-        rm "$TARGET_SQUADS_LINK"
-    else
+        print_status "This might be from a different installation - will replace with symlink"
+        # Remove the directory to replace with symlink
         rm -rf "$TARGET_SQUADS_LINK"
     fi
+else
+    print_status "No existing .ai-squads installation found - will create new"
 fi
 
 # Create .cursor directory in target if it doesn't exist
@@ -154,75 +148,80 @@ if [ ! -d "$TARGET_RULES_DIR" ]; then
     mkdir -p "$TARGET_RULES_DIR"
 fi
 
-# Check if .cursor/rules already has .ai-squads symlinks
+# Check if .cursor/rules already has .ai-squads symlinks (informational only)
 if [ -d "$TARGET_RULES_DIR" ] && [ "$(ls -A "$TARGET_RULES_DIR" 2>/dev/null)" ]; then
     # Check if there are any .mdc files that look like they're from .ai-squads
     AI_SQUADS_FILES=$(find "$TARGET_RULES_DIR" -name "*.mdc" -type l 2>/dev/null | wc -l)
     if [ "$AI_SQUADS_FILES" -gt 0 ]; then
-        print_status "Found existing .mdc symlinks in .cursor/rules"
-        print_status "Checking if they're from .ai-squads..."
-        
-        # Sample check - look for a few key files
-        SAMPLE_FILES=("director.mdc" "software-engineer.mdc" "elite.mdc")
-        EXISTING_COUNT=0
-        for file in "${SAMPLE_FILES[@]}"; do
-            if [ -L "$TARGET_RULES_DIR/$file" ]; then
-                EXISTING_COUNT=$((EXISTING_COUNT + 1))
-            fi
-        done
-        
-        if [ "$EXISTING_COUNT" -ge 2 ]; then
-            print_status "Found existing .ai-squads symlinks in .cursor/rules"
-            print_status "Checking if installation is complete..."
-            
-            # Check if the README.mdc exists and mentions .ai-squads
-            if [ -f "$TARGET_RULES_DIR/README.mdc" ] && grep -q "\.ai-squads" "$TARGET_RULES_DIR/README.mdc"; then
-                print_success ".cursor/rules already has .ai-squads installation!"
-                print_status "No action needed - rules are already linked"
-                exit 0
-            fi
-        fi
+        print_status "Found existing .mdc symlinks in .cursor/rules - will update incrementally"
     fi
 fi
 
 # Create symlinks from .ai-squads to .cursor/rules for automatic updates
-print_status "Creating symlinks to .ai-squads for automatic updates"
+print_status "Creating/updating symlinks to .ai-squads for automatic updates"
+
+# Function to create symlink with feedback
+create_symlink() {
+    local source_file="$1"
+    local target_file="$2"
+    local description="$3"
+    
+    if [ -f "$source_file" ]; then
+        if [ -L "$target_file" ]; then
+            # Check if symlink points to correct source
+            local current_target=$(readlink "$target_file")
+            local expected_target="$source_file"
+            if [ "$current_target" = "$expected_target" ]; then
+                print_status "  ✓ $description already correctly linked"
+            else
+                print_status "  🔄 Updating $description symlink"
+                ln -sf "$source_file" "$target_file"
+            fi
+        else
+            print_status "  ➕ Adding new $description symlink"
+            ln -sf "$source_file" "$target_file"
+        fi
+    fi
+}
 
 # Create symlinks for all .md files from .ai-squads/agents
 if [ -d "$SOURCE_DIR/agents" ]; then
-    print_status "Creating symlinks for agent definitions..."
+    print_status "Processing agent definitions..."
     for file in "$SOURCE_DIR/agents"/*.md; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
+            agent_name="${filename%.md}"
             # Create .mdc symlink for Cursor compatibility
             mdc_filename="${filename%.md}.mdc"
-            ln -sf "$SOURCE_ABSOLUTE_PATH/agents/$filename" "$TARGET_RULES_DIR/$mdc_filename"
+            create_symlink "$SOURCE_ABSOLUTE_PATH/agents/$filename" "$TARGET_RULES_DIR/$mdc_filename" "agent: $agent_name"
         fi
     done
 fi
 
 # Create symlinks for all .md files from .ai-squads/squads
 if [ -d "$SOURCE_DIR/squads" ]; then
-    print_status "Creating symlinks for squad definitions..."
+    print_status "Processing squad definitions..."
     for file in "$SOURCE_DIR/squads"/*.md; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
+            squad_name="${filename%.md}"
             # Create .mdc symlink for Cursor compatibility
             mdc_filename="${filename%.md}.mdc"
-            ln -sf "$SOURCE_ABSOLUTE_PATH/squads/$filename" "$TARGET_RULES_DIR/$mdc_filename"
+            create_symlink "$SOURCE_ABSOLUTE_PATH/squads/$filename" "$TARGET_RULES_DIR/$mdc_filename" "squad: $squad_name"
         fi
     done
 fi
 
 # Create symlinks for all .md files from .ai-squads/projects (if exists and not empty)
 if [ -d "$SOURCE_DIR/projects" ] && [ "$(ls -A "$SOURCE_DIR/projects" 2>/dev/null)" ]; then
-    print_status "Creating symlinks for project definitions..."
+    print_status "Processing project definitions..."
     for file in "$SOURCE_DIR/projects"/*.md; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
+            project_name="${filename%.md}"
             # Create .mdc symlink for Cursor compatibility
             mdc_filename="${filename%.md}.mdc"
-            ln -sf "$SOURCE_ABSOLUTE_PATH/projects/$filename" "$TARGET_RULES_DIR/$mdc_filename"
+            create_symlink "$SOURCE_ABSOLUTE_PATH/projects/$filename" "$TARGET_RULES_DIR/$mdc_filename" "project: $project_name"
         fi
     done
 elif [ -d "$SOURCE_DIR/projects" ]; then
@@ -231,18 +230,18 @@ fi
 
 # Create symlinks for all workflow files from .ai-squads/workflows (if exists and not empty)
 if [ -d "$SOURCE_DIR/workflows" ] && [ "$(ls -A "$SOURCE_DIR/workflows" 2>/dev/null)" ]; then
-    print_status "Creating symlinks for workflow definitions..."
+    print_status "Processing workflow definitions..."
     for file in "$SOURCE_DIR/workflows"/*.md*; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
+            workflow_name="${filename%.*}"
             # Convert to .mdc symlink for Cursor compatibility (workflows become rules)
             if [[ "$filename" == *.md ]]; then
                 mdc_filename="${filename%.md}.mdc"
             else
                 mdc_filename="$filename"
             fi
-            ln -sf "$SOURCE_ABSOLUTE_PATH/workflows/$filename" "$TARGET_RULES_DIR/$mdc_filename"
-            print_status "  ✓ Linked workflow: $filename -> $mdc_filename"
+            create_symlink "$SOURCE_ABSOLUTE_PATH/workflows/$filename" "$TARGET_RULES_DIR/$mdc_filename" "workflow: $workflow_name"
         fi
     done
 elif [ -d "$SOURCE_DIR/workflows" ]; then
@@ -251,8 +250,7 @@ fi
 
 # Create symlink for README
 if [ -f "$SOURCE_DIR/README.md" ]; then
-    print_status "Creating symlink for README..."
-    ln -sf "$SOURCE_ABSOLUTE_PATH/README.md" "$TARGET_RULES_DIR/README.mdc"
+    create_symlink "$SOURCE_ABSOLUTE_PATH/README.md" "$TARGET_RULES_DIR/README.mdc" "README"
 fi
 
 # Create a symlink to the source .ai-squads directory for easy updates
@@ -365,8 +363,8 @@ EOF
 
 print_success "Linking completed successfully!"
 print_status "Target repository now has access to all .ai-squads agents, projects, and workflows"
-print_status "Symlinks created at: $TARGET_RULES_DIR (with .mdc extensions for Cursor)"
-print_status "Source symlink created at: $TARGET_SQUADS_LINK"
+print_status "Symlinks created/updated at: $TARGET_RULES_DIR (with .mdc extensions for Cursor)"
+print_status "Source symlink created/updated at: $TARGET_SQUADS_LINK"
 
 # Show .gitignore status
 print_status "Git tracking exclusions:"
@@ -389,3 +387,4 @@ echo ""
 print_status "You can now use these agents in the target repository's cursor rules!"
 print_status "Updates will flow automatically - no need to run the script again!"
 print_status "All linked repositories will stay in sync with .ai-squads updates."
+print_status "The script is now idempotent - you can run it repeatedly to add new agents or update existing ones."

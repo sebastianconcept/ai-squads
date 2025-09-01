@@ -337,6 +337,309 @@ handleDeprecatedAPI
         ifFalse: [ self useCompatibilityAPI ]
 ```
 
+## Proven Pharo 13 Development Workflow Integration
+
+### Enhanced Development Workflow Commands
+
+Based on the STUI team's proven workflow, we've integrated their successful patterns into our standard Pharo 13 development approach for any project:
+
+#### **Read-Only Exploration (Returns Control Properly)**
+
+```bash
+# Quick evaluation with base image
+./eval.sh "3 + 4"
+./eval.sh "Transcript show: 'Hello from Pharo!'; cr. 3 + 4"
+
+# Development environment evaluation
+./dev-workflow.sh eval "3 + 4"
+./dev-workflow.sh eval "Transcript show: 'Testing development workflow'; cr. 3 + 4"
+```
+
+#### **Adding Code and Saving Image (Persistent Development)**
+
+```bash
+# Create a class
+./dev-workflow.sh eval "Object subclass: #MyClass slots: {#data} classVariables: {} package: 'MyProject-Core'"
+
+# Add methods to the class
+./dev-workflow.sh eval "MyClass compile: 'initialize data := 100'"
+./dev-workflow.sh eval "MyClass compile: 'getData ^ data'"
+
+# Test the methods
+./dev-workflow.sh eval "MyClass new getData"
+
+# Save to development image (persists changes)
+./dev-workflow.sh save
+
+# Verify persistence (changes remain after save)
+./dev-workflow.sh eval "MyClass new getData"
+```
+
+### Enhanced Development Workflow Scripts
+
+#### **dev-workflow.sh - Main Development Orchestration**
+
+```bash
+#!/bin/bash
+# Enhanced development workflow with proven STUI patterns
+
+# Commands:
+#   build    - Create fresh image with packages
+#   dev      - Start development session (persistent image)
+#   eval     - Evaluate Smalltalk code with proper exit handling
+#   save     - Save changes to image (frequent during development)
+#   commit   - Commit changes to baseline (when ready)
+#   clean    - Clean build artifacts and caches
+#   server   - Start server for testing
+#   test     - Run end-to-end tests
+```
+
+#### **eval.sh - Enhanced Evaluation with Timeout**
+
+```bash
+#!/bin/bash
+# Enhanced evaluation with proper exit handling and timeout
+
+smalltalk_snippet=$1
+
+# Create a temporary script file
+temp_script=$(mktemp)
+cat > "$temp_script" << EOF
+"Evaluation script"
+| result |
+result := $smalltalk_snippet.
+Transcript show: result asString; cr.
+Smalltalk snapshot: false andQuit: true.
+EOF
+
+# Execute the script with timeout to ensure it returns control
+timeout 10s ./pharo ./images/Pharo-dev.image --no-default-preferences st "$temp_script" 2>/dev/null | tail -1
+
+# Clean up
+rm "$temp_script"
+```
+
+### Proven Command Patterns
+
+#### **Class Creation and Method Addition with Proper Package Management (Pharo 13)**
+
+```bash
+# 1. Check existing packages first
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
+
+# 2. Create class with proper package assignment
+# Option A: Assign to existing package (Pharo 13 syntax)
+./dev-workflow.sh eval "Object subclass: #DemoClass slots: {#data} classVariables: {} package: 'MyProject-Core'"
+
+# Option B: Create new package if needed
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'MyProject-NewFeature')"
+./dev-workflow.sh eval "Object subclass: #DemoClass slots: {#data} classVariables: {} package: 'MyProject-NewFeature'"
+
+# Option C: Assign existing class to package
+./dev-workflow.sh eval "DemoClass package: (PackageOrganizer default packageNamed: 'MyProject-Core')"
+
+# 3. Add methods to the class
+./dev-workflow.sh eval "DemoClass compile: 'initialize data := 100'"
+./dev-workflow.sh eval "DemoClass compile: 'getData ^ data'"
+./dev-workflow.sh eval "DemoClass compile: 'setData: value data := value'"
+
+# 4. Verify package assignment
+./dev-workflow.sh eval "DemoClass package name"
+
+# 5. Test methods
+./dev-workflow.sh eval "DemoClass new getData"
+./dev-workflow.sh eval "| obj | obj := DemoClass new. obj setData: 200. obj getData"
+
+# 6. Save changes
+./dev-workflow.sh save
+```
+
+#### **Package Management and Organization (Pharo 13)**
+
+```bash
+# 1. Explore existing packages
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
+
+# 2. Create new package
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'MyProject-NewFeature')"
+
+# 3. Assign class to existing package
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'MyProject-Core')"
+
+# 4. Move class between packages
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'MyProject-Tests')"
+
+# 5. Check package contents
+./dev-workflow.sh eval "(PackageOrganizer default packageNamed: 'MyProject-Core') classes"
+
+# 6. Remove package (if empty)
+./dev-workflow.sh eval "PackageOrganizer default removePackage: (PackageOrganizer default packageNamed: 'MyProject-EmptyPackage')"
+```
+
+#### **API Exploration and Discovery**
+
+```bash
+# Explore existing classes
+./dev-workflow.sh eval "Smalltalk globals keys select: [:k | k beginsWith: 'MyProject']"
+
+# Check class methods
+./dev-workflow.sh eval "MyProjectServer class methodDict keys"
+
+# Check instance methods
+./dev-workflow.sh eval "MyProjectServer methodDict keys"
+
+# Check package structure
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
+
+# Check which package a class belongs to
+./dev-workflow.sh eval "MyProjectServer package name"
+```
+
+#### **Development State Persistence**
+
+```bash
+# Save development progress frequently
+./dev-workflow.sh save
+
+# Verify persistence after save
+./dev-workflow.sh eval "MyClass new someMethod"
+
+# Check image size after changes
+./dev-workflow.sh status
+```
+
+### Key Features from STUI Workflow
+
+#### **✅ Verified Working Commands**
+
+- **Read-only exploration** - Returns control immediately
+- **Method addition** - Adds methods to classes in development image
+- **Image saving** - Persists changes with `./dev-workflow.sh save`
+- **State persistence** - Changes remain available after saving
+- **Proper exit behavior** - All commands return control (no hanging)
+- **Development image** - Uses `Pharo-dev.image` for persistent development
+
+#### **✅ What Gets Saved**
+
+- New classes created
+- Methods added to classes
+- Instance variables
+- Package assignments
+- All development state
+
+#### **✅ Workflow Benefits**
+
+- **Image-centric development** - Changes persist in Pharo image
+- **Rapid iteration** - Make changes, test immediately, save
+- **State persistence** - Development session state across restarts
+- **Live programming** - Leverage Pharo's live programming capabilities
+
+### Troubleshooting Enhanced Workflow
+
+#### **Common Issues and Solutions**
+
+1. **Command hangs and doesn't return control**
+   - Solution: Use the updated scripts with temporary files and timeout
+   - All commands now use `timeout 10s` and proper exit handling
+
+2. **Changes not persisting after save**
+   - Solution: Use `./dev-workflow.sh save` (not just eval commands)
+   - Verify with `./dev-workflow.sh eval "MyClass new someMethod"`
+
+3. **Development image not found**
+   - Solution: Run `./dev-workflow.sh build` to create development image
+
+4. **Package loading errors**
+   - Solution: Use `./dev-workflow.sh clean` then `./dev-workflow.sh build`
+
+### Package Naming Conventions and Organization
+
+#### **Standard Package Structure**
+```bash
+# Core packages (main functionality)
+Project-Core          # Main application logic
+Project-Model         # Domain models and business logic
+Project-UI            # User interface components
+Project-Network       # Network and communication
+
+# Extension packages (optional features)
+Project-Extensions    # Optional extensions and plugins
+Project-Integrations  # Third-party integrations
+
+# Test packages (parallel to main packages)
+Project-Core-Tests    # Tests for Project-Core
+Project-Model-Tests   # Tests for Project-Model
+Project-UI-Tests      # Tests for Project-UI
+
+# Development packages
+Project-Dev           # Development tools and utilities
+Project-Debug         # Debugging and profiling tools
+```
+
+#### **Package Assignment Guidelines (Pharo 13)**
+```bash
+# 1. Always assign classes to packages during creation
+./dev-workflow.sh eval "Object subclass: #MyClass slots: {#data} classVariables: {} package: 'MyProject-Core'"
+
+# 2. Use existing packages when possible
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'MyProject-Core')"
+
+# 3. Create new packages only for distinct features
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'MyProject-NewFeature')"
+
+# 4. Verify package assignment immediately
+./dev-workflow.sh eval "MyClass package name"
+
+# 5. Move classes to appropriate packages as needed
+./dev-workflow.sh eval "MyClass package: (PackageOrganizer default packageNamed: 'MyProject-Tests')"
+```
+
+### Project Adaptation Guide
+
+**To use these patterns with your own project, replace `MyProject` with your project name:**
+
+```bash
+# Replace 'MyProject' with your actual project name
+# Examples: 'STUI', 'MyApp', 'WebServer', 'DataProcessor', etc.
+
+# Package exploration
+./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'YourProject']"
+
+# Class creation
+./dev-workflow.sh eval "Object subclass: #YourClass slots: {#data} classVariables: {} package: 'YourProject-Core'"
+
+# Package creation
+./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'YourProject-NewFeature')"
+
+# Baseline loading
+./dev-workflow.sh eval "
+Metacello new
+    repository: 'tonel://./src';
+    baseline: 'YourProject';
+    onConflictUseIncoming;
+    load"
+```
+
+### Integration with Smalltalker Agent
+
+This enhanced workflow is integrated into the Smalltalker agent's standard development flow for any Pharo 13 project:
+
+- **Project initialization** - Sets up complete development environment with proven scripts
+- **Development sessions** - Guides through build → dev → eval → save workflow cycle
+- **Class development** - Uses incremental development with eval patterns and proper exit handling
+- **Package management** - Updates baseline and reloads via Metacello with proper package assignment
+- **Testing integration** - Integrates testing into development workflow
+- **Debugging support** - Provides live debugging and recovery strategies
+- **Version control** - Exports packages and updates baseline for reproducible builds
+
+### Success Metrics
+
+- **Rapid iteration** - Time from idea to tested implementation
+- **State persistence** - Reduction in setup/reload time
+- **Error recovery** - Time to recover from development issues
+- **Package management** - Ease of dependency management
+- **Team productivity** - Consistent development practices across team
+
 ## Incremental Development Workflow
 
 ### Modern Pharo Development Setup

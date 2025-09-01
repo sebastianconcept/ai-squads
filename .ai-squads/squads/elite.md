@@ -17,14 +17,15 @@ Specialized squad for high-performance systems development and full-stack web ap
 - **@agent:writer** - Storytelling, character development, and narrative craft
 - **@agent:git-workflow** - Version control and workflow management
 - **@agent:software-engineer** - Full-stack development and systems programming (Rust, Smalltalk/Pharo, C/C++)
+- **@agent:smalltalker** - Pharo/Smalltalk specialized development with image-centric workflow and rapid iteration
 - **@agent:collaboration** - Team coordination and quality assurance
 - **@agent:ux-expert** - User experience research and design
 - **@agent:ui-implementor** - Frontend implementation across platforms
 - **@agent:product-planner** - Strategic product planning and development
 
 ## Team Preferences
-- **Technology Focus**: Rust (Axum, Actix, Diesel), Smalltalk/Pharo (Seaside, Teapot), C/C++ (systems programming, performance optimization), JavaScript/TypeScript (Node.js, React, Vue), Ruby (Rails, Sinatra), CSS (Sass, Tailwind, modern methodologies)
+- **Technology Focus**: Rust (Axum, Actix, Diesel), Smalltalk/Pharo (Seaside, Teapot, Spec 2.0.3, Iceberg 2.4.1), C/C++ (systems programming, performance optimization), JavaScript/TypeScript (Node.js, React, Vue), Ruby (Rails, Sinatra), CSS (Sass, Tailwind, modern methodologies)
 - **Architecture**: Clean Architecture, DDD, microservices, performance optimization, low-level systems, full-stack web applications
-- **Development Style**: High-performance, system-level programming, live development, memory-efficient code, modern web development practices
+- **Development Style**: High-performance, system-level programming, image-centric Pharo development, live programming, rapid iteration, memory-efficient code, modern web development practices
 - **Quality Standards**: Performance-critical applications, clean code, comprehensive testing, memory safety, accessibility, responsive design, JTBD validation, customer job satisfaction, narrative quality, character consistency, story engagement
-- **Workflow**: Git Flow, feature branches, quality gates, continuous integration, modern CI/CD pipelines, JTBD analysis and validation, storytelling integration
+- **Workflow**: Git Flow, feature branches, quality gates, image-centric development cycles, build/dev/save/test/commit patterns, continuous integration, modern CI/CD pipelines, JTBD analysis and validation, storytelling integration
