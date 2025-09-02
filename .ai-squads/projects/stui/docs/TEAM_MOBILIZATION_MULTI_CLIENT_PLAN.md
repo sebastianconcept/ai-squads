@@ -24,7 +24,7 @@ Implement a **production-ready multi-client session persistence system** on the 
 
 ### **Primary Development Team**
 - **@agent:rusty** - Core implementation lead ✅ **MISSION ACCOMPLISHED**
-- **@agent:collaboration** - Testing and quality assurance ✅ **COMPLETED**
+- **@agent:team** - Testing and quality assurance ✅ **COMPLETED**
 - **@agent:scribas** - Feature branch management ✅ **COMPLETED**
 
 ### **Support Team**

@@ -441,7 +441,7 @@ For specific commands and setup instructions, consult the appropriate style guid
   </ui_implementor>
   
   <collaboration>
-    ACTIVATE: @agent:collaboration
+    ACTIVATE: @agent:team
     PURPOSE: Code review and quality assurance
     TRIGGER: When code review or testing is needed
   </collaboration>

@@ -275,7 +275,7 @@ Configuration and settings for the $project_name project, including agent integr
 - **@agent:uidev**: Frontend implementation across platforms
 - **@agent:product-planner**: Strategic product planning and development
 - **@agent:scribas**: Version control and workflow management
-- **@agent:collaboration**: Team coordination and quality assurance
+- **@agent:team**: Team coordination and quality assurance
 
 ## Methodology Integration
 

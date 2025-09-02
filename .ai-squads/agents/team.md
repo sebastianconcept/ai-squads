@@ -6,7 +6,7 @@ version: 1.0
 encoding: UTF-8
 ---
 
-# Collaboration Agent - Team Communication and Workflow
+# Team - Team Communication and Workflow
 
 ## Overview
 

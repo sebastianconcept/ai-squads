@@ -118,7 +118,7 @@ status: production-ready
 - **Status**: 🟡 **In Progress**
 - **Progress**: 67% Complete
 - **Timeline**: Week 2-3 🟡 **IN PROGRESS**
-- **Agent**: @agent:rusty + @agent:collaboration 🟡 **ACTIVE**
+- **Agent**: @agent:rusty + @agent:team 🟡 **ACTIVE**
 - **Dependencies**: Categories 1-4 completion ✅ **SATISFIED**
 - **Demo Value**: 🟡 **TARGETING - COMPLETE SYSTEM DEMO**
 
@@ -132,7 +132,7 @@ status: production-ready
 - **Status**: 🟡 **In Progress**
 - **Progress**: 67% Complete
 - **Timeline**: Week 3 🟡 **PLANNED**
-- **Agent**: @agent:collaboration 🟡 **READY**
+- **Agent**: @agent:team 🟡 **READY**
 - **Dependencies**: Categories 1-5 completion 🟡 **IN PROGRESS**
 - **Demo Value**: 🟡 **TARGETING - PRODUCTION DEMO**
 
@@ -213,7 +213,7 @@ status: production-ready
 
 ### **Current Agent Assignments**
 - **@agent:rusty**: ✅ **ACTIVE - Week 2 completed, ready for Week 3**
-- **@agent:collaboration**: 🟡 **READY - Testing framework setup for Week 3**
+- **@agent:team**: 🟡 **READY - Testing framework setup for Week 3**
 - **@agent:scribas**: ✅ **ACTIVE - Feature branch management**
 - **@agent:steve**: ✅ **ACTIVE - Overall coordination and progress tracking**
 

@@ -89,7 +89,7 @@ During the Session Persistence feature planning, we discovered **two fundamental
 
 ### **Primary Agents**
 - **@agent:rusty**: **Multi-client session management, client isolation, protocol integration, future auth preparation**
-- **@agent:collaboration**: **Multi-client testing, quality assurance, documentation, deployment preparation**
+- **@agent:team**: **Multi-client testing, quality assurance, documentation, deployment preparation**
 
 ### **Support Agents**
 - **@agent:scribas**: **Feature branch management and quality gate enforcement**

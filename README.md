@@ -154,7 +154,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 - **@agent:uidev**: Frontend implementation across platforms
 - **@agent:product-planner**: Strategic product planning and development
 - **@agent:scribas**: Version control, workflow management, and quality gate enforcement
-- **@agent:collaboration**: Team coordination and quality assurance
+- **@agent:team**: Team coordination and quality assurance
 
 ### **Other Squads**
 - **Expendables**: Rapid prototyping and experimentation

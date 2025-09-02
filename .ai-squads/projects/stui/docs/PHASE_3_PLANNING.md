@@ -244,7 +244,7 @@
 - **@agent:rusty**: Lead technical implementation
 - **@agent:uxe**: User experience design and validation
 - **@agent:uidev**: UI component implementation
-- **@agent:collaboration**: Workflow coordination and handoffs
+- **@agent:team**: Workflow coordination and handoffs
 - **@agent:scribas**: Version control and quality gates
 
 ### **Workflow Recommendations**

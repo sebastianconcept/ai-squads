@@ -44,7 +44,7 @@
 - Ensure all tests compile and run successfully
 
 ### 2. **Verify Documentation Accuracy**
-**Owner**: @agent:collaboration  
+**Owner**: @agent:team  
 **Priority**: HIGH  
 **Timeline**: 1 day
 
@@ -97,7 +97,7 @@ Once Phase 3 is complete, the team can confidently continue with:
 
 ### **Immediate Actions (Next 2 Days)**
 1. **@agent:rusty**: Focus exclusively on fixing integration tests
-2. **@agent:collaboration**: Verify all documentation is now accurate
+2. **@agent:team**: Verify all documentation is now accurate
 3. **@agent:product-planner**: Begin production requirements gathering
 
 ### **This Week's Goal**

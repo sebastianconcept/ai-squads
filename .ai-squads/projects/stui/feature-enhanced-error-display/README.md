@@ -81,7 +81,7 @@ status: planned
 ### **Primary Development**
 - **@agent:rusty**: Core implementation and protocol integration
 - **@agent:uxe**: User experience design and refinement
-- **@agent:collaboration**: Testing, QA, and documentation
+- **@agent:team**: Testing, QA, and documentation
 
 ### **Support & Coordination**
 - **@agent:scribas**: Feature branch management and quality gates

@@ -230,7 +230,7 @@ pub enum ConnectionStatus {
 ### Phase 4: Integration and Testing (Week 2, Days 4-5)
 
 #### **T4.1: End-to-End Integration** `H` (High Priority)
-**Agent**: @agent:rusty + @agent:collaboration  
+**Agent**: @agent:rusty + @agent:team  
 **Timeline**: Week 2, Day 4  
 **Dependencies**: T3.3 completion  
 **Effort**: Large (L)
@@ -251,7 +251,7 @@ pub enum ConnectionStatus {
 - All integration tests pass
 
 #### **T4.2: Quality Assurance and Testing** `H` (High Priority)
-**Agent**: @agent:collaboration  
+**Agent**: @agent:team  
 **Timeline**: Week 2, Day 5  
 **Dependencies**: T4.1 completion  
 **Effort**: Medium (M)
@@ -310,7 +310,7 @@ T4.1 (Integration) → T4.2 (Quality Assurance)
 ### Agent Assignments
 - **@agent:rusty**: Core implementation (T1.1-T2.2, T4.1)
 - **@agent:uidev**: UI implementation (T3.1-T3.3)
-- **@agent:collaboration**: Quality assurance and testing (T4.2)
+- **@agent:team**: Quality assurance and testing (T4.2)
 - **@agent:uxe**: User experience design and validation
 
 ### Development Environment

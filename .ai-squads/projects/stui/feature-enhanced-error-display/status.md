@@ -71,7 +71,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 2-3
-- **Agent**: @agent:collaboration + @agent:rusty
+- **Agent**: @agent:team + @agent:rusty
 - **Dependencies**: Categories 1-3 completion
 
 **Tasks**:
@@ -84,7 +84,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 3
-- **Agent**: @agent:collaboration + @agent:rusty
+- **Agent**: @agent:team + @agent:rusty
 - **Dependencies**: Categories 1-4 completion
 
 **Tasks**:
@@ -203,7 +203,7 @@ status: planned
 ### **Current Agent Assignments**
 - **@agent:rusty**: Core development and protocol integration
 - **@agent:uxe**: User experience design and refinement
-- **@agent:collaboration**: Testing, QA, and documentation
+- **@agent:team**: Testing, QA, and documentation
 - **@agent:scribas**: Feature branch management and quality gates
 - **@agent:steve**: Overall coordination and progress tracking
 

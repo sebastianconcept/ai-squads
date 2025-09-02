@@ -67,7 +67,7 @@ Update `crates/stui-protocol/src/lib.rs` with session management types and integ
 
 ### **Primary Development Team**
 - **@agent:rusty** - Frontend integration lead ✅ **ACTIVE - T1.1 in progress**
-- **@agent:collaboration** - Team coordination ✅ **READY for next phase coordination**
+- **@agent:team** - Team coordination ✅ **READY for next phase coordination**
 - **@agent:scribas** - Production branch management ✅ **READY for integration branch**
 - **@agent:uxe** - User experience validation ✅ **READY for UI testing**
 
@@ -141,7 +141,7 @@ Update `crates/stui-protocol/src/lib.rs` with session management types and integ
 4. **Update Tests**: Add tests for new protocol types
 5. **Commit Changes**: Commit completed protocol updates
 
-### **@agent:collaboration - Prepare for T1.2**
+### **@agent:team - Prepare for T1.2**
 1. **Coordinate Team**: Ensure team ready for next task
 2. **Update Documentation**: Reflect T1.1 completion
 3. **Prepare Handoff**: Ready for ServerClient integration

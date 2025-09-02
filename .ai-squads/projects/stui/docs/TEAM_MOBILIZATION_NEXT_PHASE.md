@@ -21,7 +21,7 @@ Execute the **next phase of STUI development** by integrating the production-rea
 
 ### **Primary Development Team**
 - **@agent:rusty** - Frontend integration and production deployment lead ✅ **ACTIVE**
-- **@agent:collaboration** - Team coordination and handoff management ✅ **READY**
+- **@agent:team** - Team coordination and handoff management ✅ **READY**
 - **@agent:scribas** - Production branch management and deployment ✅ **READY**
 - **@agent:uxe** - User experience validation and documentation ✅ **READY**
 
@@ -169,7 +169,7 @@ Execute the **next phase of STUI development** by integrating the production-rea
 
 #### **Day 1-2: Documentation & Knowledge Transfer**
 - [ ] **T3.1**: Complete implementation documentation
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 6 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: Week 2 completion
@@ -181,13 +181,13 @@ Execute the **next phase of STUI development** by integrating the production-rea
   - **Dependencies**: T3.1 completion
 
 - [ ] **T3.3**: Conduct knowledge transfer sessions
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 4 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T3.2 completion
 
 - [ ] **T3.4**: Document lessons learned and best practices
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 4 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T3.3 completion
@@ -283,7 +283,7 @@ Execute the **next phase of STUI development** by integrating the production-rea
 
 ### **Immediate (Next 2 hours)**
 1. **@agent:rusty** starts T1.1 (Complete protocol type definitions) ✅ **IN PROGRESS**
-2. **@agent:collaboration** begins team coordination for Week 1 ✅ **READY**
+2. **@agent:team** begins team coordination for Week 1 ✅ **READY**
 3. **@agent:scribas** prepares integration branch strategy ✅ **READY**
 
 ### **Today (Next 8 hours)**

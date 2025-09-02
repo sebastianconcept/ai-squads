@@ -270,7 +270,7 @@ This document tracks the evolution of the SquadsAI system, documenting major cha
 - **@agent:uidev**: Frontend implementation across platforms
 - **@agent:product-planner**: Strategic product planning and development
 - **@agent:scribas**: Version control, workflow management, and quality gate enforcement
-- **@agent:collaboration**: Team coordination and quality assurance
+- **@agent:team**: Team coordination and quality assurance
 - **@agent:context-fetcher**: Context gathering and analysis
 - **@agent:guy**: Product strategy and market analysis
 

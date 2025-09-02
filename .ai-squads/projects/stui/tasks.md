@@ -80,7 +80,7 @@ This document tracks all tasks required to complete the project work. Tasks are 
 - [ ] [Version control task 2]
 - [ ] [Version control task 3]
 
-### @agent:collaboration
+### @agent:team
 **Responsibilities**: Team coordination, quality assurance, and handoff management
 
 - [ ] [Coordination task 1]
@@ -170,7 +170,7 @@ This document tracks all tasks required to complete the project work. Tasks are 
 - **@agent:uxe**: [X/Y] tasks complete
 - **@agent:uidev**: [X/Y] tasks complete
 - **@agent:scribas**: [X/Y] tasks complete
-- **@agent:collaboration**: [X/Y] tasks complete
+- **@agent:team**: [X/Y] tasks complete
 
 ## Blocked Tasks and Issues
 

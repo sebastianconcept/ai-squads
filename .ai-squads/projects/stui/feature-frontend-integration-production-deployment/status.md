@@ -135,7 +135,7 @@ encoding: UTF-8
 ## Week 2: Production Deployment Preparation
 
 ### **Task 2.1: Deployment Planning** `M` (Medium)
-**Assigned to**: @agent:rusty + @agent:collaboration  
+**Assigned to**: @agent:rusty + @agent:team  
 **Status**: 🟡 **PLANNED**  
 **Progress**: 0%  
 **Estimated Time**: 1-2 days  
@@ -177,7 +177,7 @@ encoding: UTF-8
 ---
 
 ### **Task 2.3: Performance & Security Validation** `M** (Medium)
-**Assigned to**: @agent:rusty + @agent:collaboration  
+**Assigned to**: @agent:rusty + @agent:team  
 **Status**: 🟡 **PLANNED**  
 **Progress**: 0%  
 **Estimated Time**: 2-3 days  
@@ -221,7 +221,7 @@ encoding: UTF-8
 ## Week 3: Team Handoff & Next Phase Planning
 
 ### **Task 3.1: Documentation Completion** `M` (Medium)
-**Assigned to**: @agent:collaboration + @agent:rusty  
+**Assigned to**: @agent:team + @agent:rusty  
 **Status**: 🟡 **PLANNED**  
 **Progress**: 0%  
 **Estimated Time**: 2-3 days  
@@ -242,7 +242,7 @@ encoding: UTF-8
 ---
 
 ### **Task 3.2: Knowledge Transfer** `M` (Medium)
-**Assigned to**: @agent:collaboration  
+**Assigned to**: @agent:team  
 **Status**: 🟡 **PLANNED**  
 **Progress**: 0%  
 **Estimated Time**: 2-3 days  
@@ -396,7 +396,7 @@ encoding: UTF-8
 
 ### **Immediate (Next 2 hours)**
 1. **@agent:rusty** starts Task 1.1 - Protocol Integration Setup
-2. **@agent:collaboration** begins team coordination for next phase
+2. **@agent:team** begins team coordination for next phase
 3. **@agent:scribas** prepares production branch strategy
 
 ### **Today (Next 8 hours)**

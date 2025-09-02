@@ -253,7 +253,7 @@ priority: [low|medium|high]
 - **@agent:uxe**: [Specific responsibilities and tasks]
 - **@agent:uidev**: [Specific responsibilities and tasks]
 - **@agent:scribas**: [Specific responsibilities and tasks]
-- **@agent:collaboration**: [Specific responsibilities and tasks]
+- **@agent:team**: [Specific responsibilities and tasks]
 
 ### Handoff Protocols
 - **Design to Development**: [How UX/UI designs are handed off to development]

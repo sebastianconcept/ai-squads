@@ -23,7 +23,7 @@ STUI has been successfully adopted into the **Elite Squad** of SquadsAI, providi
 - **@agent:steve** - Session kickoff and project guidance
 - **@agent:rusty** - Rust/Smalltalk development and architecture
 - **@agent:scribas** - Version control and workflow management
-- **@agent:collaboration** - Team coordination and quality assurance
+- **@agent:team** - Team coordination and quality assurance
 - **@agent:uxe** - User experience research and design
 - **@agent:uidev** - Frontend implementation across platforms
 - **@agent:product-planner** - Strategic product planning and development

@@ -220,7 +220,7 @@ encoding: UTF-8
 ---
 
 ### **Task 2.2: Deployment Planning** `M` (Medium)
-**Assigned to**: @agent:rusty + @agent:collaboration  
+**Assigned to**: @agent:rusty + @agent:team  
 **Goal**: Create production deployment plan and environment configuration  
 **Estimated Time**: 1-2 days  
 **Dependencies**: Week 1 completion  
@@ -282,7 +282,7 @@ encoding: UTF-8
 ---
 
 ### **Task 2.3: Performance & Security Validation** `M` (Medium)
-**Assigned to**: @agent:rusty + @agent:collaboration  
+**Assigned to**: @agent:rusty + @agent:team  
 **Goal**: Validate performance and security measures  
 **Estimated Time**: 2-3 days  
 **Dependencies**: Task 2.2 completion  
@@ -346,7 +346,7 @@ encoding: UTF-8
 ## Week 3: Team Handoff & Next Phase Planning
 
 ### **Task 3.1: Documentation Completion** `M` (Medium)
-**Assigned to**: @agent:collaboration + @agent:rusty  
+**Assigned to**: @agent:team + @agent:rusty  
 **Goal**: Complete all implementation and user documentation  
 **Estimated Time**: 2-3 days  
 **Dependencies**: Week 2 completion  
@@ -377,7 +377,7 @@ encoding: UTF-8
 ---
 
 ### **Task 3.2: Knowledge Transfer** `M` (Medium)
-**Assigned to**: @agent:collaboration  
+**Assigned to**: @agent:team  
 **Goal**: Conduct comprehensive knowledge transfer sessions  
 **Estimated Time**: 2-3 days  
 **Dependencies**: Task 3.1 completion  
@@ -474,7 +474,7 @@ encoding: UTF-8
 | **Agent** | **Primary Responsibilities** | **Week 1** | **Week 2** | **Week 3** |
 |-----------|------------------------------|------------|------------|-------------|
 | **@agent:rusty** | Frontend integration & deployment | Tasks 1.1-1.4 | Tasks 2.1-2.4 | Task 3.1 |
-| **@agent:collaboration** | Team coordination & handoff | Support | Tasks 2.1, 2.3 | Tasks 3.1-3.2 |
+| **@agent:team** | Team coordination & handoff | Support | Tasks 2.1, 2.3 | Tasks 3.1-3.2 |
 | **@agent:scribas** | Production branch management | Support | Support | Support |
 | **@agent:product-planner** | Next phase planning | Support | Support | Task 3.3 |
 | **@agent:steve** | Overall coordination | Oversight | Oversight | Task 3.4 |
@@ -538,7 +538,7 @@ encoding: UTF-8
 
 ### **Immediate (Next 2 hours)**
 1. **@agent:rusty** starts frontend integration planning
-2. **@agent:collaboration** begins team coordination for next phase
+2. **@agent:team** begins team coordination for next phase
 3. **@agent:scribas** prepares production branch strategy
 
 ### **Today (Next 8 hours)**

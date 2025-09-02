@@ -239,7 +239,7 @@ The Director Agent is the **first agent to run** in any work session. It assesse
   </ui_implementor>
   
   <collaboration>
-    ACTIVATE: @agent:collaboration
+    ACTIVATE: @agent:team
     PURPOSE: Team coordination and workflow management
     TRIGGER: When team coordination or handoff management is needed
   </collaboration>

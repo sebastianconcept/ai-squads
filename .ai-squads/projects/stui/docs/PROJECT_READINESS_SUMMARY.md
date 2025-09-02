@@ -104,7 +104,7 @@ created: 2025-08-25
 
 ### **Primary Development Team**
 - **@agent:rusty** - Frontend integration and production deployment
-- **@agent:collaboration** - Team coordination and handoff management
+- **@agent:team** - Team coordination and handoff management
 - **@agent:scribas** - Production branch management and deployment
 - **@agent:uxe** - User experience validation and documentation
 

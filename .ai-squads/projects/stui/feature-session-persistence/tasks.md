@@ -204,7 +204,7 @@ status: planned
 ---
 
 ### **Category 6: Integration and Polish** `M` (Medium Priority)
-**Agent**: @agent:rusty + @agent:collaboration  
+**Agent**: @agent:rusty + @agent:team  
 **Timeline**: Week 3  
 **Dependencies**: Categories 1-5 completion  
 
@@ -228,7 +228,7 @@ status: planned
   - **Quality Gates**: Recovery tests, conflict tests
 
 - [ ] **T6.4**: Add comprehensive testing and error handling
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 6 hours
   - **Acceptance**: Comprehensive test coverage with error scenarios
   - **Quality Gates**: Test coverage, error handling validation
@@ -238,7 +238,7 @@ status: planned
 ---
 
 ### **Category 7: Performance and Security** `S` (Small Priority)
-**Agent**: @agent:collaboration + @agent:rusty  
+**Agent**: @agent:team + @agent:rusty  
 **Timeline**: Week 3  
 **Dependencies**: Categories 1-6 completion  
 
@@ -250,19 +250,19 @@ status: planned
   - **Quality Gates**: Performance benchmarks, optimization review
 
 - [ ] **T7.2**: Implement cross-platform compatibility testing
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 4 hours
   - **Acceptance**: Consistent behavior across all platforms
   - **Quality Gates**: Cross-platform tests, compatibility validation
 
 - [ ] **T7.3**: Conduct security audit and testing
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 6 hours
   - **Acceptance**: Security vulnerabilities identified and resolved
   - **Quality Gates**: Security review, vulnerability testing
 
 - [ ] **T7.4**: Final integration testing and quality validation
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 4 hours
   - **Acceptance**: All quality gates pass, feature ready for deployment
   - **Quality Gates**: Final quality review, deployment readiness
@@ -293,7 +293,7 @@ status: planned
 ### **Primary Agents**
 - **@agent:rusty**: Core development, session communication, protocol integration, network resilience, connection persistence, workspace context
 - **@agent:uxe**: User experience design, session management interface, demo UI, metadata tracking
-- **@agent:collaboration**: Testing, quality assurance, security audit, cross-platform validation
+- **@agent:team**: Testing, quality assurance, security audit, cross-platform validation
 
 ### **Support Agents**
 - **@agent:scribas**: Feature branch management and quality gate enforcement

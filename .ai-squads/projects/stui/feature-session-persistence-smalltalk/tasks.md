@@ -159,7 +159,7 @@ status: planned
 ---
 
 ### **Category 5: Integration and Testing** `M` (Medium Priority)
-**Agent**: @agent:rusty + @agent:collaboration  
+**Agent**: @agent:rusty + @agent:team  
 **Timeline**: Week 3  
 **Dependencies**: Categories 1-4 completion  
 
@@ -172,14 +172,14 @@ status: planned
   - **Demo Value**: ✅ **ENABLES COMPLETE SYSTEM DEMO**
 
 - [ ] **T5.2**: Create comprehensive test suite for session functionality
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 10 hours
   - **Acceptance**: 90%+ test coverage with comprehensive test scenarios
   - **Quality Gates**: Test coverage, test quality, test execution
   - **Demo Value**: ✅ **ENABLES RELIABLE SYSTEM DEMO**
 
 - [ ] **T5.3**: Perform end-to-end testing with Rust TUI client
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 8 hours
   - **Acceptance**: Complete end-to-end testing of session persistence feature
   - **Quality Gates**: End-to-end tests, integration tests, user experience tests
@@ -197,7 +197,7 @@ status: planned
 ---
 
 ### **Category 6: Documentation and Deployment** `S` (Small Priority)
-**Agent**: @agent:collaboration  
+**Agent**: @agent:team  
 **Timeline**: Week 3  
 **Dependencies**: Categories 1-5 completion  
 
@@ -251,7 +251,7 @@ status: planned
 
 ### **Primary Agents**
 - **@agent:rusty**: Core development, session management, protocol integration, context preservation, multi-client support, integration
-- **@agent:collaboration**: Testing, quality assurance, documentation, deployment preparation
+- **@agent:team**: Testing, quality assurance, documentation, deployment preparation
 
 ### **Support Agents**
 - **@agent:scribas**: Feature branch management and quality gate enforcement

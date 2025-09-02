@@ -59,7 +59,7 @@ encoding: UTF-8
 ### Available Agents
 - **@agent:rusty** - Rust/Smalltalk development, architecture
 - **@agent:scribas** - Version control and workflow management
-- **@agent:collaboration** - Team coordination and quality assurance
+- **@agent:team** - Team coordination and quality assurance
 - **@agent:uxe** - User experience research and design
 - **@agent:uidev** - Frontend implementation across platforms
 - **@agent:product-planner** - Strategic product planning and development

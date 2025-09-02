@@ -1237,7 +1237,7 @@ Smalltalk globals keys
   </director>
   
   <collaboration>
-    ACTIVATE: @agent:collaboration
+    ACTIVATE: @agent:team
     PURPOSE: Code review and team coordination
     TRIGGER: When reviewing Smalltalk code or workflow processes
   </collaboration>

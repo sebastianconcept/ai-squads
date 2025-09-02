@@ -135,7 +135,7 @@ status: [planned|in-progress|completed]
 ### Squad Agents
 - **@agent:rusty** - Technical implementation
 - **@agent:scribas** - Version control and branching
-- **@agent:collaboration** - Quality assurance and coordination
+- **@agent:team** - Quality assurance and coordination
 
 ### Tools and Standards
 - **Code Quality**: [Specific tools and standards to apply]

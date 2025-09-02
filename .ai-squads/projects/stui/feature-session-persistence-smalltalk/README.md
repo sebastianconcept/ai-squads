@@ -119,7 +119,7 @@ The Session Persistence feature planning revealed a **fundamental gap**: we plan
 
 ### **Primary Agents**
 - **@agent:rusty**: Core development, session management, protocol integration, context preservation, multi-client support, integration
-- **@agent:collaboration**: Testing, quality assurance, documentation, deployment preparation
+- **@agent:team**: Testing, quality assurance, documentation, deployment preparation
 
 ### **Support Agents**
 - **@agent:scribas**: Feature branch management and quality gate enforcement

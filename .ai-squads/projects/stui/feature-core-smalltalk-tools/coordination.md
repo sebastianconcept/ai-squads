@@ -156,8 +156,8 @@ encoding: UTF-8
 - [ ] End-to-end functionality verified
 
 ### **Week 9-12: Final Handoffs**
-**@agent:rusty** → **@agent:collaboration**: Complete toolset handoff
-**@agent:godin** → **@agent:collaboration**: Final documentation handoff
+**@agent:rusty** → **@agent:team**: Complete toolset handoff
+**@agent:godin** → **@agent:team**: Final documentation handoff
 
 **Quality Gates**:
 - [ ] All tools meet professional standards

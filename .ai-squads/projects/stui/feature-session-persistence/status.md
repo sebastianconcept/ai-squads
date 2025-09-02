@@ -110,7 +110,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 3
-- **Agent**: @agent:rusty + @agent:collaboration
+- **Agent**: @agent:rusty + @agent:team
 - **Dependencies**: Categories 1-5 completion
 
 **Tasks**:
@@ -123,7 +123,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 3
-- **Agent**: @agent:collaboration + @agent:rusty
+- **Agent**: @agent:team + @agent:rusty
 - **Dependencies**: Categories 1-6 completion
 
 **Tasks**:
@@ -315,7 +315,7 @@ status: planned
 - **@agent:rusty**: Core development, session communication, protocol integration, network resilience, connection persistence, workspace context, **MULTI-IMAGE ARCHITECTURE (CRITICAL)**
 - **@agent:uxe**: User experience design, session management interface, demo UI, metadata tracking, **MULTI-IMAGE UX DESIGN (CRITICAL)**
 - **@agent:uidev**: Frontend implementation, session panel development, **MULTI-IMAGE UI IMPLEMENTATION (CRITICAL)**
-- **@agent:collaboration**: Testing, quality assurance, security audit, cross-platform validation
+- **@agent:team**: Testing, quality assurance, security audit, cross-platform validation
 - **@agent:scribas**: Feature branch management and quality gate enforcement
 - **@agent:steve**: Overall coordination and progress tracking, **MULTI-IMAGE ARCHITECTURE RESOLUTION**
 
@@ -325,7 +325,7 @@ status: planned
 **@agent:rusty**: Lead protocol extension and SessionManager enhancement
 **@agent:uxe**: Design multi-image user experience and session management
 **@agent:uidev**: Implement multi-image UI components and controls
-**@agent:collaboration**: Test multi-image scenarios and validate architecture
+**@agent:team**: Test multi-image scenarios and validate architecture
 **@agent:steve**: Coordinate multi-image architecture resolution and progress tracking
 
 ### **Communication Channels**

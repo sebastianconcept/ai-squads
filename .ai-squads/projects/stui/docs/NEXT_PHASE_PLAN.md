@@ -91,7 +91,7 @@ squad: elite
 
 ### **Primary Development Team**
 - **@agent:rusty** - Frontend integration and production deployment
-- **@agent:collaboration** - Team coordination and handoff management
+- **@agent:team** - Team coordination and handoff management
 - **@agent:scribas** - Production branch management and deployment
 - **@agent:uxe** - User experience validation and documentation
 
@@ -195,7 +195,7 @@ squad: elite
 
 ### **Immediate (Next 2 hours)**
 1. **@agent:rusty** starts frontend integration planning
-2. **@agent:collaboration** begins team coordination for next phase
+2. **@agent:team** begins team coordination for next phase
 3. **@agent:scribas** prepares production branch strategy
 
 ### **Today (Next 8 hours)**

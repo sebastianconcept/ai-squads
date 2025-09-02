@@ -176,7 +176,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
   - **Effort**: Medium (1 week)
 - [ ] 6.4 Perform integration testing and bug fixes
   - **Acceptance Criteria**: All tools work together without conflicts
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: Medium (1 week)
 - [ ] 6.5 Verify all integration and testing tasks are complete
 
@@ -197,7 +197,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
   - **Effort**: Medium (1 week)
 - [ ] 7.3 Complete user documentation and help system
   - **Acceptance Criteria**: Comprehensive user guides and help for all tools
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: Small (3 days)
 - [ ] 7.4 Deploy and validate in staging environment
   - **Acceptance Criteria**: Tools deployed and validated in staging
@@ -244,7 +244,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 - [ ] Filtering and search capabilities (5.3)
 - [ ] Tool integration with STUI interface (6.1)
 
-### @agent:collaboration
+### @agent:team
 **Responsibilities**: Team coordination, quality assurance, testing coordination
 
 - [ ] Integration testing and bug fixes (6.4)
@@ -339,7 +339,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 ### Agent Progress
 - **@agent:rusty**: 0/15 tasks complete
 - **@agent:uidev**: 0/10 tasks complete
-- **@agent:collaboration**: 0/2 tasks complete
+- **@agent:team**: 0/2 tasks complete
 - **@agent:scribas**: 0/1 tasks complete
 
 ## Blocked Tasks and Issues

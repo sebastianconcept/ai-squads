@@ -272,7 +272,7 @@ The solution extends the existing STUI client-server architecture with new tool-
 - **@agent:uxe**: User experience design and interaction patterns
 - **@agent:uidev**: Terminal UI components and interface design
 - **@agent:scribas**: Version control and deployment coordination
-- **@agent:collaboration**: Team coordination and quality assurance
+- **@agent:team**: Team coordination and quality assurance
 
 ### Handoff Protocols
 - **Design to Development**: UX designs handed off with clear specifications

@@ -24,7 +24,7 @@ Implement a **production-ready multi-client session persistence system** on the 
 
 ### **Primary Development Team**
 - **@agent:rusty** - Core implementation lead
-- **@agent:collaboration** - Testing and quality assurance
+- **@agent:team** - Testing and quality assurance
 - **@agent:scribas** - Feature branch management
 
 ### **Support Team**
@@ -103,7 +103,7 @@ Implement a **production-ready multi-client session persistence system** on the 
 
 ### **Immediate (Next 2 hours)**
 1. **@agent:rusty** starts T1.1 (STUISessionManager)
-2. **@agent:collaboration** sets up testing framework
+2. **@agent:team** sets up testing framework
 3. **@agent:scribas** establishes quality gates
 
 ### **Today (Next 8 hours)**

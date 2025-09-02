@@ -111,7 +111,7 @@ status: planned
 ### **Primary Agents**
 - **@agent:rusty**: Core development, session communication, protocol integration, network resilience, connection persistence, workspace context
 - **@agent:uxe**: User experience design, session management interface, demo UI, metadata tracking
-- **@agent:collaboration**: Testing, quality assurance, security audit, cross-platform validation
+- **@agent:team**: Testing, quality assurance, security audit, cross-platform validation
 
 ### **Support Agents**
 - **@agent:scribas**: Feature branch management and quality gate enforcement

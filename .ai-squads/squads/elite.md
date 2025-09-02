@@ -18,7 +18,7 @@ Specialized squad for high-performance systems development and full-stack web ap
 - **@agent:scribas** - Version control and workflow management
 - **@agent:rusty** - Full-stack development and systems programming (Rust, Smalltalk/Pharo, C/C++)
 - **@agent:alan** - Pharo/Smalltalk specialized development with image-centric workflow and rapid iteration
-- **@agent:collaboration** - Team coordination and quality assurance
+- **@agent:team** - Team coordination and quality assurance
 - **@agent:uxe** - User experience research and design
 - **@agent:uidev** - Frontend implementation across platforms
 - **@agent:product-planner** - Strategic product planning and development

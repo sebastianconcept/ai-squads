@@ -191,12 +191,12 @@
 
 ### **Day 3-4: Error Handling Enhancement**
 1. **@agent:rusty**: Extend error types and display
-2. **@agent:collaboration**: Review error handling approach
+2. **@agent:team**: Review error handling approach
 3. **@agent:uxe**: Design error presentation
 
 ### **Day 5: Planning and Coordination**
 1. **@agent:steve**: Review progress and adjust timeline
-2. **@agent:collaboration**: Coordinate team handoffs
+2. **@agent:team**: Coordinate team handoffs
 3. **@agent:product-planner**: Refine feature priorities
 
 ## 🚨 **Risk Mitigation**
@@ -236,7 +236,7 @@
 - Ensure cross-platform compatibility
 - Maintain visual consistency
 
-### **@agent:collaboration**
+### **@agent:team**
 - Coordinate team handoffs
 - Maintain quality standards
 - Facilitate communication
