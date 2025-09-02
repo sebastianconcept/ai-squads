@@ -21,7 +21,7 @@ encoding: UTF-8
 - IMPORTANT: For any step that specifies a subagent in the subagent="" XML attribute you MUST use the specified subagent to perform the instructions for that step.
 - **SQUAD AGENTS ONLY**: Only activate agents that are available in the current squad
 - **AGENT COORDINATION**: The Director Agent coordinates between squad agents based on project needs
-- **JTBD INTEGRATION**: @agent:jtbd-expert participates in all planning workflows for customer job validation
+- **JTBD INTEGRATION**: @agent:moesta participates in all planning workflows for customer job validation
 
 ## Process Flow
 - Process XML blocks sequentially

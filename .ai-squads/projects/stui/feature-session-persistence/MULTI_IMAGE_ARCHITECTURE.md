@@ -41,7 +41,7 @@ The current Session Persistence implementation has **critical architectural gaps
 ### **Phase 1: Protocol Extension (This Week)**
 
 #### **T8.1: Extend Protocol for Image Identification**
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Priority**: CRITICAL  
 **Timeline**: 2 days  
 
@@ -134,7 +134,7 @@ pub struct GetImageSessionStatsResponse {
 ```
 
 #### **T8.2: Enhance SessionManager for Multi-Image Support**
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Priority**: CRITICAL  
 **Timeline**: 3 days  
 
@@ -229,7 +229,7 @@ impl SessionManager {
 ### **Phase 2: Image Disconnection Cleanup (This Week)**
 
 #### **T8.3: Implement Image Disconnection Detection**
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Priority**: CRITICAL  
 **Timeline**: 2 days  
 
@@ -240,7 +240,7 @@ impl SessionManager {
 - Provide health status indicators for each image
 
 #### **T8.4: Add Orphaned Session Management**
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Priority**: CRITICAL  
 **Timeline**: 2 days  
 
@@ -251,7 +251,7 @@ impl SessionManager {
 - Track cleanup statistics and history
 
 #### **T8.5: Update UI for Multi-Image Display**
-**Agent**: @agent:ui-implementor  
+**Agent**: @agent:uidev  
 **Priority**: CRITICAL  
 **Timeline**: 2 days  
 
@@ -264,7 +264,7 @@ impl SessionManager {
 ### **Phase 3: UI Enhancement (Next Week)**
 
 #### **T9.1: Design Multi-Image Session Panel Interface**
-**Agent**: @agent:ux-expert  
+**Agent**: @agent:uxe  
 **Priority**: HIGH  
 **Timeline**: 2 days  
 
@@ -275,7 +275,7 @@ impl SessionManager {
 - Clear orphaned session indicators
 
 #### **T9.2: Implement Image Status Indicators**
-**Agent**: @agent:ui-implementor  
+**Agent**: @agent:uidev  
 **Priority**: HIGH  
 **Timeline**: 2 days  
 
@@ -286,7 +286,7 @@ impl SessionManager {
 - Quick connection/disconnection controls
 
 #### **T9.3: Add Image-Specific Session Management Controls**
-**Agent**: @agent:ui-implementor  
+**Agent**: @agent:uidev  
 **Priority**: HIGH  
 **Timeline**: 2 days  
 
@@ -297,7 +297,7 @@ impl SessionManager {
 - Cross-image session operations
 
 #### **T9.4: Create Orphaned Session Cleanup Interface**
-**Agent**: @agent:ui-implementor  
+**Agent**: @agent:uidev  
 **Priority**: MEDIUM  
 **Timeline**: 1 day  
 
@@ -308,7 +308,7 @@ impl SessionManager {
 - Cleanup history and statistics
 
 #### **T9.5: Implement Image Switching and Context Preservation**
-**Agent**: @agent:ui-implementor  
+**Agent**: @agent:uidev  
 **Priority**: MEDIUM  
 **Timeline**: 2 days  
 
@@ -408,10 +408,10 @@ impl SessionManager {
 ## 📋 **Next Steps**
 
 ### **Immediate Actions (This Week)**
-1. **@agent:software-engineer**: Begin protocol extension (T8.1)
-2. **@agent:software-engineer**: Start SessionManager enhancement (T8.2)
-3. **@agent:ux-expert**: Begin multi-image UI design (T9.1)
-4. **@agent:ui-implementor**: Prepare for UI implementation (T8.5)
+1. **@agent:rusty**: Begin protocol extension (T8.1)
+2. **@agent:rusty**: Start SessionManager enhancement (T8.2)
+3. **@agent:uxe**: Begin multi-image UI design (T9.1)
+4. **@agent:uidev**: Prepare for UI implementation (T8.5)
 
 ### **Success Validation**
 - **Protocol Extension**: New request/response types working

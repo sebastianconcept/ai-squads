@@ -23,7 +23,7 @@ encoding: UTF-8
 
 #### **Phase 1.1: Protocol Integration Setup**
 **Status**: 🟡 **READY TO START**  
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Progress**: 0%  
 
 ##### **Implementation Steps**
@@ -77,7 +77,7 @@ encoding: UTF-8
 
 #### **Phase 1.2: Session Management Implementation**
 **Status**: 🔴 **BLOCKED**  
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Progress**: 0%  
 **Dependencies**: Phase 1.1 completion  
 
@@ -116,7 +116,7 @@ encoding: UTF-8
 
 #### **Phase 1.3: Context Preservation Integration**
 **Status**: 🔴 **BLOCKED**  
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Progress**: 0%  
 **Dependencies**: Phase 1.2 completion  
 
@@ -155,7 +155,7 @@ encoding: UTF-8
 
 #### **Phase 1.4: Integration Test Suite**
 **Status**: 🔴 **BLOCKED**  
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Progress**: 0%  
 **Dependencies**: Phases 1.1-1.3 completion  
 

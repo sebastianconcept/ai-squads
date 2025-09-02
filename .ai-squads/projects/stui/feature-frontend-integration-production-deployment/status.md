@@ -49,7 +49,7 @@ encoding: UTF-8
 ## Week 1: Frontend Integration & Testing
 
 ### **Task 1.1: Protocol Integration Setup** `M` (Medium)
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Status**: ✅ **COMPLETED**  
 **Progress**: 100%  
 **Estimated Time**: 1-2 days  
@@ -70,7 +70,7 @@ encoding: UTF-8
 ---
 
 ### **Task 1.2: Session Management Implementation** `M` (Medium)
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Status**: 🟡 **READY TO START**  
 **Progress**: 0%  
 **Estimated Time**: 2-3 days  
@@ -91,7 +91,7 @@ encoding: UTF-8
 ---
 
 ### **Task 1.3: Context Preservation Integration** `M` (Medium)
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Status**: 🔴 **BLOCKED**  
 **Progress**: 0%  
 **Estimated Time**: 2-3 days  
@@ -112,7 +112,7 @@ encoding: UTF-8
 ---
 
 ### **Task 1.4: Integration Test Suite** `S` (Small)
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Status**: 🔴 **BLOCKED**  
 **Progress**: 0%  
 **Estimated Time**: 1 day  
@@ -135,7 +135,7 @@ encoding: UTF-8
 ## Week 2: Production Deployment Preparation
 
 ### **Task 2.1: Deployment Planning** `M` (Medium)
-**Assigned to**: @agent:software-engineer + @agent:collaboration  
+**Assigned to**: @agent:rusty + @agent:collaboration  
 **Status**: 🟡 **PLANNED**  
 **Progress**: 0%  
 **Estimated Time**: 1-2 days  
@@ -156,7 +156,7 @@ encoding: UTF-8
 ---
 
 ### **Task 2.2: Production Environment Setup** `M` (Medium)
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Status**: 🟡 **PLANNED**  
 **Progress**: 0%  
 **Estimated Time**: 2-3 days  
@@ -177,7 +177,7 @@ encoding: UTF-8
 ---
 
 ### **Task 2.3: Performance & Security Validation** `M** (Medium)
-**Assigned to**: @agent:software-engineer + @agent:collaboration  
+**Assigned to**: @agent:rusty + @agent:collaboration  
 **Status**: 🟡 **PLANNED**  
 **Progress**: 0%  
 **Estimated Time**: 2-3 days  
@@ -198,7 +198,7 @@ encoding: UTF-8
 ---
 
 ### **Task 2.4: Monitoring & Backup Setup** `S` (Small)
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Status**: 🟡 **PLANNED**  
 **Progress**: 0%  
 **Estimated Time**: 1 day  
@@ -221,7 +221,7 @@ encoding: UTF-8
 ## Week 3: Team Handoff & Next Phase Planning
 
 ### **Task 3.1: Documentation Completion** `M` (Medium)
-**Assigned to**: @agent:collaboration + @agent:software-engineer  
+**Assigned to**: @agent:collaboration + @agent:rusty  
 **Status**: 🟡 **PLANNED**  
 **Progress**: 0%  
 **Estimated Time**: 2-3 days  
@@ -310,7 +310,7 @@ encoding: UTF-8
 ---
 
 ### **Task 3.4: Phase Completion & Validation** `S` (Small)
-**Assigned to**: @agent:director  
+**Assigned to**: @agent:steve  
 **Status**: 🟡 **PLANNED**  
 **Progress**: 0%  
 **Estimated Time**: 1 day  
@@ -395,9 +395,9 @@ encoding: UTF-8
 ## Next Actions
 
 ### **Immediate (Next 2 hours)**
-1. **@agent:software-engineer** starts Task 1.1 - Protocol Integration Setup
+1. **@agent:rusty** starts Task 1.1 - Protocol Integration Setup
 2. **@agent:collaboration** begins team coordination for next phase
-3. **@agent:git-workflow** prepares production branch strategy
+3. **@agent:scribas** prepares production branch strategy
 
 ### **Today (Next 8 hours)**
 1. **Protocol Integration**: Begin integrating session protocol commands
@@ -427,5 +427,5 @@ encoding: UTF-8
 
 **Status**: 🟡 **IN PROGRESS - Week 1 Starting**  
 **Current Focus**: Task 1.1 - Protocol Integration Setup  
-**Next Action**: @agent:software-engineer begins frontend integration work  
+**Next Action**: @agent:rusty begins frontend integration work  
 **Timeline**: 2-3 weeks for complete integration and deployment 🚀

@@ -149,25 +149,25 @@ The Context Fetcher Agent specializes in gathering comprehensive context and inf
 
 <agent_activation>
   <director>
-    ACTIVATE: @agent:director
+    ACTIVATE: @agent:steve
     PURPOSE: Strategic coordination and project planning
     TRIGGER: When strategic decisions or project planning needed
   </director>
   
   <product_strategist>
-    ACTIVATE: @agent:product-strategist
+    ACTIVATE: @agent:guy
     PURPOSE: Strategic analysis and market context
     TRIGGER: When strategic context or market analysis needed
   </product_strategist>
   
   <backend_engineer>
-            ACTIVATE: @agent:software-engineer
+            ACTIVATE: @agent:rusty
     PURPOSE: Technical analysis and architecture review
     TRIGGER: When technical context or architecture analysis needed
   </backend_engineer>
   
   <ux_expert>
-    ACTIVATE: @agent:ux-expert
+    ACTIVATE: @agent:uxe
     PURPOSE: User context and experience analysis
     TRIGGER: When user context or experience analysis needed
   </ux_expert>

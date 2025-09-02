@@ -90,15 +90,15 @@ squad: elite
 ## **👥 Team Assignment**
 
 ### **Primary Development Team**
-- **@agent:software-engineer** - Frontend integration and production deployment
+- **@agent:rusty** - Frontend integration and production deployment
 - **@agent:collaboration** - Team coordination and handoff management
-- **@agent:git-workflow** - Production branch management and deployment
-- **@agent:ux-expert** - User experience validation and documentation
+- **@agent:scribas** - Production branch management and deployment
+- **@agent:uxe** - User experience validation and documentation
 
 ### **Support Team**
-- **@agent:director** - Overall phase coordination and progress tracking
+- **@agent:steve** - Overall phase coordination and progress tracking
 - **@agent:product-planner** - Next phase feature planning and roadmap
-- **@agent:product-strategist** - Strategic direction and business alignment
+- **@agent:guy** - Strategic direction and business alignment
 
 ## **🔧 Technical Implementation**
 
@@ -194,9 +194,9 @@ squad: elite
 ## **🎯 Next Actions**
 
 ### **Immediate (Next 2 hours)**
-1. **@agent:software-engineer** starts frontend integration planning
+1. **@agent:rusty** starts frontend integration planning
 2. **@agent:collaboration** begins team coordination for next phase
-3. **@agent:git-workflow** prepares production branch strategy
+3. **@agent:scribas** prepares production branch strategy
 
 ### **Today (Next 8 hours)**
 1. **Frontend Integration Planning**: Define integration requirements and approach
@@ -225,6 +225,6 @@ squad: elite
 ---
 
 **Status**: 🟢 **READY TO EXECUTE**  
-**Next Action**: @agent:software-engineer starts frontend integration planning  
+**Next Action**: @agent:rusty starts frontend integration planning  
 **Timeline**: 2-3 weeks for complete integration and deployment  
 **Priority**: **CRITICAL - Production deployment and team handoff** 🚀

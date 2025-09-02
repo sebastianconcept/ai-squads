@@ -23,7 +23,7 @@ status: planned
 ## Task Categories
 
 ### **Category 1: Basic Session Communication** `H` (High Priority - Demo Ready)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Week 1  
 **Dependencies**: None  
 
@@ -57,7 +57,7 @@ status: planned
 ---
 
 ### **Category 2: Protocol Integration** `H` (High Priority - Demo Ready)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Week 1-2  
 **Dependencies**: Category 1 completion  
 
@@ -91,7 +91,7 @@ status: planned
 ---
 
 ### **Category 3: Context Preservation** `H` (High Priority - Demo Ready)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Week 2  
 **Dependencies**: Categories 1-2 completion  
 
@@ -125,7 +125,7 @@ status: planned
 ---
 
 ### **Category 4: Multi-Client Support** `M` (Medium Priority - Production Feature)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Week 2-3  
 **Dependencies**: Categories 1-3 completion  
 
@@ -159,13 +159,13 @@ status: planned
 ---
 
 ### **Category 5: Integration and Testing** `M` (Medium Priority)
-**Agent**: @agent:software-engineer + @agent:collaboration  
+**Agent**: @agent:rusty + @agent:collaboration  
 **Timeline**: Week 3  
 **Dependencies**: Categories 1-4 completion  
 
 #### Tasks:
 - [ ] **T5.1**: Integrate session management with existing STUI components
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Acceptance**: Seamless integration with STUIServer and existing message handling
   - **Quality Gates**: Integration tests, system tests, compatibility tests
@@ -186,7 +186,7 @@ status: planned
   - **Demo Value**: ✅ **ENABLES END-TO-END DEMO**
 
 - [ ] **T5.4**: Conduct performance testing and optimization
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Acceptance**: Performance targets met with optimization recommendations
   - **Quality Gates**: Performance benchmarks, optimization validation, memory profiling
@@ -250,12 +250,12 @@ status: planned
 ## 👥 **Agent Assignment Summary**
 
 ### **Primary Agents**
-- **@agent:software-engineer**: Core development, session management, protocol integration, context preservation, multi-client support, integration
+- **@agent:rusty**: Core development, session management, protocol integration, context preservation, multi-client support, integration
 - **@agent:collaboration**: Testing, quality assurance, documentation, deployment preparation
 
 ### **Support Agents**
-- **@agent:git-workflow**: Feature branch management and quality gate enforcement
-- **@agent:director**: Overall coordination and progress tracking
+- **@agent:scribas**: Feature branch management and quality gate enforcement
+- **@agent:steve**: Overall coordination and progress tracking
 
 ## 🗓️ **Adjusted Timeline and Dependencies**
 

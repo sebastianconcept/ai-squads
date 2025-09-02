@@ -41,7 +41,7 @@ squad: elite
 - **Status**: 🟡 **Planned**
 - **Progress**: 0% Complete
 - **Timeline**: Week 1, Days 1-3
-- **Agent**: @agent:software-engineer
+- **Agent**: @agent:rusty
 - **Dependencies**: None
 
 **Tasks**:
@@ -53,7 +53,7 @@ squad: elite
 - **Status**: 🟡 **Planned**
 - **Progress**: 0% Complete
 - **Timeline**: Week 1, Days 4-5
-- **Agent**: @agent:software-engineer
+- **Agent**: @agent:rusty
 - **Dependencies**: Phase 1 completion
 
 **Tasks**:
@@ -64,7 +64,7 @@ squad: elite
 - **Status**: 🟡 **Planned**
 - **Progress**: 0% Complete
 - **Timeline**: Week 2, Days 1-3
-- **Agent**: @agent:ui-implementor
+- **Agent**: @agent:uidev
 - **Dependencies**: Phase 2 completion
 
 **Tasks**:
@@ -76,7 +76,7 @@ squad: elite
 - **Status**: 🟡 **Planned**
 - **Progress**: 0% Complete
 - **Timeline**: Week 2, Days 4-5
-- **Agent**: @agent:software-engineer + @agent:collaboration
+- **Agent**: @agent:rusty + @agent:collaboration
 - **Dependencies**: Phase 3 completion
 
 **Tasks**:
@@ -196,10 +196,10 @@ squad: elite
 ## 📞 **Team Coordination**
 
 ### **Current Agent Assignments**
-- **@agent:software-engineer**: Core implementation (Phases 1-2, 4.1)
-- **@agent:ui-implementor**: UI implementation (Phase 3)
+- **@agent:rusty**: Core implementation (Phases 1-2, 4.1)
+- **@agent:uidev**: UI implementation (Phase 3)
 - **@agent:collaboration**: Quality assurance and testing (Phase 4.2)
-- **@agent:ux-expert**: User experience design and validation
+- **@agent:uxe**: User experience design and validation
 
 ### **Communication Channels**
 - **Progress Updates**: Weekly status reviews

@@ -28,7 +28,7 @@
 ## 🚨 **What Still Needs to be Done (This Week)**
 
 ### 1. **Complete Integration Test Fixes**
-**Owner**: @agent:software-engineer  
+**Owner**: @agent:rusty  
 **Priority**: CRITICAL  
 **Timeline**: 2-3 more days
 
@@ -96,7 +96,7 @@ Once Phase 3 is complete, the team can confidently continue with:
 ## 💡 **Team Recommendations**
 
 ### **Immediate Actions (Next 2 Days)**
-1. **@agent:software-engineer**: Focus exclusively on fixing integration tests
+1. **@agent:rusty**: Focus exclusively on fixing integration tests
 2. **@agent:collaboration**: Verify all documentation is now accurate
 3. **@agent:product-planner**: Begin production requirements gathering
 

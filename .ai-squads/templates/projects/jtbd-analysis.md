@@ -165,6 +165,6 @@ This document provides a comprehensive Jobs To Be Done analysis for the [FEATURE
 
 ---
 
-**Analysis by**: @agent:jtbd-expert  
+**Analysis by**: @agent:moesta  
 **Date**: [DATE]  
 **Status**: [Draft/In Review/Validated]

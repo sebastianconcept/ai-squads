@@ -33,7 +33,7 @@ status: planned
 - **Status**: ✅ **COMPLETED**
 - **Progress**: 100% Complete
 - **Timeline**: Week 1
-- **Agent**: @agent:software-engineer
+- **Agent**: @agent:rusty
 
 **Tasks**:
 - [x] **T1.1**: Create `ErrorDisplayWidget` struct with basic TUI integration
@@ -45,7 +45,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 1-2
-- **Agent**: @agent:software-engineer
+- **Agent**: @agent:rusty
 - **Dependencies**: Category 1 completion
 
 **Tasks**:
@@ -58,7 +58,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 2
-- **Agent**: @agent:software-engineer + @agent:ux-expert
+- **Agent**: @agent:rusty + @agent:uxe
 - **Dependencies**: Categories 1-2 completion
 
 **Tasks**:
@@ -71,7 +71,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 2-3
-- **Agent**: @agent:collaboration + @agent:software-engineer
+- **Agent**: @agent:collaboration + @agent:rusty
 - **Dependencies**: Categories 1-3 completion
 
 **Tasks**:
@@ -84,7 +84,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 3
-- **Agent**: @agent:collaboration + @agent:software-engineer
+- **Agent**: @agent:collaboration + @agent:rusty
 - **Dependencies**: Categories 1-4 completion
 
 **Tasks**:
@@ -201,11 +201,11 @@ status: planned
 ## 📞 **Team Coordination**
 
 ### **Current Agent Assignments**
-- **@agent:software-engineer**: Core development and protocol integration
-- **@agent:ux-expert**: User experience design and refinement
+- **@agent:rusty**: Core development and protocol integration
+- **@agent:uxe**: User experience design and refinement
 - **@agent:collaboration**: Testing, QA, and documentation
-- **@agent:git-workflow**: Feature branch management and quality gates
-- **@agent:director**: Overall coordination and progress tracking
+- **@agent:scribas**: Feature branch management and quality gates
+- **@agent:steve**: Overall coordination and progress tracking
 
 ### **Communication Channels**
 - **Progress Updates**: Weekly status reviews

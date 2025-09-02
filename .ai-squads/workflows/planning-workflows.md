@@ -101,7 +101,7 @@ ai-squads/projects/[PROJECT_NAME]/
    - Assess technical complexity and dependencies
 
 2. **JTBD Analysis**
-   - @agent:jtbd-expert analyzes customer jobs and validates feature alignment
+   - @agent:moesta analyzes customer jobs and validates feature alignment
    - Identifies satisfaction gaps and unintended consequences
    - Ensures solution addresses real customer needs
 
@@ -258,21 +258,21 @@ priority: [low|medium|high|critical]
 ### Planning Phase
 1. **Command Execution**: Execute planning command (`plan-project`, `adopt-project`, `plan-feature`, `plan-fix`)
 2. **Squad Activation**: Activate appropriate squad agents for planning
-3. **JTBD Analysis**: @agent:jtbd-expert validates customer job alignment
+3. **JTBD Analysis**: @agent:moesta validates customer job alignment
 4. **Documentation Creation**: Create required planning documents including jtbd-analysis.md
 5. **Task Breakdown**: Create comprehensive task breakdown with agent assignments
 6. **Validation**: Review and validate planning with squad including JTBD validation
 
 ### Execution Phase
 1. **Work Assignment**: Assign work to appropriate squad agents
-2. **JTBD Validation**: @agent:jtbd-expert validates implementation alignment with customer jobs
+2. **JTBD Validation**: @agent:moesta validates implementation alignment with customer jobs
 3. **Implementation**: Execute planned work following squad standards
 4. **Quality Gates**: Ensure work meets defined quality standards including JTBD validation
 5. **Documentation Updates**: Update documentation as work progresses
 
 ### Review Phase
 1. **Goal Validation**: Validate work against defined goals including customer job satisfaction
-2. **JTBD Review**: @agent:jtbd-expert validates customer job satisfaction improvement
+2. **JTBD Review**: @agent:moesta validates customer job satisfaction improvement
 3. **Quality Review**: Ensure quality standards are met
 4. **Documentation Review**: Update final documentation
 5. **Knowledge Transfer**: Share learnings with the team
@@ -355,15 +355,15 @@ git commit -m "descriptive message"
 ```
 
 ### **Quality Gate Enforcement**
-- **@agent:git-workflow** will verify these commands were run and passed
-- **@agent:jtbd-expert** will verify JTBD analysis is completed and validated
+- **@agent:scribas** will verify these commands were run and passed
+- **@agent:moesta** will verify JTBD analysis is completed and validated
 - **No exceptions**: Quality gates must pass before any commit
 - **Team accountability**: Engineers are responsible for running these checks
 - **Failure reporting**: Report any quality gate failures to the team
 
 ### **Feature Branch Workflow Enforcement**
-- **@agent:git-workflow** will verify proper feature branch creation sequence
-- **@agent:jtbd-expert** will verify JTBD analysis is completed before feature development
+- **@agent:scribas** will verify proper feature branch creation sequence
+- **@agent:moesta** will verify JTBD analysis is completed before feature development
 - **Mandatory sequence**: Switch to main → Pull latest → Create feature branch
 - **No exceptions**: Feature development cannot start without proper git workflow and JTBD validation
 - **Team accountability**: Engineers must follow git workflow and JTBD methodology before development
@@ -387,7 +387,7 @@ git commit -m "descriptive message"
 
 ### Task Creation Process
 1. **Planning Phase**: Create tasks based on problem analysis and solution design
-2. **JTBD Analysis**: @agent:jtbd-expert validates customer job alignment and creates satisfaction metrics
+2. **JTBD Analysis**: @agent:moesta validates customer job alignment and creates satisfaction metrics
 3. **Agent Assignment**: Assign tasks to appropriate squad agents based on capabilities
 4. **Dependency Mapping**: Identify task dependencies and create execution sequence
 5. **Effort Estimation**: Estimate effort and priority for each task category
@@ -395,7 +395,7 @@ git commit -m "descriptive message"
 
 ### Task Execution Workflow
 1. **Task Assignment**: Agents receive assigned tasks with clear acceptance criteria
-2. **JTBD Validation**: @agent:jtbd-expert validates task alignment with customer jobs
+2. **JTBD Validation**: @agent:moesta validates task alignment with customer jobs
 3. **Progress Tracking**: Regular updates on task status and completion
 4. **Dependency Management**: Monitor blocked tasks and dependencies
 5. **Quality Validation**: Complete verification tasks before marking categories complete including JTBD validation
@@ -411,7 +411,7 @@ git commit -m "descriptive message"
 - **JTBD Methodology**: All projects include customer job analysis and validation
 
 ### JTBD Integration
-- **@agent:jtbd-expert**: Participates in all planning workflows
+- **@agent:moesta**: Participates in all planning workflows
 - **Customer Job Analysis**: Validates feature alignment with customer needs
 - **Satisfaction Gap Identification**: Identifies and prioritizes customer satisfaction gaps
 - **Solution Validation**: Ensures solutions address real customer jobs
@@ -436,7 +436,7 @@ git commit -m "descriptive message"
 - **Unintended Consequences**: Identify and mitigate negative side effects
 
 ### JTBD Workflow Integration
-- **Feature Planning**: @agent:jtbd-expert analyzes customer jobs and validates feature alignment
+- **Feature Planning**: @agent:moesta analyzes customer jobs and validates feature alignment
 - **Solution Design**: JTBD validation ensures solutions address real satisfaction gaps
 - **Project Scope**: JTBD analysis validates project alignment with customer needs
 - **Quality Gates**: JTBD validation required before feature approval

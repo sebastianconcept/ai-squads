@@ -146,14 +146,14 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 - **Object-Oriented Design**: Clean architecture and design patterns
 
 **Agents**:
-- **@agent:director**: Project coordination and strategic oversight
-- **@agent:jtbd-expert**: Customer jobs analysis and solution validation
-- **@agent:writer**: Storytelling, character development, and narrative craft
-- **@agent:software-engineer**: Full-stack development and systems programming
-- **@agent:ux-expert**: User experience research and design
-- **@agent:ui-implementor**: Frontend implementation across platforms
+- **@agent:steve**: Project coordination and strategic oversight
+- **@agent:moesta**: Customer jobs analysis and solution validation
+- **@agent:godin**: Storytelling, character development, and narrative craft
+- **@agent:rusty**: Full-stack development and systems programming
+- **@agent:uxe**: User experience research and design
+- **@agent:uidev**: Frontend implementation across platforms
 - **@agent:product-planner**: Strategic product planning and development
-- **@agent:git-workflow**: Version control, workflow management, and quality gate enforcement
+- **@agent:scribas**: Version control, workflow management, and quality gate enforcement
 - **@agent:collaboration**: Team coordination and quality assurance
 
 ### **Other Squads**

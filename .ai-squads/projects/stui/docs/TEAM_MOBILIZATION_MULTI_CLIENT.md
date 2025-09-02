@@ -23,36 +23,36 @@ Implement a **production-ready multi-client session persistence system** on the 
 ## **👥 Team Assignment**
 
 ### **Primary Development Team**
-- **@agent:software-engineer** - Core implementation lead
+- **@agent:rusty** - Core implementation lead
 - **@agent:collaboration** - Testing and quality assurance
-- **@agent:git-workflow** - Feature branch management
+- **@agent:scribas** - Feature branch management
 
 ### **Support Team**
-- **@agent:director** - Overall coordination and progress tracking
-- **@agent:ux-expert** - User experience validation
+- **@agent:steve** - Overall coordination and progress tracking
+- **@agent:uxe** - User experience validation
 - **@agent:product-planner** - Feature requirements and validation
 
 ## **📋 Immediate Action Items (Week 1)**
 
 ### **Day 1-2: Foundation Setup**
 - [ ] **T1.1**: Design and implement STUISessionManager class
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 12 hours
   - **Status**: 🔴 **STARTING NOW**
 
 - [ ] **T1.2**: Create STUISessionData class and data structures
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Status**: 🔴 **STARTING NOW**
 
 ### **Day 3-4: Core Implementation**
 - [ ] **T1.3**: Implement STUISessionStorage for file persistence
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 10 hours
   - **Status**: 🟡 **PLANNED**
 
 - [ ] **T1.4**: Add STUISessionValidator for security and validation
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Status**: 🟡 **PLANNED**
 
@@ -102,9 +102,9 @@ Implement a **production-ready multi-client session persistence system** on the 
 ## **🎯 Next Steps**
 
 ### **Immediate (Next 2 hours)**
-1. **@agent:software-engineer** starts T1.1 (STUISessionManager)
+1. **@agent:rusty** starts T1.1 (STUISessionManager)
 2. **@agent:collaboration** sets up testing framework
-3. **@agent:git-workflow** establishes quality gates
+3. **@agent:scribas** establishes quality gates
 
 ### **Today (Next 8 hours)**
 1. Complete T1.1 and T1.2
@@ -120,7 +120,7 @@ Implement a **production-ready multi-client session persistence system** on the 
 
 ### **Team Updates**
 - **Progress**: Daily updates in this document
-- **Blockers**: Immediate escalation to @agent:director
+- **Blockers**: Immediate escalation to @agent:steve
 - **Decisions**: Document in solution.md and status.md
 
 ### **Integration Points**
@@ -148,6 +148,6 @@ Implement a **production-ready multi-client session persistence system** on the 
 ---
 
 **Status**: 🟢 **TEAM MOBILIZED**  
-**Next Action**: @agent:software-engineer starts T1.1 implementation  
+**Next Action**: @agent:rusty starts T1.1 implementation  
 **Timeline**: 3 weeks to production-ready multi-client system  
 **Success**: Multi-client session persistence enabling team collaboration! 🚀

@@ -103,13 +103,13 @@ created: 2025-08-25
 ## **👥 Team Assignment & Resources**
 
 ### **Primary Development Team**
-- **@agent:software-engineer** - Frontend integration and production deployment
+- **@agent:rusty** - Frontend integration and production deployment
 - **@agent:collaboration** - Team coordination and handoff management
-- **@agent:git-workflow** - Production branch management and deployment
-- **@agent:ux-expert** - User experience validation and documentation
+- **@agent:scribas** - Production branch management and deployment
+- **@agent:uxe** - User experience validation and documentation
 
 ### **Support Team**
-- **@agent:director** - Overall phase coordination and progress tracking
+- **@agent:steve** - Overall phase coordination and progress tracking
 - **@agent:product-planner** - Next phase feature planning and roadmap
 
 ### **Available Resources**

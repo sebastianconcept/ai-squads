@@ -17,7 +17,7 @@ status: planned
 ## Task Categories
 
 ### **Category 1: Core Error Widget Development** `M` (Medium Priority)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Week 1  
 **Dependencies**: None  
 
@@ -47,7 +47,7 @@ status: planned
 ---
 
 ### **Category 2: Protocol Integration Enhancement** `M` (Medium Priority)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Week 1-2  
 **Dependencies**: Category 1 completion  
 
@@ -77,31 +77,31 @@ status: planned
 ---
 
 ### **Category 3: User Experience Implementation** `M` (Medium Priority)
-**Agent**: @agent:software-engineer + @agent:ux-expert  
+**Agent**: @agent:rusty + @agent:uxe  
 **Timeline**: Week 2  
 **Dependencies**: Categories 1-2 completion  
 
 #### Tasks:
 - [ ] **T3.1**: Implement actionable guidance system for common errors
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Acceptance**: 80% of common errors provide helpful suggestions
   - **Quality Gates**: `cargo test`, guidance tests
 
 - [ ] **T3.2**: Design and implement error dismissal and history
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Acceptance**: Users can dismiss errors and access error history
   - **Quality Gates**: `cargo check`, dismissal tests
 
 - [ ] **T3.3**: Optimize performance and memory usage
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Acceptance**: Error display adds <10ms to TUI response time
   - **Quality Gates**: Performance benchmarks, memory tests
 
 - [ ] **T3.4**: Implement user experience improvements and refinements
-  - **Agent**: @agent:ux-expert
+  - **Agent**: @agent:uxe
   - **Effort**: 4 hours
   - **Acceptance**: Error display meets professional IDE standards
   - **Quality Gates**: UX review, accessibility tests
@@ -111,19 +111,19 @@ status: planned
 ---
 
 ### **Category 4: Testing and Quality Assurance** `S` (Small Priority)
-**Agent**: @agent:collaboration + @agent:software-engineer  
+**Agent**: @agent:collaboration + @agent:rusty  
 **Timeline**: Week 2-3  
 **Dependencies**: Categories 1-3 completion  
 
 #### Tasks:
 - [ ] **T4.1**: Create comprehensive unit tests for error display components
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Acceptance**: 90%+ test coverage for error display code
   - **Quality Gates**: `cargo test`, coverage reports
 
 - [ ] **T4.2**: Implement integration tests with error scenarios
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Acceptance**: All error scenarios are properly tested
   - **Quality Gates**: Integration tests pass, error handling validated
@@ -145,13 +145,13 @@ status: planned
 ---
 
 ### **Category 5: Documentation and Integration** `S` (Small Priority)
-**Agent**: @agent:collaboration + @agent:software-engineer  
+**Agent**: @agent:collaboration + @agent:rusty  
 **Timeline**: Week 3  
 **Dependencies**: Categories 1-4 completion  
 
 #### Tasks:
 - [ ] **T5.1**: Create API documentation for error display components
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 4 hours
   - **Acceptance**: Complete API documentation with examples
   - **Quality Gates**: Documentation review, API examples
@@ -163,7 +163,7 @@ status: planned
   - **Quality Gates**: User guide review, clarity validation
 
 - [ ] **T5.3**: Update developer guide for error handling integration
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 4 hours
   - **Acceptance**: Developers can integrate error handling easily
   - **Quality Gates**: Developer guide review, integration examples
@@ -181,13 +181,13 @@ status: planned
 ## Agent Assignment Summary
 
 ### **Primary Agents**
-- **@agent:software-engineer**: Core development, protocol integration, performance optimization
-- **@agent:ux-expert**: User experience design and refinement
+- **@agent:rusty**: Core development, protocol integration, performance optimization
+- **@agent:uxe**: User experience design and refinement
 - **@agent:collaboration**: Testing, quality assurance, documentation
 
 ### **Support Agents**
-- **@agent:git-workflow**: Feature branch management and quality gate enforcement
-- **@agent:director**: Overall coordination and progress tracking
+- **@agent:scribas**: Feature branch management and quality gate enforcement
+- **@agent:steve**: Overall coordination and progress tracking
 
 ## Timeline and Dependencies
 

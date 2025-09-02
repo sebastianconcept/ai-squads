@@ -185,9 +185,9 @@ squad: elite
 ## **🎉 Team Recognition**
 
 ### **Outstanding Contributions**
-- **@agent:software-engineer**: Delivered 7 production-ready protocol commands in 5 days
-- **@agent:director**: Effective coordination and progress tracking
-- **@agent:git-workflow**: Maintained clean feature branch management
+- **@agent:rusty**: Delivered 7 production-ready protocol commands in 5 days
+- **@agent:steve**: Effective coordination and progress tracking
+- **@agent:scribas**: Maintained clean feature branch management
 
 ### **Team Achievement**
 - **Timeline**: Met all Week 2 objectives on schedule

@@ -125,7 +125,7 @@ StuiApp
 - Design deployment automation strategy
 
 ### **3. Team Coordination**
-- **@agent:software-engineer**: Ready for Phase 3 development
+- **@agent:rusty**: Ready for Phase 3 development
 - **@agent:product-planner**: Phase 3 requirements and planning
 - **@agent:collaboration**: Phase 2 completion handoff to Phase 3
 

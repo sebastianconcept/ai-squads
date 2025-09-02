@@ -66,15 +66,15 @@ Update `crates/stui-protocol/src/lib.rs` with session management types and integ
 ## **👥 Team Status & Next Actions**
 
 ### **Primary Development Team**
-- **@agent:software-engineer** - Frontend integration lead ✅ **ACTIVE - T1.1 in progress**
+- **@agent:rusty** - Frontend integration lead ✅ **ACTIVE - T1.1 in progress**
 - **@agent:collaboration** - Team coordination ✅ **READY for next phase coordination**
-- **@agent:git-workflow** - Production branch management ✅ **READY for integration branch**
-- **@agent:ux-expert** - User experience validation ✅ **READY for UI testing**
+- **@agent:scribas** - Production branch management ✅ **READY for integration branch**
+- **@agent:uxe** - User experience validation ✅ **READY for UI testing**
 
 ### **Support Team**
-- **@agent:director** - Overall phase coordination ✅ **ACTIVE - Progress tracking**
+- **@agent:steve** - Overall phase coordination ✅ **ACTIVE - Progress tracking**
 - **@agent:product-planner** - Next phase feature planning ✅ **READY for Week 2 planning**
-- **@agent:product-strategist** - Strategic direction ✅ **READY for business alignment**
+- **@agent:guy** - Strategic direction ✅ **READY for business alignment**
 
 ## **🔧 Technical Implementation Status**
 
@@ -134,7 +134,7 @@ Update `crates/stui-protocol/src/lib.rs` with session management types and integ
 
 ## **🎯 Next Actions - Immediate (Next 4 hours)**
 
-### **@agent:software-engineer - Complete T1.1**
+### **@agent:rusty - Complete T1.1**
 1. **Finish Protocol Types**: Complete all session management type definitions
 2. **Add Convenience Methods**: Implement request creation methods
 3. **Validate Integration**: Ensure compatibility with existing protocol
@@ -147,7 +147,7 @@ Update `crates/stui-protocol/src/lib.rs` with session management types and integ
 3. **Prepare Handoff**: Ready for ServerClient integration
 4. **Schedule Review**: Plan T1.2 kickoff meeting
 
-### **@agent:git-workflow - Prepare Integration Branch**
+### **@agent:scribas - Prepare Integration Branch**
 1. **Create Branch**: Prepare feature branch for T1.2
 2. **Update Status**: Reflect current progress in tracking
 3. **Prepare Merge**: Plan integration with main development branch

@@ -93,7 +93,7 @@ This log tracks key architectural and strategic decisions made for the SquadsAI 
 **Context**: Need to ensure consistent code quality across all technologies and prevent quality regressions in a multi-agent development environment.
 
 1. **Language-Specific Gates**: Rust (cargo fmt, clippy, test), JavaScript/TypeScript (format, lint, test, build)
-2. **Agent Enforcement**: `@agent:git-workflow` actively verifies quality gates were run and passed
+2. **Agent Enforcement**: `@agent:scribas` actively verifies quality gates were run and passed
 3. **No Exceptions Policy**: Quality gates must pass - no commits allowed without full compliance
 4. **Failure Handling**: Clear process for quality gate failures with team notification and guidance
 
@@ -209,7 +209,7 @@ This log tracks key architectural and strategic decisions made for the SquadsAI 
 **Context**: Need to prevent merge conflicts, ensure clean git history, and coordinate development work across multiple agents working on different features.
 
 1. **Required Sequence**: Must switch to main → pull latest → create feature branch
-2. **Agent Verification**: `@agent:git-workflow` verifies sequence was followed
+2. **Agent Verification**: `@agent:scribas` verifies sequence was followed
 3. **No Exceptions**: Feature development cannot start without proper git workflow
 4. **Conflict Prevention**: Ensures all feature branches start from latest main
 
@@ -237,7 +237,7 @@ This log tracks key architectural and strategic decisions made for the SquadsAI 
 
 **Context**: Need reliable, consistent enforcement of quality standards across all development work without depending on human discipline or memory.
 
-1. **Automated Verification**: `@agent:git-workflow` automatically verifies quality gates
+1. **Automated Verification**: `@agent:scribas` automatically verifies quality gates
 2. **Active Refusal**: Agent refuses to proceed if quality gates haven't passed
 3. **Guidance Provision**: Agent provides specific guidance for fixing quality issues
 4. **Team Communication**: Agent reports quality failures to team for resolution

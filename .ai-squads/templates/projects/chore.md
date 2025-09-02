@@ -133,8 +133,8 @@ status: [planned|in-progress|completed]
 ## Resources Required
 
 ### Squad Agents
-- **@agent:software-engineer** - Technical implementation
-- **@agent:git-workflow** - Version control and branching
+- **@agent:rusty** - Technical implementation
+- **@agent:scribas** - Version control and branching
 - **@agent:collaboration** - Quality assurance and coordination
 
 ### Tools and Standards

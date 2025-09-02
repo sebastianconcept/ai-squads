@@ -109,13 +109,13 @@ status: planned
 ## 👥 **Agent Assignments**
 
 ### **Primary Agents**
-- **@agent:software-engineer**: Core development, session communication, protocol integration, network resilience, connection persistence, workspace context
-- **@agent:ux-expert**: User experience design, session management interface, demo UI, metadata tracking
+- **@agent:rusty**: Core development, session communication, protocol integration, network resilience, connection persistence, workspace context
+- **@agent:uxe**: User experience design, session management interface, demo UI, metadata tracking
 - **@agent:collaboration**: Testing, quality assurance, security audit, cross-platform validation
 
 ### **Support Agents**
-- **@agent:git-workflow**: Feature branch management and quality gate enforcement
-- **@agent:director**: Overall coordination and progress tracking
+- **@agent:scribas**: Feature branch management and quality gate enforcement
+- **@agent:steve**: Overall coordination and progress tracking
 
 ## 🔧 **Feature Requirements**
 

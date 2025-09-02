@@ -54,7 +54,7 @@ This document tracks the evolution of the SquadsAI system, documenting major cha
 **Minor Release**: Complete writer agent integration for product storytelling, marketing content, and brand narrative development
 
 #### 🎭 **Writer Agent Integration**
-- **New Agent Integration**: @agent:writer fully integrated into collaboration workflows
+- **New Agent Integration**: @agent:godin fully integrated into collaboration workflows
 - **Content Creation**: Automatic content creation and storytelling coordination
 - **Brand Development**: Brand narrative and positioning integration
 - **Marketing Materials**: Marketing copy and campaign content creation
@@ -82,7 +82,7 @@ This document tracks the evolution of the SquadsAI system, documenting major cha
 - **SEO Optimization**: Content discoverability and search optimization
 
 #### 🎯 **Enhanced Feature Development Cycle**
-- **Story Creation**: Coordinate with @agent:writer for compelling problem narratives
+- **Story Creation**: Coordinate with @agent:godin for compelling problem narratives
 - **Content Creation**: Create marketing materials and user documentation
 - **Brand Alignment**: Ensure consistent messaging and positioning
 - **Audience Resonance**: Content resonates with target audiences
@@ -106,7 +106,7 @@ This document tracks the evolution of the SquadsAI system, documenting major cha
 **Minor Release**: Complete Jobs To Be Done methodology integration with workflow consistency fixes
 
 #### 🤖 **JTBD Expert Agent Integration**
-- **New Agent**: @agent:jtbd-expert for customer jobs analysis and solution validation
+- **New Agent**: @agent:moesta for customer jobs analysis and solution validation
 - **Elite Squad Enhancement**: JTBD expert added to Elite Squad (now 8 agents)
 - **Agent Capabilities**: Customer jobs analysis, satisfaction gap identification, solution validation
 - **Agent Location**: Properly placed in `.ai-squads/agents/jtbd-expert.md`
@@ -264,15 +264,15 @@ This document tracks the evolution of the SquadsAI system, documenting major cha
 - **Chore Documents**: subject.md, improvement.md, tasks.md
 
 #### 🤖 **Available Agents**
-- **@agent:director**: Project coordination and strategic oversight
-- **@agent:software-engineer**: Full-stack development and systems programming
-- **@agent:ux-expert**: User experience research and design
-- **@agent:ui-implementor**: Frontend implementation across platforms
+- **@agent:steve**: Project coordination and strategic oversight
+- **@agent:rusty**: Full-stack development and systems programming
+- **@agent:uxe**: User experience research and design
+- **@agent:uidev**: Frontend implementation across platforms
 - **@agent:product-planner**: Strategic product planning and development
-- **@agent:git-workflow**: Version control, workflow management, and quality gate enforcement
+- **@agent:scribas**: Version control, workflow management, and quality gate enforcement
 - **@agent:collaboration**: Team coordination and quality assurance
 - **@agent:context-fetcher**: Context gathering and analysis
-- **@agent:product-strategist**: Product strategy and market analysis
+- **@agent:guy**: Product strategy and market analysis
 
 #### 🎪 **Available Squads**
 - **Elite Squad**: High-performance systems development (Rust, Smalltalk, C++, JavaScript, Ruby, CSS)

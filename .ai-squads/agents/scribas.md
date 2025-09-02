@@ -6,7 +6,7 @@ version: 1.0
 encoding: UTF-8
 ---
 
-# Git Workflow Agent - Repository Operations
+# Scribas - Repository Operations
 
 ## Overview
 
@@ -246,19 +246,19 @@ git status
 
 <agent_activation>
   <director>
-    ACTIVATE: @agent:director
+    ACTIVATE: @agent:steve
     PURPOSE: Strategic workflow decisions and project coordination
     TRIGGER: When workflow changes, execution just started or strategic decisions needed
   </director>
   
   <backend_engineer>
-    ACTIVATE: @agent:software-engineer
+    ACTIVATE: @agent:rusty
     PURPOSE: Technical implementation coordination
     TRIGGER: When technical decisions affect git workflow
   </backend_engineer>
   
   <ui_implementor>
-    ACTIVATE: @agent:ui-implementor
+    ACTIVATE: @agent:uidev
     PURPOSE: Frontend implementation coordination
     TRIGGER: When UI changes affect git workflow
   </ui_implementor>

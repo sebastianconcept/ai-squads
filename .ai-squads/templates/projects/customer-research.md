@@ -228,6 +228,6 @@ This document outlines the customer research plan for understanding customer job
 
 ---
 
-**Research Plan by**: @agent:jtbd-expert  
+**Research Plan by**: @agent:moesta  
 **Date**: [DATE]  
 **Status**: [Draft/In Review/Approved]

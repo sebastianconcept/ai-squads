@@ -15,17 +15,17 @@ STUI has been successfully adopted into the **Elite Squad** of SquadsAI, providi
 ## Quick Start
 
 ### For Development Sessions
-1. **Start with Director Agent**: Always begin with `@agent:director` for session kickoff
+1. **Start with Director Agent**: Always begin with `@agent:steve` for session kickoff
 2. **Use Elite Squad Workflow**: Follow the specialized Rust/Smalltalk development process
 3. **Leverage Squad Agents**: Access specialized agents for different development tasks
 
 ### Available Agents
-- **@agent:director** - Session kickoff and project guidance
-- **@agent:software-engineer** - Rust/Smalltalk development and architecture
-- **@agent:git-workflow** - Version control and workflow management
+- **@agent:steve** - Session kickoff and project guidance
+- **@agent:rusty** - Rust/Smalltalk development and architecture
+- **@agent:scribas** - Version control and workflow management
 - **@agent:collaboration** - Team coordination and quality assurance
-- **@agent:ux-expert** - User experience research and design
-- **@agent:ui-implementor** - Frontend implementation across platforms
+- **@agent:uxe** - User experience research and design
+- **@agent:uidev** - Frontend implementation across platforms
 - **@agent:product-planner** - Strategic product planning and development
 
 ## Project Documentation

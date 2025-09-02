@@ -57,11 +57,11 @@ encoding: UTF-8
 - **Full-Stack**: End-to-end development environment
 
 ### Available Agents
-- **@agent:software-engineer** - Rust/Smalltalk development, architecture
-- **@agent:git-workflow** - Version control and workflow management
+- **@agent:rusty** - Rust/Smalltalk development, architecture
+- **@agent:scribas** - Version control and workflow management
 - **@agent:collaboration** - Team coordination and quality assurance
-- **@agent:ux-expert** - User experience research and design
-- **@agent:ui-implementor** - Frontend implementation across platforms
+- **@agent:uxe** - User experience research and design
+- **@agent:uidev** - Frontend implementation across platforms
 - **@agent:product-planner** - Strategic product planning and development
 
 ## Development Workflow
