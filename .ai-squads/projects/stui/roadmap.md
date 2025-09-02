@@ -90,11 +90,13 @@ encoding: UTF-8
 **Goal:** Deliver the essential Smalltalk development experience with core tools that demonstrate professional-grade capabilities
 **Success Criteria:** Complete core development environment with Workspace, Inspector, Class Hierarchy Browser, and Transcript
 **Timeline:** 12 weeks focused on user-facing development tools
-**Status:** **IN PROGRESS - Tool-scoped context architecture completed, ready for UI implementation**
+**Status:** **IN PROGRESS - Multi-session and multi-tool management completed, ready for core tool implementation**
 
 ### Core Development Tools (Weeks 1-8: Essential Smalltalk Experience)
 
 - [x] **[Tool-Scoped Context Architecture]** `L` ✅ - Composable tools with isolated variable contexts
+- [x] **[Multi-Session Management]** `L` ✅ - Multiple session support with isolation and switching
+- [x] **[Multi-Tool Management]** `L` ✅ - Workspace, inspector, and browser switching with keyboard shortcuts
 - [ ] **[Workspace]** `L` - Interactive code execution and evaluation environment
 - [ ] **[Inspector]** `L` - Object inspection and property exploration with live updates
 - [ ] **[Class Hierarchy Browser]** `L` - Class navigation, inheritance visualization, and method browsing

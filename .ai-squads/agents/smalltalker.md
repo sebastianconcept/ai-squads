@@ -97,24 +97,45 @@ git commit -m "feat: add new functionality"
     Transcript show: '✅ Changes evaluated and saved'; cr."
 ```
 
-#### **Three Evaluation Approaches**
+#### **Batch evalAndSave Pattern (Efficiency Multiplier!)**
+```bash
+# Multiple changes in one operation - MAXIMUM EFFICIENCY
+./eval.sh "
+    MyProjectServer compile: 'initialize data := Dictionary new'.
+    MyProjectServer compile: 'addItem: key value: value data at: key put: value'.
+    MyProjectServer compile: 'getItem: key ^ data at: key ifAbsent: [nil]'.
+    MyProjectServer compile: 'removeItem: key data removeKey: key ifAbsent: []'.
+    MyProjectServer compile: 'allItems ^ data keys'.
+    Smalltalk snapshot: true.
+    Transcript show: '✅ Batch changes evaluated and saved'; cr."
+```
+
+#### **Four Evaluation Approaches**
 1. **Read-Only** (`./eval.sh`) - Exploration only, no persistence
 2. **Development** (`./dev-workflow.sh eval`) - Persistent changes in dev image
 3. **evalAndSave** (`./eval.sh` + snapshot) - Quick persistent changes
+4. **Batch evalAndSave** (`./dev-workflow.sh evalAndSave`) - Efficient batch operations with automatic save
 
 #### **Daily Workflow**
 ```bash
 # 1. Start development
 ./dev-workflow.sh start
 
-# 2. Make changes programmatically
-./eval.sh "
-    MyProjectServer compile: 'newMethod ^ 42'.
-    Smalltalk snapshot: true.
-    Transcript show: '✅ Changes evaluated and saved'; cr."
+# 2. Make changes programmatically (single or batch)
+./dev-workflow.sh evalAndSave "
+    MyProjectServer compile: 'newMethod ^ 42'"
+
+# 2b. OR make multiple changes efficiently (batch operation)
+./dev-workflow.sh evalAndSave "
+    MyProjectServer compile: 'initialize data := Dictionary new'.
+    MyProjectServer compile: 'addItem: key value: value data at: key put: value'.
+    MyProjectServer compile: 'getItem: key ^ data at: key ifAbsent: [nil]'.
+    MyProjectServer compile: 'removeItem: key data removeKey: key ifAbsent: []'.
+    MyProjectServer compile: 'allItems ^ data keys'"
 
 # 3. Test immediately
 ./eval.sh "MyProjectServer new newMethod"
+./eval.sh "| server | server := MyProjectServer new. server addItem: 'test' value: 42. server getItem: 'test'"
 
 # 4. Save progress
 ./dev-workflow.sh save
@@ -126,11 +147,188 @@ git commit -m "feat: add new functionality"
 #### **Key Principles**
 - **Programmatic Changes**: Always make changes in live image
 - **evalAndSave**: Use for quick persistent changes
+- **Batch Operations**: Group multiple related changes in single evalAndSave for efficiency
+- **Pharo 13 Class Creation**: Use `Object << #ClassName` syntax for class creation
 - **Frequent Saves**: Every 10-15 minutes
 - **Manual Version Control**: Export only when ready for review
 - **Clean Rebuilds**: Always preserve ability to build from source
 
 ## Implementation Instructions
+
+### Batch Operations and Efficiency Patterns
+
+<batch_operations>
+  ACTION: Implement efficient batch operations for multiple system modifications
+  WORKFLOW:
+    1. Group related changes into single evalAndSave operations
+    2. Use semicolon-separated statements for multiple operations
+    3. Combine class creation, method addition, and package assignment
+    4. Batch test creation with implementation
+    5. Optimize development workflow with fewer evalAndSave calls
+</batch_operations>
+
+#### **Batch Operation Patterns**
+
+**Note**: All examples use Pharo 13 class creation syntax: `Object << #ClassName`
+
+##### **Complete Class Creation (Single evalAndSave)**
+```bash
+# Create complete class with all methods in one operation
+./dev-workflow.sh evalAndSave "
+    # Class creation
+   | builder | 
+   builder := Object << #MyDataManager 
+        slots: { #data . #cache }; 
+        tag: 'Managers'; 
+        package: 'MyProject-Core'. 
+    builder install.
+    
+    MyDataManager compile: 'initialize data := Dictionary new. cache := Set new'.
+    MyDataManager compile: 'addData: key value: value data at: key put: value'.
+    MyDataManager compile: 'getData: key ^ data at: key ifAbsent: [nil]'.
+    MyDataManager compile: 'removeData: key data removeKey: key ifAbsent: []'.
+    MyDataManager compile: 'cacheKey: key cache add: key'.
+    MyDataManager compile: 'isCached: key ^ cache includes: key'.
+    MyDataManager compile: 'clearCache cache := Set new'.
+    MyDataManager compile: 'allKeys ^ data keys'.
+    MyDataManager compile: 'size ^ data size'"
+```
+
+##### **Feature Implementation (Multiple Classes)**
+```bash
+# Implement complete feature with multiple classes
+./dev-workflow.sh evalAndSave "
+    Object << #UserManager 
+        slots: {#users #activeUsers} 
+        classVariables: {} 
+        package: 'MyProject-Core'.
+    
+    Object << #User 
+        slots: {#id #name #email #status} 
+        classVariables: {} 
+        package: 'MyProject-Core'.
+    
+    UserManager compile: 'initialize users := Dictionary new. activeUsers := Set new'.
+    UserManager compile: 'addUser: user users at: user id put: user'.
+    UserManager compile: 'getUser: id ^ users at: id ifAbsent: [nil]'.
+    UserManager compile: 'activateUser: id activeUsers add: id'.
+    UserManager compile: 'deactivateUser: id activeUsers remove: id ifAbsent: []'.
+    UserManager compile: 'activeUserCount ^ activeUsers size'.
+    
+    User compile: 'initialize: userId name: userName email: userEmail id := userId. name := userName. email := userEmail. status := #inactive'.
+    User compile: 'activate status := #active'.
+    User compile: 'deactivate status := #inactive'.
+    User compile: 'isActive ^ status = #active'.
+    User compile: 'displayName ^ name, '' ('', id, '')''"
+```
+
+##### **Test Suite Creation (Implementation + Tests)**
+```bash
+# Create implementation and comprehensive tests in one operation
+./dev-workflow.sh evalAndSave "
+    Object << #Calculator 
+        slots: {#history} 
+        classVariables: {} 
+        package: 'MyProject-Core'.
+    
+    Calculator compile: 'initialize history := OrderedCollection new'.
+    Calculator compile: 'add: a to: b | result | result := a + b. history add: (a, '' + '', b, '' = '', result). ^ result'.
+    Calculator compile: 'subtract: a from: b | result | result := b - a. history add: (b, '' - '', a, '' = '', result). ^ result'.
+    Calculator compile: 'multiply: a by: b | result | result := a * b. history add: (a, '' * '', b, '' = '', result). ^ result'.
+    Calculator compile: 'divide: a by: b | result | result := a / b. history add: (a, '' / '', b, '' = '', result). ^ result'.
+    Calculator compile: 'getHistory ^ history copy'.
+    Calculator compile: 'clearHistory history := OrderedCollection new'.
+    
+    Object << #CalculatorTest 
+        slots: {} 
+        classVariables: {} 
+        package: 'MyProject-Tests'.
+    
+    CalculatorTest compile: 'setUp calculator := Calculator new'.
+    CalculatorTest compile: 'testAddition self assert: (calculator add: 5 to: 3) equals: 8'.
+    CalculatorTest compile: 'testSubtraction self assert: (calculator subtract: 3 from: 8) equals: 5'.
+    CalculatorTest compile: 'testMultiplication self assert: (calculator multiply: 4 by: 6) equals: 24'.
+    CalculatorTest compile: 'testDivision self assert: (calculator divide: 15 by: 3) equals: 5'.
+    CalculatorTest compile: 'testHistory | result | result := calculator add: 2 to: 3. self assert: calculator getHistory size equals: 1'.
+    CalculatorTest compile: 'testClearHistory calculator add: 1 to: 2. calculator clearHistory. self assert: calculator getHistory size equals: 0'"
+```
+
+##### **Package and Baseline Management (Batch Operations)**
+```bash
+# Create packages, assign classes, and update baseline in one operation
+./dev-workflow.sh evalAndSave "
+    PackageOrganizer default addPackage: (Package new name: 'MyProject-API').
+    PackageOrganizer default addPackage: (Package new name: 'MyProject-Utils').
+    
+    MyDataManager package: (PackageOrganizer default packageNamed: 'MyProject-Core').
+    UserManager package: (PackageOrganizer default packageNamed: 'MyProject-Core').
+    User package: (PackageOrganizer default packageNamed: 'MyProject-Core').
+    Calculator package: (PackageOrganizer default packageNamed: 'MyProject-Utils').
+    
+    Metacello new
+        repository: 'tonel://./src';
+        baseline: 'MyProject';
+        onConflictUseIncoming;
+        load"
+```
+
+#### **Efficiency Guidelines**
+
+##### **When to Use Batch Operations**
+- **Related Changes**: Group methods that implement a single feature
+- **Class Creation**: Create class and all its methods together
+- **Test Implementation**: Create implementation and tests together
+- **Package Management**: Update multiple package assignments
+- **Feature Development**: Implement complete features with multiple classes
+
+##### **When to Use Single Operations**
+- **Exploration**: Quick testing and debugging
+- **Incremental Changes**: Small modifications during development
+- **Hot Fixes**: Emergency changes that need immediate testing
+- **Learning**: Understanding system behavior step by step
+
+##### **Batch Operation Best Practices**
+- **Logical Grouping**: Group related functionality together
+- **Error Handling**: Include error checking in batch operations
+- **Documentation**: Add comments within batch operations
+- **Testing**: Include immediate testing in batch operations
+- **Rollback**: Keep operations atomic for easy rollback
+
+#### **Advanced Batch Patterns**
+
+##### **Conditional Implementation**
+```bash
+# Implement features with conditional logic
+./dev-workflow.sh evalAndSave "
+    MyProjectServer compile: '
+        processRequest: request
+        | response |
+        request type = #get ifTrue: [response := self handleGet: request].
+        request type = #post ifTrue: [response := self handlePost: request].
+        request type = #delete ifTrue: [response := self handleDelete: request].
+        ^ response'.
+    
+    MyProjectServer compile: 'handleGet: request ^ Dictionary new at: #status put: #ok'.
+    MyProjectServer compile: 'handlePost: request ^ Dictionary new at: #status put: #created'.
+    MyProjectServer compile: 'handleDelete: request ^ Dictionary new at: #status put: #deleted'"
+```
+
+##### **Configuration and Setup**
+```bash
+# Complete system configuration in one operation
+./dev-workflow.sh evalAndSave "
+    MyProjectServer compile: '
+        initialize
+        self setupDatabase.
+        self setupCache.
+        self setupLogging.
+        self loadConfiguration'.
+    
+    MyProjectServer compile: 'setupDatabase database := Database new connect'.
+    MyProjectServer compile: 'setupCache cache := Cache new initialize'.
+    MyProjectServer compile: 'setupLogging logger := Logger new level: #info'.
+    MyProjectServer compile: 'loadConfiguration config := Configuration loadFrom: ''config.json'''"
+```
 
 ### Project Setup and Structure
 
@@ -266,6 +464,7 @@ rm -rf ./images/Pharo*.changes
 set -e
 
 # Configuration (Project-Agnostic)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DEV_IMAGE="images/Pharo-dev.image"
 BASE_IMAGE="images/Pharo.image"
 PHARO_VM="images/pharo --headless"
@@ -379,6 +578,31 @@ eval_code() {
     "$PHARO_VM" "$DEV_IMAGE" eval "$code"
 }
 
+# Evaluate Smalltalk code and save changes
+evalAndSave() {
+    local code="$1"
+    
+    if [ -z "$code" ]; then
+        log_error "No code provided for evaluation"
+        echo "Usage: $0 evalAndSave 'your Smalltalk code here'"
+        exit 1
+    fi
+
+    check_pharo_vm
+    
+    log_info "Evaluating Smalltalk code and saving changes..."
+    
+    # Use eval.sh for evaluation and save
+    "$SCRIPT_DIR/eval.sh" "
+        | computeSnippet result |
+        computeSnippet := [ $code ].
+        result := computeSnippet value.
+        Smalltalk image snapshot: true andQuit: false.
+        result."
+    
+    log_success "Code evaluated and image saved"
+}
+
 # Evaluate Smalltalk script file
 eval_script() {
     local script_file="$1"
@@ -490,6 +714,7 @@ show_help() {
     echo "  start       Start development session (opens Pharo IDE)"
     echo "  save        Save current development state"
     echo "  eval <code> Evaluate Smalltalk code"
+    echo "  evalAndSave <code> Evaluate Smalltalk code and save (batch operations)"
     echo "  eval-script <file> Evaluate Smalltalk script file"
     echo "  test        Run all tests"
     echo "  export      Export packages to source (for Git)"
@@ -501,6 +726,7 @@ show_help() {
     echo "  $0 init                    # Initialize dev environment"
     echo "  $0 start                   # Start Pharo IDE"
     echo "  $0 eval '3 + 4'           # Evaluate Smalltalk expression"
+    echo "  $0 evalAndSave 'MyClass compile: \"newMethod ^ 42\"' # Evaluate and save"
     echo "  $0 eval-script test.st     # Run Smalltalk script"
     echo "  $0 test                    # Run all tests"
     echo "  $0 export                  # Export changes to source"
@@ -508,8 +734,8 @@ show_help() {
     echo "Development Workflow:"
     echo "  1. ./dev-workflow.sh init    # One-time setup"
     echo "  2. ./dev-workflow.sh start   # Start development"
-    echo "  3. Make changes in Pharo IDE"
-    echo "  4. ./dev-workflow.sh save    # Save progress"
+    echo "  3. ./dev-workflow.sh evalAndSave 'your code' # Make changes and save"
+    echo "  4. ./dev-workflow.sh eval 'test code'        # Test changes"
     echo "  5. ./dev-workflow.sh export  # Export to source"
     echo "  6. Commit changes with Git"
     echo ""
@@ -529,6 +755,9 @@ case "${1:-help}" in
         ;;
     eval)
         eval_code "$2"
+        ;;
+    evalAndSave)
+        evalAndSave "$2"
         ;;
     eval-script)
         eval_script "$2"
@@ -711,11 +940,11 @@ The smalltalker agent incorporates proven Pharo development workflow patterns fo
 ./eval.sh "PackageOrganizer default packages select: [:p | p name beginsWith: 'Project']"
 
 # 2. Create new class with proper package assignment (persists in dev image)
-./dev-workflow.sh eval "Object subclass: #MyNewClass slots: {#data} classVariables: {} package: 'Project-Core'"
+./dev-workflow.sh eval "Object << #MyNewClass slots: {#data} classVariables: {} package: 'Project-Core'"
 
 # Option B: Create new package if needed (persists in dev image)
 ./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'Project-NewFeature')"
-./dev-workflow.sh eval "Object subclass: #MyNewClass slots: {#data} classVariables: {} package: 'Project-NewFeature'"
+./dev-workflow.sh eval "Object << #MyNewClass slots: {#data} classVariables: {} package: 'Project-NewFeature'"
 
 # Option C: Assign existing class to package (persists in dev image)
 ./dev-workflow.sh eval "MyNewClass package: (PackageOrganizer default packageNamed: 'Project-Core')"
@@ -737,6 +966,30 @@ The smalltalker agent incorporates proven Pharo development workflow patterns fo
 
 # 7. Verify persistence (read-only check)
 ./eval.sh "MyNewClass new getData"
+```
+
+##### 2b. Efficient Batch Class Development (Recommended!)
+```bash
+# Create complete class with all methods in one efficient operation
+./dev-workflow.sh evalAndSave "
+    Object << #MyNewClass 
+        slots: {#data #cache #config} 
+        classVariables: {} 
+        package: 'Project-Core'.
+    
+    MyNewClass compile: 'initialize data := Dictionary new. cache := Set new. config := Dictionary new'.
+    MyNewClass compile: 'getData ^ data'.
+    MyNewClass compile: 'setData: value data := value'.
+    MyNewClass compile: 'addToCache: key cache add: key'.
+    MyNewClass compile: 'isCached: key ^ cache includes: key'.
+    MyNewClass compile: 'setConfig: key value: value config at: key put: value'.
+    MyNewClass compile: 'getConfig: key ^ config at: key ifAbsent: [nil]'.
+    MyNewClass compile: 'clearCache cache := Set new'.
+    MyNewClass compile: 'size ^ data size'"
+```
+
+# Test the complete class immediately
+./eval.sh "| obj | obj := MyNewClass new. obj setData: 'test'. obj addToCache: 'key1'. obj setConfig: 'timeout' value: 30. obj getData"
 ```
 
 ##### 3. Development State Persistence
@@ -1042,6 +1295,8 @@ Smalltalk globals keys
 - **State persistence**: Reduction in setup/reload time
 - **Error recovery**: Time to recover from development issues
 - **Package management**: Ease of dependency management
+- **Batch operations**: Reduction in evalAndSave calls (5:1 ratio improvement)
+- **Feature completion**: Time to implement complete features with multiple classes
 
 ### Code Quality
 - **Test coverage**: Comprehensive testing of developed features
@@ -1055,6 +1310,45 @@ Smalltalk globals keys
 - **Collaboration**: Smooth team development processes
 - **Debugging efficiency**: Quick problem resolution
 
+## Efficiency Improvements Summary
+
+### Before vs After Batch Operations
+
+**Before (Inefficient):**
+```bash
+# 5 separate evalAndSave operations for 5 methods
+./dev-workflow.sh evalAndSave "MyClass compile: 'method1 ^ 1'"
+./dev-workflow.sh evalAndSave "MyClass compile: 'method2 ^ 2'"
+./dev-workflow.sh evalAndSave "MyClass compile: 'method3 ^ 3'"
+./dev-workflow.sh evalAndSave "MyClass compile: 'method4 ^ 4'"
+./dev-workflow.sh evalAndSave "MyClass compile: 'method5 ^ 5'"
+```
+
+**After (Efficient):**
+```bash
+# Single evalAndSave operation for all 5 methods
+./dev-workflow.sh evalAndSave "
+    MyClass compile: 'method1 ^ 1'.
+    MyClass compile: 'method2 ^ 2'.
+    MyClass compile: 'method3 ^ 3'.
+    MyClass compile: 'method4 ^ 4'.
+    MyClass compile: 'method5 ^ 5'"
+```
+
+### Performance Benefits
+- **5:1 Reduction** in evalAndSave operations
+- **Faster Development**: Complete features in single operations
+- **Better Atomicity**: Related changes stay together
+- **Improved Testing**: Test complete features immediately
+- **Reduced Overhead**: Fewer image save operations
+
+### Key Efficiency Principles
+1. **Group Related Changes**: Put related methods in single evalAndSave
+2. **Complete Features**: Implement entire features in one operation
+3. **Test Immediately**: Include testing in batch operations
+4. **Logical Organization**: Keep related functionality together
+5. **Documentation**: Add comments within batch operations
+
 ## Integration Notes
 
 <integration_details>
@@ -1062,6 +1356,7 @@ Smalltalk globals keys
   <image_centric>Emphasizes image persistence and live programming benefits</image_centric>
   <package_management>Expert in Metacello baseline management and dependencies</package_management>
   <rapid_iteration>Enables fast development cycles with immediate feedback</rapid_iteration>
+  <batch_operations>Optimizes development with efficient multi-change operations</batch_operations>
   <team_workflow>Establishes consistent development practices across team</team_workflow>
   <debugging_support>Provides live debugging and error recovery strategies</debugging_support>
   <quality_assurance>Ensures reproducible builds and proper testing integration</quality_assurance>
