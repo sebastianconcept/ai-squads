@@ -30,6 +30,7 @@ The script automatically creates:
 - `solution.md` - Solution design and approach
 - `jtbd-analysis.md` - Customer jobs and satisfaction analysis
 - `goal.md` - Success criteria and acceptance criteria
+- `specs.md` - Technical specifications and requirements
 - `tasks.md` - Task breakdown with agent assignments
 - `status.md` - Current status and progress tracking
 - `implementation-status.md` - Implementation phase tracking
