@@ -12,15 +12,15 @@ encoding: UTF-8
 Specialized squad for high-performance systems development and full-stack web applications using Rust, Smalltalk/Pharo, C/C++, JavaScript/TypeScript, Ruby, and modern CSS. Combines deep technical expertise with Jobs To Be Done methodology and expert storytelling to ensure solutions address real customer needs and engage audiences through compelling narratives. Focuses on backend architecture, system programming, object-oriented design, comprehensive web development, customer job satisfaction, and narrative excellence.
 
 ## Members
-- **@agent:director** - Project coordination and strategic oversight
-- **@agent:jtbd-expert** - Customer jobs analysis and solution validation
-- **@agent:writer** - Storytelling, character development, and narrative craft
-- **@agent:git-workflow** - Version control and workflow management
-- **@agent:software-engineer** - Full-stack development and systems programming (Rust, Smalltalk/Pharo, C/C++)
-- **@agent:smalltalker** - Pharo/Smalltalk specialized development with image-centric workflow and rapid iteration
-- **@agent:collaboration** - Team coordination and quality assurance
-- **@agent:ux-expert** - User experience research and design
-- **@agent:ui-implementor** - Frontend implementation across platforms
+- **@agent:steve** - Project coordination and strategic oversight
+- **@agent:moesta** - Customer jobs analysis and solution validation
+- **@agent:godin** - Storytelling, character development, and narrative craft
+- **@agent:scribas** - Version control and workflow management
+- **@agent:rusty** - Full-stack development and systems programming (Rust, Smalltalk/Pharo, C/C++)
+- **@agent:alan** - Pharo/Smalltalk specialized development with image-centric workflow and rapid iteration
+- **@agent:team** - Team coordination and quality assurance
+- **@agent:uxe** - User experience research and design
+- **@agent:uidev** - Frontend implementation across platforms
 - **@agent:product-planner** - Strategic product planning and development
 
 ## Team Preferences

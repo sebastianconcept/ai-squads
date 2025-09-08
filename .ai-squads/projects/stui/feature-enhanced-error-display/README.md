@@ -79,13 +79,13 @@ status: planned
 ## 👥 **Agent Assignments**
 
 ### **Primary Development**
-- **@agent:software-engineer**: Core implementation and protocol integration
-- **@agent:ux-expert**: User experience design and refinement
-- **@agent:collaboration**: Testing, QA, and documentation
+- **@agent:rusty**: Core implementation and protocol integration
+- **@agent:uxe**: User experience design and refinement
+- **@agent:team**: Testing, QA, and documentation
 
 ### **Support & Coordination**
-- **@agent:git-workflow**: Feature branch management and quality gates
-- **@agent:director**: Overall coordination and progress tracking
+- **@agent:scribas**: Feature branch management and quality gates
+- **@agent:steve**: Overall coordination and progress tracking
 
 ## 🔍 **Feature Requirements**
 

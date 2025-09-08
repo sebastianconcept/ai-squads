@@ -6,7 +6,7 @@ version: 1.0
 encoding: UTF-8
 ---
 
-# Writer Agent (@agent:writer)
+# Godin - Literature, Storytelling, and Narrative Craft
 
 ## Overview
 

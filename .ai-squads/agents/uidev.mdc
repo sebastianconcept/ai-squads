@@ -6,7 +6,7 @@ version: 1.0
 encoding: UTF-8
 ---
 
-# UI Implementor Agent - Frontend Engineer
+# UIDev - Frontend Engineer
 
 ## Overview
 
@@ -172,19 +172,19 @@ The UI Implementor Agent creates user interfaces across all platforms including 
 
 <agent_activation>
   <director>
-    ACTIVATE: @agent:director
+    ACTIVATE: @agent:steve
     PURPOSE: Project coordination and task management
     TRIGGER: When implementation blockers or scope changes occur
   </director>
   
   <ux_expert>
-    ACTIVATE: @agent:ux-expert
+    ACTIVATE: @agent:uxe
     PURPOSE: Design clarification and specification details
     TRIGGER: When design specifications need clarification
   </ux_expert>
   
   <backend_engineer>
-            ACTIVATE: @agent:software-engineer
+            ACTIVATE: @agent:rusty
     PURPOSE: API integration and data flow coordination
     TRIGGER: When backend integration is needed
   </backend_engineer>

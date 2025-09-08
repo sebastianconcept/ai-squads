@@ -23,7 +23,7 @@
 
 ### **Priority 1: Code Completion System** ✅ **COMPLETED**
 **Timeline**: Week 2 (Days 1-3)  
-**Owner**: @agent:software-engineer  
+**Owner**: @agent:rusty  
 **Complexity**: Medium  
 **Impact**: High (Developer productivity)
 
@@ -45,7 +45,7 @@
 
 ### **Priority 2: Enhanced Error Handling** ✅ **COMPLETED**
 **Timeline**: Week 2 (Days 4-5)  
-**Owner**: @agent:software-engineer  
+**Owner**: @agent:rusty  
 **Complexity**: Medium  
 **Impact**: High (Developer experience)
 
@@ -72,7 +72,7 @@
 
 ### **Priority 3: Session Persistence** ✅ **COMPLETED**
 **Timeline**: Week 3 (Days 1-3)  
-**Owner**: @agent:software-engineer  
+**Owner**: @agent:rusty  
 **Complexity**: Medium  
 **Impact**: High (User experience)
 
@@ -94,7 +94,7 @@
 
 ### **Priority 4: Command History** ✅ **COMPLETED**
 **Timeline**: Week 3 (Days 4-5)  
-**Owner**: @agent:software-engineer  
+**Owner**: @agent:rusty  
 **Complexity**: Low  
 **Impact**: Medium (Developer productivity)
 
@@ -119,7 +119,7 @@
 
 ### **Priority 5: Basic Theme System** ✅ **COMPLETED**
 **Timeline**: Week 4 (Days 1-3)  
-**Owner**: @agent:ui-implementor  
+**Owner**: @agent:uidev  
 **Complexity**: Low  
 **Impact**: Medium (User experience)
 
@@ -185,18 +185,18 @@
 ## 🎯 **Immediate Next Steps (This Week)**
 
 ### **Day 1-2: Code Completion Foundation**
-1. **@agent:software-engineer**: Start protocol extension for completion
-2. **@agent:ux-expert**: Design completion UI/UX patterns
+1. **@agent:rusty**: Start protocol extension for completion
+2. **@agent:uxe**: Design completion UI/UX patterns
 3. **@agent:product-planner**: Define completion requirements and scope
 
 ### **Day 3-4: Error Handling Enhancement**
-1. **@agent:software-engineer**: Extend error types and display
-2. **@agent:collaboration**: Review error handling approach
-3. **@agent:ux-expert**: Design error presentation
+1. **@agent:rusty**: Extend error types and display
+2. **@agent:team**: Review error handling approach
+3. **@agent:uxe**: Design error presentation
 
 ### **Day 5: Planning and Coordination**
-1. **@agent:director**: Review progress and adjust timeline
-2. **@agent:collaboration**: Coordinate team handoffs
+1. **@agent:steve**: Review progress and adjust timeline
+2. **@agent:team**: Coordinate team handoffs
 3. **@agent:product-planner**: Refine feature priorities
 
 ## 🚨 **Risk Mitigation**
@@ -218,25 +218,25 @@
 
 ## 💡 **Team Recommendations**
 
-### **@agent:software-engineer**
+### **@agent:rusty**
 - Focus on one feature at a time
 - Use the restored test suite for validation
 - Maintain code quality and documentation
 - Coordinate with UX team for UI requirements
 
-### **@agent:ux-expert**
+### **@agent:uxe**
 - Design intuitive user interfaces
 - Ensure accessibility compliance
 - Provide user experience guidance
 - Test user workflows
 
-### **@agent:ui-implementor**
+### **@agent:uidev**
 - Implement UI components consistently
 - Follow established design patterns
 - Ensure cross-platform compatibility
 - Maintain visual consistency
 
-### **@agent:collaboration**
+### **@agent:team**
 - Coordinate team handoffs
 - Maintain quality standards
 - Facilitate communication

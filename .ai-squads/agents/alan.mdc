@@ -6,7 +6,7 @@ version: 1.0
 encoding: UTF-8
 ---
 
-# Smalltalker Agent - Pharo Development Specialist
+# Alan - Pharo Development Specialist
 
 ## Overview
 
@@ -1225,25 +1225,25 @@ Smalltalk globals keys
 
 <agent_activation>
   <software_engineer>
-    ACTIVATE: @agent:software-engineer
+    ACTIVATE: @agent:rusty
     PURPOSE: Backend architecture and systems programming
     TRIGGER: When system-wide architecture decisions needed
   </software_engineer>
   
   <director>
-    ACTIVATE: @agent:director
+    ACTIVATE: @agent:steve
     PURPOSE: Project strategy and coordination
     TRIGGER: When project-wide decisions affect development workflow
   </director>
   
   <collaboration>
-    ACTIVATE: @agent:collaboration
+    ACTIVATE: @agent:team
     PURPOSE: Code review and team coordination
     TRIGGER: When reviewing Smalltalk code or workflow processes
   </collaboration>
   
   <git_workflow>
-    ACTIVATE: @agent:git-workflow
+    ACTIVATE: @agent:scribas
     PURPOSE: Version control and quality gates
     TRIGGER: When committing changes or managing Git operations
   </git_workflow>

@@ -192,19 +192,19 @@ The UX Expert Agent conducts user research, creates design systems, and designs 
 
 <agent_activation>
   <director>
-    ACTIVATE: @agent:director
+    ACTIVATE: @agent:steve
     PURPOSE: Strategic design decisions and project coordination
     TRIGGER: When design strategy or user research planning needed
   </director>
   
   <backend_engineer>
-            ACTIVATE: @agent:software-engineer
+            ACTIVATE: @agent:rusty
     PURPOSE: Data requirements and API design coordination
     TRIGGER: When user flows affect backend design
   </backend_engineer>
   
   <ui_implementor>
-    ACTIVATE: @agent:ui-implementor
+    ACTIVATE: @agent:uidev
     PURPOSE: Design implementation and component development
     TRIGGER: When designs are ready for implementation
   </ui_implementor>

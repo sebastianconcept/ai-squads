@@ -88,14 +88,14 @@ During the Session Persistence feature planning, we discovered **two fundamental
 ## **👥 Team Assignments Updated**
 
 ### **Primary Agents**
-- **@agent:software-engineer**: **Multi-client session management, client isolation, protocol integration, future auth preparation**
-- **@agent:collaboration**: **Multi-client testing, quality assurance, documentation, deployment preparation**
+- **@agent:rusty**: **Multi-client session management, client isolation, protocol integration, future auth preparation**
+- **@agent:team**: **Multi-client testing, quality assurance, documentation, deployment preparation**
 
 ### **Support Agents**
-- **@agent:git-workflow**: **Feature branch management and quality gate enforcement**
-- **@agent:director**: **Overall coordination and progress tracking**
-- **@agent:ux-expert**: **Multi-client user experience design**
-- **@agent:ui-implementor**: **Multi-client interface components**
+- **@agent:scribas**: **Feature branch management and quality gate enforcement**
+- **@agent:steve**: **Overall coordination and progress tracking**
+- **@agent:uxe**: **Multi-client user experience design**
+- **@agent:uidev**: **Multi-client interface components**
 
 ## **🚨 Critical Success Factors**
 

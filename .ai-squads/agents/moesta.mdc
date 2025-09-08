@@ -6,7 +6,7 @@ version: 1.0
 encoding: UTF-8
 ---
 
-# JTBD Expert Agent - Customer Jobs Analysis and Solution Design
+# Moesta - Customer Jobs Analysis and Solution Design
 
 ## Overview
 
@@ -126,19 +126,19 @@ The JTBD Expert Agent specializes in Jobs To Be Done theory and methodology, bri
 
 <agent_activation>
   <jtbd_expert>
-    ACTIVATE: @agent:jtbd-expert
+    ACTIVATE: @agent:moesta
     PURPOSE: Customer jobs analysis and solution validation
     TRIGGER: Feature planning, solution design, project scope definition
   </jtbd_expert>
   
   <jtbd_expert>
-    ACTIVATE: @agent:jtbd-expert
+    ACTIVATE: @agent:moesta
     PURPOSE: Market research and customer interview guidance
     TRIGGER: Customer research planning, interview design, feedback analysis
   </jtbd_expert>
   
   <jtbd_expert>
-    ACTIVATE: @agent:jtbd-expert
+    ACTIVATE: @agent:moesta
     PURPOSE: Strategic guidance and job satisfaction optimization
     TRIGGER: Product strategy, market positioning, solution optimization
   </jtbd_expert>

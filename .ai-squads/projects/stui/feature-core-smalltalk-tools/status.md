@@ -35,7 +35,7 @@ encoding: UTF-8
 
 ## Team Coordination Status
 
-### @agent:jtbd-expert ✅ **COMPLETE**
+### @agent:moesta ✅ **COMPLETE**
 **Status**: Customer jobs analysis completed and documented
 **Deliverables**:
 - ✅ Comprehensive job maps for all Phase 3 tools
@@ -48,7 +48,7 @@ encoding: UTF-8
 
 ---
 
-### @agent:smalltalker 🚀 **READY TO START**
+### @agent:alan 🚀 **READY TO START**
 **Focus**: Pharo backend development using enhanced Pharo 13 workflow
 **JTBD Context**: Interactive code execution with persistent state management
 **Priority**: Workspace backend implementation (Highest Impact)
@@ -67,7 +67,7 @@ encoding: UTF-8
 
 ---
 
-### @agent:software-engineer 🚀 **READY TO START**
+### @agent:rusty 🚀 **READY TO START**
 **Focus**: Rust TUI frontend development
 **JTBD Context**: UI design that supports development flow and job satisfaction
 **Priority**: Workspace UI implementation (Highest Impact)
@@ -86,7 +86,7 @@ encoding: UTF-8
 
 ---
 
-### @agent:ux-expert 🚀 **READY TO START**
+### @agent:uxe 🚀 **READY TO START**
 **Focus**: User experience design for development tools
 **JTBD Context**: Design interfaces that directly address identified jobs
 **Priority**: UX design for all Phase 3 tools
@@ -107,7 +107,7 @@ encoding: UTF-8
 
 ---
 
-### @agent:writer 🚀 **READY TO START**
+### @agent:godin 🚀 **READY TO START**
 **Focus**: Content creation and documentation
 **JTBD Context**: Create content about development challenges and solutions
 **Priority**: Compelling narratives and user documentation
@@ -131,21 +131,21 @@ encoding: UTF-8
 ## Implementation Timeline
 
 ### **Week 1-2: Foundation**
-- **@agent:smalltalker**: Start Workspace backend implementation
-- **@agent:software-engineer**: Begin Workspace UI development
-- **@agent:ux-expert**: Begin UX design for core tools
-- **@agent:writer**: Begin content planning and narrative development
+- **@agent:alan**: Start Workspace backend implementation
+- **@agent:rusty**: Begin Workspace UI development
+- **@agent:uxe**: Begin UX design for core tools
+- **@agent:godin**: Begin content planning and narrative development
 
 ### **Week 3-4: Core Development**
-- **@agent:smalltalker**: Complete Workspace backend, start Inspector
-- **@agent:software-engineer**: Complete Workspace UI, start Inspector UI
-- **@agent:ux-expert**: Complete UX designs for all tools
-- **@agent:writer**: Begin content creation for completed tools
+- **@agent:alan**: Complete Workspace backend, start Inspector
+- **@agent:rusty**: Complete Workspace UI, start Inspector UI
+- **@agent:uxe**: Complete UX designs for all tools
+- **@agent:godin**: Begin content creation for completed tools
 
 ### **Week 5-8: Integration & Polish**
-- **@agent:smalltalker**: Complete all backend tools
-- **@agent:software-engineer**: Complete all UI components
-- **@agent:writer**: Complete all documentation and content
+- **@agent:alan**: Complete all backend tools
+- **@agent:rusty**: Complete all UI components
+- **@agent:godin**: Complete all documentation and content
 - **Integration Testing**: End-to-end testing of complete toolset
 
 ### **Week 9-12: Quality & Launch**
@@ -195,10 +195,10 @@ encoding: UTF-8
 ## Next Steps
 
 ### **Immediate Actions**
-1. **@agent:smalltalker** - Begin Workspace backend implementation
-2. **@agent:software-engineer** - Start Rust TUI component development
-3. **@agent:ux-expert** - Begin UX design for development tools
-4. **@agent:writer** - Start content planning and narrative development
+1. **@agent:alan** - Begin Workspace backend implementation
+2. **@agent:rusty** - Start Rust TUI component development
+3. **@agent:uxe** - Begin UX design for development tools
+4. **@agent:godin** - Start content planning and narrative development
 
 ### **Coordination**
 - **Weekly Progress Updates**: Track implementation progress

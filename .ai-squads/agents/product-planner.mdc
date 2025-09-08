@@ -186,7 +186,7 @@ The Product Planner Agent specializes in comprehensive product planning, strateg
 
 <agent_activation>
   <director>
-    ACTIVATE: @agent:director
+    ACTIVATE: @agent:steve
     PURPOSE: Strategic coordination and project planning
     TRIGGER: When strategic decisions or project planning needed
   </director>
@@ -198,25 +198,25 @@ The Product Planner Agent specializes in comprehensive product planning, strateg
   </context_fetcher>
   
   <product_strategist>
-    ACTIVATE: @agent:product-strategist
+    ACTIVATE: @agent:guy
     PURPOSE: Strategic product planning and market analysis
     TRIGGER: When product strategy decisions needed
   </product_strategist>
   
   <ux_expert>
-    ACTIVATE: @agent:ux-expert
+    ACTIVATE: @agent:uxe
     PURPOSE: User research and customer insights
     TRIGGER: When UX research or customer validation needed
   </ux_expert>
   
   <backend_engineer>
-            ACTIVATE: @agent:software-engineer
+            ACTIVATE: @agent:rusty
     PURPOSE: Technical feasibility and architecture planning
     TRIGGER: When technical constraints affect product strategy
   </backend_engineer>
   
   <ui_implementor>
-    ACTIVATE: @agent:ui-implementor
+    ACTIVATE: @agent:uidev
     PURPOSE: User interface strategy and design direction
     TRIGGER: When UI/UX strategy affects product direction
   </ui_implementor>

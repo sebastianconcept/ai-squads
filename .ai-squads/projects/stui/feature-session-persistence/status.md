@@ -39,7 +39,7 @@ status: planned
 - **Status**: ✅ **Complete**
 - **Progress**: 100% Complete
 - **Timeline**: Week 1
-- **Agent**: @agent:software-engineer
+- **Agent**: @agent:rusty
 - **Demo Value**: ✅ **ENABLES NETWORK COMMUNICATION DEMO**
 
 **Tasks**:
@@ -54,7 +54,7 @@ status: planned
 - **Status**: 🟡 **In Progress**
 - **Progress**: 75% Complete
 - **Timeline**: Week 2
-- **Agent**: @agent:software-engineer
+- **Agent**: @agent:rusty
 - **Demo Value**: ✅ **ENABLES SESSION RESTORATION DEMO**
 
 **Tasks**:
@@ -69,7 +69,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 2
-- **Agent**: @agent:software-engineer + @agent:ux-expert
+- **Agent**: @agent:rusty + @agent:uxe
 - **Dependencies**: Categories 1-2 completion
 - **Demo Value**: ✅ **ENABLES ADVANCED NETWORK RESILIENCE DEMO**
 
@@ -84,7 +84,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 2-3
-- **Agent**: @agent:software-engineer
+- **Agent**: @agent:rusty
 - **Dependencies**: Categories 1-3 completion
 
 **Tasks**:
@@ -97,7 +97,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 3
-- **Agent**: @agent:software-engineer + @agent:ux-expert
+- **Agent**: @agent:rusty + @agent:uxe
 - **Dependencies**: Categories 1-4 completion
 
 **Tasks**:
@@ -110,7 +110,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 3
-- **Agent**: @agent:software-engineer + @agent:collaboration
+- **Agent**: @agent:rusty + @agent:team
 - **Dependencies**: Categories 1-5 completion
 
 **Tasks**:
@@ -123,7 +123,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Week 3
-- **Agent**: @agent:collaboration + @agent:software-engineer
+- **Agent**: @agent:team + @agent:rusty
 - **Dependencies**: Categories 1-6 completion
 
 **Tasks**:
@@ -136,7 +136,7 @@ status: planned
 - **Status**: 🚨 **CRITICAL - NOT STARTED**
 - **Progress**: 0% Complete
 - **Timeline**: This Week (Priority 1)
-- **Agent**: @agent:software-engineer + @agent:ux-expert + @agent:ui-implementor
+- **Agent**: @agent:rusty + @agent:uxe + @agent:uidev
 - **Dependencies**: Categories 1-2 completion
 - **Demo Value**: 🚨 **REQUIRED FOR PRODUCTION READINESS**
 
@@ -151,7 +151,7 @@ status: planned
 - **Status**: 🟡 **Not Started**
 - **Progress**: 0% Complete
 - **Timeline**: Next Week (Priority 2)
-- **Agent**: @agent:ui-implementor + @agent:ux-expert
+- **Agent**: @agent:uidev + @agent:uxe
 - **Dependencies**: Category 8 completion
 - **Demo Value**: ✅ **ENABLES MULTI-IMAGE DEMO**
 
@@ -312,21 +312,21 @@ status: planned
 ## 📞 **Team Coordination**
 
 ### **Current Agent Assignments**
-- **@agent:software-engineer**: Core development, session communication, protocol integration, network resilience, connection persistence, workspace context, **MULTI-IMAGE ARCHITECTURE (CRITICAL)**
-- **@agent:ux-expert**: User experience design, session management interface, demo UI, metadata tracking, **MULTI-IMAGE UX DESIGN (CRITICAL)**
-- **@agent:ui-implementor**: Frontend implementation, session panel development, **MULTI-IMAGE UI IMPLEMENTATION (CRITICAL)**
-- **@agent:collaboration**: Testing, quality assurance, security audit, cross-platform validation
-- **@agent:git-workflow**: Feature branch management and quality gate enforcement
-- **@agent:director**: Overall coordination and progress tracking, **MULTI-IMAGE ARCHITECTURE RESOLUTION**
+- **@agent:rusty**: Core development, session communication, protocol integration, network resilience, connection persistence, workspace context, **MULTI-IMAGE ARCHITECTURE (CRITICAL)**
+- **@agent:uxe**: User experience design, session management interface, demo UI, metadata tracking, **MULTI-IMAGE UX DESIGN (CRITICAL)**
+- **@agent:uidev**: Frontend implementation, session panel development, **MULTI-IMAGE UI IMPLEMENTATION (CRITICAL)**
+- **@agent:team**: Testing, quality assurance, security audit, cross-platform validation
+- **@agent:scribas**: Feature branch management and quality gate enforcement
+- **@agent:steve**: Overall coordination and progress tracking, **MULTI-IMAGE ARCHITECTURE RESOLUTION**
 
 ### **Critical Multi-Image Architecture Focus**
 **🚨 IMMEDIATE PRIORITY**: All agents must focus on resolving multi-image architecture issues before continuing with other features.
 
-**@agent:software-engineer**: Lead protocol extension and SessionManager enhancement
-**@agent:ux-expert**: Design multi-image user experience and session management
-**@agent:ui-implementor**: Implement multi-image UI components and controls
-**@agent:collaboration**: Test multi-image scenarios and validate architecture
-**@agent:director**: Coordinate multi-image architecture resolution and progress tracking
+**@agent:rusty**: Lead protocol extension and SessionManager enhancement
+**@agent:uxe**: Design multi-image user experience and session management
+**@agent:uidev**: Implement multi-image UI components and controls
+**@agent:team**: Test multi-image scenarios and validate architecture
+**@agent:steve**: Coordinate multi-image architecture resolution and progress tracking
 
 ### **Communication Channels**
 - **Progress Updates**: Daily status reviews for multi-image architecture

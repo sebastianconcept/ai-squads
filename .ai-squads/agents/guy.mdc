@@ -6,7 +6,7 @@ version: 1.0
 encoding: UTF-8
 ---
 
-# Product Strategist Agent - Strategic Product Planning
+# Guy - Strategic Product Planning
 
 ## Overview
 
@@ -138,25 +138,25 @@ The Product Strategist Agent specializes in product strategy, market analysis, a
 
 <agent_activation>
   <director>
-    ACTIVATE: @agent:director
+    ACTIVATE: @agent:steve
     PURPOSE: Strategic coordination and project planning
     TRIGGER: When strategic decisions or project planning needed
   </director>
   
   <ux_expert>
-    ACTIVATE: @agent:ux-expert
+    ACTIVATE: @agent:uxe
     PURPOSE: User research and customer insights
     TRIGGER: When user research or customer validation needed
   </ux_expert>
   
   <backend_engineer>
-            ACTIVATE: @agent:software-engineer
+            ACTIVATE: @agent:rusty
     PURPOSE: Technical feasibility and architecture planning
     TRIGGER: When technical constraints affect product strategy
   </backend_engineer>
   
   <ui_implementor>
-    ACTIVATE: @agent:ui-implementor
+    ACTIVATE: @agent:uidev
     PURPOSE: User interface strategy and design direction
     TRIGGER: When UI/UX strategy affects product direction
   </ui_implementor>

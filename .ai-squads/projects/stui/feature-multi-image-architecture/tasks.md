@@ -53,7 +53,7 @@ pub enum ConnectionStatus {
 ### Phase 1: Protocol Extension and Data Structures (Week 1, Days 1-3)
 
 #### **T1.1: Extend Session Data Structures** `H` (High Priority)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Day 1  
 **Dependencies**: None  
 **Effort**: Medium (M)
@@ -76,7 +76,7 @@ pub enum ConnectionStatus {
 - MVP functionality working correctly
 
 #### **T1.2: Extend Protocol Commands** `H` (High Priority)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Day 2  
 **Dependencies**: T1.1 completion  
 **Effort**: Medium (M)
@@ -98,7 +98,7 @@ pub enum ConnectionStatus {
 - Protocol documentation updated
 
 #### **T1.3: Update Session Storage Types** `M` (Medium Priority)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Day 3  
 **Dependencies**: T1.1 completion  
 **Effort**: Small (S)
@@ -118,7 +118,7 @@ pub enum ConnectionStatus {
 ### Phase 2: Session Manager Enhancement (Week 1, Days 4-5)
 
 #### **T2.1: Multi-Image Session Tracking** `H` (High Priority)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Day 4  
 **Dependencies**: T1.1, T1.2 completion  
 **Effort**: Large (L)
@@ -141,7 +141,7 @@ pub enum ConnectionStatus {
 - MVP functionality working correctly
 
 #### **T2.2: Image Connection Monitoring** `H` (High Priority)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Day 5  
 **Dependencies**: T2.1 completion  
 **Effort**: Medium (M)
@@ -165,7 +165,7 @@ pub enum ConnectionStatus {
 ### Phase 3: UI Enhancement (Week 2, Days 1-3)
 
 #### **T3.1: Multi-Image Session Panel** `H` (High Priority)
-**Agent**: @agent:ui-implementor  
+**Agent**: @agent:uidev  
 **Timeline**: Week 2, Day 1  
 **Dependencies**: T2.1, T2.2 completion  
 **Effort**: Large (L)
@@ -188,7 +188,7 @@ pub enum ConnectionStatus {
 - UI integrates seamlessly with existing interface
 
 #### **T3.2: Image Status Indicators** `M` (Medium Priority)
-**Agent**: @agent:ui-implementor  
+**Agent**: @agent:uidev  
 **Timeline**: Week 2, Day 2  
 **Dependencies**: T3.1 completion  
 **Effort**: Medium (M)
@@ -208,7 +208,7 @@ pub enum ConnectionStatus {
 - All tests pass for status indicators
 
 #### **T3.3: Image Management Controls** `M` (Medium Priority)
-**Agent**: @agent:ui-implementor  
+**Agent**: @agent:uidev  
 **Timeline**: Week 2, Day 3  
 **Dependencies**: T3.2 completion  
 **Effort**: Medium (M)
@@ -230,7 +230,7 @@ pub enum ConnectionStatus {
 ### Phase 4: Integration and Testing (Week 2, Days 4-5)
 
 #### **T4.1: End-to-End Integration** `H` (High Priority)
-**Agent**: @agent:software-engineer + @agent:collaboration  
+**Agent**: @agent:rusty + @agent:team  
 **Timeline**: Week 2, Day 4  
 **Dependencies**: T3.3 completion  
 **Effort**: Large (L)
@@ -251,7 +251,7 @@ pub enum ConnectionStatus {
 - All integration tests pass
 
 #### **T4.2: Quality Assurance and Testing** `H` (High Priority)
-**Agent**: @agent:collaboration  
+**Agent**: @agent:team  
 **Timeline**: Week 2, Day 5  
 **Dependencies**: T4.1 completion  
 **Effort**: Medium (M)
@@ -308,10 +308,10 @@ T4.1 (Integration) → T4.2 (Quality Assurance)
 ## Resource Requirements
 
 ### Agent Assignments
-- **@agent:software-engineer**: Core implementation (T1.1-T2.2, T4.1)
-- **@agent:ui-implementor**: UI implementation (T3.1-T3.3)
-- **@agent:collaboration**: Quality assurance and testing (T4.2)
-- **@agent:ux-expert**: User experience design and validation
+- **@agent:rusty**: Core implementation (T1.1-T2.2, T4.1)
+- **@agent:uidev**: UI implementation (T3.1-T3.3)
+- **@agent:team**: Quality assurance and testing (T4.2)
+- **@agent:uxe**: User experience design and validation
 
 ### Development Environment
 - **Feature Branches**: Separate branches for each phase

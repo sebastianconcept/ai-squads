@@ -153,11 +153,11 @@ This feature implements STUI's first user-facing screen - a welcoming, intuitive
 ## Team Coordination
 
 ### Agent Assignments
-- **@agent:ux-expert**: User experience design and validation
-- **@agent:ui-implementor**: UI implementation and accessibility
-- **@agent:software-engineer**: Backend architecture and integration
-- **@agent:jtbd-expert**: Customer jobs analysis and validation
-- **@agent:writer**: User documentation and help content
+- **@agent:uxe**: User experience design and validation
+- **@agent:uidev**: UI implementation and accessibility
+- **@agent:rusty**: Backend architecture and integration
+- **@agent:moesta**: Customer jobs analysis and validation
+- **@agent:godin**: User documentation and help content
 
 ### Collaboration Workflow
 - **Feature Planning**: JTBD analysis and UX design coordination

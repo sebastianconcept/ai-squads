@@ -19,19 +19,19 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 - [ ] 1.1 Design and implement protocol extensions for tool operations
   - **Acceptance Criteria**: New message types for tool requests, responses, and data exchange
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Large (2 weeks)
 - [ ] 1.2 Create enhanced object serialization for Smalltalk objects
   - **Acceptance Criteria**: Rich JSON representation for objects, classes, and methods
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Large (2 weeks)
 - [ ] 1.3 Implement tool manager and lifecycle management
   - **Acceptance Criteria**: Tool creation, initialization, and state management working
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 1.4 Set up state persistence framework for workspaces
   - **Acceptance Criteria**: Workspace state can be saved and restored between sessions
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 1.5 Verify all foundation tasks are complete
 
@@ -44,39 +44,39 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 - [ ] 2.1 Implement single-panel workspace layout
   - **Acceptance Criteria**: Single-panel design with inline results display, maximized space for code
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Small (3 days)
 - [ ] 2.2 Implement code evaluation engine with plain text results
   - **Acceptance Criteria**: Results appear as plain text below expressions, can be used in subsequent code
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 2.3 Implement syntax highlighting and error handling
   - **Acceptance Criteria**: Smalltalk syntax properly highlighted with clear error indicators
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Medium (1 week)
 - [ ] 2.4 Implement command history and navigation
   - **Acceptance Criteria**: Previous expressions accessible via up/down arrows with search
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 2.5 Implement advanced snippet system with local storage
   - **Acceptance Criteria**: Local storage, user naming, favorites, categories, import/export
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Large (2 weeks)
 - [ ] 2.6 Implement snippet browser window
   - **Acceptance Criteria**: Dedicated window with search, filtering, favorites, and organization
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Medium (1 week)
 - [ ] 2.7 Implement multi-line code input and formatting
   - **Acceptance Criteria**: Handle complex expressions and blocks with automatic indentation
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Small (3 days)
 - [ ] 2.8 Implement doIt vs displayIt behavior handling
   - **Acceptance Criteria**: doIt opens tools silently, displayIt shows tool references (e.g., Inspector)
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Small (3 days)
 - [ ] 2.9 Implement workspace save-on-close behavior
   - **Acceptance Criteria**: Prompt to save unsaved changes before closing, with auto-save integration
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Small (3 days)
 - [ ] 2.10 Verify all Workspace tool tasks are complete
 
@@ -89,19 +89,19 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 - [ ] 3.1 Design Inspector UI components and navigation
   - **Acceptance Criteria**: Hierarchical object property display with navigation controls
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Medium (1 week)
 - [ ] 3.2 Implement object property retrieval and display
   - **Acceptance Criteria**: Object properties can be retrieved and displayed hierarchically
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Large (2 weeks)
 - [ ] 3.3 Add live updates and property modification
   - **Acceptance Criteria**: Property changes reflected in real-time, modifications possible
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 3.4 Implement property filtering and search
   - **Acceptance Criteria**: Properties can be filtered and searched effectively
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Small (3 days)
 - [ ] 3.5 Verify all Inspector tool tasks are complete
 
@@ -114,19 +114,19 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 - [ ] 4.1 Design Class Browser UI components and layout
   - **Acceptance Criteria**: Class hierarchy tree, method list, and class information panels
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Medium (1 week)
 - [ ] 4.2 Implement class hierarchy retrieval and display
   - **Acceptance Criteria**: Class inheritance tree can be retrieved and displayed
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Large (2 weeks)
 - [ ] 4.3 Add method browsing and information display
   - **Acceptance Criteria**: Class methods can be browsed with detailed information
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 4.4 Implement class and method search functionality
   - **Acceptance Criteria**: Classes and methods can be searched and filtered
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Small (3 days)
 - [ ] 4.5 Verify all Class Browser tasks are complete
 
@@ -139,19 +139,19 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 - [ ] 5.1 Design Transcript UI components and layout
   - **Acceptance Criteria**: Output display panel with filtering and search controls
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Medium (1 week)
 - [ ] 5.2 Implement system output capture and display
   - **Acceptance Criteria**: System output can be captured and displayed in real-time
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 5.3 Add filtering and search capabilities
   - **Acceptance Criteria**: Output can be filtered by type and searched for content
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Small (3 days)
 - [ ] 5.4 Implement log management and export
   - **Acceptance Criteria**: Logs can be managed, cleared, and exported
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Small (3 days)
 - [ ] 5.5 Verify all Transcript tool tasks are complete
 
@@ -164,19 +164,19 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 - [ ] 6.1 Integrate all tools with existing STUI interface
   - **Acceptance Criteria**: All tools accessible and functional within STUI
-  - **Agent**: @agent:ui-implementor
+  - **Agent**: @agent:uidev
   - **Effort**: Medium (1 week)
 - [ ] 6.2 Implement cross-tool communication and data sharing
   - **Acceptance Criteria**: Tools can share data and communicate effectively
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 6.3 Add comprehensive error handling and recovery
   - **Acceptance Criteria**: All error scenarios handled gracefully with recovery options
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 6.4 Perform integration testing and bug fixes
   - **Acceptance Criteria**: All tools work together without conflicts
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: Medium (1 week)
 - [ ] 6.5 Verify all integration and testing tasks are complete
 
@@ -189,19 +189,19 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 - [ ] 7.1 Add advanced features and optimizations
   - **Acceptance Criteria**: Tools perform optimally with enhanced features
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 7.2 Implement performance improvements and caching
   - **Acceptance Criteria**: Response time under 500ms for common operations
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: Medium (1 week)
 - [ ] 7.3 Complete user documentation and help system
   - **Acceptance Criteria**: Comprehensive user guides and help for all tools
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: Small (3 days)
 - [ ] 7.4 Deploy and validate in staging environment
   - **Acceptance Criteria**: Tools deployed and validated in staging
-  - **Agent**: @agent:git-workflow
+  - **Agent**: @agent:scribas
   - **Effort**: Small (3 days)
 - [ ] 7.5 Verify all polish and deployment tasks are complete
 
@@ -211,7 +211,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 
 ## Task Assignment by Squad Agent
 
-### @agent:software-engineer
+### @agent:rusty
 **Responsibilities**: Core tool implementation, protocol extensions, backend integration
 
 - [ ] Protocol extensions for tool operations (1.1)
@@ -230,7 +230,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 - [ ] Advanced features and optimizations (7.1)
 - [ ] Performance improvements and caching (7.2)
 
-### @agent:ui-implementor
+### @agent:uidev
 **Responsibilities**: Terminal UI components, interface design, user interaction
 
 - [ ] Workspace UI components and layout (2.1)
@@ -244,7 +244,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 - [ ] Filtering and search capabilities (5.3)
 - [ ] Tool integration with STUI interface (6.1)
 
-### @agent:collaboration
+### @agent:team
 **Responsibilities**: Team coordination, quality assurance, testing coordination
 
 - [ ] Integration testing and bug fixes (6.4)
@@ -252,7 +252,7 @@ This document tracks all tasks required to complete the core Smalltalk developme
 - [ ] Quality assurance and testing coordination
 - [ ] Team communication and progress tracking
 
-### @agent:git-workflow
+### @agent:scribas
 **Responsibilities**: Version control, deployment coordination, quality gates
 
 - [ ] Deploy and validate in staging environment (7.4)
@@ -337,10 +337,10 @@ This document tracks all tasks required to complete the core Smalltalk developme
 - **Polish & Deployment**: 0/5 tasks complete
 
 ### Agent Progress
-- **@agent:software-engineer**: 0/15 tasks complete
-- **@agent:ui-implementor**: 0/10 tasks complete
-- **@agent:collaboration**: 0/2 tasks complete
-- **@agent:git-workflow**: 0/1 tasks complete
+- **@agent:rusty**: 0/15 tasks complete
+- **@agent:uidev**: 0/10 tasks complete
+- **@agent:team**: 0/2 tasks complete
+- **@agent:scribas**: 0/1 tasks complete
 
 ## Blocked Tasks and Issues
 

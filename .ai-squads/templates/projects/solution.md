@@ -249,11 +249,11 @@ priority: [low|medium|high]
 ## Squad Coordination
 
 ### Agent Assignments
-- **@agent:software-engineer**: [Specific responsibilities and tasks]
-- **@agent:ux-expert**: [Specific responsibilities and tasks]
-- **@agent:ui-implementor**: [Specific responsibilities and tasks]
-- **@agent:git-workflow**: [Specific responsibilities and tasks]
-- **@agent:collaboration**: [Specific responsibilities and tasks]
+- **@agent:rusty**: [Specific responsibilities and tasks]
+- **@agent:uxe**: [Specific responsibilities and tasks]
+- **@agent:uidev**: [Specific responsibilities and tasks]
+- **@agent:scribas**: [Specific responsibilities and tasks]
+- **@agent:team**: [Specific responsibilities and tasks]
 
 ### Handoff Protocols
 - **Design to Development**: [How UX/UI designs are handed off to development]

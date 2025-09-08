@@ -23,7 +23,7 @@ status: planned
 ## Task Categories
 
 ### **Category 1: Basic Session Communication** `H` (High Priority - Demo Ready)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Week 1  
 **Dependencies**: None  
 
@@ -57,34 +57,34 @@ status: planned
 ---
 
 ### **Category 2: Session Restoration Demo** `H` (High Priority - Demo Ready)
-**Agent**: @agent:software-engineer + @agent:ux-expert  
+**Agent**: @agent:rusty + @agent:uxe  
 **Timeline**: Week 1-2  
 **Dependencies**: Category 1 completion  
 
 #### Tasks:
 - [ ] **T2.1**: Implement session restoration workflow
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Acceptance**: TUI can restore previous session state from backend
   - **Quality Gates**: `cargo test`, restoration tests, integration tests
   - **Demo Value**: ✅ **ENABLES SESSION RESTORATION DEMO**
 
 - [ ] **T2.2**: Add context preservation during disconnection
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Acceptance**: User work state preserved when network disconnects
   - **Quality Gates**: `cargo test`, context preservation tests
   - **Demo Value**: ✅ **ENABLES DISCONNECTION/RECONNECTION DEMO**
 
 - [ ] **T2.3**: Design and implement session restoration UI
-  - **Agent**: @agent:ux-expert
+  - **Agent**: @agent:uxe
   - **Effort**: 6 hours
   - **Acceptance**: Clear UI for session restoration with progress feedback
   - **Quality Gates**: UX review, usability testing, accessibility compliance
   - **Demo Value**: ✅ **ENABLES USER EXPERIENCE DEMO**
 
 - [ ] **T2.4**: Create session management controls
-  - **Agent**: @agent:ux-expert
+  - **Agent**: @agent:uxe
   - **Effort**: 4 hours
   - **Acceptance**: User can manually create, restore, and manage sessions
   - **Quality Gates**: UI tests, usability review
@@ -95,41 +95,41 @@ status: planned
 ---
 
 ### **Category 3: Network Resilience & Reconnection** `M` (Medium Priority - Enhanced Demo)
-**Agent**: @agent:software-engineer + @agent:ux-expert  
+**Agent**: @agent:rusty + @agent:uxe  
 **Timeline**: Week 2  
 **Dependencies**: Categories 1-2 completion  
 
 #### Tasks:
 - [ ] **T3.1**: Implement network change detection and monitoring
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Acceptance**: Detect WiFi changes, network drops, and connection transitions
   - **Quality Gates**: `cargo test`, network monitoring tests
   - **Demo Value**: ✅ **ENABLES NETWORK RESILIENCE DEMO**
 
 - [ ] **T3.2**: Create automatic reconnection with intelligent retry logic
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 10 hours
   - **Acceptance**: Automatic reconnection after network changes with exponential backoff
   - **Quality Gates**: `cargo fmt --all -- --check`, `cargo fmt`, `cargo clippy`, reconnection tests, performance benchmarks
   - **Demo Value**: ✅ **ENABLES AUTOMATIC RECONNECTION DEMO**
 
 - [ ] **T3.3**: Implement context preservation during network disconnections
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Acceptance**: User input, work state, and context preserved during disconnections
   - **Quality Gates**: `cargo test`, context preservation tests
   - **Demo Value**: ✅ **ENABLES ADVANCED CONTEXT PRESERVATION DEMO**
 
 - [ ] **T3.4**: Design and implement reconnection user experience
-  - **Agent**: @agent:ux-expert
+  - **Agent**: @agent:uxe
   - **Effort**: 6 hours
   - **Acceptance**: Clear status indicators, progress feedback, and manual override options
   - **Quality Gates**: UX review, usability testing, accessibility compliance
   - **Demo Value**: ✅ **ENABLES PROFESSIONAL UX DEMO**
 
 - [ ] **T3.5**: Add network failure handling and recovery strategies
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Acceptance**: Graceful handling of all network failure scenarios with clear recovery paths
   - **Quality Gates**: `cargo fmt --all -- --check`, `cargo fmt`, `cargo clippy`, `cargo test`, failure scenario tests, error handling validation
@@ -140,7 +140,7 @@ status: planned
 ---
 
 ### **Category 4: Connection Persistence** `M` (Medium Priority)
-**Agent**: @agent:software-engineer  
+**Agent**: @agent:rusty  
 **Timeline**: Week 2-3  
 **Dependencies**: Categories 1-3 completion  
 
@@ -170,31 +170,31 @@ status: planned
 ---
 
 ### **Category 5: Workspace Context Persistence** `M` (Medium Priority)
-**Agent**: @agent:software-engineer + @agent:ux-expert  
+**Agent**: @agent:rusty + @agent:uxe  
 **Timeline**: Week 3  
 **Dependencies**: Categories 1-4 completion  
 
 #### Tasks:
 - [ ] **T5.1**: Implement workspace state persistence
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Acceptance**: Workspace context preserved across restarts
   - **Quality Gates**: `cargo test`, workspace tests
 
 - [ ] **T5.2**: Add panel layout and preference saving
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Acceptance**: UI layout and preferences restored
   - **Quality Gates**: `cargo check`, layout tests
 
 - [ ] **T5.3**: Create input history preservation system
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Acceptance**: Recent input commands preserved
   - **Quality Gates**: `cargo test`, history tests
 
 - [ ] **T5.4**: Implement session metadata tracking
-  - **Agent**: @agent:ux-expert
+  - **Agent**: @agent:uxe
   - **Effort**: 4 hours
   - **Acceptance**: Session statistics and metadata tracked
   - **Quality Gates**: UX review, metadata tests
@@ -204,31 +204,31 @@ status: planned
 ---
 
 ### **Category 6: Integration and Polish** `M` (Medium Priority)
-**Agent**: @agent:software-engineer + @agent:collaboration  
+**Agent**: @agent:rusty + @agent:team  
 **Timeline**: Week 3  
 **Dependencies**: Categories 1-5 completion  
 
 #### Tasks:
 - [ ] **T6.1**: Integrate session management with existing STUI components
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Acceptance**: Seamless integration with current system
   - **Quality Gates**: Integration tests, system tests
 
 - [ ] **T6.2**: Add user interface for session management
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Acceptance**: User-friendly session management interface
   - **Quality Gates**: UI tests, usability review
 
 - [ ] **T6.3**: Implement session recovery and conflict resolution
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Acceptance**: Robust recovery with conflict handling
   - **Quality Gates**: Recovery tests, conflict tests
 
 - [ ] **T6.4**: Add comprehensive testing and error handling
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 6 hours
   - **Acceptance**: Comprehensive test coverage with error scenarios
   - **Quality Gates**: Test coverage, error handling validation
@@ -238,31 +238,31 @@ status: planned
 ---
 
 ### **Category 7: Performance and Security** `S` (Small Priority)
-**Agent**: @agent:collaboration + @agent:software-engineer  
+**Agent**: @agent:team + @agent:rusty  
 **Timeline**: Week 3  
 **Dependencies**: Categories 1-6 completion  
 
 #### Tasks:
 - [ ] **T7.1**: Optimize session operations for performance
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Acceptance**: Session restoration adds <2 seconds to startup
   - **Quality Gates**: Performance benchmarks, optimization review
 
 - [ ] **T7.2**: Implement cross-platform compatibility testing
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 4 hours
   - **Acceptance**: Consistent behavior across all platforms
   - **Quality Gates**: Cross-platform tests, compatibility validation
 
 - [ ] **T7.3**: Conduct security audit and testing
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 6 hours
   - **Acceptance**: Security vulnerabilities identified and resolved
   - **Quality Gates**: Security review, vulnerability testing
 
 - [ ] **T7.4**: Final integration testing and quality validation
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 4 hours
   - **Acceptance**: All quality gates pass, feature ready for deployment
   - **Quality Gates**: Final quality review, deployment readiness
@@ -291,13 +291,13 @@ status: planned
 ## 👥 **Agent Assignment Summary**
 
 ### **Primary Agents**
-- **@agent:software-engineer**: Core development, session communication, protocol integration, network resilience, connection persistence, workspace context
-- **@agent:ux-expert**: User experience design, session management interface, demo UI, metadata tracking
-- **@agent:collaboration**: Testing, quality assurance, security audit, cross-platform validation
+- **@agent:rusty**: Core development, session communication, protocol integration, network resilience, connection persistence, workspace context
+- **@agent:uxe**: User experience design, session management interface, demo UI, metadata tracking
+- **@agent:team**: Testing, quality assurance, security audit, cross-platform validation
 
 ### **Support Agents**
-- **@agent:git-workflow**: Feature branch management and quality gate enforcement
-- **@agent:director**: Overall coordination and progress tracking
+- **@agent:scribas**: Feature branch management and quality gate enforcement
+- **@agent:steve**: Overall coordination and progress tracking
 
 ## 🗓️ **Adjusted Timeline and Dependencies**
 

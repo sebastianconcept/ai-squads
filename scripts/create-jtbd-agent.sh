@@ -112,12 +112,12 @@ create_jtbd_setup() {
 
 ## Overview
 
-This project has been configured with the JTBD Expert Agent (@agent:jtbd-expert) to ensure all features and solutions are validated against customer jobs and satisfaction needs.
+This project has been configured with the JTBD Expert Agent (@agent:moesta) to ensure all features and solutions are validated against customer jobs and satisfaction needs.
 
 ## Agent Integration
 
 ### Agent Details
-- **Name**: @agent:jtbd-expert
+- **Name**: @agent:moesta
 - **Specialization**: Customer jobs analysis and solution validation
 - **Squad**: Elite Squad
 - **Activation**: Automatic in planning workflows
@@ -165,14 +165,14 @@ All features must pass JTBD validation:
 
 ### Activating JTBD Agent
 The agent is automatically activated in planning workflows:
-- Feature planning: @agent:jtbd-expert analyzes customer jobs
-- Solution design: @agent:jtbd-expert validates solution alignment
-- Project scope: @agent:jtbd-expert ensures customer focus
+- Feature planning: @agent:moesta analyzes customer jobs
+- Solution design: @agent:moesta validates solution alignment
+- Project scope: @agent:moesta ensures customer focus
 
 ### Manual Activation
 To manually activate the JTBD agent:
 \`\`\`
-@agent:jtbd-expert
+@agent:moesta
 \`\`\`
 
 ### JTBD Analysis
@@ -213,7 +213,7 @@ Use the jtbd-analysis.md template for comprehensive customer jobs analysis:
 For questions about JTBD methodology or agent integration:
 - Review JTBD agent documentation in .ai-squads/agents/jtbd-expert.md
 - Check Elite Squad configuration in .ai-squads/squads/elite.md
-- Use @agent:jtbd-expert for specific JTBD guidance
+- Use @agent:moesta for specific JTBD guidance
 
 ---
 
@@ -238,7 +238,7 @@ update_project_config() {
             echo "" >> "$project_dir/README.md"
             echo "## JTBD Integration" >> "$project_dir/README.md"
             echo "" >> "$project_dir/README.md"
-            echo "This project uses Jobs To Be Done methodology to ensure all features address real customer needs. The @agent:jtbd-expert validates feature alignment with customer jobs and satisfaction gaps." >> "$project_dir/README.md"
+            echo "This project uses Jobs To Be Done methodology to ensure all features address real customer needs. The @agent:moesta validates feature alignment with customer jobs and satisfaction gaps." >> "$project_dir/README.md"
             echo "" >> "$project_dir/README.md"
             echo "### JTBD Documents" >> "$project_dir/README.md"
             echo "- **jtbd-analysis.md**: Customer jobs and satisfaction analysis" >> "$project_dir/README.md"
@@ -290,10 +290,10 @@ This document outlines how the JTBD Expert Agent integrates with project workflo
 **JTBD Agent Role**: Lead customer jobs analysis
 
 **Workflow**:
-1. @agent:jtbd-expert analyzes customer jobs and context
-2. @agent:jtbd-expert identifies satisfaction gaps
-3. @agent:jtbd-expert validates feature alignment with jobs
-4. @agent:jtbd-expert creates job satisfaction metrics
+1. @agent:moesta analyzes customer jobs and context
+2. @agent:moesta identifies satisfaction gaps
+3. @agent:moesta validates feature alignment with jobs
+4. @agent:moesta creates job satisfaction metrics
 5. Feature proceeds only after JTBD validation
 
 ### 2. Solution Design Workflow
@@ -301,10 +301,10 @@ This document outlines how the JTBD Expert Agent integrates with project workflo
 **JTBD Agent Role**: Solution validation and optimization
 
 **Workflow**:
-1. @agent:jtbd-expert reviews proposed solution
-2. @agent:jtbd-expert maps solution to job satisfaction gaps
-3. @agent:jtbd-expert identifies unintended consequences
-4. @agent:jtbd-expert recommends job-focused optimizations
+1. @agent:moesta reviews proposed solution
+2. @agent:moesta maps solution to job satisfaction gaps
+3. @agent:moesta identifies unintended consequences
+4. @agent:moesta recommends job-focused optimizations
 5. Solution proceeds only after JTBD validation
 
 ### 3. Project Scope Workflow
@@ -312,10 +312,10 @@ This document outlines how the JTBD Expert Agent integrates with project workflo
 **JTBD Agent Role**: Scope validation and customer alignment
 
 **Workflow**:
-1. @agent:jtbd-expert analyzes project mission through JTBD lens
-2. @agent:jtbd-expert identifies primary customer jobs
-3. @agent:jtbd-expert validates scope against job satisfaction needs
-4. @agent:jtbd-expert recommends scope adjustments if needed
+1. @agent:moesta analyzes project mission through JTBD lens
+2. @agent:moesta identifies primary customer jobs
+3. @agent:moesta validates scope against job satisfaction needs
+4. @agent:moesta recommends scope adjustments if needed
 5. Project scope proceeds only after JTBD validation
 
 ## Quality Gates
@@ -339,14 +339,14 @@ This document outlines how the JTBD Expert Agent integrates with project workflo
 
 ### Manual Activation
 \`\`\`
-@agent:jtbd-expert
+@agent:moesta
 \`\`\`
 
 ### Specific JTBD Tasks
 \`\`\`
-@agent:jtbd-expert analyze customer jobs for [FEATURE_NAME]
-@agent:jtbd-expert validate solution alignment for [FEATURE_NAME]
-@agent:jtbd-expert create job satisfaction metrics for [FEATURE_NAME]
+@agent:moesta analyze customer jobs for [FEATURE_NAME]
+@agent:moesta validate solution alignment for [FEATURE_NAME]
+@agent:moesta create job satisfaction metrics for [FEATURE_NAME]
 \`\`\`
 
 ## Success Metrics
@@ -389,7 +389,7 @@ show_completion_summary() {
     print_success "JTBD Expert Agent setup completed successfully!"
     echo ""
     echo "📁 Project Directory: $project_dir"
-    echo "🤖 JTBD Agent: @agent:jtbd-expert"
+    echo "🤖 JTBD Agent: @agent:moesta"
     echo "📋 Created Documents:"
     echo "  • jtbd-agent-setup.md - JTBD agent setup documentation"
     echo "  • jtbd/workflow-integration.md - Workflow integration guide"
@@ -405,13 +405,13 @@ show_completion_summary() {
     echo "🚀 Next Steps:"
     echo "  1. Review JTBD agent setup documentation"
     echo "  2. Use plan-feature.sh to create JTBD-validated features"
-    echo "  3. Activate @agent:jtbd-expert for specific guidance"
+    echo "  3. Activate @agent:moesta for specific guidance"
     echo "  4. Conduct customer research using JTBD methodology"
     echo "  5. Ensure all solutions pass JTBD validation"
     echo ""
     echo "💡 Tips:"
     echo "  • Use 'cat $project_dir/jtbd-agent-setup.md' to view setup details"
-    echo "  • Activate JTBD agent with '@agent:jtbd-expert'"
+    echo "  • Activate JTBD agent with '@agent:moesta'"
     echo "  • Follow JTBD methodology in all feature planning"
     echo "  • Measure success through job satisfaction metrics"
     echo ""

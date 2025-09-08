@@ -32,7 +32,7 @@ encoding: UTF-8
 ## Week 1: Frontend Integration & Testing ✅ **COMPLETED**
 
 ### **Task 1.1: Protocol Integration Setup** ✅ **COMPLETED**
-**Assigned to**: @agent:software-engineer
+**Assigned to**: @agent:rusty
 **Goal**: Update Rust TUI client to use new session protocol commands
 **Estimated Time**: 1-2 days
 
@@ -62,7 +62,7 @@ encoding: UTF-8
 ---
 
 ### **Task 1.2: Session Management Implementation** ✅ **COMPLETED**
-**Assigned to**: @agent:software-engineer
+**Assigned to**: @agent:rusty
 **Goal**: Implement comprehensive session management in Rust client
 **Estimated Time**: 2-3 days
 
@@ -91,7 +91,7 @@ encoding: UTF-8
 ---
 
 ### **Task 1.3: Context Preservation Integration** ✅ **COMPLETED**
-**Assigned to**: @agent:software-engineer
+**Assigned to**: @agent:rusty
 **Goal**: Integrate workspace and inspector state persistence
 **Estimated Time**: 2-3 days
 
@@ -120,7 +120,7 @@ encoding: UTF-8
 ---
 
 ### **Task 1.4: Integration Test Suite** ✅ **COMPLETED**
-**Assigned to**: @agent:software-engineer
+**Assigned to**: @agent:rusty
 **Goal**: Create comprehensive integration test suite
 **Estimated Time**: 1 day
 
@@ -171,7 +171,7 @@ encoding: UTF-8
 - **Next Focus**: Production environment setup and deployment planning
 
 ### **Task 2.1: Deployment Planning** `M` (Medium)
-**Assigned to**: @agent:software-engineer + @agent:collaboration  
+**Assigned to**: @agent:rusty + @agent:team  
 **Goal**: Create production deployment plan and environment configuration  
 **Estimated Time**: 1-2 days  
 
@@ -200,7 +200,7 @@ encoding: UTF-8
 ---
 
 ### **Task 2.2: Production Environment Setup** `M` (Medium)
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Goal**: Set up and configure production environment  
 **Estimated Time**: 2-3 days  
 
@@ -229,7 +229,7 @@ encoding: UTF-8
 ---
 
 ### **Task 2.3: Performance & Security Validation** `M` (Medium)
-**Assigned to**: @agent:software-engineer + @agent:collaboration  
+**Assigned to**: @agent:rusty + @agent:team  
 **Goal**: Validate performance and security measures  
 **Estimated Time**: 2-3 days  
 
@@ -258,7 +258,7 @@ encoding: UTF-8
 ---
 
 ### **Task 2.4: Monitoring & Backup Setup** `S` (Small)
-**Assigned to**: @agent:software-engineer  
+**Assigned to**: @agent:rusty  
 **Goal**: Configure production monitoring and backup systems  
 **Estimated Time**: 1 day  
 
@@ -289,7 +289,7 @@ encoding: UTF-8
 ## Week 3: Team Handoff & Next Phase Planning
 
 ### **Task 3.1: Documentation Completion** `M` (Medium)
-**Assigned to**: @agent:collaboration + @agent:software-engineer  
+**Assigned to**: @agent:team + @agent:rusty  
 **Goal**: Complete all implementation and user documentation  
 **Estimated Time**: 2-3 days  
 
@@ -318,7 +318,7 @@ encoding: UTF-8
 ---
 
 ### **Task 3.2: Knowledge Transfer** `M` (Medium)
-**Assigned to**: @agent:collaboration  
+**Assigned to**: @agent:team  
 **Goal**: Conduct comprehensive knowledge transfer sessions  
 **Estimated Time**: 2-3 days  
 
@@ -376,7 +376,7 @@ encoding: UTF-8
 ---
 
 ### **Task 3.4: Phase Completion & Validation** `S` (Small)
-**Assigned to**: @agent:director  
+**Assigned to**: @agent:steve  
 **Goal**: Final phase review and validation  
 **Estimated Time**: 1 day  
 
@@ -460,9 +460,9 @@ encoding: UTF-8
 ## Next Actions
 
 ### **Immediate (Next 2 hours)**
-1. **@agent:software-engineer** starts frontend integration planning
-2. **@agent:collaboration** begins team coordination for next phase
-3. **@agent:git-workflow** prepares production branch strategy
+1. **@agent:rusty** starts frontend integration planning
+2. **@agent:team** begins team coordination for next phase
+3. **@agent:scribas** prepares production branch strategy
 
 ### **Today (Next 8 hours)**
 1. **Frontend Integration Planning**: Define integration requirements and approach
@@ -478,6 +478,6 @@ encoding: UTF-8
 
 **Status**: 🟡 **IN PROGRESS - Week 1 Starting**  
 **Current Focus**: Task 1.1 - Protocol Integration Setup  
-**Next Action**: @agent:software-engineer begins frontend integration work  
+**Next Action**: @agent:rusty begins frontend integration work  
 **Timeline**: 2-3 weeks for complete integration and deployment 🚀
 

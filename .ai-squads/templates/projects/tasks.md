@@ -52,35 +52,35 @@ This document tracks all tasks required to complete the project work. Tasks are 
 
 ## Task Assignment by Squad Agent
 
-### @agent:software-engineer
+### @agent:rusty
 **Responsibilities**: Technical implementation, backend development, systems programming
 
 - [ ] [Technical implementation task 1]
 - [ ] [Technical implementation task 2]
 - [ ] [Technical implementation task 3]
 
-### @agent:ux-expert
+### @agent:uxe
 **Responsibilities**: User experience research, design, and validation
 
 - [ ] [User experience task 1]
 - [ ] [User experience task 2]
 - [ ] [User experience task 3]
 
-### @agent:ui-implementor
+### @agent:uidev
 **Responsibilities**: Frontend implementation, styling, and cross-platform compatibility
 
 - [ ] [Frontend implementation task 1]
 - [ ] [Frontend implementation task 2]
 - [ ] [Frontend implementation task 3]
 
-### @agent:git-workflow
+### @agent:scribas
 **Responsibilities**: Version control, branching strategy, and release management
 
 - [ ] [Version control task 1]
 - [ ] [Version control task 2]
 - [ ] [Version control task 3]
 
-### @agent:collaboration
+### @agent:team
 **Responsibilities**: Team coordination, quality assurance, and handoff management
 
 - [ ] [Coordination task 1]
@@ -166,11 +166,11 @@ This document tracks all tasks required to complete the project work. Tasks are 
 - **Category 3**: [X/Y] tasks complete
 
 ### Agent Progress
-- **@agent:software-engineer**: [X/Y] tasks complete
-- **@agent:ux-expert**: [X/Y] tasks complete
-- **@agent:ui-implementor**: [X/Y] tasks complete
-- **@agent:git-workflow**: [X/Y] tasks complete
-- **@agent:collaboration**: [X/Y] tasks complete
+- **@agent:rusty**: [X/Y] tasks complete
+- **@agent:uxe**: [X/Y] tasks complete
+- **@agent:uidev**: [X/Y] tasks complete
+- **@agent:scribas**: [X/Y] tasks complete
+- **@agent:team**: [X/Y] tasks complete
 
 ## Blocked Tasks and Issues
 

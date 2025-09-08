@@ -137,7 +137,7 @@ This document describes the Writer Agent setup for the $project_name project, in
 ## Writer Agent Integration
 
 ### **Agent Details**
-- **Agent**: @agent:writer
+- **Agent**: @agent:godin
 - **Specialization**: Storytelling, character development, and narrative craft
 - **Location**: \`.ai-squads/agents/writer.md\`
 - **Squad**: Elite Squad (9 agents total)
@@ -267,15 +267,15 @@ Configuration and settings for the $project_name project, including agent integr
 ## Agent Integration
 
 ### **Active Agents**
-- **@agent:director**: Project coordination and strategic oversight
-- **@agent:jtbd-expert**: Customer jobs analysis and solution validation
-- **@agent:writer**: Storytelling, character development, and narrative craft
-- **@agent:software-engineer**: Full-stack development and systems programming
-- **@agent:ux-expert**: User experience research and design
-- **@agent:ui-implementor**: Frontend implementation across platforms
+- **@agent:steve**: Project coordination and strategic oversight
+- **@agent:moesta**: Customer jobs analysis and solution validation
+- **@agent:godin**: Storytelling, character development, and narrative craft
+- **@agent:rusty**: Full-stack development and systems programming
+- **@agent:uxe**: User experience research and design
+- **@agent:uidev**: Frontend implementation across platforms
 - **@agent:product-planner**: Strategic product planning and development
-- **@agent:git-workflow**: Version control and workflow management
-- **@agent:collaboration**: Team coordination and quality assurance
+- **@agent:scribas**: Version control and workflow management
+- **@agent:team**: Team coordination and quality assurance
 
 ## Methodology Integration
 
@@ -558,7 +558,7 @@ show_completion_summary() {
     echo "  • storytelling-workflow.md - Workflow integration guide"
     echo ""
     echo "🤖 Writer Agent Integration:"
-    echo "  • Agent: @agent:writer added to Elite Squad"
+    echo "  • Agent: @agent:godin added to Elite Squad"
     echo "  • Specialization: Storytelling, character development, narrative craft"
     echo "  • Capabilities: Literary techniques, genre mastery, character psychology"
     echo "  • Workflow: Integrated into all planning and execution phases"
@@ -572,12 +572,12 @@ show_completion_summary() {
     echo "🚀 Next Steps:"
     echo "  1. Review the created documentation"
     echo "  2. Use story-plan.md in feature planning"
-    echo "  3. Coordinate with @agent:writer for narrative elements"
+    echo "  3. Coordinate with @agent:godin for narrative elements"
     echo "  4. Validate stories against quality standards"
     echo ""
     echo "💡 Tips:"
     echo "  • Use 'cat $project_dir/story-plan.md' to view story planning template"
-    echo "  • Coordinate with @agent:writer for storytelling expertise"
+    echo "  • Coordinate with @agent:godin for storytelling expertise"
     echo "  • Ensure all features include narrative strategy"
     echo "  • Validate story quality in quality gates"
     echo ""

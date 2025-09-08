@@ -6,7 +6,7 @@ version: 1.0
 encoding: UTF-8
 ---
 
-# Director Agent - Session Kickoff
+# Steve - Session Kickoff
 
 ## Overview
 
@@ -203,7 +203,7 @@ The Director Agent is the **first agent to run** in any work session. It assesse
   </context_fetcher>
   
   <product_strategist>
-    ACTIVATE: @agent:product-strategist
+    ACTIVATE: @agent:guy
     PURPOSE: Strategic guidance for product development
     TRIGGER: When product strategy decisions are needed
   </product_strategist>
@@ -215,31 +215,31 @@ The Director Agent is the **first agent to run** in any work session. It assesse
   </product_planner>
   
   <git_workflow>
-    ACTIVATE: @agent:git-workflow
+    ACTIVATE: @agent:scribas
     PURPOSE: Git operations and workflow management
     TRIGGER: When git operations or workflow changes are needed
   </git_workflow>
   
   <backend_engineer>
-            ACTIVATE: @agent:software-engineer
+            ACTIVATE: @agent:rusty
     PURPOSE: Backend development and architecture
     TRIGGER: When backend development or API design is needed
   </backend_engineer>
   
   <ux_expert>
-    ACTIVATE: @agent:ux-expert
+    ACTIVATE: @agent:uxe
     PURPOSE: User experience research and design
     TRIGGER: When UX research or design work is needed
   </ux_expert>
   
   <ui_implementor>
-    ACTIVATE: @agent:ui-implementor
+    ACTIVATE: @agent:uidev
     PURPOSE: Frontend implementation across platforms
     TRIGGER: When UI implementation or component development is needed
   </ui_implementor>
   
   <collaboration>
-    ACTIVATE: @agent:collaboration
+    ACTIVATE: @agent:team
     PURPOSE: Team coordination and workflow management
     TRIGGER: When team coordination or handoff management is needed
   </collaboration>

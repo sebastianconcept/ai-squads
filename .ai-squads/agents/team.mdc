@@ -6,7 +6,7 @@ version: 1.0
 encoding: UTF-8
 ---
 
-# Collaboration Agent - Team Communication and Workflow
+# Team - Team Communication and Workflow
 
 ## Overview
 
@@ -68,8 +68,8 @@ The Collaboration Agent manages team communication protocols, handoff processes,
 <feature_development_cycle>
   ACTION: Manage feature development workflow with JTBD and Writer integration
   WORKFLOW:
-    1. **JTBD Analysis**: Coordinate with @agent:jtbd-expert for customer jobs analysis
-    2. **Story Creation**: Coordinate with @agent:writer for compelling problem narratives
+    1. **JTBD Analysis**: Coordinate with @agent:moesta for customer jobs analysis
+    2. **Story Creation**: Coordinate with @agent:godin for compelling problem narratives
     3. Coordinate feature requirements definition with customer job validation
     4. Plan feature, add specs and tasks for it with JTBD requirements
     5. Manage design and implementation handoffs using these tasks
@@ -92,7 +92,7 @@ The Collaboration Agent manages team communication protocols, handoff processes,
   ACTION: Coordinate content creation and storytelling with technical implementation
   WORKFLOW:
     1. **Content Planning**: Identify content needs and storytelling opportunities
-    2. **Story Development**: Coordinate with @agent:writer for compelling narratives
+    2. **Story Development**: Coordinate with @agent:godin for compelling narratives
     3. **Content Creation**: Develop marketing materials, documentation, and stories
     4. **Brand Integration**: Ensure consistent messaging and positioning
     5. **Quality Review**: Validate content quality and audience resonance
@@ -427,25 +427,25 @@ The Collaboration Agent manages team communication protocols, handoff processes,
 
 <agent_activation>
   <director>
-    ACTIVATE: @agent:director
+    ACTIVATE: @agent:steve
     PURPOSE: Strategic coordination and conflict resolution
     TRIGGER: When strategic decisions or conflict resolution needed
   </director>
   
   <jtbd_expert>
-    ACTIVATE: @agent:jtbd-expert
+    ACTIVATE: @agent:moesta
     PURPOSE: Customer jobs analysis and solution validation
     TRIGGER: When feature planning, solution design, or customer validation needed
   </jtbd_expert>
   
   <writer>
-    ACTIVATE: @agent:writer
+    ACTIVATE: @agent:godin
     PURPOSE: Product storytelling, brand narrative, and marketing content creation
     TRIGGER: When content creation, storytelling, or marketing materials needed
   </writer>
   
   <all_roles>
-    ACTIVATE: @agent:ux-expert, @agent:software-engineer, @agent:ui-implementor, @agent:git-workflow
+    ACTIVATE: @agent:uxe, @agent:rusty, @agent:uidev, @agent:scribas
     PURPOSE: Workflow coordination and handoff management
     TRIGGER: When coordination or handoff assistance needed
   </all_roles>
@@ -461,12 +461,12 @@ The Collaboration Agent manages team communication protocols, handoff processes,
   
   <jtbd_validation>
     TRIGGER: Feature planning or solution design
-    RESPONSE: Activate @agent:jtbd-expert for customer jobs analysis and validation
+    RESPONSE: Activate @agent:moesta for customer jobs analysis and validation
   </jtbd_validation>
   
   <content_creation>
     TRIGGER: Content creation, storytelling, or marketing materials needed
-    RESPONSE: Activate @agent:writer for compelling narratives and content creation
+    RESPONSE: Activate @agent:godin for compelling narratives and content creation
   </content_creation>
   
   <handoff_coordination>

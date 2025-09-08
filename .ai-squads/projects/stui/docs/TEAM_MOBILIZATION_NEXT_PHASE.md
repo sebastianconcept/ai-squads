@@ -20,15 +20,15 @@ Execute the **next phase of STUI development** by integrating the production-rea
 ## **👥 Team Assignment**
 
 ### **Primary Development Team**
-- **@agent:software-engineer** - Frontend integration and production deployment lead ✅ **ACTIVE**
-- **@agent:collaboration** - Team coordination and handoff management ✅ **READY**
-- **@agent:git-workflow** - Production branch management and deployment ✅ **READY**
-- **@agent:ux-expert** - User experience validation and documentation ✅ **READY**
+- **@agent:rusty** - Frontend integration and production deployment lead ✅ **ACTIVE**
+- **@agent:team** - Team coordination and handoff management ✅ **READY**
+- **@agent:scribas** - Production branch management and deployment ✅ **READY**
+- **@agent:uxe** - User experience validation and documentation ✅ **READY**
 
 ### **Support Team**
-- **@agent:director** - Overall phase coordination and progress tracking ✅ **ACTIVE**
+- **@agent:steve** - Overall phase coordination and progress tracking ✅ **ACTIVE**
 - **@agent:product-planner** - Next phase feature planning and roadmap ✅ **READY**
-- **@agent:product-strategist** - Strategic direction and business alignment ✅ **READY**
+- **@agent:guy** - Strategic direction and business alignment ✅ **READY**
 
 ## **📋 Phase Breakdown & Team Tasks**
 
@@ -37,63 +37,63 @@ Execute the **next phase of STUI development** by integrating the production-rea
 
 #### **Day 1-2: Client Integration Setup**
 - [ ] **T1.1**: Update Rust TUI client to use new session protocol commands
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Status**: 🟡 **READY TO START**
   - **Dependencies**: Multi-client session persistence system ✅ **COMPLETE**
 
 - [ ] **T1.2**: Implement session management in Rust client
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Status**: 🟡 **READY TO START**
   - **Dependencies**: T1.1 completion
 
 - [ ] **T1.3**: Add session context preservation to client
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Status**: 🟡 **READY TO START**
   - **Dependencies**: T1.2 completion
 
 - [ ] **T1.4**: Create integration test suite for client-server communication
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Status**: 🟡 **READY TO START**
   - **Dependencies**: T1.3 completion
 
 #### **Day 3-4: End-to-End Testing**
 - [ ] **T1.5**: Test multi-client scenarios with Rust TUI client
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 4 hours
   - **Status**: 🟡 **READY TO START**
   - **Dependencies**: T1.4 completion
 
 - [ ] **T1.6**: Validate context preservation across client sessions
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 4 hours
   - **Status**: 🟡 **READY TO START**
   - **Dependencies**: T1.5 completion
 
 - [ ] **T1.7**: Performance testing with multiple concurrent clients
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Status**: 🟡 **READY TO START**
   - **Dependencies**: T1.6 completion
 
 - [ ] **T1.8**: Error handling and recovery testing
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 4 hours
   - **Status**: 🟡 **READY TO START**
   - **Dependencies**: T1.7 completion
 
 #### **Day 5: Integration Validation**
 - [ ] **T1.9**: Complete integration testing and validation
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 4 hours
   - **Status**: 🟡 **READY TO START**
   - **Dependencies**: T1.8 completion
 
 - [ ] **T1.10**: Document any integration issues or improvements needed
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 2 hours
   - **Status**: 🟡 **READY TO START**
   - **Dependencies**: T1.9 completion
@@ -103,63 +103,63 @@ Execute the **next phase of STUI development** by integrating the production-rea
 
 #### **Day 1-2: Deployment Planning**
 - [ ] **T2.1**: Create production deployment plan
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: Week 1 completion
 
 - [ ] **T2.2**: Set up production environment configuration
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T2.1 completion
 
 - [ ] **T2.3**: Prepare deployment scripts and automation
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T2.2 completion
 
 - [ ] **T2.4**: Create rollback and recovery procedures
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 4 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T2.3 completion
 
 #### **Day 3-4: Production Testing**
 - [ ] **T2.5**: Production environment testing
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T2.4 completion
 
 - [ ] **T2.6**: Load testing and performance validation
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T2.5 completion
 
 - [ ] **T2.7**: Security and access control validation
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 4 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T2.6 completion
 
 - [ ] **T2.8**: Monitoring and alerting setup
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 6 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T2.7 completion
 
 #### **Day 5: Deployment Execution**
 - [ ] **T2.9**: Execute production deployment
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 8 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T2.8 completion
 
 - [ ] **T2.10**: Post-deployment validation and monitoring
-  - **Agent**: @agent:software-engineer
+  - **Agent**: @agent:rusty
   - **Effort**: 4 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T2.9 completion
@@ -169,25 +169,25 @@ Execute the **next phase of STUI development** by integrating the production-rea
 
 #### **Day 1-2: Documentation & Knowledge Transfer**
 - [ ] **T3.1**: Complete implementation documentation
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 6 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: Week 2 completion
 
 - [ ] **T3.2**: Create user and developer guides
-  - **Agent**: @agent:ux-expert
+  - **Agent**: @agent:uxe
   - **Effort**: 8 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T3.1 completion
 
 - [ ] **T3.3**: Conduct knowledge transfer sessions
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 4 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T3.2 completion
 
 - [ ] **T3.4**: Document lessons learned and best practices
-  - **Agent**: @agent:collaboration
+  - **Agent**: @agent:team
   - **Effort**: 4 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T3.3 completion
@@ -219,13 +219,13 @@ Execute the **next phase of STUI development** by integrating the production-rea
 
 #### **Day 5: Phase Completion**
 - [ ] **T3.9**: Final phase review and validation
-  - **Agent**: @agent:director
+  - **Agent**: @agent:steve
   - **Effort**: 4 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T3.8 completion
 
 - [ ] **T3.10**: Team handoff completion and next phase kickoff
-  - **Agent**: @agent:director
+  - **Agent**: @agent:steve
   - **Effort**: 4 hours
   - **Status**: 🟡 **PLANNED**
   - **Dependencies**: T3.9 completion
@@ -282,9 +282,9 @@ Execute the **next phase of STUI development** by integrating the production-rea
 ## **🎯 Next Steps - Week 1: Frontend Integration**
 
 ### **Immediate (Next 2 hours)**
-1. **@agent:software-engineer** starts T1.1 (Complete protocol type definitions) ✅ **IN PROGRESS**
-2. **@agent:collaboration** begins team coordination for Week 1 ✅ **READY**
-3. **@agent:git-workflow** prepares integration branch strategy ✅ **READY**
+1. **@agent:rusty** starts T1.1 (Complete protocol type definitions) ✅ **IN PROGRESS**
+2. **@agent:team** begins team coordination for Week 1 ✅ **READY**
+3. **@agent:scribas** prepares integration branch strategy ✅ **READY**
 
 ### **Today (Next 8 hours)**
 1. ✅ **COMPLETED**: Multi-client session persistence system (100%)
@@ -300,7 +300,7 @@ Execute the **next phase of STUI development** by integrating the production-rea
 
 ### **Team Updates**
 - **Progress**: Daily updates in this document ✅ **ACTIVE**
-- **Blockers**: Immediate escalation to @agent:director ✅ **READY**
+- **Blockers**: Immediate escalation to @agent:steve ✅ **READY**
 - **Decisions**: Document in solution.md and status.md ✅ **READY**
 
 ### **Integration Points**
@@ -345,6 +345,6 @@ Execute the **next phase of STUI development** by integrating the production-rea
 ---
 
 **Status**: 🟢 **TEAM MOBILIZED - NEXT PHASE IN PROGRESS**  
-**Next Action**: @agent:software-engineer continues Week 1 frontend integration  
+**Next Action**: @agent:rusty continues Week 1 frontend integration  
 **Timeline**: 2-3 weeks for complete integration and deployment  
 **Progress**: **Week 1: IN PROGRESS | Week 2: Planned | Week 3: Planned** 🚀

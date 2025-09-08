@@ -14,7 +14,7 @@ encoding: UTF-8
 ## Coordination Status
 
 ### ✅ **JTBD Expert Handoff Complete**
-**@agent:jtbd-expert**: Customer jobs analysis completed and documented
+**@agent:moesta**: Customer jobs analysis completed and documented
 **Handoff Date**: 2025-01-21
 **Deliverables**: Comprehensive JTBD analysis in `jtbd-analysis.md`
 
@@ -31,7 +31,7 @@ encoding: UTF-8
 
 ## Active Team Coordination
 
-### 🚀 **@agent:smalltalker - Pharo Backend Development**
+### 🚀 **@agent:alan - Pharo Backend Development**
 **Status**: Ready to start Workspace backend implementation
 **Priority**: Workspace backend (Highest Impact per JTBD analysis)
 
@@ -52,7 +52,7 @@ encoding: UTF-8
 
 ---
 
-### 🚀 **@agent:software-engineer - Rust TUI Frontend Development**
+### 🚀 **@agent:rusty - Rust TUI Frontend Development**
 **Status**: Ready to start Rust TUI component development
 **Priority**: Workspace UI implementation (Highest Impact per JTBD analysis)
 
@@ -73,7 +73,7 @@ encoding: UTF-8
 
 ---
 
-### 🚀 **@agent:ux-expert - User Experience Design**
+### 🚀 **@agent:uxe - User Experience Design**
 **Status**: Ready to start UX design for development tools
 **Priority**: UX design for all Phase 3 tools
 
@@ -97,7 +97,7 @@ encoding: UTF-8
 
 ---
 
-### 🚀 **@agent:writer - Content Creation and Documentation**
+### 🚀 **@agent:godin - Content Creation and Documentation**
 **Status**: Ready to start content planning and narrative development
 **Priority**: Compelling narratives and user documentation
 
@@ -124,10 +124,10 @@ encoding: UTF-8
 ## Handoff Coordination
 
 ### **Week 1-2: Foundation Handoffs**
-**@agent:jtbd-expert** → **@agent:smalltalker**: JTBD analysis handoff complete
-**@agent:jtbd-expert** → **@agent:software-engineer**: JTBD analysis handoff complete
-**@agent:jtbd-expert** → **@agent:ux-expert**: JTBD analysis handoff complete
-**@agent:jtbd-expert** → **@agent:writer**: JTBD analysis handoff complete
+**@agent:moesta** → **@agent:alan**: JTBD analysis handoff complete
+**@agent:moesta** → **@agent:rusty**: JTBD analysis handoff complete
+**@agent:moesta** → **@agent:uxe**: JTBD analysis handoff complete
+**@agent:moesta** → **@agent:godin**: JTBD analysis handoff complete
 
 **Quality Gates**:
 - [x] All agents have received JTBD analysis
@@ -136,8 +136,8 @@ encoding: UTF-8
 - [x] Quality gates established
 
 ### **Week 3-4: Core Development Handoffs**
-**@agent:ux-expert** → **@agent:software-engineer**: UX design handoff
-**@agent:smalltalker** → **@agent:software-engineer**: Workspace backend handoff
+**@agent:uxe** → **@agent:rusty**: UX design handoff
+**@agent:alan** → **@agent:rusty**: Workspace backend handoff
 
 **Quality Gates**:
 - [ ] UX design specifications complete
@@ -146,8 +146,8 @@ encoding: UTF-8
 - [ ] Quality standards met
 
 ### **Week 5-8: Integration Handoffs**
-**@agent:smalltalker** → **@agent:software-engineer**: All backend tools handoff
-**@agent:writer** → **@agent:software-engineer**: Content integration handoff
+**@agent:alan** → **@agent:rusty**: All backend tools handoff
+**@agent:godin** → **@agent:rusty**: Content integration handoff
 
 **Quality Gates**:
 - [ ] All backend tools complete
@@ -156,8 +156,8 @@ encoding: UTF-8
 - [ ] End-to-end functionality verified
 
 ### **Week 9-12: Final Handoffs**
-**@agent:software-engineer** → **@agent:collaboration**: Complete toolset handoff
-**@agent:writer** → **@agent:collaboration**: Final documentation handoff
+**@agent:rusty** → **@agent:team**: Complete toolset handoff
+**@agent:godin** → **@agent:team**: Final documentation handoff
 
 **Quality Gates**:
 - [ ] All tools meet professional standards
@@ -239,10 +239,10 @@ encoding: UTF-8
 ## Next Actions
 
 ### **Immediate Actions (This Week)**
-1. **@agent:smalltalker** - Begin Workspace backend implementation
-2. **@agent:software-engineer** - Start Rust TUI component development
-3. **@agent:ux-expert** - Begin UX design for development tools
-4. **@agent:writer** - Start content planning and narrative development
+1. **@agent:alan** - Begin Workspace backend implementation
+2. **@agent:rusty** - Start Rust TUI component development
+3. **@agent:uxe** - Begin UX design for development tools
+4. **@agent:godin** - Start content planning and narrative development
 
 ### **Coordination Actions**
 - **Weekly Progress Tracking**: Monitor implementation progress

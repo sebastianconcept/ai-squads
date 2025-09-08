@@ -12,7 +12,7 @@ encoding: UTF-8
 [One sentence description of the squad's purpose and focus area]
 
 ## Members
-- **@agent:director** - Project coordination and strategic oversight
+- **@agent:steve** - Project coordination and strategic oversight
 - **@agent:[agent-name]** - [Brief description of role]
 - **@agent:[agent-name]** - [Brief description of role]
 - **@agent:[agent-name]** - [Brief description of role]

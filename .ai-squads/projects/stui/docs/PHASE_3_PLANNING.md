@@ -241,11 +241,11 @@
 4. **Development Setup**: Prepare development environment and tools
 
 ### **Team Coordination**
-- **@agent:software-engineer**: Lead technical implementation
-- **@agent:ux-expert**: User experience design and validation
-- **@agent:ui-implementor**: UI component implementation
-- **@agent:collaboration**: Workflow coordination and handoffs
-- **@agent:git-workflow**: Version control and quality gates
+- **@agent:rusty**: Lead technical implementation
+- **@agent:uxe**: User experience design and validation
+- **@agent:uidev**: UI component implementation
+- **@agent:team**: Workflow coordination and handoffs
+- **@agent:scribas**: Version control and quality gates
 
 ### **Workflow Recommendations**
 - **Use Elite Squad Workflow**: Rust/Smalltalk development expertise

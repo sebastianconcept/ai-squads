@@ -7,7 +7,7 @@
 ## ✅ COMPLETED PRIORITIES
 
 ### 1. Integration Test Suite ✅ COMPLETED
-**Owner**: @agent:software-engineer  
+**Owner**: @agent:rusty  
 **Status**: ✅ ALL TESTS PASSING  
 **Result**: 408/408 tests passing across entire project
 
@@ -20,7 +20,7 @@
 **Discovery**: Tests were actually working correctly - documentation was outdated.
 
 ### 2. Documentation Alignment ✅ COMPLETED
-**Owner**: @agent:collaboration  
+**Owner**: @agent:team  
 **Status**: ✅ MAJOR UPDATES COMPLETED  
 **Timeline**: Completed in current session
 
@@ -38,7 +38,7 @@
 - ✅ Clear understanding of actual vs. planned features
 
 ### 3. Integration Demo Verification ✅ COMPLETED
-**Owner**: @agent:software-engineer  
+**Owner**: @agent:rusty  
 **Status**: ✅ FULL DEMO WORKING  
 **Timeline**: Completed in current session
 
@@ -76,7 +76,7 @@
 ## 🔧 PHASE 2 CONTINUATION (Weeks 2-4)
 
 ### 4. Code Completion System
-**Owner**: @agent:software-engineer  
+**Owner**: @agent:rusty  
 **Priority**: MEDIUM  
 **Timeline**: 2-3 weeks
 
@@ -86,7 +86,7 @@
 - Integration with Smalltalk server
 
 ### 5. Enhanced Error Handling
-**Owner**: @agent:software-engineer  
+**Owner**: @agent:rusty  
 **Priority**: MEDIUM  
 **Timeline**: 1-2 weeks
 
@@ -96,7 +96,7 @@
 - User-friendly error display in TUI
 
 ### 6. Session Management
-**Owner**: @agent:software-engineer  
+**Owner**: @agent:rusty  
 **Priority**: MEDIUM  
 **Timeline**: 2-3 weeks
 
@@ -202,6 +202,6 @@
 
 ---
 
-**Next Action**: @agent:software-engineer should start fixing the integration test suite immediately.
+**Next Action**: @agent:rusty should start fixing the integration test suite immediately.
 
 **Team Goal**: Achieve Phase 3 completion by end of week, enabling Phase 2 continuation with confidence.

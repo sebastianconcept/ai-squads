@@ -1,5 +1,23 @@
 # Pharo Style Guide
 
+## ⚠️ CRITICAL: eval vs evalAndSave
+
+**ALWAYS use `evalAndSave` for persistent changes!**
+
+- `./dev-workflow.sh eval` - **NOT PERSISTENT** - Changes are lost when image restarts
+- `./dev-workflow.sh evalAndSave` - **PERSISTENT** - Changes are saved to the image
+
+**Examples:**
+```bash
+# ❌ WRONG - This will NOT persist changes!
+./dev-workflow.sh eval "Object subclass: #MyClass slots: {#data} package: 'MyProject-Core'"
+
+# ✅ CORRECT - This WILL persist changes!
+./dev-workflow.sh evalAndSave "Object subclass: #MyClass slots: {#data} package: 'MyProject-Core'"
+```
+
+**Rule**: Use `eval` only for read-only exploration. Use `evalAndSave` for all changes you want to keep.
+
 ## Context
 
 Pharo-specific code style rules for SquadsAI projects using Pharo for object-oriented development. This guide aligns with our comprehensive tech stack standards documented in `../tech-stacks/rust-and-smalltalk.md` and includes important updates for Pharo 13 compatibility.
@@ -471,21 +489,46 @@ smalltalk_snippet=$1
 # 1. Check existing packages first
 ./dev-workflow.sh eval "PackageOrganizer default packages select: [:p | p name beginsWith: 'MyProject']"
 
-# 2. Create class with proper package assignment
-# Option A: Assign to existing package (Pharo 13 syntax)
-./dev-workflow.sh eval "Object subclass: #DemoClass slots: {#data} classVariables: {} package: 'MyProject-Core'"
+# 2. Create class with proper package assignment (PROVEN SYNTAX)
+# Option A: Use builder pattern for reliable class creation (PROVEN SYNTAX)
+./dev-workflow.sh evalAndSave "
+    | builder |
+    builder := Object << #DemoClass 
+        slots: { #data }; 
+        sharedVariables: { }; 
+        sharedPools: { }; 
+        tag: 'Core'; 
+        package: 'MyProject-Core'.
+    builder install."
 
 # Option B: Create new package if needed
 ./dev-workflow.sh eval "PackageOrganizer default addPackage: (Package new name: 'MyProject-NewFeature')"
-./dev-workflow.sh eval "Object subclass: #DemoClass slots: {#data} classVariables: {} package: 'MyProject-NewFeature'"
+./dev-workflow.sh evalAndSave "
+    | builder |
+    builder := Object << #DemoClass 
+        slots: { #data }; 
+        sharedVariables: { }; 
+        sharedPools: { }; 
+        tag: 'NewFeature'; 
+        package: 'MyProject-NewFeature'.
+    builder install."
 
 # Option C: Assign existing class to package
 ./dev-workflow.sh eval "DemoClass package: (PackageOrganizer default packageNamed: 'MyProject-Core')"
 
-# 3. Add methods to the class
-./dev-workflow.sh eval "DemoClass compile: 'initialize data := 100'"
-./dev-workflow.sh eval "DemoClass compile: 'getData ^ data'"
-./dev-workflow.sh eval "DemoClass compile: 'setData: value data := value'"
+# 3. Add methods to the class (use evalAndSave for persistence)
+# Note: Temporary variables are declared at the top of methods, right after the selector and comment
+./dev-workflow.sh evalAndSave "DemoClass compile: 'initialize data := 100'"
+./dev-workflow.sh evalAndSave "DemoClass compile: 'getData ^ data'"
+./dev-workflow.sh evalAndSave "DemoClass compile: 'setData: value data := value'"
+
+# Example with temporary variables:
+./dev-workflow.sh evalAndSave "DemoClass compile: 'processData: input
+    \"Process the input data and return result\"
+    | tempResult multiplier |
+    multiplier := 2.
+    tempResult := input * multiplier.
+    ^ tempResult'"
 
 # 4. Verify package assignment
 ./dev-workflow.sh eval "DemoClass package name"
@@ -1264,50 +1307,100 @@ MyNewClass compile: 'resetInternalState
     instanceVar2 removeAll' classified: 'private'"
 ```
 
-#### 7. Common Class Creation Patterns
+#### 7. Method Structure and Temporary Variables
+
+**Smalltalk Method Structure:**
+```smalltalk
+ClassName >> methodName: parameter
+    "Method comment describing what this method does"
+    | tempVar1 tempVar2 |
+    "Method body starts here"
+    tempVar1 := parameter * 2.
+    tempVar2 := tempVar1 + 10.
+    ^ tempVar2
+```
+
+**Key Rules:**
+- **Temporary variables** are declared at the top of methods, right after the selector and comment
+- **Format**: `| tempVar1 tempVar2 |` on a separate line
+- **Scope**: Temporary variables are only accessible within the method
+- **Naming**: Use descriptive names that indicate their purpose
+
+**Examples:**
+```bash
+# Simple method without temporary variables
+./dev-workflow.sh evalAndSave "MyClass compile: 'getData ^ data'"
+
+# Method with temporary variables
+./dev-workflow.sh evalAndSave "MyClass compile: 'processData: input
+    \"Process input and return calculated result\"
+    | result multiplier |
+    multiplier := 2.
+    result := input * multiplier.
+    ^ result'"
+
+# Method with multiple temporary variables
+./dev-workflow.sh evalAndSave "MyClass compile: 'complexCalculation: a b: b
+    \"Perform complex calculation with two parameters\"
+    | temp1 temp2 finalResult |
+    temp1 := a * 2.
+    temp2 := b + 10.
+    finalResult := temp1 + temp2.
+    ^ finalResult'"
+```
+
+#### 8. Common Class Creation Patterns (PROVEN SYNTAX)
 ```bash
 # Pattern 1: Data Container Class
-./eval.sh "
-Object subclass: #DataContainer
-    slots: {#data. #timestamp. #metadata}
-    classVariables: {}
-    package: 'MyProject-Core'.
-
-DataContainer compile: 'initialize
-    super initialize.
-    data := Dictionary new.
-    timestamp := DateAndTime now.
-    metadata := Dictionary new'.
-
-DataContainer compile: 'at: key put: value
-    data at: key put: value.
-    timestamp := DateAndTime now'.
-
-DataContainer compile: 'at: key
-    ^ data at: key ifAbsent: [ nil ]'"
+./dev-workflow.sh evalAndSave "
+    | builder |
+    builder := Object << #DataContainer 
+        slots: { #data . #timestamp . #metadata }; 
+        sharedVariables: { }; 
+        sharedPools: { }; 
+        tag: 'Core'; 
+        package: 'MyProject-Core'.
+    builder install.
+    
+    DataContainer compile: 'initialize
+        super initialize.
+        data := Dictionary new.
+        timestamp := DateAndTime now.
+        metadata := Dictionary new'.
+    
+    DataContainer compile: 'at: key put: value
+        data at: key put: value.
+        timestamp := DateAndTime now'.
+    
+    DataContainer compile: 'at: key
+        ^ data at: key ifAbsent: [ nil ]'"
 
 # Pattern 2: Service Class with Singleton
-./eval.sh "
-Object subclass: #MyService
-    slots: {#configuration. #isRunning}
-    classVariables: {#DefaultInstance}
-    package: 'MyProject-Services'.
-
-MyService class compile: 'default
-    ^ DefaultInstance ifNil: [ 
-        DefaultInstance := self new initialize 
-    ]'.
-
-MyService compile: 'initialize
-    super initialize.
-    configuration := Dictionary new.
-    isRunning := false'.
-
-MyService compile: 'start
-    isRunning ifFalse: [
-        self performStartup.
-        isRunning := true 
-    ]'"
+./dev-workflow.sh evalAndSave "
+    | builder |
+    builder := Object << #MyService 
+        slots: { #configuration . #isRunning }; 
+        sharedVariables: { #DefaultInstance }; 
+        sharedPools: { }; 
+        tag: 'Services'; 
+        package: 'MyProject-Services'.
+    builder install.
+    
+    MyService class compile: 'default
+        ^ DefaultInstance ifNil: [ 
+            DefaultInstance := self new initialize 
+        ]'.
+    
+    MyService compile: 'initialize
+        super initialize.
+        configuration := Dictionary new.
+        isRunning := false'.
+    
+    MyService compile: 'start
+        isRunning ifFalse: [
+            self performStartup.
+            isRunning := true 
+        ]'"
 
 # Pattern 3: Error Class
 ./eval.sh "
@@ -1328,6 +1421,79 @@ MyProjectError compile: 'errorCode: code
 MyProjectError compile: 'fullDescription
     ^ self messageText, '' (Code: '', errorCode asString, '')'''
 ```
+
+#### **PROVEN Pharo 13 Class Creation Syntax (Updated)**
+
+The following patterns have been tested and work reliably in Pharo 13:
+
+```bash
+# CORRECT: Use builder pattern with chained method calls (PROVEN SYNTAX)
+./dev-workflow.sh evalAndSave "
+    | builder |
+    builder := Object << #MyClass 
+        slots: { #data . #name }; 
+        sharedVariables: { }; 
+        sharedPools: { }; 
+        tag: 'Core'; 
+        package: 'MyProject-Core'.
+    builder install.
+    
+    MyClass compile: 'initialize data := 100. name := '''.
+    MyClass compile: 'getData ^ data'.
+    MyClass compile: 'setData: value data := value'"
+
+# CORRECT: For subclasses, use the superclass << pattern (PROVEN SYNTAX)
+./dev-workflow.sh evalAndSave "
+    | builder |
+    builder := MyClass << #MySubclass 
+        slots: { #additionalData }; 
+        sharedVariables: { }; 
+        sharedPools: { }; 
+        tag: 'Extensions'; 
+        package: 'MyProject-Extensions'.
+    builder install."
+
+# CORRECT: Always use evalAndSave for persistent changes
+./dev-workflow.sh evalAndSave "MyClass compile: 'newMethod ^ 42'"
+
+# INCORRECT: Don't use the old syntax that doesn't work reliably
+# ./dev-workflow.sh eval "Object subclass: #MyClass slots: {#data} package: 'MyProject-Core'"
+# NOTE: Even if this syntax worked, using 'eval' would NOT persist changes!
+```
+
+**Key Points:**
+- Always declare `| builder |` at the start
+- Use `Object << #ClassName` or `SuperClass << #SubClassName`
+- Chain method calls: `slots: { #data }; sharedVariables: { }; sharedPools: { }; tag: 'Core'; package: 'MyProject'`
+- Always call `builder install` to create the class
+- **CRITICAL**: Use `evalAndSave` for all persistent changes
+- Use `eval` only for read-only exploration
+
+**eval vs evalAndSave - CRITICAL DISTINCTION:**
+- `./dev-workflow.sh eval` - **NOT PERSISTENT** - Changes are lost when image restarts
+- `./dev-workflow.sh evalAndSave` - **PERSISTENT** - Changes are saved to the image
+
+**Examples:**
+```bash
+# ❌ WRONG - This will NOT persist changes!
+./dev-workflow.sh eval "Object subclass: #MyClass slots: {#data} package: 'MyProject-Core'"
+
+# ✅ CORRECT - This WILL persist changes!
+./dev-workflow.sh evalAndSave "Object subclass: #MyClass slots: {#data} package: 'MyProject-Core'"
+```
+
+**Method Structure:**
+- Temporary variables are declared at the top of methods, right after the selector and comment
+- Format: `| tempVar1 tempVar2 |` on a separate line
+- Example:
+  ```smalltalk
+  MyClass >> myMethod: parameter
+      "This method does something useful"
+      | tempVar1 tempVar2 |
+      tempVar1 := parameter * 2.
+      tempVar2 := tempVar1 + 10.
+      ^ tempVar2
+  ```
 
 #### 8. Troubleshooting Class Creation
 ```bash

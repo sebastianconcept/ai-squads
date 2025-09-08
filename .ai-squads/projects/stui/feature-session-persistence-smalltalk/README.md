@@ -118,12 +118,12 @@ The Session Persistence feature planning revealed a **fundamental gap**: we plan
 ## 👥 **Agent Assignments**
 
 ### **Primary Agents**
-- **@agent:software-engineer**: Core development, session management, protocol integration, context preservation, multi-client support, integration
-- **@agent:collaboration**: Testing, quality assurance, documentation, deployment preparation
+- **@agent:rusty**: Core development, session management, protocol integration, context preservation, multi-client support, integration
+- **@agent:team**: Testing, quality assurance, documentation, deployment preparation
 
 ### **Support Agents**
-- **@agent:git-workflow**: Feature branch management and quality gate enforcement
-- **@agent:director**: Overall coordination and progress tracking
+- **@agent:scribas**: Feature branch management and quality gate enforcement
+- **@agent:steve**: Overall coordination and progress tracking
 
 ## 🔧 **Feature Requirements**
 

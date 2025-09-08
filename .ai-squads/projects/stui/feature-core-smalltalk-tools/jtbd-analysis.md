@@ -283,22 +283,22 @@ All Phase 3 tools must pass:
 
 ## Team Handoff Information
 
-### @agent:smalltalker - Pharo Backend Development
+### @agent:alan - Pharo Backend Development
 **Focus**: Workspace backend implementation using enhanced Pharo 13 workflow
 **JTBD Context**: Interactive code execution with persistent state management
 **Success Metrics**: Job completion rate improvement, reduced context loss incidents
 
-### @agent:software-engineer - Rust TUI Frontend Development
+### @agent:rusty - Rust TUI Frontend Development
 **Focus**: Professional terminal interface components
 **JTBD Context**: UI design that supports development flow and job satisfaction
 **Success Metrics**: Tool adoption rate, developer confidence improvement
 
-### @agent:ux-expert - User Experience Design
+### @agent:uxe - User Experience Design
 **Focus**: Intuitive development tool interfaces
 **JTBD Context**: Design interfaces that directly address identified jobs
 **Success Metrics**: Flow state frequency, reduced frustration levels
 
-### @agent:writer - Content Creation and Documentation
+### @agent:godin - Content Creation and Documentation
 **Focus**: Compelling narratives and documentation
 **JTBD Context**: Create content about development challenges and solutions
 **Success Metrics**: Content engagement, clear value proposition articulation

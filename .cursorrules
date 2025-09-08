@@ -1,0 +1,29 @@
+# Cursor Rules for AI Squads Project
+# Modern .cursorrules approach - direct file references
+
+# Core Agents
+@agent:alan /Users/seb/code/stui/stui/.ai-squads/agents/alan.md
+@agent:godin /Users/seb/code/stui/stui/.ai-squads/agents/godin.md
+@agent:team /Users/seb/code/stui/stui/.ai-squads/agents/team.md
+@agent:rusty /Users/seb/code/stui/stui/.ai-squads/agents/rusty.md
+@agent:guy /Users/seb/code/stui/stui/.ai-squads/agents/guy.md
+@agent:steve /Users/seb/code/stui/stui/.ai-squads/agents/steve.md
+@agent:uidev /Users/seb/code/stui/stui/.ai-squads/agents/uidev.md
+@agent:moesta /Users/seb/code/stui/stui/.ai-squads/agents/moesta.md
+@agent:context-fetcher /Users/seb/code/stui/stui/.ai-squads/agents/context-fetcher.md
+@agent:product-planner /Users/seb/code/stui/stui/.ai-squads/agents/product-planner.md
+@agent:uxe /Users/seb/code/stui/stui/.ai-squads/agents/uxe.md
+@agent:scribas /Users/seb/code/stui/stui/.ai-squads/agents/scribas.md
+
+# Squads
+@agent:elite /Users/seb/code/stui/stui/.ai-squads/squads/elite.md
+@agent:sulaco /Users/seb/code/stui/stui/.ai-squads/squads/sulaco.md
+@agent:expendables /Users/seb/code/stui/stui/.ai-squads/squads/expendables.md
+
+# Workflows
+@agent:startup /Users/seb/code/stui/stui/.ai-squads/workflows/startup.md
+@agent:planning-workflows /Users/seb/code/stui/stui/.ai-squads/workflows/planning-workflows.md
+@agent:plan-feature /Users/seb/code/stui/stui/.ai-squads/workflows/plan-feature.mdc
+
+# Documentation
+@agent:readme /Users/seb/code/stui/stui/.ai-squads/workflows/README.md

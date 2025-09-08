@@ -268,11 +268,11 @@ The solution extends the existing STUI client-server architecture with new tool-
 ## Squad Coordination
 
 ### Agent Assignments
-- **@agent:software-engineer**: Core tool implementation and protocol extensions
-- **@agent:ux-expert**: User experience design and interaction patterns
-- **@agent:ui-implementor**: Terminal UI components and interface design
-- **@agent:git-workflow**: Version control and deployment coordination
-- **@agent:collaboration**: Team coordination and quality assurance
+- **@agent:rusty**: Core tool implementation and protocol extensions
+- **@agent:uxe**: User experience design and interaction patterns
+- **@agent:uidev**: Terminal UI components and interface design
+- **@agent:scribas**: Version control and deployment coordination
+- **@agent:team**: Team coordination and quality assurance
 
 ### Handoff Protocols
 - **Design to Development**: UX designs handed off with clear specifications
