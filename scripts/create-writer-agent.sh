@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# create-writer-agent.sh - Set up Writer Agent for SquadsAI projects
+# create-writer-agent.sh - Set up Writer Agent for AI Squads projects
 # 
 # This script sets up the Writer Agent for a given project, including:
 # - Writer agent setup documentation
@@ -46,7 +46,7 @@ print_error() {
 # Function to show help
 show_help() {
     cat << EOF
-$SCRIPT_NAME v$VERSION - Set up Writer Agent for SquadsAI projects
+$SCRIPT_NAME v$VERSION - Set up Writer Agent for AI Squads projects
 
 USAGE:
     $0 <project_name> [options]
@@ -67,7 +67,7 @@ EXAMPLES:
     $0 backend-api --force
 
 DESCRIPTION:
-    This script sets up the Writer Agent for a SquadsAI project, including:
+    This script sets up the Writer Agent for an AI Squads project, including:
     - Writer agent setup documentation
     - Story planning templates and directory structure
     - Workflow integration documentation
@@ -332,7 +332,7 @@ Configuration and settings for the $project_name project, including agent integr
 
 ---
 
-*This configuration ensures that the $project_name project follows SquadsAI standards with full JTBD and storytelling methodology integration.*
+*This configuration ensures that the $project_name project follows AI Squads standards with full JTBD and storytelling methodology integration.*
 EOF
         print_success "Project configuration created"
     else
@@ -587,7 +587,7 @@ show_completion_summary() {
 # Function to print header
 print_header() {
     echo "╔══════════════════════════════════════════════════════════════╗"
-    echo "║                    SquadsAI Writer Agent Setup               ║"
+    echo "║                    AI Squads Writer Agent Setup               ║"
     echo "║                        v$VERSION                              ║"
     echo "╚══════════════════════════════════════════════════════════════╝"
     echo ""

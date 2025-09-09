@@ -1,32 +1,8 @@
 ---
-description: Problem Template - Problem definition and analysis
-globs:
-alwaysApply: false
-version: 1.0
-encoding: UTF-8
----
-
-# Problem Template
-
-## Overview
-
-Problem documents define the issue, need, or opportunity that a feature aims to address. They provide clear context for why work is needed and what success looks like.
-
-## Template Structure
-
-### Problem File
-```
-projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/problem.md
-```
-
-## Template Content
-
-```markdown
----
 description: Feature Problem - [FEATURE_NAME]
 type: feature-problem
 priority: [low|medium|high]
-status: [identified|analyzed|validated]
+status: identified
 ---
 
 # Problem: [FEATURE_NAME]
@@ -34,35 +10,51 @@ status: [identified|analyzed|validated]
 ## Problem Statement
 
 **What problem are we solving?**
-[Clear, concise description of the problem or need]
+[Clear, concise description of the problem or need that this feature addresses]
 
 ## Problem Context
 
 ### Current Situation
-[Describe the current state and what's not working]
+- [Describe the current state and what's not working]
+- [List specific issues and limitations]
+- [Identify gaps in current functionality]
 
 ### User Impact
-[How does this problem affect users? What are they experiencing?]
+- [How does this problem affect users? What are they experiencing?]
+- [Specific pain points and frustrations]
+- [Impact on user workflow and productivity]
 
 ### Business Impact
-[How does this problem affect business goals, metrics, or operations?]
+- [How does this problem affect business goals, metrics, or operations?]
+- [Revenue, cost, or efficiency implications]
+- [Competitive disadvantage or missed opportunities]
 
 ### Technical Impact
-[How does this problem affect the system, performance, or maintainability?]
+- [How does this problem affect the system, performance, or maintainability?]
+- [Technical debt or architectural issues]
+- [Scalability or reliability concerns]
 
 ## Problem Analysis
 
 ### Root Cause
-[What is the underlying cause of this problem?]
+1. **[Root Cause 1]**: [Description and analysis]
+2. **[Root Cause 2]**: [Description and analysis]
+3. **[Root Cause 3]**: [Description and analysis]
 
 ### Scope
-[How widespread is this problem? Who/what is affected?]
+- Affects [specific user groups, systems, or processes]
+- Impacts [specific functionality or workflows]
+- Occurs in [specific contexts or scenarios]
 
 ### Frequency
-[How often does this problem occur?]
+- [How often does this problem occur?]
+- [Under what conditions does it happen?]
+- [Seasonal or time-based patterns]
 
 ### Severity
-[How critical is this problem? What are the consequences?]
+- **High**: [Critical impact - core functionality blocked]
+- **Medium**: [Significant impact - major features affected]
+- **Low**: [Minor impact - nice-to-have features affected]
 
 ## User Stories
 
@@ -114,14 +106,14 @@ status: [identified|analyzed|validated]
 ## Related Problems
 
 ### Dependencies
-- [Problem 1] - [How it relates]
-- [Problem 2] - [How it relates]
-- [Problem 3] - [How it relates]
+- **[Problem 1]**: [How it relates and why it must be solved first]
+- **[Problem 2]**: [How it relates and why it must be solved first]
+- **[Problem 3]**: [How it relates and why it must be solved first]
 
 ### Blocked Problems
-- [Problem 1] - [How this problem blocks it]
-- [Problem 2] - [How this problem blocks it]
-- [Problem 3] - [How this problem blocks it]
+- **[Problem 1]**: [How this problem blocks it]
+- **[Problem 2]**: [How this problem blocks it]
+- **[Problem 3]**: [How this problem blocks it]
 
 ## Stakeholders
 
@@ -157,8 +149,11 @@ status: [identified|analyzed|validated]
 
 ### High-Risk Areas
 - **Risk 1**: [Description and potential impact]
+  - **Mitigation**: [Specific mitigation approach]
 - **Risk 2**: [Description and potential impact]
+  - **Mitigation**: [Specific mitigation approach]
 - **Risk 3**: [Description and potential impact]
+  - **Mitigation**: [Specific mitigation approach]
 
 ### Mitigation Strategies
 - **Risk 1**: [Specific mitigation approach]

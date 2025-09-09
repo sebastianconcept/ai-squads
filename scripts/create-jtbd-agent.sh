@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# create-jtbd-agent.sh - Set up JTBD Expert Agent for SquadsAI projects
+# create-jtbd-agent.sh - Set up JTBD Expert Agent for AI Squads projects
 # 
 # This script helps set up the JTBD Expert Agent in new or existing projects
 # to ensure proper integration with the Jobs To Be Done methodology.
@@ -35,7 +35,7 @@ print_error() {
 
 print_header() {
     echo -e "${PURPLE}╔══════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${PURPLE}║                SquadsAI JTBD Agent Setup                    ║${NC}"
+    echo -e "${PURPLE}║                AI Squads JTBD Agent Setup                    ║${NC}"
     echo -e "${PURPLE}╚══════════════════════════════════════════════════════════════╝${NC}"
 }
 
@@ -43,7 +43,7 @@ print_header() {
 show_usage() {
     echo "Usage: $0 <project_name> [options]"
     echo ""
-    echo "This script sets up the JTBD Expert Agent for SquadsAI projects."
+    echo "This script sets up the JTBD Expert Agent for AI Squads projects."
     echo ""
     echo "Arguments:"
     echo "  project_name        Name of the project to set up JTBD agent for"
@@ -217,7 +217,7 @@ For questions about JTBD methodology or agent integration:
 
 ---
 
-**Setup by**: SquadsAI JTBD Agent Setup Script  
+**Setup by**: AI Squads JTBD Agent Setup Script  
 **Date**: $(date -u +"%Y-%m-%dT%H:%M:%SZ")  
 **Status**: Active
 EOF
@@ -371,7 +371,7 @@ This document outlines how the JTBD Expert Agent integrates with project workflo
 
 ---
 
-**Integration by**: SquadsAI JTBD Agent Setup Script  
+**Integration by**: AI Squads JTBD Agent Setup Script  
 **Date**: $(date -u +"%Y-%m-%dT%H:%M:%SZ")  
 **Status**: Active
 EOF

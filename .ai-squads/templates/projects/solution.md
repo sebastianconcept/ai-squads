@@ -1,31 +1,7 @@
 ---
-description: Solution Template - Solution design and implementation approach
-globs:
-alwaysApply: false
-version: 1.0
-encoding: UTF-8
----
-
-# Solution Template
-
-## Overview
-
-Solution documents define how a problem will be solved. They provide the technical approach, implementation plan, and design decisions that will guide development.
-
-## Template Structure
-
-### Solution File
-```
-projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/solution.md
-```
-
-## Template Content
-
-```markdown
----
 description: Feature Solution - [FEATURE_NAME]
 type: feature-solution
-status: [planned|in-progress|completed]
+status: planned
 priority: [low|medium|high]
 ---
 
@@ -34,36 +10,51 @@ priority: [low|medium|high]
 ## Solution Overview
 
 **How will we solve it?**
-[High-level description of the solution approach and methodology]
+[Comprehensive description of the solution approach, methodology, and expected outcomes]
 
 ## Solution Design
 
 ### High-Level Architecture
-[Overview of the system architecture and how components interact]
+
+```
+[ASCII diagram showing system components and their relationships]
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Component A   │    │   Component B   │    │   Component C   │
+│   (Purpose)     │───▶│   (Purpose)     │───▶│   (Purpose)     │
+│                 │    │                 │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
 
 ### Core Components
-- **[Component 1]**: [Purpose and responsibility]
-- **[Component 2]**: [Purpose and responsibility]
-- **[Component 3]**: [Purpose and responsibility]
+- **[Component 1]**: [Detailed purpose and responsibility]
+- **[Component 2]**: [Detailed purpose and responsibility]
+- **[Component 3]**: [Detailed purpose and responsibility]
 
 ### Data Flow
-[How data flows through the system and between components]
+1. **[Step 1]**: [Description of data flow step]
+2. **[Step 2]**: [Description of data flow step]
+3. **[Step 3]**: [Description of data flow step]
+4. **[Step 4]**: [Description of data flow step]
 
 ### Integration Points
-[How this solution integrates with existing systems and components]
+- **Existing System Integration**: [How this integrates with current systems]
+- **External Service Integration**: [Third-party service integrations]
+- **Database Integration**: [Database schema and data relationships]
+- **API Integration**: [API endpoints and data exchange]
 
 ## Technical Approach
 
 ### Technology Choices
-- **Frontend**: [Technology and rationale]
-- **Backend**: [Technology and rationale]
-- **Database**: [Technology and rationale]
-- **Infrastructure**: [Technology and rationale]
+- **Backend**: [Technology choice with detailed rationale]
+- **Frontend**: [Technology choice with detailed rationale]
+- **Database**: [Database choice with detailed rationale]
+- **Infrastructure**: [Infrastructure choice with detailed rationale]
 
 ### Design Patterns
-- **[Pattern 1]**: [How and why it's used]
-- **[Pattern 2]**: [How and why it's used]
-- **[Pattern 3]**: [How and why it's used]
+- **Strategy Pattern**: [How and why it's used in this solution]
+- **Factory Pattern**: [How and why it's used in this solution]
+- **Observer Pattern**: [How and why it's used in this solution]
+- **Repository Pattern**: [How and why it's used in this solution]
 
 ### Security Considerations
 - **Authentication**: [Authentication approach and security measures]
@@ -80,43 +71,47 @@ priority: [low|medium|high]
 ## User Experience Design
 
 ### User Interface
-- **Layout**: [Overall layout and structure]
-- **Navigation**: [Navigation patterns and flow]
-- **Responsiveness**: [Responsive design approach]
+- **Layout**: [Overall layout and structure approach]
+- **Navigation**: [Navigation patterns and user flow]
+- **Responsiveness**: [Responsive design strategy]
 - **Accessibility**: [Accessibility features and compliance]
 
 ### User Interaction
-- **Workflow**: [User workflow and interaction patterns]
-- **Feedback**: [User feedback and status indicators]
-- **Error Handling**: [Error messages and recovery]
-- **Help and Documentation**: [User assistance and guidance]
+- **Workflow**: [Step-by-step user interaction flow]
+- **Feedback**: [User feedback mechanisms and status indicators]
+- **Error Handling**: [Error message strategy and recovery options]
+- **Help and Documentation**: [User assistance and guidance systems]
 
 ### User Testing
-- **Usability Testing**: [Usability testing approach]
-- **User Feedback**: [How user feedback will be gathered]
+- **Usability Testing**: [Usability testing approach and methodology]
+- **User Feedback**: [How user feedback will be gathered and processed]
 - **Iteration**: [How the solution will be refined based on feedback]
 
 ## Implementation Plan
 
-### Phase 1: Foundation
-- [ ] [Task 1 - specific and actionable]
-- [ ] [Task 2 - specific and actionable]
-- [ ] [Task 3 - specific and actionable]
+### Phase 1: Foundation (Week 1-2)
+- [ ] [Specific task 1 with clear deliverables]
+- [ ] [Specific task 2 with clear deliverables]
+- [ ] [Specific task 3 with clear deliverables]
+- [ ] [Specific task 4 with clear deliverables]
 
-### Phase 2: Core Implementation
-- [ ] [Task 1 - specific and actionable]
-- [ ] [Task 2 - specific and actionable]
-- [ ] [Task 3 - specific and actionable]
+### Phase 2: Core Implementation (Week 3-4)
+- [ ] [Specific task 1 with clear deliverables]
+- [ ] [Specific task 2 with clear deliverables]
+- [ ] [Specific task 3 with clear deliverables]
+- [ ] [Specific task 4 with clear deliverables]
 
-### Phase 3: Integration and Testing
-- [ ] [Task 1 - specific and actionable]
-- [ ] [Task 2 - specific and actionable]
-- [ ] [Task 3 - specific and actionable]
+### Phase 3: Integration and Testing (Week 5-6)
+- [ ] [Specific task 1 with clear deliverables]
+- [ ] [Specific task 2 with clear deliverables]
+- [ ] [Specific task 3 with clear deliverables]
+- [ ] [Specific task 4 with clear deliverables]
 
-### Phase 4: Deployment and Validation
-- [ ] [Task 1 - specific and actionable]
-- [ ] [Task 2 - specific and actionable]
-- [ ] [Task 3 - specific and actionable]
+### Phase 4: Deployment and Validation (Week 7-8)
+- [ ] [Specific task 1 with clear deliverables]
+- [ ] [Specific task 2 with clear deliverables]
+- [ ] [Specific task 3 with clear deliverables]
+- [ ] [Specific task 4 with clear deliverables]
 
 ## Dependencies
 
@@ -138,41 +133,44 @@ priority: [low|medium|high]
 ## Risks and Mitigation
 
 ### Technical Risks
-- **Risk 1**: [Description and potential impact]
+- **Risk 1**: [Detailed description and potential impact]
   - **Mitigation**: [Specific approach to reduce or eliminate risk]
-- **Risk 2**: [Description and potential impact]
+  - **Contingency**: [Fallback plan if mitigation fails]
+- **Risk 2**: [Detailed description and potential impact]
   - **Mitigation**: [Specific approach to reduce or eliminate risk]
-- **Risk 3**: [Description and potential impact]
+  - **Contingency**: [Fallback plan if mitigation fails]
+- **Risk 3**: [Detailed description and potential impact]
   - **Mitigation**: [Specific approach to reduce or eliminate risk]
+  - **Contingency**: [Fallback plan if mitigation fails]
 
 ### Business Risks
-- **Risk 1**: [Description and potential impact]
+- **Risk 1**: [Detailed description and potential impact]
   - **Mitigation**: [Specific approach to reduce or eliminate risk]
-- **Risk 2**: [Description and potential impact]
+- **Risk 2**: [Detailed description and potential impact]
   - **Mitigation**: [Specific approach to reduce or eliminate risk]
 
 ### User Experience Risks
-- **Risk 1**: [Description and potential impact]
+- **Risk 1**: [Detailed description and potential impact]
   - **Mitigation**: [Specific approach to reduce or eliminate risk]
-- **Risk 2**: [Description and potential impact]
+- **Risk 2**: [Detailed description and potential impact]
   - **Mitigation**: [Specific approach to reduce or eliminate risk]
 
 ## Testing Strategy
 
 ### Unit Testing
-- **Coverage Target**: [Target test coverage percentage]
+- **Coverage Target**: [Target test coverage percentage and rationale]
 - **Testing Approach**: [How unit tests will be written and organized]
-- **Mocking Strategy**: [How dependencies will be mocked]
+- **Mocking Strategy**: [How dependencies will be mocked and managed]
 
 ### Integration Testing
 - **Testing Scope**: [What integration scenarios will be tested]
 - **Testing Environment**: [Testing environment setup and configuration]
-- **Data Management**: [How test data will be managed]
+- **Data Management**: [How test data will be managed and maintained]
 
 ### User Acceptance Testing
-- **Test Scenarios**: [Key user scenarios to test]
-- **User Involvement**: [How users will be involved in testing]
-- **Acceptance Criteria**: [Criteria for user acceptance]
+- **Test Scenarios**: [Key user scenarios to test with acceptance criteria]
+- **User Involvement**: [How users will be involved in testing process]
+- **Acceptance Criteria**: [Specific criteria for user acceptance]
 
 ### Performance Testing
 - **Performance Targets**: [Specific performance metrics and targets]
@@ -187,29 +185,29 @@ priority: [low|medium|high]
 - **Static Analysis**: [Static analysis tools and configuration]
 
 ### Documentation
-- **Code Documentation**: [Code documentation requirements]
-- **API Documentation**: [API documentation requirements]
-- **User Documentation**: [User documentation requirements]
+- **Code Documentation**: [Code documentation requirements and standards]
+- **API Documentation**: [API documentation requirements and format]
+- **User Documentation**: [User documentation requirements and delivery]
 
 ### Monitoring and Observability
-- **Logging**: [Logging strategy and implementation]
+- **Logging**: [Logging strategy and implementation approach]
 - **Metrics**: [Key metrics to track and monitor]
 - **Alerting**: [Alerting strategy and thresholds]
 
 ## Deployment Strategy
 
 ### Environment Strategy
-- **Development**: [Development environment setup]
-- **Staging**: [Staging environment setup]
-- **Production**: [Production environment setup]
+- **Development**: [Development environment setup and configuration]
+- **Staging**: [Staging environment setup and configuration]
+- **Production**: [Production environment setup and configuration]
 
 ### Deployment Process
 - **Deployment Method**: [Deployment approach (CI/CD, manual, etc.)]
 - **Rollback Strategy**: [Rollback approach and procedures]
-- **Database Migrations**: [Database migration strategy]
+- **Database Migrations**: [Database migration strategy and approach]
 
 ### Release Strategy
-- **Release Planning**: [Release planning and coordination]
+- **Release Planning**: [Release planning and coordination approach]
 - **Feature Flags**: [Feature flag strategy for gradual rollout]
 - **User Communication**: [How users will be informed of changes]
 
@@ -241,7 +239,7 @@ priority: [low|medium|high]
 - **Total Duration**: [Total project duration]
 
 ### Resource Requirements
-- **Development Team**: [Team composition and roles]
+- **Development Team**: [Team composition and specific roles]
 - **Infrastructure**: [Infrastructure requirements and costs]
 - **Third-Party Services**: [External services and costs]
 - **Training**: [Training requirements and costs]
@@ -249,11 +247,12 @@ priority: [low|medium|high]
 ## Squad Coordination
 
 ### Agent Assignments
-- **@agent:rusty**: [Specific responsibilities and tasks]
-- **@agent:uxe**: [Specific responsibilities and tasks]
-- **@agent:uidev**: [Specific responsibilities and tasks]
-- **@agent:scribas**: [Specific responsibilities and tasks]
-- **@agent:team**: [Specific responsibilities and tasks]
+- **@agent:rusty**: [Specific technical responsibilities and tasks]
+- **@agent:uxe**: [Specific UX responsibilities and tasks]
+- **@agent:uidev**: [Specific UI development responsibilities and tasks]
+- **@agent:scribas**: [Specific git workflow responsibilities and tasks]
+- **@agent:team**: [Specific coordination responsibilities and tasks]
+- **@agent:moesta**: [Specific JTBD validation responsibilities and tasks]
 
 ### Handoff Protocols
 - **Design to Development**: [How UX/UI designs are handed off to development]

@@ -1,16 +1,16 @@
-# SquadsAI
+# AI Squads
 
 > **Planning-First, Execution-Second AI Agent Collaboration System**
 
-SquadsAI is a sophisticated multi-agent collaboration system that structures development work through comprehensive planning and documentation before any code is written. It ensures high quality, clear communication, and successful project delivery through specialized AI agents working in coordinated squads.
+AI Squads is a sophisticated multi-agent collaboration system that structures development work through comprehensive planning and documentation before any code is written. It ensures high quality, clear communication, and successful project delivery through specialized AI agents working in coordinated squads.
 
 ## 🎯 **System Philosophy**
 
-SquadsAI is built on a **"planning-first, execution-second"** philosophy. The squad plans and documents work comprehensively before any code is written, ensuring clear understanding, proper coordination, and high-quality deliverables.
+AI Squads is built on a **"planning-first, execution-second"** philosophy. The squad plans and documents work comprehensively before any code is written, ensuring clear understanding, proper coordination, and high-quality deliverables.
 
 ## Applicability
 
-SquadsAI unlocks experimentation with different **APP (Agents Process Project) dynamics**, enabling AI agent squads to work on projects using their preferred standards and skills. This approach allows for:
+AI Squads unlocks experimentation with different **APP (Agents Process Project) dynamics**, enabling AI agent squads to work on projects using their preferred standards and skills. This approach allows for:
 - **Customized Workflows**: Tailored to specific project requirements
 - **Flexible Team Structures**: Different squad configurations for different needs
 - **Adaptable Standards**: Project-specific quality and coding standards
@@ -22,7 +22,7 @@ SquadsAI unlocks experimentation with different **APP (Agents Process Project) d
 
 ### **Core Components**
 ```
-SquadsAI System
+AI Squads System
 ├── Workflows/             # Process definitions and coordination
 ├── Agents/                # Specialized AI agents
 ├── Squads/                # Team configurations
@@ -49,7 +49,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 **Output**: Complete project foundation with all core documents
 
 ### **2. `adopt-project`** - Existing Project Adoption
-**Purpose**: Adopt an existing project into the SquadsAI system
+**Purpose**: Adopt an existing project into the AI Squads system
 
 **Workflow**:
 1. **Project Analysis**: Analyze existing codebase and identify gaps
@@ -294,7 +294,7 @@ User Request → Planning Command → Squad Planning → Documentation → Execu
 
 ## 🎉 **Conclusion**
 
-The SquadsAI system provides a comprehensive, planning-first approach to software development that ensures high quality, clear communication, and successful project delivery. By combining structured planning, specialized agents, quality standards, and comprehensive documentation, it creates a robust foundation for any development project.
+The AI Squads system provides a comprehensive, planning-first approach to software development that ensures high quality, clear communication, and successful project delivery. By combining structured planning, specialized agents, quality standards, and comprehensive documentation, it creates a robust foundation for any development project.
 
 The system is designed to be flexible, scalable, and continuously improving, adapting to the needs of different projects, teams, and organizations while maintaining consistent quality and standards.
 

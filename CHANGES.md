@@ -1,8 +1,8 @@
-# CHANGES.md - SquadsAI Evolution Log
+# CHANGES.md - AI Squads Evolution Log
 
 ## Overview
 
-This document tracks the evolution of the SquadsAI system, documenting major changes, improvements, and milestones. It serves as a historical record and helps users understand how the system has evolved over time.
+This document tracks the evolution of the AI Squads system, documenting major changes, improvements, and milestones. It serves as a historical record and helps users understand how the system has evolved over time.
 
 ## Version History
 
@@ -236,7 +236,7 @@ This document tracks the evolution of the SquadsAI system, documenting major cha
 - **Enforcement Integration**: Quality gates integrated across all workflows
 
 ### [1.0.0] - 2024-08-23 - Initial Release
-**Major Release**: Complete SquadsAI system with planning-first approach
+**Major Release**: Complete AI Squads system with planning-first approach
 
 #### 🎯 **Core System Features**
 - **Planning-First Philosophy**: Complete planning and documentation before execution
@@ -296,7 +296,7 @@ This document tracks the evolution of the SquadsAI system, documenting major cha
 - **Task Templates**: Hierarchical task management with agent assignments
 
 #### 🚀 **Integration Features**
-- **Link Script**: Automatic project linking with SquadsAI
+- **Link Script**: Automatic project linking with AI Squads
 - **Cursor Integration**: .mdc symlinks for immediate Cursor IDE access
 - **Automatic Updates**: Symlinked files for continuous integration
 - **Git Integration**: Seamless git workflow integration
@@ -326,7 +326,7 @@ Performance improvements and optimizations.
 
 ## Contributing to Changes
 
-When making changes to SquadsAI:
+When making changes to AI Squads:
 
 1. **Update CHANGES.md** with your changes
 2. **Use appropriate categories** for change classification
@@ -336,7 +336,7 @@ When making changes to SquadsAI:
 
 ## Version Numbering
 
-SquadsAI uses semantic versioning:
+AI Squads uses semantic versioning:
 
 - **Major Version** (X.0.0): Breaking changes and major new features
 - **Minor Version** (0.X.0): New features and improvements
@@ -359,4 +359,4 @@ Breaking changes are documented with:
 
 ---
 
-**Note**: This CHANGES.md file is maintained alongside the codebase and should be updated with every significant change to the SquadsAI system.
+**Note**: This CHANGES.md file is maintained alongside the codebase and should be updated with every significant change to the AI Squads system.

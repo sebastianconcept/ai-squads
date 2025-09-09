@@ -1,11 +1,11 @@
-# SquadsAI Scripts
+# AI Squads Scripts
 
-This directory contains utility scripts for managing and working with the SquadsAI system.
+This directory contains utility scripts for managing and working with the AI Squads system.
 
 ## Available Scripts
 
 ### `plan-feature.sh` - Feature Planning
-**Purpose**: Create comprehensive feature planning documentation using SquadsAI workflows
+**Purpose**: Create comprehensive feature planning documentation using AI Squads workflows
 
 **Usage**:
 ```bash
@@ -49,7 +49,7 @@ This directory contains utility scripts for managing and working with the Squads
 **What it does**:
 - Creates symlinks to all agent and project rules
 - Converts .md files to .mdc for Cursor compatibility
-- Sets up automatic updates when SquadsAI is updated
+- Sets up automatic updates when AI Squads is updated
 - Updates .gitignore to exclude symlinked directories
 
 ### `create-squad.sh` - Squad Creation
@@ -69,7 +69,7 @@ This directory contains utility scripts for managing and working with the Squads
 ```
 
 ### `create-jtbd-agent.sh` - JTBD Agent Setup
-**Purpose**: Set up JTBD Expert Agent for SquadsAI projects
+**Purpose**: Set up JTBD Expert Agent for AI Squads projects
 
 **Usage**:
 ```bash
@@ -97,7 +97,7 @@ This directory contains utility scripts for managing and working with the Squads
 - Updated project configuration for JTBD methodology
 
 ### `create-writer-agent.sh` - Writer Agent Setup
-**Purpose**: Set up Writer Agent for SquadsAI projects
+**Purpose**: Set up Writer Agent for AI Squads projects
 
 **Usage**:
 ```bash
@@ -229,12 +229,12 @@ The `plan-feature.sh` script integrates seamlessly with Cursor through:
 
 1. **Automatic Cursor Rule Creation**: Generates `.cursor-rule.md` for each feature
 2. **Template Integration**: Uses established document templates
-3. **Workflow Consistency**: Follows SquadsAI planning workflows
+3. **Workflow Consistency**: Follows AI Squads planning workflows
 4. **Quality Standards**: Maintains established quality gates
 
 ## Workflow Integration
 
-All scripts follow the SquadsAI "planning-first, execution-second" philosophy with JTBD methodology and storytelling integration:
+All scripts follow the AI Squads "planning-first, execution-second" philosophy with JTBD methodology and storytelling integration:
 
 1. **Planning Phase**: Create comprehensive documentation and task breakdown
 2. **JTBD Analysis**: Validate customer jobs and solution alignment
@@ -246,7 +246,7 @@ All scripts follow the SquadsAI "planning-first, execution-second" philosophy wi
 ## Best Practices
 
 1. **Always Use Scripts**: Use the provided scripts for consistency
-2. **Follow Standards**: Adhere to SquadsAI quality gates and coding standards
+2. **Follow Standards**: Adhere to AI Squads quality gates and coding standards
 3. **JTBD Validation**: Ensure all features address real customer jobs and satisfaction gaps
 4. **Story Validation**: Ensure all features include engaging narrative strategy and character development
 5. **Update Documentation**: Keep all documents current as work progresses
@@ -295,7 +295,7 @@ cat .ai-squads/projects/stui/feature-user-authentication/tasks.md
 ### Setting Up Cursor Integration
 
 ```bash
-# Link SquadsAI rules to your project
+# Link AI Squads rules to your project
 ./scripts/link.sh /path/to/your/project
 
 # Now you can use plan-feature in your project
@@ -318,9 +318,9 @@ When adding new scripts:
 All scripts require:
 - Bash shell
 - Git repository structure
-- SquadsAI directory structure
+- AI Squads directory structure
 - Template files in `templates/projects/`
 
 ---
 
-**Ready to plan your next feature? Use `./scripts/plan-feature.sh` and let SquadsAI guide you to success! 🚀**
+**Ready to plan your next feature? Use `./scripts/plan-feature.sh` and let AI Squads guide you to success! 🚀**

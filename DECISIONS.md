@@ -1,8 +1,8 @@
 # AI-Squads System Decision Log
 
-> **Chronological decision log for SquadsAI system architecture, workflows, and team collaboration**
+> **Chronological decision log for AI Squads system architecture, workflows, and team collaboration**
 
-This log tracks key architectural and strategic decisions made for the SquadsAI system itself, organized chronologically. These decisions shape how agents collaborate, how planning workflows operate, and how the system evolves to support multi-agent development teams.
+This log tracks key architectural and strategic decisions made for the AI Squads system itself, organized chronologically. These decisions shape how agents collaborate, how planning workflows operate, and how the system evolves to support multi-agent development teams.
 
 ---
 
@@ -415,7 +415,7 @@ This log tracks key architectural and strategic decisions made for the SquadsAI 
 
 ---
 
-**Maintained by**: SquadsAI System Team  
+**Maintained by**: AI Squads System Team  
 **Last Updated**: August 2025  
 **Next Review**: December 2025
 
