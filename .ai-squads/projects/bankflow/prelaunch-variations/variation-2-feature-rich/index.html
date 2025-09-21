@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankFlow - Advanced Financial Data Extraction Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/alpinejs@3.14.1/dist/cdn.min.js" defer></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-header">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+                <span class="logo-text">BankFlow</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#features" class="nav-item">Features</a>
+                <a href="#integrations" class="nav-item">Integrations</a>
+                <a href="#pricing" class="nav-item">Pricing</a>
+                <a href="#docs" class="nav-item">Docs</a>
+            </nav>
+            
+            <button class="btn btn-secondary">Request Demo</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <svg class="badge-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 10V3L4 14H11V21L20 10H13Z"/>
+                    </svg>
+                    <span>Early Access Available</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    Enterprise-Grade Financial<br>
+                    <span class="text-accent">Data Extraction</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Advanced AI-powered platform for extracting, structuring, and analyzing 
+                    financial data from bank statements. Built for fintech companies, 
+                    accounting firms, and financial institutions.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="hero-actions">
+                    <button class="btn btn-primary">
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5V13L13 9L8 5Z"/>
+                        </svg>
+                        Watch Demo
+                    </button>
+                    
+                    <button class="btn btn-secondary">
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                        Request Access
+                    </button>
+                </div>
+
+                <!-- Stats -->
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">99.7%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">&lt;2s</div>
+                        <div class="stat-label">Processing Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Bank Formats</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Preview -->
+            <div class="hero-preview">
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <div class="preview-dots">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <span class="preview-title">BankFlow Dashboard</span>
+                    </div>
+                    
+                    <div class="preview-content">
+                        <div class="preview-sidebar">
+                            <div class="sidebar-item active">
+                                <svg class="sidebar-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z"/>
+                                </svg>
+                                <span>Dashboard</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <svg class="sidebar-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z"/>
+                                </svg>
+                                <span>Documents</span>
+                            </div>
+                            <div class="sidebar-item">
+                                <svg class="sidebar-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
+                                </svg>
+                                <span>Analytics</span>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-main">
+                            <div class="chart-container">
+                                <div class="chart-header">
+                                    <h4>Transaction Analysis</h4>
+                                    <div class="chart-period">Last 30 days</div>
+                                </div>
+                                <div class="chart-placeholder">
+                                    <div class="chart-bars">
+                                        <div class="bar" style="height: 60%"></div>
+                                        <div class="bar" style="height: 80%"></div>
+                                        <div class="bar" style="height: 45%"></div>
+                                        <div class="bar" style="height: 90%"></div>
+                                        <div class="bar" style="height: 70%"></div>
+                                        <div class="bar" style="height: 85%"></div>
+                                        <div class="bar" style="height: 55%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="data-table">
+                                <div class="table-header">
+                                    <span>Recent Transactions</span>
+                                    <button class="btn btn-ghost btn-sm">Export</button>
+                                </div>
+                                <div class="table-content">
+                                    <div class="table-row">
+                                        <span class="date">2024-12-19</span>
+                                        <span class="description">Payment to Supplier ABC</span>
+                                        <span class="amount negative">-R$ 1,250.00</span>
+                                    </div>
+                                    <div class="table-row">
+                                        <span class="date">2024-12-18</span>
+                                        <span class="description">Client Payment - XYZ Corp</span>
+                                        <span class="amount positive">+R$ 5,500.00</span>
+                                    </div>
+                                    <div class="table-row">
+                                        <span class="date">2024-12-17</span>
+                                        <span class="description">Bank Transfer Fee</span>
+                                        <span class="amount negative">-R$ 15.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Features for Financial Data</h2>
+                <p class="section-subtitle">
+                    Everything you need to extract, process, and analyze financial data at scale
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card feature-large">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M13 10V3L4 14H11V21L20 10H13Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">AI-Powered Extraction</h3>
+                    </div>
+                    <p class="feature-description">
+                        Advanced machine learning algorithms automatically detect and extract 
+                        transaction data from any bank statement format with 99.7% accuracy.
+                    </p>
+                    <ul class="feature-list">
+                        <li>Multi-format support (PDF, CSV, OFX, Excel)</li>
+                        <li>Automatic bank detection</li>
+                        <li>Transaction categorization</li>
+                        <li>Duplicate detection</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Enterprise Security</h3>
+                    </div>
+                    <p class="feature-description">
+                        Bank-grade security with end-to-end encryption, SOC 2 compliance, 
+                        and zero-knowledge architecture.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">API Integration</h3>
+                    </div>
+                    <p class="feature-description">
+                        RESTful API with comprehensive documentation, webhooks, 
+                        and SDKs for all major programming languages.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Real-time Analytics</h3>
+                    </div>
+                    <p class="feature-description">
+                        Advanced analytics dashboard with customizable reports, 
+                        trend analysis, and financial insights.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.1 3.89 23 5 23H19C20.1 23 21 22.1 21 21V9M19 9H14V4H19V9Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Bulk Processing</h3>
+                    </div>
+                    <p class="feature-description">
+                        Process thousands of documents simultaneously with 
+                        intelligent queuing and progress tracking.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Custom Workflows</h3>
+                    </div>
+                    <p class="feature-description">
+                        Create custom processing workflows with conditional 
+                        logic and automated actions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations Section -->
+    <section class="integrations-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Seamless Integrations</h2>
+                <p class="section-subtitle">
+                    Connect with your existing tools and workflows
+                </p>
+            </div>
+            
+            <div class="integrations-grid">
+                <div class="integration-card">
+                    <div class="integration-logo">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                    </div>
+                    <h4 class="integration-name">QuickBooks</h4>
+                    <p class="integration-description">Direct sync with QuickBooks Online</p>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-logo">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                    </div>
+                    <h4 class="integration-name">Xero</h4>
+                    <p class="integration-description">Automated data import to Xero</p>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-logo">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                    </div>
+                    <h4 class="integration-name">Salesforce</h4>
+                    <p class="integration-description">CRM integration for financial data</p>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-logo">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                    </div>
+                    <h4 class="integration-name">Zapier</h4>
+                    <p class="integration-description">Connect with 5000+ apps</p>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-logo">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                    </div>
+                    <h4 class="integration-name">Google Sheets</h4>
+                    <p class="integration-description">Export to Google Sheets</p>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-logo">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                    </div>
+                    <h4 class="integration-name">API</h4>
+                    <p class="integration-description">Custom API integrations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Transform Your Financial Data?</h2>
+                <p class="cta-subtitle">
+                    Join the early access program and be among the first to experience 
+                    the future of financial data extraction.
+                </p>
+                
+                <div class="cta-actions">
+                    <button class="btn btn-primary btn-lg">
+                        <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                        Request Early Access
+                    </button>
+                    
+                    <button class="btn btn-secondary btn-lg">
+                        <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5V13L13 9L8 5Z"/>
+                        </svg>
+                        Schedule Demo
+                    </button>
+                </div>
+                
+                <div class="cta-note">
+                    <svg class="note-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z"/>
+                    </svg>
+                    <span>Free during early access period</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="nav-logo">
+                        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        <span class="logo-text">BankFlow</span>
+                    </div>
+                    <p class="footer-tagline">Enterprise-grade financial data extraction</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4 class="footer-title">Product</h4>
+                        <a href="#features" class="footer-link">Features</a>
+                        <a href="#integrations" class="footer-link">Integrations</a>
+                        <a href="#pricing" class="footer-link">Pricing</a>
+                        <a href="#docs" class="footer-link">Documentation</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4 class="footer-title">Company</h4>
+                        <a href="#about" class="footer-link">About</a>
+                        <a href="#careers" class="footer-link">Careers</a>
+                        <a href="#contact" class="footer-link">Contact</a>
+                        <a href="#blog" class="footer-link">Blog</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4 class="footer-title">Legal</h4>
+                        <a href="#privacy" class="footer-link">Privacy Policy</a>
+                        <a href="#terms" class="footer-link">Terms of Service</a>
+                        <a href="#security" class="footer-link">Security</a>
+                        <a href="#compliance" class="footer-link">Compliance</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 BankFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+

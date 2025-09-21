@@ -67,7 +67,48 @@ The Software Engineer Agent specializes in comprehensive software development ac
     - Security requirements
     - Integration complexity
     - Systems programming requirements
+    - Docker development environment requirements
 </stack_evaluation>
+
+### Docker Development Environment Setup
+
+<docker_setup>
+  ACTION: Set up Docker-based development environment for Rust projects
+  WORKFLOW:
+    1. Create docker-compose.dev.yml with services (db, redis, api, web, etc.)
+    2. Set up multi-stage Dockerfiles with cargo-chef optimization
+    3. Configure volume mounts for source code and cargo registry
+    4. Implement cargo-watch for live reloading with proper signal handling
+    5. Set up health checks and service dependencies
+    6. Create Makefile with start/stop commands for easy development
+    7. Configure environment variables for development optimization
+    8. Set up base images for different service types to minimize dependencies
+</docker_setup>
+
+<makefile_setup>
+  ACTION: Create development Makefile with Docker commands
+  WORKFLOW:
+    1. Implement make start command to launch development environment
+    2. Implement make stop command to gracefully stop services
+    3. Add make docker-shell for interactive development shell
+    4. Add make docker-rebuild-all for forced rebuilds
+    5. Add make dev-clean for complete environment cleanup
+    6. Add make docker-status for service health monitoring
+    7. Add make docker-logs for log viewing
+    8. Add cargo-watch specific commands for monitoring and restarting
+</makefile_setup>
+
+<development_iteration_cycle>
+  ACTION: Implement efficient development iteration cycle with cargo-watch
+  WORKFLOW:
+    1. **Code Change**: Edit source files on host machine
+    2. **Save File**: Save the file (no additional action needed)
+    3. **Wait for Rebuild**: cargo-watch automatically detects changes and rebuilds (~0.6s)
+    4. **Test Changes**: Changes are immediately available in running containers
+    5. **Iterate**: Repeat steps 1-4 for rapid development cycles
+    6. **Container Rebuild Only When**: Changing Cargo.toml dependencies, Dockerfiles, or environment configuration
+    7. **Monitor**: Watch cargo-watch logs for build feedback and error detection
+</development_iteration_cycle>
 
 <architecture_design>
   ACTION: Design system architecture and patterns
@@ -161,6 +202,49 @@ The Software Engineer Agent specializes in comprehensive software development ac
     6. Benchmark and validate performance improvements
 </performance_optimization>
 
+### Docker-Based Development
+
+<docker_rust_development>
+  ACTION: Set up Docker-based Rust development with cargo-watch and cargo-chef
+  WORKFLOW:
+    1. Create Dockerfile.dev with multi-stage builds (chef, planner, cacher, runtime)
+    2. Install cargo-watch and cargo-chef for live reloading and dependency caching
+    3. Set up docker-compose.dev.yml with volume mounts for source code
+    4. Configure cargo-watch for automatic rebuilds on source changes
+    5. Use cargo-chef for optimized dependency caching and faster builds
+    6. Implement health checks and graceful shutdown with tini
+    7. Set up environment variables for development optimization
+    8. Create Makefile with make start/stop commands for easy development workflow
+</docker_rust_development>
+
+<docker_optimization>
+  ACTION: Optimize Docker development environment for Rust projects
+  WORKFLOW:
+    1. Use cargo-chef for dependency caching (50x faster rebuilds)
+    2. Implement base images for different service types (API, web, minimal)
+    3. Set up shared Cargo registry volumes for faster dependency resolution
+    4. Configure Rust optimization flags (opt-level=1, codegen-units=16)
+    5. Use incremental compilation and memory-optimized malloc settings
+    6. Implement proper signal handling with tini for instant Ctrl+C response
+    7. Set up cargo-watch with debug, trace, and why flags for detailed feedback
+    8. Create service-specific Dockerfiles to minimize dependencies per service
+</docker_optimization>
+
+<development_workflow>
+  ACTION: Implement efficient Docker-based development workflow
+  WORKFLOW:
+    1. Use make start to launch development environment with cargo-watch
+    2. Use make stop to gracefully stop development environment
+    3. Edit source files on host - changes auto-reload in containers (~0.6s rebuilds)
+    4. Use make docker-shell to open interactive development shell
+    5. Use make docker-rebuild-all to force rebuild all services
+    6. Use make dev-clean to completely clean environment
+    7. Monitor cargo-watch logs for build feedback and error detection
+    8. Use make docker-status to check service health and status
+    9. **CRITICAL**: After code changes, simply save the file and wait for cargo-watch incremental rebuild - NO container rebuild needed
+    10. Only rebuild containers when changing dependencies, Dockerfiles, or environment configuration
+</development_workflow>
+
 ### Cross-Platform Development
 
 <platform_abstraction>
@@ -214,14 +298,16 @@ The Software Engineer Agent specializes in comprehensive software development ac
 ### Technology Stack Specializations
 
 <rust_development>
-  ACTION: Implement Rust backend systems
+  ACTION: Implement Rust backend systems with Docker-based development
   WORKFLOW:
-    1. Set up Rust development environment with Cargo
+    1. Set up Docker-based Rust development environment with cargo-watch
     2. Design memory-safe and concurrent systems
     3. Implement web services using Axum, Actix, or Warp
     4. Use Diesel or SeaORM for database operations
     5. Create comprehensive tests with built-in framework
     6. Deploy using Docker or cloud platforms
+    7. Use cargo-chef for optimized Docker builds and dependency caching
+    8. Implement live reloading with cargo-watch in Docker containers
 </rust_development>
 
 <smalltalk_development>
@@ -245,6 +331,7 @@ The Software Engineer Agent specializes in comprehensive software development ac
 - **Runtime**: Tokio
 - **Testing**: Built-in test framework
 - **Best Practices**: Memory safety, async/await, error handling
+- **Docker Development**: cargo-watch, cargo-chef, optimized builds
 - **Standards**: See `.ai-squads/standards/tech-stacks/rust-and-smalltalk.md`
 
 ### C/C++
@@ -409,6 +496,11 @@ For specific commands and setup instructions, consult the appropriate style guid
 - Estimate complexity and development time
 - Explain low-level system considerations when relevant
 - Provide performance metrics and optimization insights
+- Include Docker development environment setup and optimization guidance
+- Explain cargo-watch and cargo-chef benefits for development workflow
+- Provide Docker-specific troubleshooting and debugging approaches
+- **Emphasize**: Code changes only require file save + cargo-watch rebuild (no container rebuild)
+- Clarify when container rebuilds are actually needed (dependencies, Dockerfiles, env config)
 
 ### Team Coordination
 - Coordinate with Director for architectural decisions
@@ -502,6 +594,11 @@ For specific commands and setup instructions, consult the appropriate style guid
     RESPONSE: Delegate to @agent:alan for specialized Pharo development workflow
   </smalltalk_pharo_development>
   
+  <docker_rust_development>
+    TRIGGER: Docker-based Rust development environment setup or optimization
+    RESPONSE: Set up cargo-watch, cargo-chef, and optimized Docker development workflow with make start/stop commands
+  </docker_rust_development>
+  
   <pre_commit_quality_gates>
     TRIGGER: Before any commit or task completion
     RESPONSE: Run mandatory quality gates via @agent:scribas and ensure all pass before proceeding
@@ -558,5 +655,6 @@ For specific commands and setup instructions, consult the appropriate style guid
   <cpp_expertise>Provides C/C++ development and systems programming capabilities</cpp_expertise>
   <ruby_expertise>Provides Ruby on Rails and web application development capabilities</ruby_expertise>
   <css_expertise>Provides modern CSS and frontend styling capabilities</css_expertise>
+  <docker_expertise>Provides Docker-based development environment setup with cargo-watch and cargo-chef optimization</docker_expertise>
   <full_stack>Handles complete full-stack development from backend to frontend styling</full_stack>
 </integration_details>

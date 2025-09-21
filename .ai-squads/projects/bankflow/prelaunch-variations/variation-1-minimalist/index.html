@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankFlow - Coming Soon</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/alpinejs@3.14.1/dist/cdn.min.js" defer></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-header">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+                <span class="logo-text">BankFlow</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#about" class="nav-item">About</a>
+                <a href="#contact" class="nav-item">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Bank statements.<br>
+                    <span class="text-accent">Simplified.</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    The fastest way to extract and analyze your financial data. 
+                    No more manual data entry. No more spreadsheet headaches.
+                </p>
+
+                <!-- Email Capture Form -->
+                <div class="email-capture" x-data="{ 
+                    email: '', 
+                    isValid: false,
+                    submitted: false,
+                    checkEmail() { 
+                        this.isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email) 
+                    }
+                }">
+                    <form hx-post="/api/early-access" 
+                          hx-target="#form-response" 
+                          hx-indicator="#loading-spinner"
+                          class="email-form"
+                          @htmx:after-request="submitted = true">
+                        
+                        <div class="input-group">
+                            <input type="email" 
+                                   name="email"
+                                   x-model="email" 
+                                   @input="checkEmail()"
+                                   :class="{ 'input-valid': isValid, 'input-invalid': !isValid && email.length > 0 }"
+                                   class="input input-pill" 
+                                   placeholder="Enter your email"
+                                   required>
+                            
+                            <button type="submit" 
+                                    :disabled="!isValid"
+                                    class="btn btn-primary"
+                                    :class="{ 'btn-disabled': !isValid }">
+                                Get Early Access
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="form-response" class="response-container">
+                        <!-- Response will be inserted here -->
+                    </div>
+
+                    <div id="loading-spinner" class="htmx-indicator">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+
+                <!-- Trust Indicators -->
+                <div class="trust-indicators">
+                    <div class="trust-item">
+                        <svg class="trust-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
+                        </svg>
+                        <span>Bank-grade security</span>
+                    </div>
+                    
+                    <div class="trust-item">
+                        <svg class="trust-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M13 10V3L4 14H11V21L20 10H13Z"/>
+                        </svg>
+                        <span>Lightning fast</span>
+                    </div>
+                    
+                    <div class="trust-item">
+                        <svg class="trust-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                        <span>All major banks</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Element -->
+            <div class="hero-visual">
+                <div class="layered-stack" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
+                    <div class="stack-layer stack-base"></div>
+                    <div class="stack-layer stack-mid"></div>
+                    <div class="stack-layer stack-top"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Preview -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why BankFlow?</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M13 10V3L4 14H11V21L20 10H13Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Instant Processing</h3>
+                    <p class="feature-description">
+                        Upload your bank statement and get structured data in seconds, not hours.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Bank-Grade Security</h3>
+                    <p class="feature-description">
+                        Your financial data is encrypted and processed securely. We never store your files.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Universal Support</h3>
+                    <p class="feature-description">
+                        Works with PDF, CSV, OFX, and Excel files from all major Brazilian banks.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="nav-logo">
+                        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        <span class="logo-text">BankFlow</span>
+                    </div>
+                    <p class="footer-tagline">Simplifying financial data extraction</p>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="#privacy" class="footer-link">Privacy</a>
+                    <a href="#terms" class="footer-link">Terms</a>
+                    <a href="#contact" class="footer-link">Contact</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 BankFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+

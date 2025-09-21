@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankFlow - Trusted by 10,000+ Financial Professionals</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/alpinejs@3.14.1/dist/cdn.min.js" defer></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="nav-header">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+                <span class="logo-text">BankFlow</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#testimonials" class="nav-item">Testimonials</a>
+                <a href="#companies" class="nav-item">Companies</a>
+                <a href="#security" class="nav-item">Security</a>
+                <a href="#contact" class="nav-item">Contact</a>
+            </nav>
+            
+            <button class="btn btn-primary">Join Waitlist</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Social Proof Badge -->
+                <div class="social-proof-badge">
+                    <div class="badge-content">
+                        <svg class="badge-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
+                        </svg>
+                        <span class="badge-text">Trusted by 10,000+ professionals</span>
+                    </div>
+                    <div class="badge-stars">
+                        <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
+                        </svg>
+                        <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
+                        </svg>
+                        <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
+                        </svg>
+                        <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
+                        </svg>
+                        <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
+                        </svg>
+                        <span class="rating-text">4.9/5</span>
+                    </div>
+                </div>
+                
+                <h1 class="hero-title">
+                    Join the Financial Revolution<br>
+                    <span class="text-accent">Already Trusted by Industry Leaders</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    "BankFlow transformed our financial data processing. What used to take 
+                    our team 8 hours now takes 5 minutes. The accuracy is incredible."
+                    <br><br>
+                    <strong>— Maria Silva, CFO at TechCorp Brasil</strong>
+                </p>
+
+                <!-- Trust Indicators -->
+                <div class="trust-indicators">
+                    <div class="trust-item">
+                        <div class="trust-number">10,000+</div>
+                        <div class="trust-label">Active Users</div>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-number">500+</div>
+                        <div class="trust-label">Companies</div>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-number">99.7%</div>
+                        <div class="trust-label">Accuracy Rate</div>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-number">50M+</div>
+                        <div class="trust-label">Transactions Processed</div>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="hero-cta">
+                    <button class="btn btn-primary btn-lg">
+                        <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                        Join the Waitlist
+                    </button>
+                    
+                    <div class="cta-note">
+                        <svg class="note-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z"/>
+                        </svg>
+                        <span>Limited early access spots available</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Proof Visual -->
+            <div class="hero-visual">
+                <div class="companies-showcase">
+                    <div class="showcase-header">
+                        <h3>Trusted by Industry Leaders</h3>
+                    </div>
+                    
+                    <div class="companies-grid">
+                        <div class="company-logo">
+                            <div class="logo-placeholder">TechCorp</div>
+                        </div>
+                        <div class="company-logo">
+                            <div class="logo-placeholder">FinanceFlow</div>
+                        </div>
+                        <div class="company-logo">
+                            <div class="logo-placeholder">DataSync</div>
+                        </div>
+                        <div class="company-logo">
+                            <div class="logo-placeholder">BankTech</div>
+                        </div>
+                        <div class="company-logo">
+                            <div class="logo-placeholder">FinTech Pro</div>
+                        </div>
+                        <div class="company-logo">
+                            <div class="logo-placeholder">MoneyFlow</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What Our Users Say</h2>
+                <p class="section-subtitle">
+                    Real feedback from financial professionals who've transformed their workflows
+                </p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card testimonial-featured">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14.017 21V12.016C14.017 9.5 15.5 8.016 18.017 8.016H20.017V4H18.017C13.5 4 10.017 7.5 10.017 12.016V21H14.017ZM4.017 21V12.016C4.017 9.5 5.5 8.016 8.017 8.016H10.017V4H8.017C3.5 4 0.017 7.5 0.017 12.016V21H4.017Z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="testimonial-quote">
+                            "BankFlow has revolutionized our accounting department. We process 500+ bank statements 
+                            monthly, and what used to be a 3-day manual process now takes 30 minutes. 
+                            The accuracy is phenomenal."
+                        </blockquote>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <div class="avatar-placeholder">MS</div>
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Maria Silva</div>
+                            <div class="author-title">CFO, TechCorp Brasil</div>
+                            <div class="author-company">500+ employees</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14.017 21V12.016C14.017 9.5 15.5 8.016 18.017 8.016H20.017V4H18.017C13.5 4 10.017 7.5 10.017 12.016V21H14.017ZM4.017 21V12.016C4.017 9.5 5.5 8.016 8.017 8.016H10.017V4H8.017C3.5 4 0.017 7.5 0.017 12.016V21H4.017Z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="testimonial-quote">
+                            "The API integration was seamless. We built our entire financial dashboard 
+                            on top of BankFlow in just 2 weeks."
+                        </blockquote>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <div class="avatar-placeholder">RJ</div>
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Roberto Junior</div>
+                            <div class="author-title">CTO, FinanceFlow</div>
+                            <div class="author-company">Fintech Startup</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14.017 21V12.016C14.017 9.5 15.5 8.016 18.017 8.016H20.017V4H18.017C13.5 4 10.017 7.5 10.017 12.016V21H14.017ZM4.017 21V12.016C4.017 9.5 5.5 8.016 8.017 8.016H10.017V4H8.017C3.5 4 0.017 7.5 0.017 12.016V21H4.017Z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="testimonial-quote">
+                            "Finally, a solution that understands Brazilian banking formats. 
+                            No more manual data entry!"
+                        </blockquote>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <div class="avatar-placeholder">AC</div>
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Ana Costa</div>
+                            <div class="author-title">Accountant, DataSync</div>
+                            <div class="author-company">Accounting Firm</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security & Compliance Section -->
+    <section class="security-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Bank-Grade Security & Compliance</h2>
+                <p class="section-subtitle">
+                    Your financial data is protected by the same security standards used by major banks
+                </p>
+            </div>
+            
+            <div class="security-grid">
+                <div class="security-card">
+                    <div class="security-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M12 7C13.4 7 14.8 8.6 14.8 10V11.5C15.4 11.5 16 12.1 16 12.7V16.2C16 16.8 15.4 17.3 14.8 17.3H9.2C8.6 17.3 8 16.8 8 16.2V12.7C8 12.1 8.6 11.5 9.2 11.5V10C9.2 8.6 10.6 7 12 7M12 8.2C11.2 8.2 10.4 8.7 10.4 10V11.5H13.6V10C13.6 8.7 12.8 8.2 12 8.2Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="security-title">SOC 2 Type II</h3>
+                    <p class="security-description">
+                        Independently audited security controls and processes
+                    </p>
+                </div>
+
+                <div class="security-card">
+                    <div class="security-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20ZM12 6C8.69 6 6 8.69 6 12S8.69 18 12 18 18 15.31 18 12 15.31 6 12 6ZM12 16C9.79 16 8 14.21 8 12S9.79 8 12 8 16 9.79 16 12 14.21 16 12 16Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="security-title">AES-256 Encryption</h3>
+                    <p class="security-description">
+                        Military-grade encryption for all data in transit and at rest
+                    </p>
+                </div>
+
+                <div class="security-card">
+                    <div class="security-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="security-title">LGPD Compliant</h3>
+                    <p class="security-description">
+                        Full compliance with Brazilian data protection regulations
+                    </p>
+                </div>
+
+                <div class="security-card">
+                    <div class="security-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+                        </svg>
+                    </div>
+                    <h3 class="security-title">Zero-Knowledge Architecture</h3>
+                    <p class="security-description">
+                        We never store your files. Process and delete automatically.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waitlist Section -->
+    <section class="waitlist-section">
+        <div class="container">
+            <div class="waitlist-content">
+                <div class="waitlist-header">
+                    <h2 class="waitlist-title">Join the Waitlist</h2>
+                    <p class="waitlist-subtitle">
+                        Be among the first to experience the future of financial data processing
+                    </p>
+                </div>
+
+                <div class="waitlist-stats">
+                    <div class="waitlist-stat">
+                        <div class="stat-number">2,847</div>
+                        <div class="stat-label">Already on the waitlist</div>
+                    </div>
+                    <div class="waitlist-stat">
+                        <div class="stat-number">153</div>
+                        <div class="stat-label">Spots remaining</div>
+                    </div>
+                </div>
+
+                <form class="waitlist-form" hx-post="/api/waitlist" hx-target="#waitlist-response">
+                    <div class="form-group">
+                        <input type="email" 
+                               name="email" 
+                               class="input input-pill" 
+                               placeholder="Enter your email address"
+                               required>
+                        <button type="submit" class="btn btn-primary">
+                            Join Waitlist
+                        </button>
+                    </div>
+                    
+                    <div class="form-note">
+                        <svg class="note-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z"/>
+                        </svg>
+                        <span>Free during early access period</span>
+                    </div>
+                </form>
+
+                <div id="waitlist-response" class="response-container">
+                    <!-- Response will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="nav-logo">
+                        <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        <span class="logo-text">BankFlow</span>
+                    </div>
+                    <p class="footer-tagline">Trusted by 10,000+ financial professionals</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4 class="footer-title">Product</h4>
+                        <a href="#features" class="footer-link">Features</a>
+                        <a href="#security" class="footer-link">Security</a>
+                        <a href="#compliance" class="footer-link">Compliance</a>
+                        <a href="#api" class="footer-link">API</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4 class="footer-title">Company</h4>
+                        <a href="#about" class="footer-link">About</a>
+                        <a href="#testimonials" class="footer-link">Testimonials</a>
+                        <a href="#contact" class="footer-link">Contact</a>
+                        <a href="#careers" class="footer-link">Careers</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4 class="footer-title">Legal</h4>
+                        <a href="#privacy" class="footer-link">Privacy Policy</a>
+                        <a href="#terms" class="footer-link">Terms of Service</a>
+                        <a href="#security" class="footer-link">Security Policy</a>
+                        <a href="#lgpd" class="footer-link">LGPD Compliance</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 BankFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+

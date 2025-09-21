@@ -9,15 +9,37 @@ encoding: UTF-8
 # BankFlow Tech Stack
 
 > Last Updated: December 2024
-> Version: 1.0
+> Version: 1.1
+> Status: Updated to reflect actual implementation
+
+## Current Implementation Status
+
+### What's Actually Implemented
+- **Multi-crate Rust workspace** with separate services (api, site, service, saas, shared)
+- **Askama templating** for server-side rendering
+- **Axum web framework** for HTTP handling
+- **PostgreSQL** with SQLx for database operations
+- **Redis** for caching and job queues
+- **Local file storage** for temporary file handling
+- **Custom CSS** with modern features (no CSS framework)
+- **Vanilla JavaScript** for interactive features
+- **Docker Compose** for development and deployment
+
+### What's Planned
+- **HTMX integration** for server-driven dynamic interactions
+- **Alpine.js** for reactive client-side state management
+- **Pre-launch page** with AJAX lead capture
+- **Enhanced frontend** with loading states and animations
+- **Lead storage system** for marketing campaigns
+- **Route restructuring** for better user experience
 
 ## Architecture Overview
 
 ### High-Level Architecture
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Frontend      │    │   API Gateway    │    │   Processing    │
-│   (HTMX/Alpine) │◄──►│   (Rust/Axum)    │◄──►│   Engine        │
+│   Frontend      │    │   API Service    │    │   Processing    │
+│   (HTMX/Alpine) │◄──►│   (Rust/Axum)    │◄──►│   Service       │
 └─────────────────┘    └──────────────────┘    │   (Rust/Tokio)  │
                                                 └─────────────────┘
                               │                          │
@@ -37,30 +59,146 @@ encoding: UTF-8
 ## Frontend Technologies
 
 ### Core Frontend Stack
-- **HTMX**: Server-driven UI with minimal JavaScript
-- **Alpine.js**: Lightweight reactive framework for interactions
-- **Tailwind CSS**: Utility-first CSS framework
-- **Tera Templates**: Server-side templating engine
+- **Askama Templates**: Rust-based server-side templating engine
+- **HTMX**: Primary tool for server-driven UI and dynamic interactions
+- **Alpine.js**: Primary tool for client-side reactivity and state management
+- **Vanilla JavaScript**: Fallback for complex features HTMX/Alpine.js can't handle
+- **CSS3**: Custom CSS with modern features (Grid, Flexbox, CSS Variables, animations)
+- **HTML5**: Semantic HTML with accessibility features
+- **No CSS Framework**: Custom CSS for complete control and minimal bundle size
 
 ### Rationale
-- **Simplicity**: Minimal JavaScript, server-driven approach
+- **Progressive Enhancement**: HTMX first, Alpine.js second, vanilla JS only when needed
+- **Simplicity**: Minimal JavaScript, server-driven approach with HTMX
 - **Performance**: Fast page loads, minimal bundle size
-- **SEO-friendly**: Server-side rendering
+- **SEO-friendly**: Server-side rendering with Askama
 - **Maintenance**: Less complexity than SPA frameworks
+- **Type Safety**: Rust-based templating with compile-time checks
+- **Custom Design**: Full control over styling without framework constraints
+- **Fallback Strategy**: Vanilla JS only for features HTMX/Alpine.js can't handle
 
 ### Frontend Architecture
 ```rust
-// Template structure
+// Template structure (crates/site/templates/)
 templates/
-├── base.html              # Base template with layout
-├── dashboard.html         # Main dashboard
-├── upload.html           # File upload interface
-├── results.html          # Processing results
-└── components/
-    ├── file_upload.html  # Upload component
-    ├── progress.html    # Progress indicator
-    └── job_list.html    # Job listing component
+├── landing.html           # Main landing page (current)
+├── demo.html             # Demo page with file upload (current)
+└── prelaunch.html        # Pre-launch page (planned)
+
+// Template structs (crates/site/src/templates.rs)
+#[derive(Template)]
+#[template(path = "landing.html")]
+pub struct LandingTemplate {
+    pub title: String,
+    pub value_proposition: String,
+}
+
+#[derive(Template)]
+#[template(path = "demo.html")]
+pub struct DemoTemplate {
+    pub title: String,
+    pub job_id: Option<String>,
+}
+
+// Planned for pre-launch page
+#[derive(Template)]
+#[template(path = "prelaunch.html")]
+pub struct PrelaunchTemplate {
+    pub title: String,
+    pub value_proposition: String,
+}
 ```
+
+### JavaScript Features
+
+#### Primary Tools (HTMX + Alpine.js)
+- **HTMX**: Server-driven dynamic interactions without page reloads
+- **Alpine.js**: Reactive client-side state management
+- **Form Submissions**: HTMX handles lead capture and form processing
+- **Dynamic Content**: HTMX swaps content based on server responses
+- **Loading States**: Alpine.js manages loading indicators
+- **Form Validation**: Alpine.js provides real-time validation feedback
+
+#### Fallback (Vanilla JavaScript)
+- **Complex File Upload**: Drag-and-drop with progress tracking (when HTMX isn't sufficient)
+- **Advanced AJAX**: Custom requests that don't fit HTMX patterns
+- **Complex Animations**: Custom animations beyond Alpine.js capabilities
+- **Third-party Integrations**: External APIs that require custom handling
+- **Legacy Browser Support**: Fallbacks for older browsers
+
+### HTMX Usage Examples
+```html
+<!-- Lead capture form with HTMX -->
+<form hx-post="/api/leads" 
+      hx-target="#form-response" 
+      hx-indicator="#loading-spinner">
+    <input type="email" name="email" required>
+    <button type="submit">Subscribe</button>
+</form>
+
+<!-- Dynamic content updates -->
+<div id="form-response" hx-swap="innerHTML">
+    <!-- Response will be inserted here -->
+</div>
+
+<!-- Loading indicator -->
+<div id="loading-spinner" class="htmx-indicator">
+    <span class="spinner">⏳</span>
+</div>
+```
+
+### Alpine.js Usage Examples
+```html
+<!-- Reactive form state -->
+<div x-data="{ 
+    email: '', 
+    isValid: false,
+    checkEmail() { 
+        this.isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email) 
+    }
+}">
+    <input type="email" 
+           x-model="email" 
+           @input="checkEmail()"
+           :class="{ 'valid': isValid, 'invalid': !isValid }">
+    <button :disabled="!isValid">Submit</button>
+</div>
+
+<!-- Loading states -->
+<div x-data="{ loading: false }" 
+     @htmx:before-request="loading = true"
+     @htmx:after-request="loading = false">
+    <div x-show="loading" class="loading-spinner">⏳</div>
+</div>
+```
+
+### Technology Decision Tree
+
+#### When to Use HTMX
+- ✅ **Form submissions** (lead capture, contact forms)
+- ✅ **Dynamic content updates** (search results, comments)
+- ✅ **Server-driven interactions** (pagination, filtering)
+- ✅ **Simple AJAX requests** (status updates, notifications)
+- ✅ **Progressive enhancement** (works without JavaScript)
+
+#### When to Use Alpine.js
+- ✅ **Client-side state management** (form validation, UI state)
+- ✅ **Reactive UI updates** (show/hide elements, dynamic classes)
+- ✅ **Simple animations** (loading spinners, transitions)
+- ✅ **Form interactions** (real-time validation, conditional fields)
+- ✅ **Component-like behavior** (modals, dropdowns)
+
+#### When to Use Vanilla JavaScript
+- ❌ **Complex file uploads** (drag-and-drop with progress bars)
+- ❌ **Advanced animations** (complex CSS animations, canvas)
+- ❌ **Third-party integrations** (payment processors, analytics)
+- ❌ **Complex data processing** (client-side calculations)
+- ❌ **Legacy browser support** (polyfills, fallbacks)
+
+### Implementation Priority
+1. **First**: Try HTMX for server interactions
+2. **Second**: Use Alpine.js for client-side reactivity
+3. **Last Resort**: Write vanilla JavaScript for complex features
 
 ## Backend Technologies
 
@@ -78,29 +216,43 @@ templates/
 
 ### Backend Architecture
 ```rust
-src/
-├── main.rs               # Application entry point
-├── config.rs            # Configuration management
-├── models/               # Data models
-│   ├── user.rs          # User model
-│   ├── job.rs           # Processing job model
-│   └── transaction.rs    # Transaction model
-├── services/             # Business logic
-│   ├── auth.rs          # Authentication service
-│   ├── upload.rs        # File upload service
-│   ├── processing.rs    # Processing service
-│   └── notification.rs  # Notification service
-├── parsers/              # Bank parsers
-│   ├── itau.rs          # Itaú parser
-│   ├── bradesco.rs      # Bradesco parser
-│   └── traits.rs         # Parser traits
-├── api/                  # API handlers
-│   ├── auth.rs          # Auth endpoints
-│   ├── files.rs         # File endpoints
-│   └── jobs.rs          # Job endpoints
-└── utils/                # Utilities
-    ├── crypto.rs        # Encryption utilities
-    └── validation.rs    # Validation utilities
+// Multi-crate workspace structure
+crates/
+├── api/                  # Main API service
+│   ├── src/
+│   │   ├── main.rs      # API server entry point
+│   │   ├── handlers/    # HTTP request handlers
+│   │   │   ├── auth.rs  # Authentication endpoints
+│   │   │   ├── files.rs # File upload endpoints
+│   │   │   └── jobs.rs  # Job management endpoints
+│   │   ├── models/      # Data models
+│   │   │   ├── user.rs  # User model
+│   │   │   ├── job.rs   # Processing job model
+│   │   │   └── transaction.rs # Transaction model
+│   │   ├── services/    # Business logic
+│   │   │   ├── auth.rs  # Authentication service
+│   │   │   ├── upload.rs # File upload service
+│   │   │   └── processing.rs # Processing service
+│   │   ├── parsers/     # Bank-specific parsers
+│   │   │   ├── banco_brasil.rs # Banco do Brasil parser
+│   │   │   ├── banco_inter.rs  # Banco Inter parser
+│   │   │   ├── itau.rs  # Itaú parser
+│   │   │   └── traits.rs # Parser traits
+│   │   └── utils/       # Utilities
+│   │       ├── crypto.rs # Encryption utilities
+│   │       └── validation.rs # Validation utilities
+│   └── migrations/      # Database migrations
+├── site/                # Website service
+│   ├── src/
+│   │   ├── main.rs     # Site server entry point
+│   │   ├── handlers.rs # HTTP handlers for site
+│   │   └── templates.rs # Askama template structs
+│   └── templates/      # HTML templates
+│       ├── landing.html # Landing page
+│       └── demo.html   # Demo page
+├── service/            # Background processing service
+├── saas/              # SaaS-specific features
+└── shared/            # Shared utilities and models
 ```
 
 ## Database Technologies
@@ -523,11 +675,15 @@ lazy_static! {
 | Technology | Rationale | Alternatives Considered | Trade-offs |
 |------------|-----------|-------------------------|------------|
 | Rust | Performance, memory safety | Go, Node.js, Python | Learning curve vs performance |
-| HTMX | Simplicity, SEO | React, Vue, Svelte | Less interactivity vs simplicity |
-| PostgreSQL | ACID compliance | MongoDB, MySQL | Flexibility vs consistency |
-| Redis | Speed, caching | Memcached, In-memory DB | Persistence vs speed |
-| Digital Ocean | Cost-effective | AWS, GCP, Azure | Features vs simplicity |
-| Local Storage | Simplicity | S3, MinIO | Scalability vs simplicity |
+| HTMX | Server-driven UI, minimal JS | React, Vue, Svelte | Less interactivity vs simplicity |
+| Alpine.js | Lightweight reactivity | Vue, React, Svelte | Less ecosystem vs simplicity |
+| Askama | Type-safe templating, Rust integration | Tera, Handlebars, Jinja2 | Less ecosystem vs type safety |
+| Axum | Modern async web framework | Actix-web, Warp, Rocket | Ecosystem maturity vs performance |
+| PostgreSQL | ACID compliance, JSON support | MongoDB, MySQL | Flexibility vs consistency |
+| Redis | Speed, caching, job queues | Memcached, In-memory DB | Persistence vs speed |
+| Digital Ocean | Cost-effective, simple deployment | AWS, GCP, Azure | Features vs simplicity |
+| Local Storage | Simplicity, no external dependencies | S3, MinIO | Scalability vs simplicity |
+| SQLx | Type-safe database access | Diesel, SeaORM | Compile-time vs runtime safety |
 
 ## Future Technology Considerations
 
