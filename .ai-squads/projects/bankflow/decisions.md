@@ -1154,6 +1154,138 @@ SET production:session:def456 "session_data"
 
 ---
 
+## ADR-021: OCR Strategy for Bank Statement Processing
+
+**Date**: December 2024  
+**Status**: Accepted  
+**Context**: Need to determine text extraction approach for PDF bank statements
+
+**Decision**: Use direct text extraction from PDFs only, no OCR implementation
+
+**Rationale**:
+- **Simplicity**: Direct text extraction is simpler and more reliable
+- **Performance**: Faster processing without OCR overhead
+- **Accuracy**: Native PDF text is more accurate than OCR conversion
+- **Maintenance**: Fewer dependencies and complexity
+- **Cost**: No OCR service costs or infrastructure
+
+**Consequences**:
+- ✅ Simpler implementation and maintenance
+- ✅ Faster processing without OCR overhead
+- ✅ Higher accuracy with native PDF text
+- ✅ Reduced infrastructure complexity
+- ⚠️ Limited to PDFs with extractable text (acceptable for most bank statements)
+
+**Implementation**:
+```rust
+// Direct text extraction from PDF
+pub fn extract_text_from_pdf(pdf_content: &[u8]) -> Result<String, ParseError> {
+    let pdf_reader = PdfReader::new(pdf_content)?;
+    let mut text = String::new();
+    
+    for page in pdf_reader.pages() {
+        if let Some(page_text) = page.text() {
+            text.push_str(page_text);
+            text.push('\n');
+        }
+    }
+    
+    Ok(text)
+}
+```
+
+**Bank Statement Compatibility**:
+- **Native PDFs**: Direct text extraction works perfectly
+- **Scanned PDFs**: Not supported (would require OCR)
+- **Mixed PDFs**: Text portions will be extracted
+
+**Migration Path**: OCR can be added in future phases if scanned PDF support is required.
+
+---
+
+## ADR-022: UIDev Conventions Guide for Motta Design System Integration
+
+**Date**: December 2024  
+**Status**: Accepted  
+**Context**: Need standardized JavaScript organization and Motta Design System integration patterns for BankFlow's frontend development
+
+**Decision**: Implement comprehensive UIDev conventions guide for JavaScript organization, Motta Design System integration, and asset pipeline management
+
+**Rationale**:
+- **Consistency**: Standardized patterns across all templates and components
+- **Maintainability**: Clear file organization and module structure
+- **Development Efficiency**: Hot reloading and optimized development workflow
+- **Production Optimization**: Minified, tree-shaken, and cache-busted assets
+- **Quality Standards**: Performance, accessibility, and code quality guidelines
+
+**Consequences**:
+- ✅ Consistent frontend development patterns
+- ✅ Maintainable and debuggable development environment
+- ✅ Optimized production builds with proper caching
+- ✅ Template-specific JavaScript modules for better organization
+- ✅ Motta Design System integration with glassmorphism patterns
+- ✅ Comprehensive asset pipeline with Vite bundling
+
+**Implementation**:
+```javascript
+// Template-specific JavaScript modules
+// assets/js/templates/prelaunch.js
+import Alpine from 'alpinejs';
+import { apiClient } from '../shared/api.js';
+import { validateEmail } from '../shared/validation.js';
+
+Alpine.data('prelaunchApp', () => ({
+  currentMode: 'lead',
+  email: '',
+  isLoading: false,
+  
+  async submitEmail() {
+    // Implementation following conventions
+  }
+}));
+```
+
+**File Structure**:
+```
+product/bankflow/crates/site/
+├── assets/
+│   ├── css/main.css                    # Tailwind + Motta components
+│   ├── js/
+│   │   ├── templates/                  # Template-specific modules
+│   │   │   ├── prelaunch.js
+│   │   │   ├── product.js
+│   │   │   └── product-demo.js
+│   │   └── shared/                     # Shared utilities
+│   │       ├── api.js
+│   │       ├── validation.js
+│   │       └── analytics.js
+│   └── images/
+├── dist/                               # Generated assets
+├── templates/                          # Askama HTML templates
+└── [config files]
+```
+
+**Development vs Production**:
+- **Development**: Unminified with source maps, hot reloading, no hashing
+- **Production**: Minified, obfuscated, content-based hashing, long-term caching
+
+**Quality Standards**:
+- **Performance**: CSS <50KB, JS <20KB per template, Core Web Vitals targets
+- **Accessibility**: WCAG 2.1 AA compliance with proper ARIA labels
+- **Code Quality**: ES6+ features, proper error handling, JSDoc comments
+
+**Asset Pipeline**:
+- **Vite**: Bundling with code splitting and tree shaking
+- **Tailwind CSS**: Motta Design System integration
+- **Asset Manifest**: Content-based hashing for cache busting
+- **Rust Integration**: Askama templates with asset URL filters
+
+**Guide Location**: `.ai-squads/projects/bankflow/docs/uidev-conventions-guide.md`
+
+**Workflow Integration**: All @uidev.mdc agents must follow this guide for BankFlow frontend development to ensure consistency and quality.
+
+---
+
 ## Decision Review Process
 
 ### Review Schedule

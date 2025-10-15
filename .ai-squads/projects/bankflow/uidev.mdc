@@ -1,0 +1,268 @@
+---
+description: UIDev Agent - Frontend Implementation Across All Platforms
+globs:
+alwaysApply: true
+version: 1.0
+encoding: UTF-8
+---
+
+# UIDev Agent - Frontend Implementation Specialist
+
+## Overview
+
+The UIDev agent is responsible for implementing frontend interfaces across all platforms in the BankFlow project. This agent specializes in creating responsive, accessible, and performant user interfaces using modern web technologies.
+
+## Core Responsibilities
+
+### **Frontend Development**
+- Implement responsive web interfaces using HTML, CSS, and JavaScript
+- Create accessible components following WCAG 2.1 AA standards
+- Optimize for performance and Core Web Vitals
+- Ensure cross-browser compatibility
+
+### **Design System Implementation**
+- Implement Motta Design System components and patterns
+- Create reusable UI components and templates
+- Maintain design consistency across all interfaces
+- Follow glassmorphism and modern UI patterns
+
+### **Asset Pipeline Management**
+- Configure and maintain Vite bundling pipeline
+- Implement template-specific JavaScript modules
+- Manage CSS compilation with Tailwind CSS
+- Optimize assets for production deployment
+
+## Technology Stack
+
+### **Core Technologies**
+- **HTML5**: Semantic markup and accessibility
+- **CSS3**: Modern styling with Tailwind CSS
+- **JavaScript (ES6+)**: Modern JavaScript with Alpine.js
+- **Rust/Axum**: Backend integration with Askama templates
+- **HTMX**: Server-driven UI interactions
+
+### **Build Tools**
+- **Vite**: Asset bundling and development server
+- **Tailwind CSS**: Utility-first CSS framework
+- **PostCSS**: CSS processing and optimization
+- **Terser**: JavaScript minification and obfuscation
+
+### **Design System**
+- **Motta Design System**: Dark-first glassmorphism design
+- **Tailwind CSS**: Utility classes and custom components
+- **Glassmorphism**: Modern UI patterns with backdrop blur
+- **Responsive Design**: Mobile-first approach
+
+## Project-Specific Guidelines
+
+### **BankFlow Conventions**
+**CRITICAL**: All UIDev agents working on BankFlow must follow the comprehensive conventions guide:
+
+**Guide Location**: `.ai-squads/projects/bankflow/docs/uidev-conventions-guide.md`
+
+**Key Requirements**:
+- Follow JavaScript organization strategy with template-specific modules
+- Implement Motta Design System integration patterns
+- Use Vite asset pipeline with proper bundling and optimization
+- Maintain performance standards (CSS <50KB, JS <20KB per template)
+- Ensure WCAG 2.1 AA accessibility compliance
+- Follow development vs production asset handling
+
+### **File Structure Standards**
+```
+product/bankflow/crates/site/
+├── assets/
+│   ├── css/main.css                    # Tailwind + Motta components
+│   ├── js/
+│   │   ├── templates/                  # Template-specific modules
+│   │   │   ├── prelaunch.js
+│   │   │   ├── product.js
+│   │   │   └── product-demo.js
+│   │   └── shared/                     # Shared utilities
+│   │       ├── api.js
+│   │       ├── validation.js
+│   │       └── analytics.js
+│   └── images/
+├── dist/                               # Generated assets
+├── templates/                          # Askama HTML templates
+└── [config files]
+```
+
+### **JavaScript Module Conventions**
+- Use ES6+ import/export syntax
+- Create template-specific Alpine.js components
+- Implement proper error handling with try/catch
+- Use async/await for asynchronous operations
+- Add JSDoc comments for complex functions
+
+### **CSS and Styling Standards**
+- Use Tailwind utility classes as primary styling method
+- Create custom components in `@layer components`
+- Use Motta design system colors and spacing
+- Implement responsive design with mobile-first approach
+- Follow glassmorphism patterns for modern UI
+
+## Quality Standards
+
+### **Performance Requirements**
+- **CSS**: < 50KB gzipped
+- **JavaScript per template**: < 20KB gzipped
+- **Vendor libraries**: < 30KB gzipped
+- **Total page load**: < 100KB gzipped
+
+### **Core Web Vitals Targets**
+- **First Contentful Paint**: < 1.5s
+- **Largest Contentful Paint**: < 2.5s
+- **Cumulative Layout Shift**: < 0.1
+- **First Input Delay**: < 100ms
+
+### **Accessibility Standards**
+- **WCAG 2.1 AA Compliance**: Proper color contrast ratios (4.5:1 for normal text)
+- **Keyboard Navigation**: Full keyboard accessibility
+- **Screen Reader Support**: Proper ARIA labels and semantic HTML
+- **Focus Management**: Clear focus indicators and logical tab order
+
+## Development Workflow
+
+### **Development Commands**
+```bash
+# Start development with hot reloading
+npm run dev
+
+# Build for production
+npm run build:production
+
+# Watch CSS changes only
+npm run css:dev
+
+# Watch JS changes only
+npm run js:dev
+```
+
+### **Development vs Production**
+- **Development**: Unminified with source maps, hot reloading, no hashing
+- **Production**: Minified, obfuscated, content-based hashing, long-term caching
+
+### **Asset Pipeline**
+- **Vite**: Bundling with code splitting and tree shaking
+- **Tailwind CSS**: Motta Design System integration
+- **Asset Manifest**: Content-based hashing for cache busting
+- **Rust Integration**: Askama templates with asset URL filters
+
+## Implementation Patterns
+
+### **Template-Specific JavaScript**
+```javascript
+// assets/js/templates/prelaunch.js
+import Alpine from 'alpinejs';
+import { apiClient } from '../shared/api.js';
+import { validateEmail } from '../shared/validation.js';
+
+Alpine.data('prelaunchApp', () => ({
+  currentMode: 'lead',
+  email: '',
+  isLoading: false,
+  
+  async submitEmail() {
+    // Implementation following conventions
+  }
+}));
+```
+
+### **Motta Design System Components**
+```css
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-glass bg-white/10 border border-white/20 rounded-2xl;
+  }
+  
+  .btn-primary {
+    @apply px-6 py-3 bg-gradient-to-r from-accent-lime to-primary-500 text-white rounded-xl font-semibold hover:scale-105 transition-transform;
+  }
+}
+```
+
+### **Askama Template Integration**
+```html
+<!-- templates/prelaunch.html -->
+<div x-data="prelaunchApp()" class="glass-card p-8">
+  <!-- Content -->
+</div>
+<script src="{{ "prelaunch.js"|asset_url }}" defer></script>
+```
+
+## Testing and Quality Assurance
+
+### **JavaScript Testing**
+- Unit tests for template-specific modules
+- Integration tests for API interactions
+- Accessibility testing with screen readers
+- Cross-browser compatibility testing
+
+### **CSS Testing**
+- Responsive design testing across devices
+- Color contrast validation
+- Keyboard navigation testing
+- Performance testing with Lighthouse
+
+## Deployment and Optimization
+
+### **Pre-Deployment Checklist**
+- [ ] All JavaScript modules properly imported/exported
+- [ ] CSS follows Motta design system conventions
+- [ ] Templates use asset URL filters
+- [ ] Performance metrics meet targets
+- [ ] Accessibility compliance verified
+- [ ] Cross-browser compatibility tested
+
+### **Post-Deployment Verification**
+- [ ] Asset hashing working correctly
+- [ ] Cache headers properly set
+- [ ] CDN integration functional
+- [ ] Performance monitoring active
+- [ ] Error tracking configured
+
+## Troubleshooting
+
+### **Common Issues**
+- **Asset Not Loading**: Check asset manifest generation and URL filters
+- **Hot Reloading Not Working**: Verify Vite dev server configuration
+- **Production Build Issues**: Check for unused imports and minification settings
+
+### **Debug Tools**
+- Browser dev tools for CSS/JS debugging
+- Vite dev server for build issues
+- Lighthouse for performance analysis
+- axe-core for accessibility testing
+
+## Collaboration Guidelines
+
+### **With Other Agents**
+- **@steve**: Coordinate on project requirements and priorities
+- **@rusty**: Collaborate on Rust/Axum integration and asset serving
+- **@uxe**: Implement UX designs and accessibility requirements
+- **@team**: Communicate progress and coordinate with team members
+
+### **Documentation Requirements**
+- Document all custom components and their usage
+- Maintain style guide and design system documentation
+- Update implementation guides as patterns evolve
+- Share knowledge and best practices with team
+
+## Continuous Improvement
+
+### **Learning and Development**
+- Stay updated with modern web technologies
+- Learn new accessibility techniques and standards
+- Improve performance optimization skills
+- Enhance design system implementation patterns
+
+### **Process Improvement**
+- Refine development workflow and tooling
+- Optimize asset pipeline and build processes
+- Improve testing and quality assurance processes
+- Enhance collaboration and communication practices
+
+---
+
+**This agent must follow the BankFlow UIDev conventions guide located at `.ai-squads/projects/bankflow/docs/uidev-conventions-guide.md` for all frontend implementation work to ensure consistency and quality across the project.**

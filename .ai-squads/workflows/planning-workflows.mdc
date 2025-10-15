@@ -74,7 +74,7 @@ ai-squads/projects/[PROJECT_NAME]/
 
 **Output Structure**:
 ```
-ai-squads/projects/[PROJECT_NAME]/
+.ai-squads/projects/[PROJECT_NAME]/
 ├── mission.md          # Updated project vision
 ├── roadmap.md          # Current state and future plans. It has a list of features.
 ├── tech-stack.md       # Current and target architecture
@@ -118,7 +118,7 @@ ai-squads/projects/[PROJECT_NAME]/
 
 **Output Structure**:
 ```
-ai-squads/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/
+.ai-squads/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/
 ├── problem.md          # What problem are we solving?
 ├── solution.md         # How will we solve it?
 ├── jtbd-analysis.md    # Customer jobs and satisfaction analysis
@@ -152,7 +152,7 @@ ai-squads/projects/[PROJECT_NAME]/feature-[FEATURE_NAME]/
 
 **Output Structure**:
 ```
-ai-squads/projects/[PROJECT_NAME]/hotfix-[HOTFIX_NAME]/
+.ai-squads/projects/[PROJECT_NAME]/hotfix-[HOTFIX_NAME]/
 ├── issue.md            # What's the issue?
 ├── tasks.md            # List of tasks planed to be executed
 └── goal.md             # What's the fix goal?

@@ -50,7 +50,7 @@ show_usage() {
     echo "  2. Create a symlink to the .ai-squads directory"
     echo "  3. Create .cursor/rules/ directory and link agent files"
     echo "  4. Make all AI Squads content available (agents, squads, workflows, projects, standards, templates)"
-    echo "
+    echo ""
     echo "Benefits:"
     echo "  - Complete access to all AI Squads content"
     echo "  - Preserves directory structure"
@@ -193,7 +193,8 @@ if [ -d "$TARGET_AI_SQUADS/templates" ]; then
 fi
 echo ""
 echo "📋 Linked files in .cursor/rules/:"
-ls -la "$RULES_DIR" | grep -E "\.(mdc|md)$" | wc -l | tr -d ' ' && echo " files linked"
+linked_count=$(ls -la "$RULES_DIR" | grep -E "\.(mdc|md)$" | wc -l | tr -d ' ')
+echo "  $linked_count files linked"
 echo ""
 
 print_success "✅ AI Squads installation complete!"
