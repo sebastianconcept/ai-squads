@@ -20,5 +20,5 @@ You can review:
 
 The command uses agents assigned to your project to provide specialized feedback.
 
-See `ai-squads/commands/review-merge-request.mdc` for detailed workflow.
+See `ai-squads/commands/review-merge-request.md` for detailed workflow.
 

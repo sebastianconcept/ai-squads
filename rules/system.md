@@ -6,7 +6,7 @@ AI Squads is a config-oriented system for managing AI agent teams in software pr
 
 ## Core Principles
 
-1. **Configuration-Driven**: All agents, standards, and workflows are defined in `.mdc` files for easy adjustment
+1. **Configuration-Driven**: All agents, standards, and workflows are defined in `.md` files for easy adjustment
 2. **Project Isolation**: Each project adopts ai-squads independently via git submodule
 3. **Agent Specialization**: Agents are specialists in specific technologies or domains
 4. **Style Consistency**: Agents reference code style standards for consistent guidance
@@ -23,7 +23,7 @@ AI Squads is a config-oriented system for managing AI agent teams in software pr
 
 ## Agent System
 
-- Agents are defined in `ai-squads/agents/*.mdc`
+- Agents are defined in `ai-squads/agents/*.md`
 - Each agent has specialization, rules, capabilities, and style guide references
 - Agents can be combined into teams per project
 - Team configuration stored in `ai-squads-docs/team.md`

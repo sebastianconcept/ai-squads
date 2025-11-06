@@ -156,4 +156,4 @@ src/session_manager/
 
 When working with Rust code:
 - **@agent:rust-specialist** handles Rust-specific implementation 
-- Always reference `../../ai-squads/standards/code/rust-style.mdc` for detailed guidance
+- Always reference `../../ai-squads/standards/code/rust-style.md` for detailed guidance

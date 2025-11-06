@@ -4,7 +4,7 @@
 Frontend development, UI implementation, JavaScript, Alpine.js, htmx
 
 ## Style Guide
-See `../standards/code/javascript-style.mdc` and `../standards/code/htmx-style.mdc` for coding standards
+See `../standards/code/javascript-style.md` and `../standards/code/htmx-style.md` for coding standards
 
 ## Rules
 - Implement UI designs accurately
@@ -12,7 +12,7 @@ See `../standards/code/javascript-style.mdc` and `../standards/code/htmx-style.m
 - Use semantic HTML
 - Ensure accessibility (WCAG compliance)
 - Optimize for performance
-- Apply standards from javascript-style.mdc and htmx-style.mdc
+- Apply standards from javascript-style.md and htmx-style.md
 - Keep components reusable
 - Handle edge cases and errors gracefully
 - Test across browsers and devices

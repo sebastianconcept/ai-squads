@@ -9,8 +9,8 @@ This command invokes the Rust Specialist agent for Rust-specific development hel
 
 ## Agent Profile
 
-**Agent**: Rust Specialist (`../../ai-squads/agents/rust-specialist.mdc`)  
-**Style Guide**: Rust Coding Standards (`../../ai-squads/standards/code/rust-style.mdc`)
+**Agent**: Rust Specialist (`../../ai-squads/agents/rust-specialist.md`)  
+**Style Guide**: Rust Coding Standards (`../../ai-squads/standards/code/rust-style.md`)
 
 ## When to Use
 
@@ -41,10 +41,10 @@ Applies the Rust Specialist agent with:
 - Result-based error handling with `thiserror`
 - Performance-conscious design choices
 - Idiomatic Rust patterns
-- Standards from `rust-style.mdc`
+- Standards from `rust-style.md`
 
 ### 3. Style Guide Enforcement
-Follows `rust-style.mdc` standards:
+Follows `rust-style.md` standards:
 - **Error Handling**: Typed errors with `thiserror`, NO `Box<dyn Error>`
 - **Protocol Design**: Enum-based design over `Box<dyn Trait>`
 - **Naming**: `snake_case` functions, `PascalCase` types, `SCREAMING_SNAKE_CASE` constants
@@ -92,7 +92,7 @@ Before finalizing any Rust code changes, verify:
 
 ## Related Resources
 
-- Rust Specialist Agent: `../../ai-squads/agents/rust-specialist.mdc`
-- Rust Style Guide: `../../ai-squads/standards/code/rust-style.mdc`
+- Rust Specialist Agent: `../../ai-squads/agents/rust-specialist.md`
+- Rust Style Guide: `../../ai-squads/standards/code/rust-style.md`
 - Rust Book: https://doc.rust-lang.org/book/
 - Rust by Example: https://doc.rust-lang.org/rust-by-example/

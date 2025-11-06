@@ -15,5 +15,5 @@ Run this command from your project root directory.
 
 The command reads your project's agent team from `ai-squads-docs/team.md` to provide relevant guidance.
 
-See `ai-squads/commands/plan-feature.mdc` for detailed workflow.
+See `ai-squads/commands/plan-feature.md` for detailed workflow.
 

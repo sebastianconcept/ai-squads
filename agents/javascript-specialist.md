@@ -4,14 +4,14 @@
 JavaScript programming language, including Alpine.js and htmx
 
 ## Style Guide
-See `../standards/code/javascript-style.mdc` and `../standards/code/htmx-style.mdc` for coding standards
+See `../standards/code/javascript-style.md` and `../standards/code/htmx-style.md` for coding standards
 
 ## Rules
 - Write clear, readable JavaScript code
 - Prefer modern ES6+ features
 - Use const by default, let when needed
 - Follow functional programming patterns where appropriate
-- Apply standards from javascript-style.mdc
+- Apply standards from javascript-style.md
 - For Alpine.js: Keep directives minimal and readable
 - For htmx: Prefer progressive enhancement
 - Understand async/await patterns

@@ -9,8 +9,8 @@ This command invokes the UI Developer agent for frontend development help with J
 
 ## Agent Profile
 
-**Agent**: UI Developer (`../../ai-squads/agents/ui-developer.mdc`)  
-**Style Guides**: JavaScript Standards (`../../ai-squads/standards/code/javascript-style.mdc`) and htmx Standards (`../../ai-squads/standards/code/htmx-style.mdc`)
+**Agent**: UI Developer (`../../ai-squads/agents/ui-developer.md`)  
+**Style Guides**: JavaScript Standards (`../../ai-squads/standards/code/javascript-style.md`) and htmx Standards (`../../ai-squads/standards/code/htmx-style.md`)
 
 ## When to Use
 
@@ -42,7 +42,7 @@ Applies the UI Developer agent with:
 - Alpine.js patterns and reactivity
 - Tailwind CSS utility-first approach
 - Accessibility standards (WCAG)
-- Standards from `javascript-style.mdc` and `htmx-style.mdc`
+- Standards from `javascript-style.md` and `htmx-style.md`
 
 ### 3. Style Guide Enforcement
 Follows multiple style guides:
@@ -99,9 +99,9 @@ Before finalizing any frontend code changes, verify:
 
 ## Related Resources
 
-- UI Developer Agent: `../../ai-squads/agents/ui-developer.mdc`
-- JavaScript Style Guide: `../../ai-squads/standards/code/javascript-style.mdc`
-- htmx Style Guide: `../../ai-squads/standards/code/htmx-style.mdc`
+- UI Developer Agent: `../../ai-squads/agents/ui-developer.md`
+- JavaScript Style Guide: `../../ai-squads/standards/code/javascript-style.md`
+- htmx Style Guide: `../../ai-squads/standards/code/htmx-style.md`
 - htmx Documentation: https://htmx.org/
 - Alpine.js Documentation: https://alpinejs.dev/
 - Tailwind CSS: https://tailwindcss.com/

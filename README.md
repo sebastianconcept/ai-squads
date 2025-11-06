@@ -8,7 +8,7 @@ A config-oriented system for managing AI agent teams in software projects. Proje
 - **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, and htmx
 - **Project Planning**: Structured workflows for feature planning with PRD, specs, and tasks
 - **Code Review**: Agent-based code review using project's tech stack and style guides
-- **Configuration-Driven**: All agents, standards, and workflows defined in `.mdc` files for easy adjustment
+- **Configuration-Driven**: All agents, standards, and workflows defined in `.md` files for easy adjustment
 
 ## Installation
 
@@ -116,17 +116,17 @@ my-project/
 
 ### Rust Specialist
 - Specializes in Rust programming
-- References `rust-style.mdc` standards
+- References `rust-style.md` standards
 - Provides code review, implementation guidance, architecture recommendations
 
 ### Smalltalk Specialist
 - Specializes in Smalltalk/Pharo
-- References `smalltalk-style.mdc` standards
+- References `smalltalk-style.md` standards
 - Provides Smalltalk-specific guidance and patterns
 
 ### JavaScript Specialist
 - Specializes in JavaScript, Alpine.js, htmx
-- References `javascript-style.mdc` and `htmx-style.mdc` standards
+- References `javascript-style.md` and `htmx-style.md` standards
 - Provides frontend development guidance
 
 ### Jobs to be Done
@@ -147,20 +147,20 @@ my-project/
 ## Code Style Standards
 
 Style guides are located in `ai-squads/standards/code/`:
-- `rust-style.mdc` - Rust coding standards
-- `smalltalk-style.mdc` - Smalltalk/Pharo standards
-- `javascript-style.mdc` - JavaScript standards (covers Alpine, vanilla JS)
-- `htmx-style.mdc` - htmx patterns and best practices
+- `rust-style.md` - Rust coding standards
+- `smalltalk-style.md` - Smalltalk/Pharo standards
+- `javascript-style.md` - JavaScript standards (covers Alpine, vanilla JS)
+- `htmx-style.md` - htmx patterns and best practices
 
 Agents automatically reference relevant style guides when providing guidance.
 
 ## Configuration
 
-All configuration is done through `.mdc` files in the ai-squads submodule:
-- **Agents**: `ai-squads/agents/*.mdc`
-- **Standards**: `ai-squads/standards/code/*.mdc`
-- **Commands**: `ai-squads/commands/*.mdc`
-- **System Rules**: `ai-squads/rules/system.mdc`
+All configuration is done through `.md` files in the ai-squads submodule:
+- **Agents**: `ai-squads/agents/*.md`
+- **Standards**: `ai-squads/standards/code/*.md`
+- **Commands**: `ai-squads/commands/*.md`
+- **System Rules**: `ai-squads/rules/system.md`
 
 Edit these files in the ai-squads submodule to customize agents, standards, and workflows for your needs.
 

@@ -4,14 +4,14 @@
 Rust programming language
 
 ## Style Guide
-See `../standards/code/rust-style.mdc` for coding standards
+See `../standards/code/rust-style.md` for coding standards
 
 ## Rules
 - Follow Rust best practices and ownership rules
 - Prefer safe code over unsafe
 - Use appropriate error handling with Result types
 - Consider performance implications of design choices
-- Apply standards from rust-style.mdc
+- Apply standards from rust-style.md
 - Understand ownership, borrowing, and lifetimes
 - Use idiomatic Rust patterns
 - Consider async/await for concurrent operations

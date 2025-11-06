@@ -9,8 +9,8 @@ This command invokes the Smalltalk Specialist agent for Smalltalk/Pharo-specific
 
 ## Agent Profile
 
-**Agent**: Smalltalk Specialist (`../../ai-squads/agents/smalltalk-specialist.mdc`)  
-**Style Guide**: Smalltalk Coding Standards (`../../ai-squads/standards/code/smalltalk-style.mdc`)
+**Agent**: Smalltalk Specialist (`../../ai-squads/agents/smalltalk-specialist.md`)  
+**Style Guide**: Smalltalk Coding Standards (`../../ai-squads/standards/code/smalltalk-style.md`)
 
 ## When to Use
 
@@ -41,10 +41,10 @@ Applies the Smalltalk Specialist agent with:
 - Polymorphism and dynamic dispatch
 - Live programming techniques
 - Idiomatic Smalltalk patterns
-- Standards from `smalltalk-style.mdc`
+- Standards from `smalltalk-style.md`
 
 ### 3. Style Guide Enforcement
-Follows `smalltalk-style.mdc` standards:
+Follows `smalltalk-style.md` standards:
 - **Naming**: `camelCase` methods, `PascalCase` classes, `lowercase` temporaries
 - **Method Size**: Keep methods small (< 10 lines preferred)
 - **Message Patterns**: Use keyword messages for clarity
@@ -94,7 +94,7 @@ Before finalizing any Smalltalk code changes, verify:
 
 ## Related Resources
 
-- Smalltalk Specialist Agent: `../../ai-squads/agents/smalltalk-specialist.mdc`
-- Smalltalk Style Guide: `../../ai-squads/standards/code/smalltalk-style.mdc`
+- Smalltalk Specialist Agent: `../../ai-squads/agents/smalltalk-specialist.md`
+- Smalltalk Style Guide: `../../ai-squads/standards/code/smalltalk-style.md`
 - Pharo by Example: https://books.pharo.org/
 - Smalltalk Best Practice Patterns (Kent Beck)

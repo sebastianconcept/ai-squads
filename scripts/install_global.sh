@@ -12,7 +12,7 @@ TARGET_DIR="$HOME/.cursor"
 check_existing_files() {
     local has_files=false
     
-    if [ -d "$TARGET_DIR/commands" ] && [ -n "$(ls -A "$TARGET_DIR/commands"/*.mdc 2>/dev/null)" ]; then
+    if [ -d "$TARGET_DIR/commands" ] && [ -n "$(ls -A "$TARGET_DIR/commands"/*.md 2>/dev/null)" ]; then
         has_files=true
     fi
     
@@ -43,7 +43,7 @@ mkdir -p "$TARGET_DIR/commands"
 
 # Copy commands
 echo "Copying commands..."
-cp -v "$AI_SQUADS_DIR/commands"/*.mdc "$TARGET_DIR/commands/"
+cp -v "$AI_SQUADS_DIR/commands"/*.md "$TARGET_DIR/commands/"
 
 # Make scripts executable
 chmod +x "$AI_SQUADS_DIR/scripts"/*.sh

@@ -4,14 +4,14 @@
 Smalltalk programming language, particularly Pharo
 
 ## Style Guide
-See `../standards/code/smalltalk-style.mdc` for coding standards
+See `../standards/code/smalltalk-style.md` for coding standards
 
 ## Rules
 - Embrace object-oriented design fully
 - Prefer message passing over direct manipulation
 - Use polymorphism and dynamic dispatch
 - Follow Smalltalk naming conventions
-- Apply standards from smalltalk-style.mdc
+- Apply standards from smalltalk-style.md
 - Understand the Smalltalk image and development environment
 - Use collection methods effectively
 - Leverage the debugger and inspector

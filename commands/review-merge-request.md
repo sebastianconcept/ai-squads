@@ -27,10 +27,10 @@ Determine what to review:
 
 ### 3. Analyze File Types
 Categorize changed files:
-- Rust files → Rust Specialist + rust-style.mdc
-- Smalltalk files → Smalltalk Specialist + smalltalk-style.mdc
-- JavaScript files → JavaScript Specialist + javascript-style.mdc
-- HTML/htmx files → UI Developer + htmx-style.mdc
+- Rust files → Rust Specialist + rust-style.md
+- Smalltalk files → Smalltalk Specialist + smalltalk-style.md
+- JavaScript files → JavaScript Specialist + javascript-style.md
+- HTML/htmx files → UI Developer + htmx-style.md
 - UI/UX changes → UI/UX Agent
 - Feature additions → Jobs to be Done Agent
 
