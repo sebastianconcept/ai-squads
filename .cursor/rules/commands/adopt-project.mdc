@@ -1,0 +1,84 @@
+# Adopt Project Workflow
+
+This workflow guides the adoption of ai-squads in a project.
+
+## Prerequisites
+
+1. ai-squads must be installed as a git submodule in the project
+2. Global commands should be installed (run `ai-squads/scripts/install.sh`)
+
+## Steps
+
+### 1. Detect ai-squads Location
+- Check if `ai-squads/` directory exists in current project root
+- Verify it contains `.cursor/rules/` directory
+- If not found, prompt user to add ai-squads as submodule first
+
+### 2. Create Project Structure
+- Run `ai-squads/scripts/create-project-docs.sh` from project root
+- This creates:
+  - `ai-squads-docs/` directory
+  - `.cursor/commands/` directory
+  - Copies all templates
+
+### 3. Gather Project Information
+Ask the user interactive questions:
+
+**Project Mission:**
+- What is the main purpose of this project?
+- What problem does it solve?
+- Who is the target audience?
+
+**Tech Stack:**
+- What technologies are used? (Backend, Frontend, Database, etc.)
+- What frameworks/libraries?
+- Any specific versions or constraints?
+
+**Roadmap:**
+- What are the immediate priorities?
+- What are the long-term goals?
+- Any known upcoming features?
+
+**Key Decisions:**
+- What important architectural decisions have been made?
+- What trade-offs were considered?
+
+### 4. Select Agent Team
+Based on tech stack, suggest relevant agents:
+- Rust backend → Rust Specialist
+- Smalltalk/Pharo → Smalltalk Specialist
+- JavaScript/Alpine/htmx → JavaScript Specialist, UI Developer
+- All projects → Jobs to be Done, UI/UX
+
+Allow user to:
+- Select from suggested agents
+- Add additional agents
+- Remove suggested agents
+- Specify roles for each agent
+
+### 5. Customize Templates
+Fill in generated templates with gathered information:
+- `ai-squads-docs/mission.md` - Project mission
+- `ai-squads-docs/tech-stack.md` - Technology details
+- `ai-squads-docs/roadmap.md` - Project roadmap
+- `ai-squads-docs/DECISIONS.md` - Key decisions
+- `ai-squads-docs/README.md` - Project overview
+- `ai-squads-docs/team.md` - Selected agent team
+
+### 6. Finalize
+- Review created structure
+- Optionally create initial git commit
+- Confirm installation complete
+
+## Output
+
+After completion, the project should have:
+- `ai-squads-docs/` with all project documentation
+- `.cursor/commands/` with project-specific commands
+- `ai-squads-docs/team.md` with agent team configuration
+
+## Notes
+
+- All paths should be relative to project root
+- Reference ai-squads resources using `ai-squads/` prefix
+- Keep documentation brief and developer-oriented

@@ -1,0 +1,56 @@
+# Rust Code Style Standards
+
+## General Principles
+
+- Prefer safe code over unsafe
+- Use appropriate error handling with Result types
+- Consider performance implications of design choices
+- Follow Rust ownership and borrowing rules strictly
+
+## Code Organization
+
+- Use modules to organize code logically
+- Keep functions focused and single-purpose
+- Prefer composition over inheritance (traits over structs)
+
+## Error Handling
+
+- Use `Result<T, E>` for fallible operations
+- Prefer custom error types implementing `std::error::Error`
+- Use `?` operator for error propagation
+- Avoid unwrap() in production code; use expect() with clear messages if needed
+
+## Naming Conventions
+
+- Use snake_case for functions, variables, modules
+- Use PascalCase for types, traits, enums
+- Use SCREAMING_SNAKE_CASE for constants
+- Use descriptive names that convey intent
+
+## Ownership and Borrowing
+
+- Prefer borrowing (&) over ownership when possible
+- Use references for read-only access
+- Use mutable references (&mut) only when necessary
+- Consider using Rc/Arc for shared ownership when needed
+
+## Performance
+
+- Prefer iterators over manual loops
+- Use slice patterns when appropriate
+- Consider zero-cost abstractions
+- Profile before optimizing
+
+## Documentation
+
+- Use /// for public API documentation
+- Include examples in doc comments
+- Document error conditions
+- Keep documentation up to date
+
+## Testing
+
+- Write unit tests alongside code
+- Use #[cfg(test)] for test modules
+- Test error paths, not just happy paths
+- Use integration tests for public APIs
