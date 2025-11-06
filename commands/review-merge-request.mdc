@@ -1,3 +1,7 @@
+---
+alwaysApply: false
+---
+
 # Review Merge Request Workflow
 
 This workflow guides the review of merge requests using the project's agent team.
