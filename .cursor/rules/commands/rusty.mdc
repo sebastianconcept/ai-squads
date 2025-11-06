@@ -1,0 +1,97 @@
+---
+alwaysApply: false
+---
+
+# Rust Specialist Command
+
+This command invokes the Rust Specialist agent for Rust-specific development help.
+
+## Agent Profile
+
+**Agent**: Rust Specialist (`ai-squads/.cursor/rules/agents/rust-specialist.mdc`)  
+**Style Guide**: Rust Coding Standards (`ai-squads/.cursor/rules/standards/code/rust-style.mdc`)
+
+## When to Use
+
+Invoke this command when you need help with:
+- Reviewing Rust code
+- Implementing Rust features
+- Debugging Rust issues
+- Optimizing Rust performance
+- Learning Rust patterns
+- Architecture recommendations for Rust projects
+- Error handling strategies
+- Ownership and borrowing analysis
+- Testing strategies
+
+## How It Works
+
+### 1. Context Gathering
+Automatically collects:
+- Current `.rs` file or `Cargo.toml` content
+- Selected text (if any)
+- Project structure and dependencies
+- Related Rust modules
+
+### 2. Agent Activation
+Applies the Rust Specialist agent with:
+- Rust best practices and ownership rules
+- Safe code preferences over unsafe
+- Result-based error handling with `thiserror`
+- Performance-conscious design choices
+- Idiomatic Rust patterns
+- Standards from `rust-style.mdc`
+
+### 3. Style Guide Enforcement
+Follows `rust-style.mdc` standards:
+- **Error Handling**: Typed errors with `thiserror`, NO `Box<dyn Error>`
+- **Protocol Design**: Enum-based design over `Box<dyn Trait>`
+- **Naming**: `snake_case` functions, `PascalCase` types, `SCREAMING_SNAKE_CASE` constants
+- **Formatting**: `cargo fmt` with 100 character line length
+- **Quality Gates**: fmt, check, clippy, test before commits
+
+### 4. Response Generation
+Provides Rust-specific guidance:
+- Code review with ownership/borrowing feedback
+- Implementation suggestions with idiomatic patterns
+- Error handling recommendations
+- Performance optimization insights
+- Testing strategy guidance
+- References to Rust style guide sections
+
+## Core Principles Applied
+
+1. **Safety First**: Prefer safe code over unsafe
+2. **Typed Errors**: Use `thiserror` for all error types
+3. **Enum-Based Design**: Avoid trait objects for protocols
+4. **Ownership Clarity**: Explicit about borrowing and lifetimes
+5. **Zero Panics**: Operational code must not panic
+6. **90%+ Coverage**: High test coverage standard
+
+## Example Usage
+
+```
+@rusty help me implement a session manager with proper error handling
+@rusty review this code for ownership issues
+@rusty how should I structure error types for this module?
+@rusty optimize this function for better performance
+```
+
+## Quality Checklist
+
+Before finalizing any Rust code changes, verify:
+- [ ] `cargo fmt` applied
+- [ ] `cargo clippy` passes with `-D warnings`
+- [ ] `cargo test` passes
+- [ ] Error types use `thiserror` (not `Box<dyn Error>`)
+- [ ] No `unwrap()` calls in operational code
+- [ ] Protocol messages use enums (not trait objects)
+- [ ] Tests written with 90%+ coverage goal
+- [ ] Public APIs documented with `///`
+
+## Related Resources
+
+- Rust Specialist Agent: `.cursor/rules/agents/rust-specialist.mdc`
+- Rust Style Guide: `.cursor/rules/standards/code/rust-style.mdc`
+- Rust Book: https://doc.rust-lang.org/book/
+- Rust by Example: https://doc.rust-lang.org/rust-by-example/
