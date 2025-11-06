@@ -9,8 +9,20 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 AI_SQUADS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Determine the git repository root
+# If we're in a submodule, use the parent repo's root
 if git rev-parse --git-dir > /dev/null 2>&1; then
-    REPO_ROOT="$(git rev-parse --show-toplevel)"
+    # Check if we're in a submodule
+    SUPERPROJECT_ROOT="$(git rev-parse --show-superproject-working-tree 2>/dev/null)"
+    
+    if [ -n "$SUPERPROJECT_ROOT" ]; then
+        # We're in a submodule, use the parent repo
+        REPO_ROOT="$SUPERPROJECT_ROOT"
+        echo "Detected submodule installation - installing to parent repository"
+    else
+        # Regular repo
+        REPO_ROOT="$(git rev-parse --show-toplevel)"
+    fi
+    
     TARGET_DIR="$REPO_ROOT/.cursor"
 else
     echo "Error: Not in a git repository. Run this from within a git repository."
