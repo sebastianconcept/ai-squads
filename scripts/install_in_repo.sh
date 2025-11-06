@@ -37,18 +37,6 @@ check_existing_files() {
         has_files=true
     fi
     
-    if [ -d "$TARGET_DIR/rules" ] && [ -n "$(ls -A "$TARGET_DIR/rules"/*.mdc 2>/dev/null)" ]; then
-        has_files=true
-    fi
-    
-    if [ -d "$TARGET_DIR/agents" ] && [ -n "$(ls -A "$TARGET_DIR/agents"/*.mdc 2>/dev/null)" ]; then
-        has_files=true
-    fi
-    
-    if [ -d "$TARGET_DIR/rules/standards/code" ] && [ -n "$(ls -A "$TARGET_DIR/rules/standards/code"/*.mdc 2>/dev/null)" ]; then
-        has_files=true
-    fi
-    
     echo "$has_files"
 }
 
@@ -70,47 +58,31 @@ if [ "$existing" = "true" ]; then
     echo "Overwriting existing files..."
 fi
 
-echo "Installing ai-squads to $TARGET_DIR..."
+echo "Installing ai-squads commands to $TARGET_DIR..."
 
-# Create target directories if they don't exist
+# Create target directory if it doesn't exist
 mkdir -p "$TARGET_DIR/commands"
-mkdir -p "$TARGET_DIR/rules/standards/code"
-mkdir -p "$TARGET_DIR/agents"
 
 # Copy commands
 echo "Copying commands..."
 cp -v "$AI_SQUADS_DIR/commands"/*.mdc "$TARGET_DIR/commands/"
 
-# Copy rules
-echo "Copying rules..."
-cp -v "$AI_SQUADS_DIR/rules"/*.mdc "$TARGET_DIR/rules/"
-
-# Copy standards
-echo "Copying standards..."
-cp -v "$AI_SQUADS_DIR/standards/code"/*.mdc "$TARGET_DIR/rules/standards/code/"
-
-# Copy agents
-echo "Copying agents..."
-cp -v "$AI_SQUADS_DIR/agents"/*.mdc "$TARGET_DIR/agents/"
-
 # Make scripts executable
 chmod +x "$AI_SQUADS_DIR/scripts"/*.sh
 
 echo ""
-echo "✓ ai-squads installed to repository at $TARGET_DIR"
+echo "✓ ai-squads commands installed to repository at $TARGET_DIR/commands"
 echo ""
 echo "Available commands:"
 echo "  - Adopt Project"
 echo "  - Plan Feature"
 echo "  - Review Merge Request"
-echo "  - Rusty"
 echo ""
-echo "Available agents:"
-echo "  - JavaScript Specialist"
-echo "  - Rust Specialist"
-echo "  - Smalltalk Specialist"
-echo "  - UI Developer"
-echo "  - UI/UX"
-echo "  - Jobs to be Done"
+echo "Specialist agents:"
+echo "  - Rusty (Rust Specialist)"
+echo "  - Alan (Smalltalk Specialist)"
+echo "  - UIDev (JavaScript/CSS/HTML)"
+echo "  - Bob (Jobs to be Done)"
+echo "  - Steve (Product & UX)"
 echo ""
 

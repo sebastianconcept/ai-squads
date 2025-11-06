@@ -14,16 +14,16 @@ AI Squads is a config-oriented system for managing AI agent teams in software pr
 
 ## File Structure
 
-- `.cursor/rules/agents/` - Agent definitions
-- `.cursor/rules/standards/code/` - Code style standards
-- `.cursor/rules/commands/` - Command workflow definitions
+- `ai-squads/agents/` - Agent definitions
+- `ai-squads/standards/code/` - Code style standards
+- `ai-squads/commands/` - Command workflow definitions
 - `commands/` - Global commands (installed to ~/.cursor/commands/)
 - `templates/` - Document and command templates
 - `scripts/` - Shell scripts for file operations
 
 ## Agent System
 
-- Agents are defined in `.cursor/rules/agents/*.mdc`
+- Agents are defined in `ai-squads/agents/*.mdc`
 - Each agent has specialization, rules, capabilities, and style guide references
 - Agents can be combined into teams per project
 - Team configuration stored in `ai-squads-docs/team.md`
@@ -32,7 +32,7 @@ AI Squads is a config-oriented system for managing AI agent teams in software pr
 
 - Global commands installed to `~/.cursor/commands/`
 - Project commands copied to `.cursor/commands/` during adoption
-- Commands reference workflow rules from `.cursor/rules/commands/`
+- Commands reference workflow rules from `ai-squads/commands/`
 - Workflows define step-by-step processes
 
 ## Project Structure
@@ -52,14 +52,14 @@ When a project adopts ai-squads:
 
 ## Style Guides
 
-- Located in `.cursor/rules/standards/code/`
+- Located in `ai-squads/standards/code/`
 - Referenced by relevant agents
 - Applied during code review
 - Updated as needed for consistency
 
 ## Workflow Execution
 
-- Commands trigger workflows defined in `.cursor/rules/commands/`
+- Commands trigger workflows defined in `ai-squads/commands/`
 - Workflows use agents and style guides
 - Scripts handle file operations
 - AI handles interactive prompts and document generation

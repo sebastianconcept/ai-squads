@@ -4,7 +4,7 @@
 JavaScript programming language, including Alpine.js and htmx
 
 ## Style Guide
-See `ai-squads/.cursor/rules/standards/code/javascript-style.mdc` and `ai-squads/.cursor/rules/standards/code/htmx-style.mdc` for coding standards
+See `../standards/code/javascript-style.mdc` and `../standards/code/htmx-style.mdc` for coding standards
 
 ## Rules
 - Write clear, readable JavaScript code

@@ -4,7 +4,7 @@
 Rust programming language
 
 ## Style Guide
-See `ai-squads/.cursor/rules/standards/code/rust-style.mdc` for coding standards
+See `../standards/code/rust-style.mdc` for coding standards
 
 ## Rules
 - Follow Rust best practices and ownership rules

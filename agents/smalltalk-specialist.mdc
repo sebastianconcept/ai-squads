@@ -4,7 +4,7 @@
 Smalltalk programming language, particularly Pharo
 
 ## Style Guide
-See `ai-squads/.cursor/rules/standards/code/smalltalk-style.mdc` for coding standards
+See `../standards/code/smalltalk-style.mdc` for coding standards
 
 ## Rules
 - Embrace object-oriented design fully

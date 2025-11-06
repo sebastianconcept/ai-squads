@@ -1,0 +1,107 @@
+---
+alwaysApply: false
+---
+
+# UI Developer Command
+
+This command invokes the UI Developer agent for frontend development help with JavaScript, CSS, and HTML.
+
+## Agent Profile
+
+**Agent**: UI Developer (`../../ai-squads/agents/ui-developer.mdc`)  
+**Style Guides**: JavaScript Standards (`../../ai-squads/standards/code/javascript-style.mdc`) and htmx Standards (`../../ai-squads/standards/code/htmx-style.mdc`)
+
+## When to Use
+
+Invoke this command when you need help with:
+- Implementing UI designs and components
+- Writing frontend JavaScript (Alpine.js, vanilla JS)
+- Creating semantic HTML structure
+- Styling with CSS and Tailwind
+- Building interactive interfaces with htmx
+- Frontend architecture and component design
+- Accessibility and responsive design
+- Performance optimization for frontend
+- Testing frontend components
+
+## How It Works
+
+### 1. Context Gathering
+Automatically collects:
+- Current `.js`, `.html`, `.css` file content
+- Selected text (if any)
+- Related component files
+- Project frontend structure
+
+### 2. Agent Activation
+Applies the UI Developer agent with:
+- Modern frontend best practices
+- Semantic HTML principles
+- Progressive enhancement with htmx
+- Alpine.js patterns and reactivity
+- Tailwind CSS utility-first approach
+- Accessibility standards (WCAG)
+- Standards from `javascript-style.mdc` and `htmx-style.mdc`
+
+### 3. Style Guide Enforcement
+Follows multiple style guides:
+- **JavaScript**: Modern ES6+, const by default, functional patterns
+- **HTML**: Semantic tags, proper hierarchy, accessibility attributes
+- **htmx**: Progressive enhancement, hypermedia-driven interactions
+- **CSS**: Mobile-first, utility classes, maintainable structure
+- **Alpine.js**: Declarative approach, minimal JavaScript
+
+### 4. Response Generation
+Provides frontend-specific guidance:
+- Component implementation with best practices
+- HTML structure and semantic improvements
+- CSS styling suggestions with Tailwind
+- JavaScript interaction patterns
+- htmx integration techniques
+- Accessibility improvements
+- Performance optimization tips
+- References to relevant style guide sections
+
+## Core Principles Applied
+
+1. **Semantic HTML**: Use proper HTML5 elements for meaning
+2. **Progressive Enhancement**: Start with HTML, enhance with htmx/JS
+3. **Accessibility First**: WCAG compliance, keyboard navigation, screen readers
+4. **Mobile First**: Responsive design from smallest screens up
+5. **Performance**: Minimize JavaScript, leverage browser capabilities
+6. **Maintainability**: Clear component structure, consistent patterns
+
+## Example Usage
+
+```
+@uidev help me implement this dropdown component with Alpine.js
+@uidev review this HTML for semantic and accessibility improvements
+@uidev how should I structure this form with htmx?
+@uidev optimize this JavaScript for better performance
+@uidev create a responsive navigation menu with Tailwind
+```
+
+## Quality Checklist
+
+Before finalizing any frontend code changes, verify:
+- [ ] HTML uses semantic tags (nav, main, article, section, etc.)
+- [ ] All interactive elements are keyboard accessible
+- [ ] Images have alt text, forms have labels
+- [ ] Color contrast meets WCAG AA standards
+- [ ] Mobile-first responsive design implemented
+- [ ] JavaScript is minimal and necessary
+- [ ] htmx used for server interactions where appropriate
+- [ ] Alpine.js used for client-side reactivity sparingly
+- [ ] CSS is organized and maintainable
+- [ ] Components are reusable and well-structured
+- [ ] Performance tested (Lighthouse, Core Web Vitals)
+
+## Related Resources
+
+- UI Developer Agent: `../../ai-squads/agents/ui-developer.mdc`
+- JavaScript Style Guide: `../../ai-squads/standards/code/javascript-style.mdc`
+- htmx Style Guide: `../../ai-squads/standards/code/htmx-style.mdc`
+- htmx Documentation: https://htmx.org/
+- Alpine.js Documentation: https://alpinejs.dev/
+- Tailwind CSS: https://tailwindcss.com/
+- Web Accessibility (WCAG): https://www.w3.org/WAI/WCAG21/quickref/

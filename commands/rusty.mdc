@@ -8,8 +8,8 @@ This command invokes the Rust Specialist agent for Rust-specific development hel
 
 ## Agent Profile
 
-**Agent**: Rust Specialist (`ai-squads/.cursor/rules/agents/rust-specialist.mdc`)  
-**Style Guide**: Rust Coding Standards (`ai-squads/.cursor/rules/standards/code/rust-style.mdc`)
+**Agent**: Rust Specialist (`../../ai-squads/agents/rust-specialist.mdc`)  
+**Style Guide**: Rust Coding Standards (`../../ai-squads/standards/code/rust-style.mdc`)
 
 ## When to Use
 
@@ -91,7 +91,7 @@ Before finalizing any Rust code changes, verify:
 
 ## Related Resources
 
-- Rust Specialist Agent: `.cursor/rules/agents/rust-specialist.mdc`
-- Rust Style Guide: `.cursor/rules/standards/code/rust-style.mdc`
+- Rust Specialist Agent: `../../ai-squads/agents/rust-specialist.mdc`
+- Rust Style Guide: `../../ai-squads/standards/code/rust-style.mdc`
 - Rust Book: https://doc.rust-lang.org/book/
 - Rust by Example: https://doc.rust-lang.org/rust-by-example/

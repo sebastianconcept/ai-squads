@@ -21,10 +21,18 @@ cd ai-squads
 ```
 
 This installs global commands to `~/.cursor/commands/`:
-- Adopt Project
-- Plan Feature
-- Review Merge Request
-- Invoke Agent
+
+**Project Commands:**
+- Adopt Project - Set up ai-squads in a new project
+- Plan Feature - Create structured feature documentation
+- Review Merge Request - Agent-based code review
+
+**Specialist Agent Commands:**
+- Rusty - Rust programming expert
+- Alan - Smalltalk/Pharo expert
+- UIDev - JavaScript/CSS/HTML expert
+- Bob - Jobs to be Done expert
+- Steve - Product & UX expert
 
 ### Adopt in a Project
 
@@ -81,12 +89,14 @@ After adopting ai-squads, your project will have:
 ```
 my-project/
 ├── ai-squads/                # Git submodule
-│   ├── .cursor/rules/        # Agents, standards, workflows
-│   ├── commands/
-│   ├── scripts/
-│   └── templates/
+│   ├── agents/               # Specialist agents
+│   ├── commands/             # Command workflows
+│   ├── scripts/              # Install scripts
+│   ├── standards/code/       # Code style standards
+│   ├── rules/                # System rules
+│   └── templates/            # Documentation templates
 ├── .cursor/
-│   └── commands/             # Project-specific commands
+│   └── commands/             # Installed commands (copied from ai-squads/commands/)
 ├── ai-squads-docs/           # Project planning docs
 │   ├── mission.md
 │   ├── roadmap.md
@@ -136,7 +146,7 @@ my-project/
 
 ## Code Style Standards
 
-Style guides are located in `.cursor/rules/standards/code/`:
+Style guides are located in `ai-squads/standards/code/`:
 - `rust-style.mdc` - Rust coding standards
 - `smalltalk-style.mdc` - Smalltalk/Pharo standards
 - `javascript-style.mdc` - JavaScript standards (covers Alpine, vanilla JS)
@@ -146,13 +156,13 @@ Agents automatically reference relevant style guides when providing guidance.
 
 ## Configuration
 
-All configuration is done through `.mdc` files:
-- **Agents**: `.cursor/rules/agents/*.mdc`
-- **Standards**: `.cursor/rules/standards/code/*.mdc`
-- **Workflows**: `.cursor/rules/commands/*.mdc`
-- **System**: `.cursor/rules/system.mdc`
+All configuration is done through `.mdc` files in the ai-squads submodule:
+- **Agents**: `ai-squads/agents/*.mdc`
+- **Standards**: `ai-squads/standards/code/*.mdc`
+- **Commands**: `ai-squads/commands/*.mdc`
+- **System Rules**: `ai-squads/rules/system.mdc`
 
-Edit these files to customize agents, standards, and workflows for your needs.
+Edit these files in the ai-squads submodule to customize agents, standards, and workflows for your needs.
 
 ## Team Configuration
 
@@ -166,10 +176,11 @@ The team configuration is used by commands to provide relevant guidance.
 ## Contributing
 
 This is a config-oriented system. To customize:
-1. Edit agent definitions in `.cursor/rules/agents/`
-2. Update style guides in `.cursor/rules/standards/code/`
-3. Modify workflows in `.cursor/rules/commands/`
-4. Adjust templates in `templates/`
+1. Edit agent definitions in `ai-squads/agents/`
+2. Update style guides in `ai-squads/standards/code/`
+3. Modify command workflows in `ai-squads/commands/`
+4. Adjust templates in `ai-squads/templates/`
+5. Update system rules in `ai-squads/rules/`
 
 ## License
 
