@@ -14,17 +14,16 @@ AI Squads is a config-oriented system for managing AI agent teams in software pr
 
 ## File Structure
 
-- `ai-squads/agents/` - Agent definitions
 - `ai-squads/standards/code/` - Code style standards
-- `ai-squads/commands/` - Command workflow definitions
+- `ai-squads/commands/` - Command workflow definitions (agents are commands)
 - `commands/` - Global commands (installed to ~/.cursor/commands/)
 - `templates/` - Document and command templates
 - `scripts/` - Shell scripts for file operations
 
 ## Agent System
 
-- Agents are defined in `ai-squads/agents/*.md`
-- Each agent has specialization, rules, capabilities, and style guide references
+- Agents are implemented as commands in `ai-squads/commands/*.md`
+- Each command/agent has specialization, rules, capabilities, and style guide references
 - Agents can be combined into teams per project
 - Team configuration stored in `ai-squads-docs/team.md`
 
@@ -66,7 +65,7 @@ When a project adopts ai-squads:
 
 ## Best Practices
 
-- Keep agent rules succinct and focused
+- Keep command/agent rules succinct and focused
 - Update style guides based on team feedback
 - Document decisions in `ai-squads-docs/DECISIONS.md`
 - Review and refine workflows regularly

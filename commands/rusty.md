@@ -7,9 +7,8 @@ alwaysApply: false
 
 This command invokes the Rust Specialist agent for Rust-specific development help.
 
-## Agent Profile
+## Style Guide
 
-**Agent**: Rust Specialist (`../../ai-squads/agents/rust-specialist.md`)  
 **Style Guide**: Rust Coding Standards (`../../ai-squads/standards/code/rust-style.md`)
 
 ## When to Use
@@ -141,7 +140,6 @@ Before finalizing any Rust code changes, verify:
 
 ## Related Resources
 
-- Rust Specialist Agent: `../../ai-squads/agents/rust-specialist.md`
 - Rust Style Guide: `../../ai-squads/standards/code/rust-style.md`
 - Rust Book: https://doc.rust-lang.org/book/
 - Rust by Example: https://doc.rust-lang.org/rust-by-example/

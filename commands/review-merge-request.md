@@ -36,7 +36,7 @@ Categorize changed files:
 
 ### 4. Invoke Relevant Agents
 For each category of changes:
-- Load appropriate agent rules from `../../ai-squads/agents/`
+- Load appropriate command/agent from `../../ai-squads/commands/`
 - Load corresponding style guide from `../../ai-squads/standards/code/`
 - Provide context: file paths, changes, project tech stack
 - Generate review feedback

@@ -7,9 +7,8 @@ alwaysApply: false
 
 This command invokes the UI Developer agent for frontend development help with JavaScript, CSS, and HTML.
 
-## Agent Profile
+## Style Guides
 
-**Agent**: UI Developer (`../../ai-squads/agents/ui-developer.md`)  
 **Style Guides**: JavaScript Standards (`../../ai-squads/standards/code/javascript-style.md`) and htmx Standards (`../../ai-squads/standards/code/htmx-style.md`)
 
 ## When to Use
@@ -99,7 +98,6 @@ Before finalizing any frontend code changes, verify:
 
 ## Related Resources
 
-- UI Developer Agent: `../../ai-squads/agents/ui-developer.md`
 - JavaScript Style Guide: `../../ai-squads/standards/code/javascript-style.md`
 - htmx Style Guide: `../../ai-squads/standards/code/htmx-style.md`
 - htmx Documentation: https://htmx.org/

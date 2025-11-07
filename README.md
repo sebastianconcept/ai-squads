@@ -89,8 +89,7 @@ After adopting ai-squads, your project will have:
 ```
 my-project/
 ├── ai-squads/                # Git submodule
-│   ├── agents/               # Specialist agents
-│   ├── commands/             # Command workflows
+│   ├── commands/             # Command workflows (agents are commands)
 │   ├── scripts/              # Install scripts
 │   ├── standards/code/       # Code style standards
 │   ├── rules/                # System rules
@@ -157,9 +156,8 @@ Agents automatically reference relevant style guides when providing guidance.
 ## Configuration
 
 All configuration is done through `.md` files in the ai-squads submodule:
-- **Agents**: `ai-squads/agents/*.md`
+- **Agents/Commands**: `ai-squads/commands/*.md` (agents are implemented as commands)
 - **Standards**: `ai-squads/standards/code/*.md`
-- **Commands**: `ai-squads/commands/*.md`
 - **System Rules**: `ai-squads/rules/system.md`
 
 Edit these files in the ai-squads submodule to customize agents, standards, and workflows for your needs.
@@ -176,7 +174,7 @@ The team configuration is used by commands to provide relevant guidance.
 ## Contributing
 
 This is a config-oriented system. To customize:
-1. Edit agent definitions in `ai-squads/agents/`
+1. Edit command/agent definitions in `ai-squads/commands/`
 2. Update style guides in `ai-squads/standards/code/`
 3. Modify command workflows in `ai-squads/commands/`
 4. Adjust templates in `ai-squads/templates/`

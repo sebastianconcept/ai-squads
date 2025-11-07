@@ -16,7 +16,7 @@ This workflow guides the adoption of ai-squads in a project.
 
 ### 1. Detect ai-squads Location
 - Check if `ai-squads/` directory exists in current project root
-- Verify it contains `agents/`, `commands/`, and `standards/` directories
+- Verify it contains `commands/` and `standards/` directories
 - If not found, prompt user to add ai-squads as submodule first
 
 ### 2. Create Project Structure

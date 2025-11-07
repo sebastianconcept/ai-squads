@@ -7,9 +7,8 @@ alwaysApply: false
 
 This command invokes the Jobs to be Done expert for product strategy and user-centered feature planning.
 
-## Agent Profile
+## Inspiration
 
-**Agent**: Jobs to be Done Expert (`../../ai-squads/agents/jobs-to-be-done.md`)  
 **Inspired by**: Bob Moesta and Clayton Christensen
 
 ## When to Use
@@ -118,7 +117,6 @@ Before finalizing any product decision, verify:
 
 ## Related Resources
 
-- Jobs to be Done Agent: `../../ai-squads/agents/jobs-to-be-done.md`
 - "Competing Against Luck" by Clayton Christensen
 - "Demand-Side Sales 101" by Bob Moesta
 - "When Coffee and Kale Compete" by Alan Klement
