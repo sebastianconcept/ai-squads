@@ -9,21 +9,20 @@ This workflow guides the adoption of ai-squads in a project.
 
 ## Prerequisites
 
-1. ai-squads must be installed as a git submodule in the project
-2. Global commands should be installed (run `ai-squads/scripts/install.sh`)
+1. Global ai-squads installation must be present (run `./scripts/install.sh` from ai-squads directory)
+2. Must be run from a git repository root
 
 ## Steps
 
-### 1. Detect ai-squads Location
-- Check if `ai-squads/` directory exists in current project root
-- Verify it contains `agents/`, `commands/`, and `standards/` directories
-- If not found, prompt user to add ai-squads as submodule first
+### 1. Verify Global Installation
+- Check if `~/.cursor/templates/` directory exists
+- Verify it contains project templates
+- If not found, prompt user to run global installation first
 
 ### 2. Create Project Structure
-- Run `ai-squads/scripts/create-project-docs.sh` from project root
+- Run `~/.cursor/scripts/create-project-docs.sh` from project root
 - This creates:
-  - `ai-squads-docs/` directory
-  - `.cursor/commands/` directory
+  - `docs/` directory
   - Copies all templates
 
 ### 3. Gather Project Information
@@ -63,12 +62,12 @@ Allow user to:
 
 ### 5. Customize Templates
 Fill in generated templates with gathered information:
-- `ai-squads-docs/mission.md` - Project mission
-- `ai-squads-docs/tech-stack.md` - Technology details
-- `ai-squads-docs/roadmap.md` - Project roadmap
-- `ai-squads-docs/DECISIONS.md` - Key decisions
-- `ai-squads-docs/README.md` - Project overview
-- `ai-squads-docs/team.md` - Selected agent team
+- `docs/mission.md` - Project mission
+- `docs/tech-stack.md` - Technology details
+- `docs/roadmap.md` - Project roadmap
+- `docs/DECISIONS.md` - Key decisions
+- `docs/README.md` - Project overview
+- `docs/team.md` - Selected agent team
 
 ### 6. Finalize
 - Review created structure
@@ -78,12 +77,10 @@ Fill in generated templates with gathered information:
 ## Output
 
 After completion, the project should have:
-- `ai-squads-docs/` with all project documentation
-- `.cursor/commands/` with project-specific commands
-- `ai-squads-docs/team.md` with agent team configuration
+- `docs/` with all project documentation
+- `docs/team.md` with agent team configuration
 
 ## Notes
 
 - All paths should be relative to project root
-- Reference ai-squads resources using `ai-squads/` prefix
 - Keep documentation brief and developer-oriented

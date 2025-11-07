@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create feature documentation structure
-# Creates ai-squads-docs/feature/{feature_name}/ directory
+# Creates docs/feature/{feature_name}/ directory
 
 set -e
 
@@ -11,18 +11,17 @@ if [ -z "$1" ]; then
 fi
 
 FEATURE_NAME="$1"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-AI_SQUADS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+TARGET_DIR="$HOME/.cursor"
 
-if [ ! -d "$AI_SQUADS_DIR/.cursor" ]; then
-    echo "Error: ai-squads directory not found or invalid"
-    echo "Make sure you're running this from a project with ai-squads as a submodule"
+if [ ! -d "$TARGET_DIR/templates" ]; then
+    echo "Error: ai-squads templates not found in $TARGET_DIR/templates"
+    echo "Make sure you've run the global installation: ./scripts/install.sh"
     exit 1
 fi
 
-TEMPLATES_DIR="$AI_SQUADS_DIR/templates"
-FEATURE_DIR="$PROJECT_ROOT/ai-squads-docs/feature/$FEATURE_NAME"
+TEMPLATES_DIR="$TARGET_DIR/templates"
+FEATURE_DIR="$PROJECT_ROOT/docs/feature/$FEATURE_NAME"
 
 # Validate feature name (no special characters except hyphens)
 if [[ ! "$FEATURE_NAME" =~ ^[a-zA-Z0-9-]+$ ]]; then

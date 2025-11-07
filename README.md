@@ -1,6 +1,6 @@
 # AI Squads
 
-A config-oriented system for managing AI agent teams in software projects. Projects adopt ai-squads as a git submodule to get specialist agents, code style standards, and workflows for project planning and code review.
+A config-oriented system for managing AI agent teams in software projects. Install ai-squads globally once to get specialist agents, code style standards, and workflows for project planning and code review across all your projects.
 
 ## Features
 
@@ -36,31 +36,20 @@ This installs global commands to `~/.cursor/commands/`:
 
 ### Adopt in a Project
 
-1. Add ai-squads as a git submodule:
-
-```bash
-cd my-project
-git submodule add <ai-squads-url> ai-squads
-cd ai-squads
-./scripts/install.sh  # If not already installed globally
-cd ..
-```
-
-2. Run the "Adopt Project" command in Cursor
+1. Run the "Adopt Project" command in Cursor from your project root
 
 This will:
-- Create `ai-squads-docs/` directory with project documentation templates
-- Set up `.cursor/commands/` with project-specific commands
+- Create `docs/` directory with project documentation templates
 - Ask questions about mission, tech stack, and roadmap
 - Configure agent team based on tech stack
-- Save team configuration to `ai-squads-docs/team.md`
+- Save team configuration to `docs/team.md`
 
 ## Usage
 
 ### Plan a Feature
 
 Run the "Plan Feature" command in Cursor. This will:
-- Create feature directory in `ai-squads-docs/feature/{feature_name}/`
+- Create feature directory in `docs/feature/{feature_name}/`
 - Generate PRD.md, specs.md, and tasks.md templates
 - Use your project's agent team to inform planning
 - Customize planning documents with feature details
@@ -88,16 +77,7 @@ After adopting ai-squads, your project will have:
 
 ```
 my-project/
-├── ai-squads/                # Git submodule
-│   ├── agents/               # Specialist agents
-│   ├── commands/             # Command workflows
-│   ├── scripts/              # Install scripts
-│   ├── standards/code/       # Code style standards
-│   ├── rules/                # System rules
-│   └── templates/            # Documentation templates
-├── .cursor/
-│   └── commands/             # Installed commands (copied from ai-squads/commands/)
-├── ai-squads-docs/           # Project planning docs
+├── docs/                     # Project planning docs
 │   ├── mission.md
 │   ├── roadmap.md
 │   ├── tech-stack.md
@@ -110,6 +90,15 @@ my-project/
 │           ├── specs.md
 │           └── tasks.md
 └── src/                      # Your project code
+```
+
+Global installation (at `~/.cursor/`):
+```
+~/.cursor/
+├── commands/                 # Command workflows
+├── templates/                # Documentation templates
+├── scripts/                  # Helper scripts
+└── rules/                    # System rules (applied globally)
 ```
 
 ## Agents
@@ -146,7 +135,7 @@ my-project/
 
 ## Code Style Standards
 
-Style guides are located in `ai-squads/standards/code/`:
+Style guides are located in the ai-squads source repository:
 - `rust-style.md` - Rust coding standards
 - `smalltalk-style.md` - Smalltalk/Pharo standards
 - `javascript-style.md` - JavaScript standards (covers Alpine, vanilla JS)
@@ -156,17 +145,17 @@ Agents automatically reference relevant style guides when providing guidance.
 
 ## Configuration
 
-All configuration is done through `.md` files in the ai-squads submodule:
-- **Agents**: `ai-squads/agents/*.md`
-- **Standards**: `ai-squads/standards/code/*.md`
-- **Commands**: `ai-squads/commands/*.md`
-- **System Rules**: `ai-squads/rules/system.md`
+All configuration is done through `.md` files in the ai-squads repository:
+- **Agents**: `agents/*.md`
+- **Standards**: `standards/code/*.md`
+- **Commands**: `commands/*.md`
+- **System Rules**: `rules/system.md`
 
-Edit these files in the ai-squads submodule to customize agents, standards, and workflows for your needs.
+Edit these files in the ai-squads repository, then re-run `./scripts/install.sh` to update your global installation.
 
 ## Team Configuration
 
-Your project's agent team is configured in `ai-squads-docs/team.md`. This file lists:
+Your project's agent team is configured in `docs/team.md`. This file lists:
 - Assigned agents
 - Agent roles and responsibilities
 - Tech stack alignment
@@ -176,11 +165,12 @@ The team configuration is used by commands to provide relevant guidance.
 ## Contributing
 
 This is a config-oriented system. To customize:
-1. Edit agent definitions in `ai-squads/agents/`
-2. Update style guides in `ai-squads/standards/code/`
-3. Modify command workflows in `ai-squads/commands/`
-4. Adjust templates in `ai-squads/templates/`
-5. Update system rules in `ai-squads/rules/`
+1. Edit agent definitions in `agents/`
+2. Update style guides in `standards/code/`
+3. Modify command workflows in `commands/`
+4. Adjust templates in `templates/`
+5. Update system rules in `rules/`
+6. Re-run `./scripts/install.sh` to update global installation
 
 ## License
 

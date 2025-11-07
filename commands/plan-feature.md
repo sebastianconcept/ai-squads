@@ -9,8 +9,8 @@ This workflow guides the planning of a new feature for a project.
 
 ## Prerequisites
 
-1. Project must have been adopted (have `ai-squads-docs/` directory)
-2. Project must have `ai-squads-docs/team.md` with agent team
+1. Project must have been adopted (have `docs/` directory)
+2. Project must have `docs/team.md` with agent team
 
 ## Steps
 
@@ -20,14 +20,14 @@ This workflow guides the planning of a new feature for a project.
 - Check if feature already exists
 
 ### 2. Create Feature Structure
-- Run `ai-squads/scripts/create-feature-docs.sh {feature_name}` from project root
-- This creates `ai-squads-docs/feature/{feature_name}/` directory
+- Run `~/.cursor/scripts/create-feature-docs.sh {feature_name}` from project root
+- This creates `docs/feature/{feature_name}/` directory
 - Copies PRD.md, specs.md, tasks.md templates
 
 ### 3. Load Project Context
-- Read `ai-squads-docs/team.md` to get agent team
-- Read `ai-squads-docs/tech-stack.md` for technical context
-- Read `ai-squads-docs/mission.md` for project alignment
+- Read `docs/team.md` to get agent team
+- Read `docs/tech-stack.md` for technical context
+- Read `docs/mission.md` for project alignment
 
 ### 4. Gather Feature Information
 Ask questions based on project's agent team:
@@ -83,9 +83,9 @@ Ask questions based on project's agent team:
 ## Output
 
 After completion, the feature should have:
-- `ai-squads-docs/feature/{feature_name}/PRD.md`
-- `ai-squads-docs/feature/{feature_name}/specs.md`
-- `ai-squads-docs/feature/{feature_name}/tasks.md`
+- `docs/feature/{feature_name}/PRD.md`
+- `docs/feature/{feature_name}/specs.md`
+- `docs/feature/{feature_name}/tasks.md`
 
 ## Notes
 

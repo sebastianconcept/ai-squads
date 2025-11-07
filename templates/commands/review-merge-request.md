@@ -4,7 +4,7 @@ Review a merge request or pull request using your project's agent team.
 
 This command will:
 - Analyze git diff or selected files
-- Load project's agent team from `ai-squads-docs/team.md`
+- Load project's agent team from `docs/team.md`
 - Invoke relevant agents based on file types and changes
 - Apply code style standards from ai-squads
 - Generate comprehensive review feedback
@@ -20,5 +20,5 @@ You can review:
 
 The command uses agents assigned to your project to provide specialized feedback.
 
-See `ai-squads/commands/review-merge-request.md` for detailed workflow.
+See global ai-squads commands for detailed workflow.
 

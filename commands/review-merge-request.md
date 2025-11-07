@@ -9,8 +9,8 @@ This workflow guides the review of merge requests using the project's agent team
 
 ## Prerequisites
 
-1. Project must have been adopted (have `ai-squads-docs/` directory)
-2. Project must have `ai-squads-docs/team.md` with agent team
+1. Project must have been adopted (have `docs/` directory)
+2. Project must have `docs/team.md` with agent team
 
 ## Steps
 
@@ -21,8 +21,8 @@ Determine what to review:
 - Branch comparison (if specified)
 
 ### 2. Load Project Context
-- Read `ai-squads-docs/team.md` to get agent team
-- Read `ai-squads-docs/tech-stack.md` for technical context
+- Read `docs/team.md` to get agent team
+- Read `docs/tech-stack.md` for technical context
 - Identify relevant style guides based on file types
 
 ### 3. Analyze File Types
@@ -36,8 +36,8 @@ Categorize changed files:
 
 ### 4. Invoke Relevant Agents
 For each category of changes:
-- Load appropriate agent rules from `../../ai-squads/agents/`
-- Load corresponding style guide from `../../ai-squads/standards/code/`
+- Load appropriate agent rules from global ai-squads installation
+- Load corresponding style guide from global ai-squads installation
 - Provide context: file paths, changes, project tech stack
 - Generate review feedback
 
