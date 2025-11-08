@@ -4,7 +4,7 @@ A config-oriented system for managing AI agent teams in software projects. Insta
 
 ## Features
 
-- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer
+- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer
 - **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, and htmx
 - **Project Planning**: Structured workflows for feature planning with PRD, specs, and tasks
 - **Code Review**: Agent-based code review using project's tech stack and style guides
@@ -33,6 +33,7 @@ This installs global commands to `~/.cursor/commands/`:
 - UIDev - JavaScript/CSS/HTML expert
 - Bob - Jobs to be Done expert
 - Steve - Product & UX expert
+- Rian - Strategic Designer & Cognitive Biases expert
 
 ### Adopt in a Project
 
@@ -72,6 +73,7 @@ Invoke specialist agents directly by their command names in Cursor:
 - `@uidev` - JavaScript/CSS/HTML expert
 - `@bob` - Jobs to be Done expert
 - `@steve` - Product & UX expert
+- `@rian` - Strategic Designer & Cognitive Biases expert
 
 Each agent provides:
 - Context-aware guidance based on your current file and selection
@@ -140,6 +142,13 @@ Global installation (at `~/.cursor/`):
 - Specializes in frontend implementation
 - References JavaScript and htmx style guides
 - Provides component architecture and implementation guidance
+
+### Strategic Designer
+- Inspired by Rian Dutra's "Enviesados"
+- Specializes in cognitive biases and ethical influence
+- Applies psychological principles to help users make better decisions
+- Detects and prevents dark patterns
+- Optimizes choice architecture and decision-making flows
 
 ## Code Style Standards
 
