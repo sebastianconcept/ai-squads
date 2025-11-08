@@ -74,6 +74,8 @@ Ask questions based on project's agent team:
 - Use UI Developer for implementation details
 - Use UI/UX Agent for interaction design
 - Use Jobs to be Done for user value
+- Use Strategic Designer for growth and conversion strategy
+- Use Clovis for customer-facing copy and Brazilian market messaging
 
 ### 7. Review and Refine
 - Present generated documents

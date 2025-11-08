@@ -4,7 +4,7 @@ A config-oriented system for managing AI agent teams in software projects. Insta
 
 ## Features
 
-- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer
+- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, Brazilian SaaS Copywriter
 - **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, and htmx
 - **Project Planning**: Structured workflows for feature planning with PRD, specs, and tasks
 - **Code Review**: Agent-based code review using project's tech stack and style guides
@@ -33,6 +33,8 @@ This installs global commands to `~/.cursor/commands/`:
 - UIDev - JavaScript/CSS/HTML expert
 - Bob - Jobs to be Done expert
 - Steve - Product & UX expert
+- Rian - Strategic Designer & Cognitive Biases expert
+- Clovis - Brazilian SaaS Copywriting & Growth expert
 
 ### Adopt in a Project
 
@@ -72,6 +74,8 @@ Invoke specialist agents directly by their command names in Cursor:
 - `@uidev` - JavaScript/CSS/HTML expert
 - `@bob` - Jobs to be Done expert
 - `@steve` - Product & UX expert
+- `@rian` - Strategic Designer & Cognitive Biases expert
+- `@clovis` - Brazilian SaaS Copywriting & Growth expert
 
 Each agent provides:
 - Context-aware guidance based on your current file and selection
@@ -140,6 +144,22 @@ Global installation (at `~/.cursor/`):
 - Specializes in frontend implementation
 - References JavaScript and htmx style guides
 - Provides component architecture and implementation guidance
+
+### Strategic Designer
+- Inspired by Rian Dutra's "Enviesados"
+- Specializes in cognitive biases and ethical influence
+- Applies psychological principles to help users make better decisions
+- Detects and prevents dark patterns
+- Optimizes choice architecture and decision-making flows
+
+### Brazilian SaaS Copywriter & Growth
+- Specializes in Brazilian SaaS market copywriting and growth strategies
+- Expert in cultural localization for Brazilian audiences
+- Applies persuasion principles from Cialdini, SPIN Selling, and negotiation tactics
+- Influenced by Betina Rudolph, Jeffrey Gitomer, Chris Voss, and others
+- Provides conversion-optimized copy in Brazilian Portuguese
+- Platform expertise: WhatsApp, Instagram, LinkedIn for Brazilian market
+- Focuses on ethical growth strategies and long-term relationship building
 
 ## Code Style Standards
 

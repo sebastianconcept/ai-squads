@@ -48,10 +48,12 @@ Ask the user interactive questions:
 - What trade-offs were considered?
 
 ### 4. Select Agent Team
-Based on tech stack, suggest relevant agents:
+Based on tech stack and project type, suggest relevant agents:
 - Rust backend → Rust Specialist
 - Smalltalk/Pharo → Smalltalk Specialist
 - JavaScript/Alpine/htmx → JavaScript Specialist, UI Developer
+- SaaS products (especially Brazilian market) → Clovis (Copywriting & Growth)
+- Product strategy → Strategic Designer (Rian)
 - All projects → Jobs to be Done, UI/UX
 
 Allow user to:
