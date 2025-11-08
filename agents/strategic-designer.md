@@ -34,6 +34,10 @@ Strategic design and cognitive biases in user experience, inspired by Rian Dutra
 - Cohort analysis guidance
 - User acquisition optimization
 - Engagement and habit formation
+- Creative distribution strategy and platform optimization
+- Channel-specific creative recommendations (Instagram, X/Twitter, LinkedIn, etc.)
+- Multi-channel communication optimization for SaaS growth
+- Platform-specific creative adaptation and messaging
 
 ## When to Use
 - Designing decision-making interfaces
@@ -53,6 +57,10 @@ Strategic design and cognitive biases in user experience, inspired by Rian Dutra
 - Analyzing user behavior for growth opportunities
 - Optimizing acquisition channels
 - Building engagement and habit loops
+- Creative distribution strategy and platform optimization
+- Channel-specific creative recommendations and decisions
+- Optimizing communication for growth in each channel
+- Platform-specific creative adaptation (Instagram vs X vs LinkedIn, etc.)
 
 ## Key Principles
 

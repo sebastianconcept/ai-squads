@@ -33,6 +33,10 @@ Invoke this command when you need help with:
 - Building engagement loops and habit formation
 - Optimizing acquisition channels and landing pages
 - Measuring and improving time to value
+- Creative distribution strategy and platform optimization
+- Channel-specific creative recommendations (Instagram, X/Twitter, LinkedIn, etc.)
+- Multi-channel communication optimization for SaaS growth
+- Platform-specific creative adaptation and messaging
 
 ## How It Works
 
@@ -48,6 +52,9 @@ Automatically collects:
 - Funnel analytics and drop-off data
 - A/B test results and experiments
 - Cohort and retention data
+- Creative assets and messaging variations
+- Channel performance data and creative analytics
+- Platform-specific audience insights
 
 ### 2. Agent Activation
 Applies strategic design principles with:
@@ -90,6 +97,10 @@ Provides strategic design guidance:
 - Growth experiment design and hypotheses
 - Behavioral analysis and insights
 - Engagement loop design
+- Creative distribution strategy by platform
+- Channel-specific creative recommendations and decisions
+- Platform optimization for Instagram, X/Twitter, LinkedIn, etc.
+- Multi-channel communication strategy for SaaS growth
 
 ## Core Principles Applied
 
@@ -151,6 +162,15 @@ Provides strategic design guidance:
 @rian design churn prevention triggers using psychology
 @rian optimize this freemium conversion funnel
 @rian create an ethical upsell strategy for seat expansion
+
+# Creative distribution examples
+@rian which creatives work better on Instagram vs X for our SaaS?
+@rian optimize our creative distribution strategy across channels
+@rian recommend platform-specific adaptations for our messaging
+@rian analyze which creatives perform best in each channel
+@rian design a multi-channel creative strategy for SaaS growth
+@rian what creative format should we use for Instagram vs LinkedIn?
+@rian optimize our communication for growth in each channel
 ```
 
 ## Ethical Design Checklist
@@ -577,6 +597,250 @@ Before finalizing any design that influences user behavior, verify:
 - Health score monitoring
 - Risk-based interventions
 
+## Creative Distribution Strategy Framework
+
+### Platform-Specific Creative Optimization
+
+Rian provides strategic recommendations for optimizing creative distribution across channels, understanding that different platforms require different creative approaches for SaaS growth.
+
+### Platform Characteristics & Creative Fit
+
+**Instagram**
+- **Visual-first platform**: High-quality images, videos, and carousels perform best
+- **Stories & Reels**: Short-form, authentic content drives engagement
+- **Aesthetic focus**: Polished but relatable visuals resonate
+- **Hashtag strategy**: Discoverability through relevant hashtags
+- **Best for**: Visual storytelling, product demos, behind-the-scenes, user-generated content
+- **Creative recommendations**: 
+  - Use carousel posts for feature explanations
+  - Reels for quick tips and educational content
+  - Stories for urgency and announcements
+  - High-quality product screenshots with context
+  - User testimonials with visuals
+  - Before/after transformations
+
+**X (Twitter)**
+- **Text-first platform**: Concise, punchy copy with clear value propositions
+- **Real-time engagement**: Timely, relevant content performs best
+- **Thread format**: Long-form explanations via threads
+- **Link sharing**: Direct links to landing pages work well
+- **Best for**: Thought leadership, quick tips, announcements, community engagement
+- **Creative recommendations**:
+  - Short, impactful headlines with clear value
+  - Threads for educational content and tutorials
+  - Screenshots with annotations for feature highlights
+  - GIFs for quick demos
+  - Polls for engagement and feedback
+  - Quote tweets for social proof
+
+**LinkedIn**
+- **Professional context**: B2B focused, value-driven content
+- **Long-form content**: Articles and detailed posts perform well
+- **Professional tone**: Strategic, ROI-focused messaging
+- **Best for**: Thought leadership, case studies, industry insights, B2B SaaS positioning
+- **Creative recommendations**:
+  - Professional imagery and infographics
+  - Data-driven content with charts and metrics
+  - Case studies with clear ROI
+  - Company culture and team highlights
+  - Industry trend analysis
+  - Professional testimonials and endorsements
+
+**TikTok**
+- **Entertainment-first**: Authentic, unpolished content performs best
+- **Short-form video**: 15-60 second videos
+- **Trend-driven**: Leverage trending sounds and formats
+- **Best for**: Quick tutorials, behind-the-scenes, founder stories, viral moments
+- **Creative recommendations**:
+  - Quick product demos and tips
+  - Authentic founder/team content
+  - Problem-solution format videos
+  - User-generated content style
+  - Trend participation with SaaS twist
+
+**YouTube**
+- **Long-form content**: Educational, in-depth content
+- **SEO-focused**: Titles, descriptions, and tags matter
+- **Best for**: Tutorials, webinars, product deep-dives, thought leadership
+- **Creative recommendations**:
+  - Comprehensive tutorials and walkthroughs
+  - Webinar recordings and expert interviews
+  - Product comparison videos
+  - Customer success stories
+  - Educational series
+
+### Strategic Creative Distribution Framework
+
+**1. Platform Selection Strategy**
+- Identify where your target audience is most active
+- Consider platform-specific user intent (discovery vs. research)
+- Match creative format to platform strengths
+- Balance reach vs. conversion potential
+
+**2. Creative Adaptation by Channel**
+- **Message adaptation**: Same core message, different framing per platform
+- **Format optimization**: Adapt creative format to platform best practices
+- **Tone adjustment**: Match platform culture (professional vs. casual)
+- **CTA optimization**: Platform-appropriate call-to-action placement
+
+**3. Performance Analysis Framework**
+- Track creative performance by platform
+- Identify which creatives work best where
+- Analyze engagement vs. conversion by channel
+- Monitor creative fatigue and refresh cadence
+
+**4. Multi-Channel Coordination**
+- Maintain brand consistency across platforms
+- Coordinate campaign timing across channels
+- Repurpose high-performing creatives strategically
+- Avoid creative duplication without adaptation
+
+### SaaS-Specific Creative Distribution
+
+**Trial/Freemium Acquisition**
+- **Instagram**: Visual product demos, quick wins showcase
+- **X**: Problem-solution threads, quick tips
+- **LinkedIn**: ROI-focused case studies, industry insights
+- **TikTok**: Quick tutorials, "day in the life" with product
+
+**Activation & Onboarding**
+- **Instagram**: Step-by-step carousels, success stories
+- **X**: Quick tips threads, feature highlights
+- **LinkedIn**: Best practices articles, expert advice
+- **Email**: Personalized onboarding sequences
+
+**Conversion & Upgrade**
+- **Instagram**: Social proof carousels, limited-time offers
+- **X**: Success stories, upgrade benefits threads
+- **LinkedIn**: ROI calculators, comparison content
+- **In-app**: Contextual upgrade prompts
+
+**Retention & Engagement**
+- **Instagram**: Feature tips, community highlights
+- **X**: Weekly tips, community engagement
+- **LinkedIn**: Industry insights, thought leadership
+- **Email**: Value-driven newsletters, feature updates
+
+### Creative Performance Metrics by Channel
+
+**Instagram Metrics**
+- Engagement rate (likes, comments, shares)
+- Story views and completion rate
+- Reel views and saves
+- Profile visits from posts
+- Link clicks (if available)
+
+**X (Twitter) Metrics**
+- Impressions and reach
+- Engagement rate (likes, retweets, replies)
+- Link clicks
+- Profile visits
+- Thread completion rate
+
+**LinkedIn Metrics**
+- Impressions and reach
+- Engagement rate (reactions, comments, shares)
+- Click-through rate
+- Profile views
+- Article reads and completion
+
+**Cross-Platform Analysis**
+- Cost per acquisition by channel
+- Conversion rate by platform
+- Customer quality by acquisition source
+- Lifetime value by channel
+- Creative ROI by platform
+
+### Creative Distribution Decision Framework
+
+**When evaluating which creatives work better where:**
+
+1. **Audience Intent Analysis**
+   - What is the user's mindset on each platform?
+   - Discovery vs. research vs. purchase intent
+   - Professional vs. personal context
+
+2. **Creative Format Suitability**
+   - Does the creative format match platform best practices?
+   - Visual vs. text-heavy content needs
+   - Video vs. static content performance
+
+3. **Message Framing Optimization**
+   - How should the same message be framed per platform?
+   - Professional vs. casual tone requirements
+   - Value proposition emphasis by channel
+
+4. **Performance Data Review**
+   - Which creatives historically perform best where?
+   - Engagement vs. conversion by platform
+   - Creative fatigue indicators
+
+5. **Strategic Channel Allocation**
+   - Primary vs. secondary channel strategy
+   - Budget allocation by channel performance
+   - Creative refresh cadence per platform
+
+### Platform-Specific Creative Recommendations
+
+**For Instagram:**
+- Prioritize visual storytelling and aesthetic quality
+- Use carousels for feature explanations
+- Leverage Stories for urgency and announcements
+- Create Reels for educational, entertaining content
+- Show product in use, not just product screenshots
+- User-generated content and testimonials perform well
+
+**For X (Twitter):**
+- Lead with value proposition in first line
+- Use threads for educational content
+- Screenshots with annotations work well
+- Engage in conversations, not just broadcasting
+- Quick tips and actionable advice perform best
+- Link to landing pages with clear value
+
+**For LinkedIn:**
+- Focus on professional value and ROI
+- Use data and metrics to support claims
+- Case studies and customer success stories
+- Thought leadership and industry insights
+- Professional imagery and infographics
+- Long-form content performs well
+
+**For TikTok:**
+- Authentic, unpolished content style
+- Quick problem-solution format
+- Leverage trending sounds and formats
+- Behind-the-scenes and founder stories
+- Educational content in entertaining format
+
+### Creative Distribution Best Practices
+
+**1. Test and Learn**
+- A/B test creatives across platforms
+- Track performance metrics by channel
+- Iterate based on data, not assumptions
+
+**2. Platform-Native Optimization**
+- Use platform-specific features (Stories, Reels, Threads)
+- Optimize for each platform's algorithm
+- Follow platform best practices and guidelines
+
+**3. Consistent Brand, Adaptive Execution**
+- Maintain brand voice and values
+- Adapt tone and format per platform
+- Ensure visual consistency while optimizing format
+
+**4. Strategic Repurposing**
+- Repurpose high-performing creatives intelligently
+- Adapt format and messaging, don't just copy-paste
+- Track which repurposed content performs best
+
+**5. Performance-Driven Distribution**
+- Allocate budget to highest-performing channels
+- Double down on what works
+- Cut or optimize underperforming channels
+- Regular creative refresh to avoid fatigue
+
 ## Quality Checklist
 
 Before finalizing any strategic design, verify:
@@ -614,6 +878,14 @@ Before finalizing any strategic design, verify:
 - [ ] Customer health metrics are tracked
 - [ ] Revenue retention is considered
 - [ ] Product-led growth loops are ethical
+
+**Creative Distribution**
+- [ ] Platform-specific creative recommendations are provided
+- [ ] Channel optimization strategy is defined
+- [ ] Creative performance metrics are tracked by platform
+- [ ] Multi-channel coordination is planned
+- [ ] Creative adaptation per channel is optimized
+- [ ] Platform-native features are leveraged
 
 ## Related Resources
 
