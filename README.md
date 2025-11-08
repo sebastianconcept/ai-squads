@@ -36,13 +36,14 @@ This installs global commands to `~/.cursor/commands/`:
 
 ### Adopt in a Project
 
-1. Run the "Adopt Project" command in Cursor from your project root
+1. Run the `/adopt-project` command in Cursor from your project root
 
 This will:
-- Create `docs/` directory with project documentation templates
+- Create `docs/` directory with project documentation
 - Ask questions about mission, tech stack, and roadmap
 - Configure agent team based on tech stack
 - Save team configuration to `docs/team.md`
+- Based on templates, generate mission, roadmap, desicions
 
 ## Usage
 
@@ -63,13 +64,20 @@ Run the "Review Merge Request" command in Cursor. This will:
 - Apply code style standards
 - Generate comprehensive review feedback
 
-### Invoke Agent
+### Invoke Specialist Agents
 
-Run the "Invoke Agent" command in Cursor. This will:
-- List available agents
-- Allow selection of agent(s)
-- Provide context-aware guidance
-- Apply agent rules and style guides
+Invoke specialist agents directly by their command names in Cursor:
+- `@rusty` - Rust programming expert
+- `@alan` - Smalltalk/Pharo expert
+- `@uidev` - JavaScript/CSS/HTML expert
+- `@bob` - Jobs to be Done expert
+- `@steve` - Product & UX expert
+
+Each agent provides:
+- Context-aware guidance based on your current file and selection
+- Agent-specific rules and best practices
+- Relevant style guide enforcement
+- Specialized expertise in their domain
 
 ## Project Structure
 
@@ -135,21 +143,25 @@ Global installation (at `~/.cursor/`):
 
 ## Code Style Standards
 
-Style guides are located in the ai-squads source repository:
+Style guides are located in the ai-squads source repository at `standards/code/`:
 - `rust-style.md` - Rust coding standards
 - `smalltalk-style.md` - Smalltalk/Pharo standards
 - `javascript-style.md` - JavaScript standards (covers Alpine, vanilla JS)
 - `htmx-style.md` - htmx patterns and best practices
 
-Agents automatically reference relevant style guides when providing guidance.
+Agents automatically reference relevant style guides when providing guidance. Commands reference these files from the ai-squads repository, so they must remain accessible.
 
 ## Configuration
 
 All configuration is done through `.md` files in the ai-squads repository:
-- **Agents**: `agents/*.md`
-- **Standards**: `standards/code/*.md`
-- **Commands**: `commands/*.md`
-- **System Rules**: `rules/system.md`
+- **Agents**: `agents/*.md` - Agent definitions and rules
+- **Standards**: `standards/code/*.md` - Code style guides
+- **Commands**: `commands/*.md` - Command workflows (installed to `~/.cursor/commands/`)
+- **Templates**: `templates/*.md` - Documentation templates (installed to `~/.cursor/templates/`)
+- **Scripts**: `scripts/*.sh` - Helper scripts (installed to `~/.cursor/scripts/`)
+- **System Rules**: `rules/system.md` - Global system rules (installed to `~/.cursor/rules/`)
+
+**Note**: Agents and standards remain in the ai-squads repository and are referenced by commands via relative paths. Commands, templates, scripts, and rules are copied to `~/.cursor/` during installation.
 
 Edit these files in the ai-squads repository, then re-run `./scripts/install.sh` to update your global installation.
 
