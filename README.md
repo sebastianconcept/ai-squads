@@ -4,7 +4,7 @@ A config-oriented system for managing AI agent teams in software projects. Insta
 
 ## Features
 
-- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, Brazilian SaaS Copywriter
+- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, Brazilian SaaS Copywriter, Financial Advisor
 - **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, and htmx
 - **Project Planning**: Structured workflows for feature planning with PRD, specs, and tasks
 - **Code Review**: Agent-based code review using project's tech stack and style guides
@@ -35,6 +35,7 @@ This installs global commands to `~/.cursor/commands/`:
 - Steve - Product & UX expert
 - Rian - Strategic Designer & Cognitive Biases expert
 - Clovis - Brazilian SaaS Copywriting & Growth expert
+- Gustavo - Financial Advisor & Wealth Management expert
 
 ### Adopt in a Project
 
@@ -76,6 +77,7 @@ Invoke specialist agents directly by their command names in Cursor:
 - `@steve` - Product & UX expert
 - `@rian` - Strategic Designer & Cognitive Biases expert
 - `@clovis` - Brazilian SaaS Copywriting & Growth expert
+- `@gustavo` - Financial Advisor & Wealth Management expert
 
 Each agent provides:
 - Context-aware guidance based on your current file and selection
@@ -160,6 +162,18 @@ Global installation (at `~/.cursor/`):
 - Provides conversion-optimized copy in Brazilian Portuguese
 - Platform expertise: WhatsApp, Instagram, LinkedIn for Brazilian market
 - Focuses on ethical growth strategies and long-term relationship building
+
+### Financial Advisor & Wealth Management
+- Specializes in Brazilian financial advisory, accounting, and wealth management
+- Expert in transaction categorization for tax reporting and financial analysis
+- Provides cost optimization and revenue expansion strategies
+- Focuses on personal and family wealth building
+- Influenced by Gustavo Cerbasi's financial education methodology
+- Bilingual approach: Brazilian Portuguese for financial advice, English for technical matters
+- Explains complex financial concepts in simple, accessible language for non-accountants
+- Expertise in Brazilian tax regulations (IRPF, IRPJ, Simples Nacional) and accounting standards
+- Helps with budget planning, investment strategies, and retirement planning
+- Emphasizes financial education and empowerment
 
 ## Code Style Standards
 
