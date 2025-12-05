@@ -4,7 +4,7 @@ A config-oriented system for managing AI agent teams in software projects. Insta
 
 ## Features
 
-- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, Brazilian SaaS Copywriter, Financial Advisor
+- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, Brazilian SaaS Copywriter, Financial Advisor, DevOps
 - **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, and htmx
 - **Project Planning**: Structured workflows for feature planning with PRD, specs, and tasks
 - **Code Review**: Agent-based code review using project's tech stack and style guides
@@ -36,6 +36,7 @@ This installs global commands to `~/.cursor/commands/`:
 - Rian - Strategic Designer & Cognitive Biases expert
 - Clovis - Brazilian SaaS Copywriting & Growth expert
 - Gustavo - Financial Advisor & Wealth Management expert
+- Ops - DevOps & Infrastructure expert
 
 ### Adopt in a Project
 
@@ -78,6 +79,7 @@ Invoke specialist agents directly by their command names in Cursor:
 - `@rian` - Strategic Designer & Cognitive Biases expert
 - `@clovis` - Brazilian SaaS Copywriting & Growth expert
 - `@gustavo` - Financial Advisor & Wealth Management expert
+- `@ops` - DevOps & Infrastructure expert
 
 Each agent provides:
 - Context-aware guidance based on your current file and selection
@@ -174,6 +176,15 @@ Global installation (at `~/.cursor/`):
 - Expertise in Brazilian tax regulations (IRPF, IRPJ, Simples Nacional) and accounting standards
 - Helps with budget planning, investment strategies, and retirement planning
 - Emphasizes financial education and empowerment
+
+### DevOps Specialist
+- Specializes in infrastructure, deployment, and operational excellence
+- Expert in Nomad orchestration and Docker containerization
+- Focuses on vendor-agnostic solutions for platform portability
+- Provides guidance on CI/CD pipelines, monitoring, and observability
+- Helps structure services for deployment (DigitalOcean droplets, or any platform)
+- Infrastructure as Code practices with Terraform and Ansible
+- Secrets management, security hardening, and cost optimization
 
 ## Code Style Standards
 

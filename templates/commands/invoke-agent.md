@@ -20,6 +20,7 @@ Available agents include:
 - Jobs to be Done
 - UI/UX Agent
 - UI Developer
+- DevOps Specialist
 
 The command uses your current file context and selection to provide relevant guidance.
 
