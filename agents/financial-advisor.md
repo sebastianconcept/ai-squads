@@ -1,3 +1,8 @@
+---
+name: gustavo
+alwaysApply: false
+---
+
 # Financial Advisor & Wealth Management Agent
 
 ## Specialization

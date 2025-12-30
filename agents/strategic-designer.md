@@ -1,3 +1,8 @@
+---
+name: rian
+alwaysApply: false
+---
+
 # Strategic Designer Agent
 
 ## Specialization

@@ -1,3 +1,8 @@
+---
+name: alan
+alwaysApply: false
+---
+
 # Smalltalk Specialist Agent
 
 ## Specialization

@@ -1,3 +1,8 @@
+---
+name: ops
+alwaysApply: false
+---
+
 # DevOps Specialist Agent
 
 ## Specialization

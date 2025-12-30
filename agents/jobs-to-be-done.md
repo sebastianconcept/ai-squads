@@ -1,3 +1,8 @@
+---
+name: bob
+alwaysApply: false
+---
+
 # Jobs to be Done Agent
 
 ## Specialization

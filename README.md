@@ -1,6 +1,25 @@
 # AI Squads
 
-A config-oriented system for managing AI agent teams in software projects. Install ai-squads globally once to get specialist agents, code style standards, and workflows for project planning and code review across all your projects.
+A spec-oriented system for managing AI agent teams in software projects. Install ai-squads globally once to get specialist agents, code style standards, and workflows for project planning and code review across all your projects.
+
+## Quick Start
+
+```bash
+# 1. Clone and install globally
+git clone <ai-squads-url>
+cd ai-squads
+./scripts/install.sh
+
+# 2. Adopt in your project
+cd /path/to/your-project
+# Run /adopt-project command in Cursor
+
+# 3. Start using agents and workflows
+# @rusty for Rust help, @steve for UX guidance, @ops for infrastructure
+# /diagnose-issue to investigate problems
+# /ideate-solution to explore approaches
+# /plan-feature to create feature specs ready to execute
+```
 
 ## Features
 
@@ -24,8 +43,12 @@ This installs global commands to `~/.cursor/commands/`:
 
 **Project Commands:**
 - Adopt Project - Set up ai-squads in a new project
+- Diagnose Issue - Investigate problems with hypothesis-driven analysis
+- Explain System - Generate narrative understanding of architecture
+- Ideate Solution - Explore solution approaches from minimal to comprehensive
 - Plan Feature - Create structured feature documentation
 - Review Merge Request - Agent-based code review
+- Team Lately - Analyze team git activity and generate reports
 
 **Specialist Agent Commands:**
 - Rusty - Rust programming expert
@@ -47,13 +70,39 @@ This will:
 - Ask questions about mission, tech stack, and roadmap
 - Configure agent team based on tech stack
 - Save team configuration to `docs/team.md`
-- Based on templates, generate mission, roadmap, desicions
+- Based on templates, generate mission, roadmap, decisions
 
 ## Usage
 
+### Diagnose an Issue
+
+Run the `/diagnose-issue` command when investigating problems. This will:
+- Gather evidence (logs, errors, symptoms)
+- Generate hypotheses ordered by likelihood
+- Guide investigation with specific checks
+- Produce clear problem definitions
+- Hand off to `/ideate-solution` when root cause is found
+
+### Explain the System
+
+Run the `/explain-system` command to understand architecture. This will:
+- Synthesize project documentation into narrative
+- Provide overview or deep-dive into subsystems
+- Trace data flows and dependencies
+- Surface design decisions and rationale
+- Help onboard quickly with coherent mental models
+
+### Ideate Solutions
+
+Run the `/ideate-solution` command to explore approaches. This will:
+- Generate multiple solutions from minimal to comprehensive
+- Show clear trade-offs and effort estimates
+- Provide comparison matrix across approaches
+- Hand off to `/plan-feature` with optimized context
+
 ### Plan a Feature
 
-Run the "Plan Feature" command in Cursor. This will:
+Run the `/plan-feature` command in Cursor. This will:
 - Create feature directory in `docs/feature/{feature_name}/`
 - Generate PRD.md, specs.md, and tasks.md templates
 - Use your project's agent team to inform planning
@@ -67,6 +116,21 @@ Run the "Review Merge Request" command in Cursor. This will:
 - Invoke relevant agents based on file types
 - Apply code style standards
 - Generate comprehensive review feedback
+
+### Analyze Team Activity
+
+Run the `/team-lately` command to understand what the team has been working on. This will:
+- Fetch all remote branches to get latest activity
+- Analyze commits per author over configurable period (default: 7 days)
+- Generate conceptual summaries of each branch's purpose
+- Output report to `$HOME/docs/{project}/team-lately/`
+
+**Example usage:**
+```
+@team-lately
+@team-lately last 2 weeks
+@team-lately 1 month
+```
 
 ### Invoke Specialist Agents
 
@@ -231,9 +295,11 @@ This is a config-oriented system. To customize:
 
 ## License
 
-[Add your license here]
+MIT License - See [LICENSE](LICENSE) for details.
 
 ## Support
 
-For issues or questions, please [add your support channel here]
+For issues or questions:
+- Open an issue on GitHub
+- Check existing documentation in `docs/`
 

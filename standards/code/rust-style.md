@@ -155,5 +155,5 @@ src/session_manager/
 ## Agent Integration
 
 When working with Rust code:
-- **@agent:rust-specialist** handles Rust-specific implementation 
-- Always reference `../../ai-squads/standards/code/rust-style.md` for detailed guidance
+- **@rusty** handles Rust-specific implementation
+- This style guide is automatically applied to `.rs` files via the globs configuration
