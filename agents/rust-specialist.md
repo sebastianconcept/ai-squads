@@ -1,3 +1,8 @@
+---
+name: rusty
+alwaysApply: false
+---
+
 # Rust Specialist Agent
 
 ## Specialization

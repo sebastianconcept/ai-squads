@@ -1,3 +1,8 @@
+---
+name: clovis
+alwaysApply: false
+---
+
 # Brazilian SaaS Copywriting & Growth Agent
 
 ## Specialization

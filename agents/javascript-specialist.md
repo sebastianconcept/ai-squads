@@ -1,3 +1,8 @@
+---
+name: uidev
+alwaysApply: false
+---
+
 # JavaScript Specialist Agent
 
 ## Specialization

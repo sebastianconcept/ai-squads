@@ -1,3 +1,8 @@
+---
+name: steve
+alwaysApply: false
+---
+
 # UI/UX Agent
 
 ## Specialization

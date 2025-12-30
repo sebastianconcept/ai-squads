@@ -1,3 +1,8 @@
+---
+name: uidev
+alwaysApply: false
+---
+
 # UI Developer Agent
 
 ## Specialization
