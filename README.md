@@ -23,7 +23,7 @@ cd /path/to/your-project
 
 ## Features
 
-- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, Brazilian SaaS Copywriter, Financial Advisor, DevOps
+- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, Brazilian SaaS Copywriter, Financial Advisor, DevOps, Video Game Development
 - **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, and htmx
 - **Project Planning**: Structured workflows for feature planning with PRD, specs, and tasks
 - **Code Review**: Agent-based code review using project's tech stack and style guides
@@ -47,6 +47,7 @@ This installs global commands to `~/.cursor/commands/`:
 - Explain System - Generate narrative understanding of architecture
 - Ideate Solution - Explore solution approaches from minimal to comprehensive
 - Plan Feature - Create structured feature documentation
+- Plan Game - Create Game Design Document (GDD) for game projects
 - Review Merge Request - Agent-based code review
 - Team Lately - Analyze team git activity and generate reports
 
@@ -60,6 +61,7 @@ This installs global commands to `~/.cursor/commands/`:
 - Clovis - Brazilian SaaS Copywriting & Growth expert
 - Gustavo - Financial Advisor & Wealth Management expert
 - Ops - DevOps & Infrastructure expert
+- Eric - Video Game Development expert
 
 ### Adopt in a Project
 
@@ -108,6 +110,16 @@ Run the `/plan-feature` command in Cursor. This will:
 - Use your project's agent team to inform planning
 - Customize planning documents with feature details
 
+### Plan a Game
+
+Run the `/plan-game` command in Cursor. This will:
+- Create game directory in `docs/game/{game_name}/`
+- Generate GDD.md (Game Design Document) template
+- Use Eric (Video Game Specialist) to guide GDD creation
+- Apply game design principles from industry canon (Schell, Koster, Swink)
+- Cover core gameplay, player experience, art direction, monetization, and more
+- Create a comprehensive design document ready for team implementation
+
 ### Review Merge Request
 
 Run the "Review Merge Request" command in Cursor. This will:
@@ -144,6 +156,7 @@ Invoke specialist agents directly by their command names in Cursor:
 - `@clovis` - Brazilian SaaS Copywriting & Growth expert
 - `@gustavo` - Financial Advisor & Wealth Management expert
 - `@ops` - DevOps & Infrastructure expert
+- `@eric` - Video Game Development expert
 
 Each agent provides:
 - Context-aware guidance based on your current file and selection
@@ -164,11 +177,14 @@ my-project/
 │   ├── DECISIONS.md
 │   ├── README.md
 │   ├── team.md
-│   └── feature/
-│       └── {feature_name}/
-│           ├── PRD.md
-│           ├── specs.md
-│           └── tasks.md
+│   ├── feature/
+│   │   └── {feature_name}/
+│   │       ├── PRD.md
+│   │       ├── specs.md
+│   │       └── tasks.md
+│   └── game/
+│       └── {game_name}/
+│           └── GDD.md
 └── src/                      # Your project code
 ```
 
@@ -249,6 +265,20 @@ Global installation (at `~/.cursor/`):
 - Helps structure services for deployment (DigitalOcean droplets, or any platform)
 - Infrastructure as Code practices with Terraform and Ansible
 - Secrets management, security hardening, and cost optimization
+
+### Video Game Development Specialist
+- Specializes in indie game development from concept to launch
+- Expert in Godot engine (GDScript, scene composition, signals)
+- Mastery in game design across all genres (RPG, platformer, puzzle, strategy, roguelike, etc.)
+- Art direction for 2D, 3D, and hybrid visual styles
+- Music composition and sound design guidance
+- Player psychology and engagement optimization (Flow theory, Octalysis, Bartle's types)
+- Ethical monetization strategies and dark pattern prevention
+- Game analytics and retention metrics (D1/D7/D30, DAU/MAU, funnel analysis)
+- Platform strategy (Steam, itch.io, console, mobile)
+- Team coaching and milestone planning for indie teams
+- Community building and live service planning
+- Comprehensive knowledge of game design canon (Schell, Koster, Swink, and more)
 
 ## Code Style Standards
 
