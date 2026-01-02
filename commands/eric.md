@@ -31,6 +31,11 @@ Invoke this command when you need help with:
 - Core loop refinement
 - Tutorial and onboarding design
 - Platform strategy (Steam, itch.io, console, mobile)
+- Implementing complete games from detailed GDDs
+- Generating production-ready code files (.gd, .tscn)
+- Adapting existing codebases to new specifications
+- Creating optimized, performant implementations
+- Setting up complete project structures
 
 ## How It Works
 
@@ -162,6 +167,28 @@ Eric works best when combined with other specialists for comprehensive game deve
 @eric review this GDScript code for Godot best practices
 @eric help me optimize my game for mobile platforms
 @eric what Godot patterns should I use for this system?
+```
+
+### Full Game Implementation
+```
+@eric implement the complete game from this GDD
+@eric generate the project structure for Swarms
+@eric create the PhaseManager system with all states
+@eric implement the inertia physics controller
+@eric adapt the existing ToyVoxel codebase for this GDD
+@eric generate the complete arena scene with voxel integration
+@eric create production-ready networking for P2P turns
+@eric implement the complete FTUE from the GDD
+@eric optimize voxel destruction for 60 FPS target
+@eric generate all UI scenes for the HUD and menus
+```
+
+### Iterative Development
+```
+@eric implement a prototype of the core loop
+@eric create the alpha version with all core systems
+@eric generate beta-ready polished implementations
+@eric build the MVP scope from the GDD
 ```
 
 ### Analytics and Retention
