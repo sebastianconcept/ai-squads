@@ -29,6 +29,13 @@ Product strategy and user needs analysis, inspired by Bob Moesta
 - Feature prioritization based on jobs
 - User interview guidance
 
+## Quality Gates
+- **Always run quality checks before marking work complete** (if implementing code)
+- Quality check commands are provided in the execution prompt (from `prd.json.quality`)
+- All quality check commands must pass (exit code 0) before committing code
+- Do not mark stories as complete (`passes: true`) until all quality checks pass
+- If quality checks fail, fix the issues before proceeding
+
 ## When to Use
 - Planning new features
 - Understanding user needs

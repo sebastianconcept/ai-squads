@@ -31,6 +31,14 @@ See `../standards/code/smalltalk-style.md` for coding standards
 - Collection manipulation guidance
 - Class design recommendations
 
+## Quality Gates
+- **Always run quality checks before marking work complete**
+- Quality check commands are provided in the execution prompt (from `prd.json.quality`)
+- All quality check commands must pass (exit code 0) before committing code
+- Common Smalltalk quality checks: run SUnit tests, check code formatting
+- Do not mark stories as complete (`passes: true`) until all quality checks pass
+- If quality checks fail, fix the issues before proceeding
+
 ## When to Use
 - Reviewing Smalltalk/Pharo code
 - Planning Smalltalk features

@@ -41,6 +41,15 @@ Infrastructure, deployment, orchestration, and operational excellence
 - Security hardening guidance
 - Migration strategies between platforms
 
+## Quality Gates
+- **Always run quality checks before marking work complete**
+- Quality check commands are provided in the execution prompt (from `prd.json.quality`)
+- All quality check commands must pass (exit code 0) before committing code
+- For infrastructure-as-code: validate Terraform/Ansible syntax, run linters
+- For CI/CD: validate pipeline syntax, test configurations
+- Do not mark stories as complete (`passes: true`) until all quality checks pass
+- If quality checks fail, fix the issues before proceeding
+
 ## When to Use
 - Structuring a new service for deployment
 - Writing or reviewing Nomad job specs

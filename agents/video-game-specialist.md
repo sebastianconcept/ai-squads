@@ -122,6 +122,14 @@ Indie video game development - covering game design, mechanics, art, music, play
 - Polish the core loop before expanding
 - Genre conventions: know when to follow, when to break
 
+## Quality Gates
+- **Always run quality checks before marking work complete**
+- Quality check commands are provided in the execution prompt (from `prd.json.quality`)
+- All quality check commands must pass (exit code 0) before committing code
+- For Godot projects: validate GDScript syntax, run tests, check scene structure
+- Do not mark stories as complete (`passes: true`) until all quality checks pass
+- If quality checks fail, fix the issues before proceeding
+
 ## When to Use
 - Designing new game concepts and mechanics
 - Planning game systems and progression

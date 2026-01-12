@@ -1,0 +1,30 @@
+{
+  "project": "string",
+  "featureName": "string",
+  "branchName": "string",
+  "description": "string",
+  "quality": {
+    "typecheck": "npm run typecheck",
+    "lint": "npm run lint",
+    "format": "npm run format:check",
+    "test": "npm test"
+  },
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "string",
+      "description": "As a [user], I want [feature] so that [benefit]",
+      "type": "backend",
+      "dependencies": [],
+      "agent": "steve",
+      "acceptanceCriteria": [
+        "Criterion 1",
+        "Criterion 2"
+      ],
+      "priority": 1,
+      "passes": false,
+      "iterations": 0,
+      "notes": ""
+    }
+  ]
+}
