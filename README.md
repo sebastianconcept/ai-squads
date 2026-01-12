@@ -54,6 +54,7 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 - Plan Game - Create Game Design Document (GDD) for game projects
 - Review Merge Request - Agent-based code review
 - Team Lately - Analyze team git activity and generate reports
+- Update Docs - Maintain documentation consistency by tracking changes and updating docs via AI
 
 **Specialist Agent Commands:**
 - Rusty - Rust programming expert
@@ -165,6 +166,33 @@ Run the `/team-lately` command to understand what the team has been working on. 
 @team-lately last 2 weeks
 @team-lately 1 month
 ```
+
+### Update Documentation
+
+Run the `/update-docs` command to maintain documentation consistency. This will:
+- Track when each doc was last updated using commit hashes
+- Analyze git diffs to detect code changes
+- Automatically update docs to reflect current system behavior
+- Exclude archived docs from processing (historical records)
+- Work on older projects without metadata (auto-initializes)
+
+**Features:**
+- **Idempotent**: Running multiple times with no changes won't modify docs
+- **Backward Compatible**: Auto-initializes metadata for older projects
+- **Smart Updates**: Only updates docs when code changes are detected
+- **Content Hashing**: Uses SHA256 to prevent unnecessary writes
+
+**Example usage:**
+```
+/update-docs
+```
+
+The command will:
+1. Scan all docs in `docs/` (excluding `archived/`)
+2. Check which docs need updates based on git diffs
+3. Ask if you want to include uncommitted changes
+4. Update docs that have changed via AI
+5. Update metadata with new commit hashes
 
 ### Invoke Specialist Agents
 

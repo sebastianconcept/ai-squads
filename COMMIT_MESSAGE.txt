@@ -1,0 +1,36 @@
+feat: Add update-docs command for automated documentation maintenance
+
+Implement a new `/update-docs` command that maintains documentation
+consistency by tracking commit hashes and automatically updating docs
+to reflect current system behavior via AI.
+
+Features:
+- Tracks documentation last-updated state using commit hashes in
+  docs/docs-metadata.json
+- Automatically updates docs when code changes are detected via git diff
+- Full idempotency: content hash comparison prevents unnecessary writes
+- Backward compatible: auto-initializes metadata for older projects
+- Excludes archived docs (docs/archived/) from all operations
+- Uses AI to analyze diffs and update docs while preserving structure
+
+Implementation details:
+- Command workflow: commands/update-docs.md
+- Main script: scripts/update-docs.sh with comprehensive error handling
+- Atomic metadata operations (temp file + rename)
+- Cross-platform date handling (macOS/Linux)
+- SHA256 content hashing for idempotency checks
+- Recursive doc scanning excluding archived directory
+
+Files added:
+- commands/update-docs.md - Command workflow definition
+- scripts/update-docs.sh - Implementation script (577 lines)
+
+Files modified:
+- scripts/install.sh - Added update-docs to command list
+- README.md - Added documentation for new command
+
+The implementation follows the plan specifications and includes:
+- Full idempotency guarantees
+- Backward compatibility for existing projects
+- Comprehensive error handling
+- AI prompt structure matching plan template
