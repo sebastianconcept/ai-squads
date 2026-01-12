@@ -19,14 +19,17 @@ cd /path/to/your-project
 # /diagnose-issue to investigate problems
 # /ideate-solution to explore approaches
 # /plan-feature to create feature specs ready to execute
+# /execute-feature to autonomously implement planned features
 ```
 
 ## Features
 
 - **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, Brazilian SaaS Copywriter, Financial Advisor, DevOps, Video Game Development
 - **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, and htmx
-- **Project Planning**: Structured workflows for feature planning with PRD, specs, and tasks
+- **Project Planning**: Structured workflows for feature planning with PRD, specs, and machine-readable execution format (prd.json)
+- **Autonomous Execution**: Execute planned features autonomously with dependency resolution, quality checks, and progress tracking
 - **Code Review**: Agent-based code review using project's tech stack and style guides
+- **Skills System**: Specialized capabilities like browser verification for frontend work
 - **Configuration-Driven**: All agents, standards, and workflows defined in `.md` files for easy adjustment
 
 ## Installation
@@ -39,14 +42,15 @@ cd ai-squads
 ./scripts/install.sh
 ```
 
-This installs global commands to `~/.cursor/commands/`:
+This installs global commands, templates, scripts, rules, and skills to `~/.cursor/`:
 
 **Project Commands:**
 - Adopt Project - Set up ai-squads in a new project
 - Diagnose Issue - Investigate problems with hypothesis-driven analysis
 - Explain System - Generate narrative understanding of architecture
 - Ideate Solution - Explore solution approaches from minimal to comprehensive
-- Plan Feature - Create structured feature documentation
+- Plan Feature - Create structured feature documentation (PRD, specs, prd.json)
+- Execute Feature - Autonomously execute planned features with quality checks and progress tracking
 - Plan Game - Create Game Design Document (GDD) for game projects
 - Review Merge Request - Agent-based code review
 - Team Lately - Analyze team git activity and generate reports
@@ -106,9 +110,27 @@ Run the `/ideate-solution` command to explore approaches. This will:
 
 Run the `/plan-feature` command in Cursor. This will:
 - Create feature directory in `docs/feature/{feature_name}/`
-- Generate PRD.md, specs.md, and tasks.md templates
+- Generate PRD.md, specs.md, and prd.json (machine-readable execution format)
 - Use your project's agent team to inform planning
 - Customize planning documents with feature details
+- Create user stories with acceptance criteria, dependencies, and agent assignments
+
+**Note**: `tasks.md` is deprecated. `prd.json` replaces it entirely and is required for autonomous execution.
+
+### Execute a Feature
+
+Run the `/execute-feature` command in Cursor to autonomously implement a planned feature. This will:
+- Read feature plan from `docs/feature/{feature_name}/prd.json`
+- Resolve dependencies and execute user stories in order
+- Route stories to appropriate agents based on type and tech stack
+- Run quality checks (typecheck, lint, format, test) before commits
+- Perform browser verification for frontend stories
+- Track progress and commit each completed story
+- Archive feature when all stories pass
+
+**Dry-run mode**: Use `--dry-run` flag to preview execution prompts without running them.
+
+**Automatic mode**: Run without a feature name to automatically find and execute features with incomplete stories.
 
 ### Plan a Game
 
@@ -177,14 +199,17 @@ my-project/
 │   ├── DECISIONS.md
 │   ├── README.md
 │   ├── team.md
+│   ├── quality.md            # Quality check commands
 │   ├── feature/
 │   │   └── {feature_name}/
 │   │       ├── PRD.md
 │   │       ├── specs.md
-│   │       └── tasks.md
-│   └── game/
-│       └── {game_name}/
-│           └── GDD.md
+│   │       └── prd.json      # Machine-readable execution format
+│   ├── game/
+│   │   └── {game_name}/
+│   │       └── GDD.md
+│   └── archived/             # Completed features
+│       └── YYYY-MM-DD-{feature_name}/
 └── src/                      # Your project code
 ```
 
@@ -194,7 +219,8 @@ Global installation (at `~/.cursor/`):
 ├── commands/                 # Command workflows
 ├── templates/                # Documentation templates
 ├── scripts/                  # Helper scripts
-└── rules/                    # System rules (applied globally)
+├── rules/                    # System rules (applied globally)
+└── skills/                   # Specialized capabilities (e.g., browser-verification)
 ```
 
 ## Agents
@@ -290,6 +316,14 @@ Style guides are located in the ai-squads source repository at `standards/code/`
 
 Agents automatically reference relevant style guides when providing guidance. Commands reference these files from the ai-squads repository, so they must remain accessible.
 
+## Skills System
+
+Skills are specialized capabilities that agents can use during execution. Skills are located in `skills/` and installed to `~/.cursor/skills/`:
+
+- **browser-verification**: Verifies frontend changes work correctly in a browser. Required for frontend user stories. Navigates to pages, interacts with UI elements, and confirms expected behavior.
+
+Skills are automatically invoked when relevant (e.g., browser verification for frontend stories with "Verify in browser" in acceptance criteria).
+
 ## Configuration
 
 All configuration is done through `.md` files in the ai-squads repository:
@@ -299,8 +333,9 @@ All configuration is done through `.md` files in the ai-squads repository:
 - **Templates**: `templates/*.md` - Documentation templates (installed to `~/.cursor/templates/`)
 - **Scripts**: `scripts/*.sh` - Helper scripts (installed to `~/.cursor/scripts/`)
 - **System Rules**: `rules/system.md` - Global system rules (installed to `~/.cursor/rules/`)
+- **Skills**: `skills/*/skill.md` - Specialized capabilities (installed to `~/.cursor/skills/`)
 
-**Note**: Agents and standards remain in the ai-squads repository and are referenced by commands via relative paths. Commands, templates, scripts, and rules are copied to `~/.cursor/` during installation.
+**Note**: Agents and standards remain in the ai-squads repository and are referenced by commands via relative paths. Commands, templates, scripts, rules, and skills are copied to `~/.cursor/` during installation.
 
 Edit these files in the ai-squads repository, then re-run `./scripts/install.sh` to update your global installation.
 
@@ -312,6 +347,16 @@ Your project's agent team is configured in `docs/team.md`. This file lists:
 - Tech stack alignment
 
 The team configuration is used by commands to provide relevant guidance.
+
+## Quality Checks
+
+Quality checks are defined in `docs/quality.md` in your project. These commands are copied to `prd.json.quality` when planning features and executed during feature execution. Common quality checks include:
+- Type checking (e.g., `tsc --noEmit`, `cargo check`)
+- Linting (e.g., `npm run lint`, `cargo clippy`)
+- Formatting (e.g., `npm run format`, `cargo fmt`)
+- Testing (e.g., `npm test`, `cargo test`)
+
+Quality checks must pass before a story is committed. Commands in `prd.json.quality` are executed directly in your project directory, so only include trusted commands.
 
 ## Contributing
 
