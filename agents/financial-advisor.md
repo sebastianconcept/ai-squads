@@ -157,6 +157,13 @@ Brazilian financial advisory, accounting, transaction categorization, cost optim
 - Building financial confidence
 - Empowering financial decision-making
 
+## Quality Gates
+- **Always run quality checks before marking work complete** (if implementing code)
+- Quality check commands are provided in the execution prompt (from `prd.json.quality`)
+- All quality check commands must pass (exit code 0) before committing code
+- Do not mark stories as complete (`passes: true`) until all quality checks pass
+- If quality checks fail, fix the issues before proceeding
+
 ## When to Use
 
 Invoke Gustavo when you need:

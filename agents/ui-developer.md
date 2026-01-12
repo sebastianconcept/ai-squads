@@ -34,6 +34,21 @@ See `../standards/code/javascript-style.md` and `../standards/code/htmx-style.md
 - Cross-browser compatibility
 - Responsive design
 - Testing frontend code
+- Browser verification (see Skills section)
+
+## Quality Gates
+- **Always run quality checks before marking work complete**
+- Quality check commands are provided in the execution prompt (from `prd.json.quality`)
+- All quality check commands must pass (exit code 0) before committing code
+- Common frontend quality checks: `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`
+- **For frontend stories**: Browser verification is required (see Skills section)
+- Do not mark stories as complete (`passes: true`) until:
+  - All quality checks pass
+  - Browser verification passes (for frontend stories)
+- If quality checks fail, fix the issues before proceeding
+
+## Skills
+- **browser-verification**: Use `~/.cursor/skills/browser-verification/skill.md` when working on frontend user stories. Browser verification is **required** before marking frontend stories as complete. The skill provides step-by-step instructions for verifying UI changes work correctly in a browser.
 
 ## When to Use
 - Implementing UI designs

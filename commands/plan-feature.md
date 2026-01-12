@@ -7,6 +7,8 @@ alwaysApply: false
 
 This workflow guides the planning of a new feature for a project.
 
+Important: Do NOT start implementing. Just create the planning files.
+
 ## Prerequisites
 
 1. Project must have been adopted (have `docs/` directory)
@@ -18,11 +20,39 @@ This workflow guides the planning of a new feature for a project.
 - Prompt user for feature name
 - Validate name (no special characters, spaces become hyphens)
 - Check if feature already exists
+- Ask 3-5 essential clarifying questions (with lettered options) if necessary
+
+### Format Questions Like This:
+
+```
+1. What problem does this feature solve?
+   A. Users are confused about how to use the system
+   B. Current workflow is too slow or inefficient
+   C. Missing functionality that users are requesting
+   D. Other: [please specify]
+
+2. What is the expected user interaction?
+   A. One-time setup or configuration
+   B. Regular daily/weekly use
+   C. Occasional use when needed
+   D. Automated background process
+
+3. What is the implementation priority?
+   A. MVP - core functionality only
+   B. Complete feature with all edge cases
+   C. Prototype to validate concept
+   D. Enhancement to existing feature
+```
+
+This lets users respond with "1A, 2C, 3B" for quick iteration.
+
+
 
 ### 2. Create Feature Structure
 - Run `~/.cursor/scripts/create-feature-docs.sh {feature_name}` from project root
 - This creates `docs/feature/{feature_name}/` directory
-- Copies PRD.md, specs.md, tasks.md templates
+- Copies PRD.md and specs.md templates
+- Note: `tasks.md` is deprecated - `prd.json` replaces it (generated in step 6)
 
 ### 3. Load Project Context
 - Read `docs/team.md` to get agent team
@@ -51,9 +81,44 @@ Ask questions based on project's agent team:
 
 **PRD.md (Product Requirements Document):**
 - Feature overview
-- User stories/jobs to be done
+- User stories/jobs to be done (see format below)
 - Success metrics
 - Out of scope items
+
+**User Stories Format:**
+
+Each story needs:
+- **ID:** `US-001`, `US-002`, etc.
+- **Title:** Short descriptive name
+- **Description:** "As a [user], I want [feature] so that [benefit]"
+- **Acceptance Criteria:** Verifiable checklist of what "done" means
+
+Each story should be small enough to implement in one focused session.
+
+**Format:**
+```markdown
+### US-001: [Title]
+**Description:** As a [user], I want [feature] so that [benefit].
+
+**Acceptance Criteria:**
+- [ ] Specific verifiable criterion
+- [ ] Another criterion
+- [ ] Typecheck/lint passes (quality checks from docs/quality.md)
+- [ ] **[UI stories only]** Verify in browser using browser-verification skill
+```
+
+**Important:** 
+- Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
+- **For any story with UI changes:** Always include "Verify in browser using browser-verification skill" as acceptance criteria. This ensures visual verification of frontend work.
+- Stories will be converted to `prd.json` format with type detection (frontend/backend/etc.) and agent assignment.
+
+**Functional Requirements:**
+
+Numbered list of specific functionalities:
+- "FR-1: The system must allow users to..."
+- "FR-2: When a user clicks X, the system must..."
+
+Be explicit and unambiguous. Functional requirements complement user stories by providing detailed system behavior specifications.
 
 **specs.md (Technical Specifications):**
 - Technical approach
@@ -62,11 +127,15 @@ Ask questions based on project's agent team:
 - Data models (if applicable)
 - Integration points
 
-**tasks.md (Implementation Tasks):**
-- Breakdown of work items
-- Dependencies
-- Estimated effort
-- Implementation order
+**prd.json (Machine-readable execution format - replaces tasks.md):**
+- User stories with actionable properties (id, title, description, type, dependencies, agent, acceptanceCriteria, priority)
+- Each story has `passes: false` initially (tracks completion status)
+- Quality check commands from `docs/quality.md` (project-level, copied to `prd.json.quality`)
+- Story types: `backend`, `frontend`, `integration`, `config`, `infrastructure`, `fullstack`, `library`
+- Agent assignments based on story type and tech stack
+- Dependencies between stories for proper execution order
+- **Note**: `tasks.md` is deprecated. `prd.json` replaces it entirely.
+
 
 ### 6. Customize with Agent Insights
 - Use Rust Specialist for backend tasks
@@ -87,7 +156,9 @@ Ask questions based on project's agent team:
 After completion, the feature should have:
 - `docs/feature/{feature_name}/PRD.md`
 - `docs/feature/{feature_name}/specs.md`
-- `docs/feature/{feature_name}/tasks.md`
+- `docs/feature/{feature_name}/prd.json` (required for autonomous execution)
+
+**Note**: `tasks.md` is deprecated. `prd.json` replaces it entirely because it's machine-readable and tracks execution status via `userStories[].passes`.
 
 ## Notes
 
@@ -95,3 +166,15 @@ After completion, the feature should have:
 - Keep documents brief and actionable
 - Use project's agent team to inform planning
 - Ensure alignment with project mission
+
+
+## Checklist
+Before saving the PRD:
+
+[ ] Asked clarifying questions with lettered options
+[ ] Incorporated user's answers
+[ ] User stories are small and specific
+[ ] Functional requirements are numbered and unambiguous
+[ ] Non-goals section defines clear boundaries
+[ ] Saved to docs/{feature-name}/PRD.md
+[ ] Saved to docs/{feature-name}/prd.json

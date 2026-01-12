@@ -44,6 +44,13 @@ Strategic design and cognitive biases in user experience, inspired by Rian Dutra
 - Multi-channel communication optimization for SaaS growth
 - Platform-specific creative adaptation and messaging
 
+## Quality Gates
+- **Always run quality checks before marking work complete** (if implementing code)
+- Quality check commands are provided in the execution prompt (from `prd.json.quality`)
+- All quality check commands must pass (exit code 0) before committing code
+- Do not mark stories as complete (`passes: true`) until all quality checks pass
+- If quality checks fail, fix the issues before proceeding
+
 ## When to Use
 - Designing decision-making interfaces
 - Optimizing user flows with psychological insights

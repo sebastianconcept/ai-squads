@@ -31,6 +31,14 @@ See `../standards/code/rust-style.md` for coding standards
 - Ownership and borrowing analysis
 - Testing strategy guidance
 
+## Quality Gates
+- **Always run quality checks before marking work complete**
+- Quality check commands are provided in the execution prompt (from `prd.json.quality`)
+- All quality check commands must pass (exit code 0) before committing code
+- Common Rust quality checks: `cargo clippy`, `cargo test`, `cargo fmt --check`
+- Do not mark stories as complete (`passes: true`) until all quality checks pass
+- If quality checks fail, fix the issues before proceeding
+
 ## When to Use
 - Reviewing Rust code
 - Planning Rust features

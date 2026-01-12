@@ -57,6 +57,7 @@ mkdir -p "$TARGET_DIR/commands"
 mkdir -p "$TARGET_DIR/templates"
 mkdir -p "$TARGET_DIR/scripts"
 mkdir -p "$TARGET_DIR/rules"
+mkdir -p "$TARGET_DIR/skills"
 
 # Copy commands
 echo "Copying commands..."
@@ -74,6 +75,12 @@ cp -v "$AI_SQUADS_DIR/scripts"/*.sh "$TARGET_DIR/scripts/"
 echo "Copying rules..."
 cp -v "$AI_SQUADS_DIR/rules"/*.md "$TARGET_DIR/rules/"
 
+# Copy skills (if directory exists)
+if [ -d "$AI_SQUADS_DIR/skills" ]; then
+    echo "Copying skills..."
+    cp -rv "$AI_SQUADS_DIR/skills"/* "$TARGET_DIR/skills/"
+fi
+
 # Make scripts executable
 chmod +x "$TARGET_DIR/scripts"/*.sh
 
@@ -88,6 +95,7 @@ echo "  - Diagnose Issue"
 echo "  - Explain System"
 echo "  - Ideate Solution"
 echo "  - Plan Feature"
+echo "  - Execute Feature (requires Cursor CLI)"
 echo "  - Plan Game"
 echo "  - Review Merge Request"
 echo "  - Team Lately"
