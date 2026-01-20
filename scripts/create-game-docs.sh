@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # Create game documentation structure
-# Creates docs/game/{game_name}/ directory
+# Creates ~/docs/{project-name}/game/{game_name}/ directory
 
 set -e
+
+# Source common functions
+. "$HOME/.cursor/scripts/common.sh"
 
 if [ -z "$1" ]; then
     echo "Usage: $0 <game_name>"
@@ -11,7 +14,6 @@ if [ -z "$1" ]; then
 fi
 
 GAME_NAME="$1"
-PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 TARGET_DIR="$HOME/.cursor"
 
 if [ ! -d "$TARGET_DIR/templates" ]; then
@@ -21,7 +23,8 @@ if [ ! -d "$TARGET_DIR/templates" ]; then
 fi
 
 TEMPLATES_DIR="$TARGET_DIR/templates"
-GAME_DIR="$PROJECT_ROOT/docs/game/$GAME_NAME"
+DOCS_DIR="$(get_docs_dir)"
+GAME_DIR="$DOCS_DIR/game/$GAME_NAME"
 
 # Validate game name (no special characters except hyphens)
 if [[ ! "$GAME_NAME" =~ ^[a-zA-Z0-9-]+$ ]]; then

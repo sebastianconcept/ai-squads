@@ -11,8 +11,8 @@ Important: Do NOT start implementing. Just create the planning files.
 
 ## Prerequisites
 
-1. Project must have been adopted (have `docs/` directory)
-2. Project must have `docs/team.md` with agent team
+1. Project must have been adopted (have `~/docs/{project-name}/` directory)
+2. Project must have `~/docs/{project-name}/TEAM.md` with agent team
 
 ## Steps
 
@@ -50,14 +50,14 @@ This lets users respond with "1A, 2C, 3B" for quick iteration.
 
 ### 2. Create Feature Structure
 - Run `~/.cursor/scripts/create-feature-docs.sh {feature_name}` from project root
-- This creates `docs/feature/{feature_name}/` directory
-- Copies PRD.md and specs.md templates
+- This creates `~/docs/{project-name}/feature/{feature_name}/` directory
+- Copies PRD.md and SPECS.md templates
 - Note: `tasks.md` is deprecated - `prd.json` replaces it (generated in step 6)
 
 ### 3. Load Project Context
-- Read `docs/team.md` to get agent team
-- Read `docs/tech-stack.md` for technical context
-- Read `docs/mission.md` for project alignment
+- Read `~/docs/{project-name}/TEAM.md` to get agent team
+- Read `~/docs/{project-name}/TECH-STACK.md` for technical context
+- Read `~/docs/{project-name}/MISSION.md` for project alignment
 
 ### 4. Gather Feature Information
 Ask questions based on project's agent team:
@@ -112,8 +112,8 @@ Check for:
 1. Determine research scope based on:
    - Feature description
    - Assigned specialist agent
-   - Project tech stack (`docs/tech-stack.md`)
-   - Project context (`docs/mission.md`, `docs/quality.md`)
+   - Project tech stack (`~/docs/{project-name}/TECH-STACK.md`)
+   - Project context (`~/docs/{project-name}/MISSION.md`, `~/docs/{project-name}/QUALITY.md`)
 
 2. Specialist agent performs methodical research:
    - Investigate technical blockers
@@ -128,11 +128,11 @@ Check for:
    - Recommendations with rationale
    - Sources and evidence
 
-**Output:** `docs/feature/{feature_name}/RESEARCH.md`
+**Output:** `~/docs/{project-name}/feature/{feature_name}/RESEARCH.md`
 
 **Integration:** Research findings will inform planning documents (PRD, specs, prd.json)
 
-**See:** `docs/feature/autonomous-execution/RESEARCH-PHASE.md` for detailed specification
+**See:** `~/docs/{project-name}/feature/autonomous-execution/RESEARCH-PHASE.md` for detailed specification
 
 ### 7. Generate Planning Documents
 
@@ -161,7 +161,7 @@ Each story should be small enough to implement in one focused session.
 **Acceptance Criteria:**
 - [ ] Specific verifiable criterion
 - [ ] Another criterion
-- [ ] Typecheck/lint passes (quality checks from docs/quality.md)
+- [ ] Typecheck/lint passes (quality checks from ~/docs/{project-name}/QUALITY.md)
 - [ ] **[UI stories only]** Verify in browser using browser-verification skill
 ```
 
@@ -178,7 +178,7 @@ Numbered list of specific functionalities:
 
 Be explicit and unambiguous. Functional requirements complement user stories by providing detailed system behavior specifications.
 
-**specs.md (Technical Specifications):**
+**SPECS.md (Technical Specifications):**
 - Technical approach
 - Architecture decisions
 - API design (if applicable)
@@ -189,7 +189,7 @@ Be explicit and unambiguous. Functional requirements complement user stories by 
 **prd.json (Machine-readable execution format - replaces tasks.md):**
 - User stories with actionable properties (id, title, description, type, dependencies, agent, acceptanceCriteria, priority)
 - Each story has `passes: false` initially (tracks completion status)
-- Quality check commands from `docs/quality.md` (project-level, copied to `prd.json.quality`)
+- Quality check commands from `~/docs/{project-name}/QUALITY.md` (project-level, copied to `prd.json.quality`)
 - Story types: `backend`, `frontend`, `integration`, `config`, `infrastructure`, `fullstack`, `library`
 - Agent assignments based on story type and tech stack
 - Dependencies between stories for proper execution order
@@ -214,10 +214,10 @@ Be explicit and unambiguous. Functional requirements complement user stories by 
 ## Output
 
 After completion, the feature should have:
-- `docs/feature/{feature_name}/PRD.md`
-- `docs/feature/{feature_name}/specs.md`
-- `docs/feature/{feature_name}/prd.json` (required for autonomous execution)
-- `docs/feature/{feature_name}/RESEARCH.md` (if research phase was triggered)
+- `~/docs/{project-name}/feature/{feature_name}/PRD.md`
+- `~/docs/{project-name}/feature/{feature_name}/SPECS.md`
+- `~/docs/{project-name}/feature/{feature_name}/prd.json` (required for autonomous execution)
+- `~/docs/{project-name}/feature/{feature_name}/RESEARCH.md` (if research phase was triggered)
 
 **Note**: `tasks.md` is deprecated. `prd.json` replaces it entirely because it's machine-readable and tracks execution status via `userStories[].passes`.
 
@@ -237,5 +237,5 @@ Before saving the PRD:
 [ ] User stories are small and specific
 [ ] Functional requirements are numbered and unambiguous
 [ ] Non-goals section defines clear boundaries
-[ ] Saved to docs/{feature-name}/PRD.md
-[ ] Saved to docs/{feature-name}/prd.json
+[ ] Saved to ~/docs/{project-name}/feature/{feature-name}/PRD.md
+[ ] Saved to ~/docs/{project-name}/feature/{feature-name}/prd.json

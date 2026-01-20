@@ -9,7 +9,7 @@ This command helps investigate problems by analyzing evidence, generating hypoth
 
 ## Prerequisites
 
-1. Project must have been adopted (have `docs/` directory)
+1. Project must have been adopted (have `~/docs/{project-name}/` directory)
 2. User has a problem to investigate (even if vague)
 
 ## When to Use
@@ -50,9 +50,9 @@ Accept input from the user in any combination:
 ### 2. Load Project Context
 
 Read and understand from:
-- `docs/README.md` - Project overview
-- `docs/tech-stack.md` - Technologies and architecture
-- `docs/DECISIONS.md` - Design decisions that may be relevant
+- `~/docs/{project-name}/README.md` - Project overview
+- `~/docs/{project-name}/TECH-STACK.md` - Technologies and architecture
+- `~/docs/{project-name}/DECISIONS.md` - Design decisions that may be relevant
 - Relevant source code in suspected areas
 
 ### 3. Evidence Analysis
@@ -80,7 +80,7 @@ Generate hypotheses ordered by likelihood using a scientific, evidence-based app
 - **Design Small Experiments**: Create minimal, controlled tests to validate or refute each hypothesis
 - **Reduce Ambiguity**: Use experiments to narrow down possibilities and unlock progress
 - **Evidence-Based**: Base hypotheses on observed evidence, not assumptions
-- **Document in Notes**: Use investigation notes (`docs/notes/{issue-id}/`) to track hypotheses, evidence, and experiments (category: "investigations" stored in frontmatter)
+- **Document in Notes**: Use investigation notes (`~/docs/{project-name}/notes/{issue-id}/`) to track hypotheses, evidence, and experiments (category: "investigations" stored in frontmatter)
 
 **Hypothesis Categories:**
 - **Code bugs** - Logic errors, race conditions, edge cases
@@ -92,10 +92,10 @@ Generate hypotheses ordered by likelihood using a scientific, evidence-based app
 - **Resource exhaustion** - Memory, connections, file handles
 
 **Using Investigation Notes:**
-- Create notes in `docs/notes/{issue-id}/` when starting investigation (category: "investigations" stored in frontmatter/metadata, not in directory path)
+- Create notes in `~/docs/{project-name}/notes/{issue-id}/` when starting investigation (category: "investigations" stored in frontmatter/metadata, not in directory path)
 - Document hypotheses in `insights.json` with confidence levels, evidence-based tracking, and supporting/contradicting evidence
-- Document evidence in `evidence.md` as it's gathered (logs, metrics, test results, experimental data) with timestamps and sources
-- Update `todos.md` with experiments to run and checks to perform
+- Document evidence in `EVIDENCE.md` as it's gathered (logs, metrics, test results, experimental data) with timestamps and sources
+- Update `TODOS.md` with experiments to run and checks to perform
 - Reference evidence in hypotheses (supporting or contradicting)
 - Discard hypotheses that are contradicted by evidence to focus on viable paths
 - Mark insights as `evidenceBased: true` when supported by first-hand evidence (logs, test results, metrics, experimental data)
@@ -105,14 +105,14 @@ Generate hypotheses ordered by likelihood using a scientific, evidence-based app
 
 1. **When Starting Investigation:**
    - Generate an issue ID (e.g., `memory-leak-2024-01-15` or `api-timeout-2024-01-15`)
-   - Create note directory: `docs/notes/{issue-id}/` (or use flat structure: `docs/notes/{issue-id}-*.md`)
-   - Create initial `context.md` with investigation scope, goals, and success criteria (category: "investigations" in frontmatter)
-   - Create initial `evidence.md` to document evidence as it's gathered (category: "investigations" in frontmatter)
-   - Create initial `todos.md` to track experiments and checks (category: "investigations" in frontmatter)
+   - Create note directory: `~/docs/{project-name}/notes/{issue-id}/` (or use flat structure: `~/docs/{project-name}/notes/{issue-id}-*.md`)
+   - Create initial `CONTEXT.md` with investigation scope, goals, and success criteria (category: "investigations" in frontmatter)
+   - Create initial `EVIDENCE.md` to document evidence as it's gathered (category: "investigations" in frontmatter)
+   - Create initial `TODOS.md` to track experiments and checks (category: "investigations" in frontmatter)
    - Create initial `insights.json` to document hypotheses and findings (category: "investigations" in metadata)
 
 2. **During Investigation:**
-   - **Document Evidence Immediately**: When gathering logs, metrics, test results, or experimental data, append to `evidence.md` with:
+   - **Document Evidence Immediately**: When gathering logs, metrics, test results, or experimental data, append to `EVIDENCE.md` with:
      - What was observed
      - When (ISO 8601 timestamp)
      - Source (logs, metrics, test results, etc.)
@@ -122,12 +122,12 @@ Generate hypotheses ordered by likelihood using a scientific, evidence-based app
    - **Document Hypotheses**: When generating hypotheses, add to `insights.json` with:
      - Hypothesis title and description
      - Confidence level (Low/Medium/High)
-     - Supporting evidence (references to evidence.md entries)
+     - Supporting evidence (references to EVIDENCE.md entries)
      - Contradicting evidence (if any)
      - Type: "hypothesis"
      - `evidenceBased: true` if supported by first-hand evidence
      - `evidence: {}` object documenting the evidence
-   - **Track Experiments**: Update `todos.md` with:
+   - **Track Experiments**: Update `TODOS.md` with:
      - Experiments to run (with expected outcomes)
      - Checks to perform
      - Status (pending, in-progress, completed, blocked)
@@ -137,17 +137,17 @@ Generate hypotheses ordered by likelihood using a scientific, evidence-based app
      - Include commit hash that validates the reasoning
 
 3. **When Resuming Investigation:**
-   - Read existing notes from `docs/notes/{issue-id}/` (or matching flat files)
-   - Review `context.md` to understand investigation scope
-   - Review `evidence.md` to see what evidence has been gathered
-   - Review `todos.md` to see what experiments are pending
+   - Read existing notes from `~/docs/{project-name}/notes/{issue-id}/` (or matching flat files)
+   - Review `CONTEXT.md` to understand investigation scope
+   - Review `EVIDENCE.md` to see what evidence has been gathered
+   - Review `TODOS.md` to see what experiments are pending
    - Review `insights.json` to see previous hypotheses and findings (prioritize evidence-based insights)
    - Continue investigation from where it left off
 
 **Note File Format Examples:**
 
-See `docs/feature/self-notes/specs.md` for complete format specifications. Key points:
-- Markdown notes (context.md, evidence.md, todos.md) use YAML frontmatter with `category: investigations`
+See `~/docs/{project-name}/feature/self-notes/specs.md` for complete format specifications. Key points:
+- Markdown notes (CONTEXT.md, EVIDENCE.md, TODOS.md) use YAML frontmatter with `category: investigations`
 - insights.json uses JSON format with `metadata.category: "investigations"`
 - All notes include timestamps, commit hash (if in git repo), and optional metadata (agent, command, context)
 
@@ -170,7 +170,7 @@ When cause is NOT yet determined, provide:
 - Reproduction scenarios
 - Isolation strategies
 - **Design Principle**: Small, focused experiments that test one hypothesis at a time
-- **Document**: Record experimental inputs and observed outputs in `evidence.md`
+- **Document**: Record experimental inputs and observed outputs in `EVIDENCE.md`
 - **Purpose**: Reduce ambiguity and unlock progress by confirming or discarding hypotheses
 
 ### 6. Root Cause Determination

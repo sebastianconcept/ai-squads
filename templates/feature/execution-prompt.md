@@ -42,7 +42,7 @@ Frontend development, UI implementation, JavaScript, Alpine.js, htmx
 
 ### 2.1 Project Progress
 
-**Source**: `docs/progress.md`
+**Source**: `~/docs/{project-name}/PROGRESS.md`
 
 **Content**: Project-level progress digest providing instant context restoration
 
@@ -56,7 +56,7 @@ Frontend development, UI implementation, JavaScript, Alpine.js, htmx
 ```
 ## Project Progress
 
-[Full content from docs/progress.md if exists]
+[Full content from ~/docs/{project-name}/PROGRESS.md if exists]
 
 **Key Information:**
 - Current Position: [Active feature, current story, status]
@@ -73,10 +73,10 @@ Frontend development, UI implementation, JavaScript, Alpine.js, htmx
 
 ### 2.2 Project Notes
 
-**Source**: `docs/notes.md` (single append-only file)
+**Source**: `~/docs/{project-name}/NOTES.md` (single append-only file)
 
 **Content**: Full project notes file (no truncation - all entries are preserved)
-- All entries from `docs/notes.md` are included
+- All entries from `~/docs/{project-name}/NOTES.md` are included
 - Codebase Patterns section (if present) is included
 - Since entries are selective and code standards are handled elsewhere, the file won't grow excessively
 
@@ -84,9 +84,9 @@ Frontend development, UI implementation, JavaScript, Alpine.js, htmx
 ```
 ## Project Notes
 
-Full project notes from `docs/notes.md` (all entries preserved, no truncation):
+Full project notes from `~/docs/{project-name}/NOTES.md` (all entries preserved, no truncation):
 
-[Full content from docs/notes.md]
+[Full content from ~/docs/{project-name}/NOTES.md]
 ```
 
 **Notes Format** (what agents append):
@@ -103,7 +103,7 @@ Full project notes from `docs/notes.md` (all entries preserved, no truncation):
 
 ### 2.3 Project Decisions
 
-**Source**: `docs/DECISIONS.md`
+**Source**: `~/docs/{project-name}/DECISIONS.md`
 
 **Content**: Architectural and design decisions that inform implementation choices
 
@@ -111,52 +111,52 @@ Full project notes from `docs/notes.md` (all entries preserved, no truncation):
 ```
 ## Project Decisions
 
-[Content from docs/DECISIONS.md]
+[Content from ~/docs/{project-name}/DECISIONS.md]
 ```
 
 ### 2.4 Dev Notes
 
-**Source**: `dev-notes.md` files found in:
+**Source**: `DEV-NOTES.md` files found in:
 - Project root (global notes)
 - Feature directory (feature-specific notes)
 - Current working directory (directory-specific notes)
 
-**Content**: All relevant dev-notes.md content, clearly labeled by scope
+**Content**: All relevant DEV-NOTES.md content, clearly labeled by scope
 
 **Format**:
 ```
 ## Dev Notes
 
 ### Global Project Notes (from root)
-[Content from project-root/dev-notes.md if exists]
+[Content from project-root/DEV-NOTES.md if exists]
 
-### Feature Notes (from docs/feature/{name}/dev-notes.md)
-[Content from feature-specific dev-notes.md if exists]
+### Feature Notes (from ~/docs/{project-name}/feature/{name}/DEV-NOTES.md)
+[Content from feature-specific DEV-NOTES.md if exists]
 
 ### Directory Notes (from current directory)
-[Content from current-directory/dev-notes.md if exists]
+[Content from current-directory/DEV-NOTES.md if exists]
 ```
 
 ### 2.5 Feature Notes (if available)
 
-**Source**: `docs/notes/features/{feature-name}/` (if feature notes exist)
+**Source**: `~/docs/{project-name}/notes/features/{feature-name}/` (if feature notes exist)
 
 **Content**: Notes from the current feature's note directory:
-- `context.md`: Feature goals, scope, and success criteria
-- `todos.md`: Current task status, what needs to be done, what's in progress
+- `CONTEXT.md`: Feature goals, scope, and success criteria
+- `TODOS.md`: Current task status, what needs to be done, what's in progress
 - `insights.json`: Relevant learnings and decisions (prioritize evidence-based insights)
 
 **Format**:
 ```
 ## Feature Notes
 
-**Source**: `docs/notes/features/{feature-name}/`
+**Source**: `~/docs/{project-name}/notes/features/{feature-name}/`
 
 ### Context
-[Content from context.md if exists]
+[Content from CONTEXT.md if exists]
 
 ### Current Tasks
-[Content from todos.md if exists]
+[Content from TODOS.md if exists]
 
 ### Insights
 [Relevant content from insights.json if exists, prioritized by evidence-based flag]
@@ -166,7 +166,7 @@ Full project notes from `docs/notes.md` (all entries preserved, no truncation):
 - Notes are read automatically before each story execution
 - If notes don't exist, this section is omitted
 - Agent can read notes proactively during execution using note tools
-- Agent can update `todos.md` to track progress during execution
+- Agent can update `TODOS.md` to track progress during execution
 
 ---
 
@@ -252,14 +252,14 @@ You have access to the following note management tools for maintaining persisten
      - `content` (string): Markdown content to write
      - `metadata` (optional object): Additional metadata (agent, command, context, commit)
    - **Returns**: `{success: boolean, path: string, error?: string}`
-   - **Location**: `docs/notes/{category}/{name}.md`
+   - **Location**: `~/docs/{project-name}/notes/{category}/{name}.md`
    - **Example**: `write_note("features", "user-auth", "# Feature: User Authentication\n\nGoals: ...", {agent: "uidev", command: "execute-feature"})`
 
 2. **read_note(path | {category, name})**
    - Read an existing note file
    - **Parameters**: Either full `path` (string) or `{category, name}` (object)
    - **Returns**: `{content: string, metadata: object, error?: string}`
-   - **Example**: `read_note({category: "features", name: "user-auth"})` or `read_note("docs/notes/features/user-auth/context.md")`
+   - **Example**: `read_note({category: "features", name: "user-auth"})` or `read_note("~/docs/{project-name}/notes/features/user-auth/CONTEXT.md")`
 
 3. **list_notes(category?)**
    - List available notes
@@ -283,23 +283,23 @@ You have access to the following note management tools for maintaining persisten
 
 Use these standard note names for structured organization:
 
-- **context.md**: Scope and goals (what the work is for, what problem it solves, success criteria)
-- **evidence.md**: Facts gathered (logs, metrics, test results, experimental data)
-- **todos.md**: Current tasks (what needs to be done, in progress, blocked)
+- **CONTEXT.md**: Scope and goals (what the work is for, what problem it solves, success criteria)
+- **EVIDENCE.md**: Facts gathered (logs, metrics, test results, experimental data)
+- **TODOS.md**: Current tasks (what needs to be done, in progress, blocked)
 - **insights.json**: Discoveries with origin and impact (patterns found, decisions made, implications), stored as JSON for better actionability
 
-**Note Location**: `docs/notes/{category}/{name}.md`
+**Note Location**: `~/docs/{project-name}/notes/{category}/{name}.md`
 
 **When to Use Notes**:
 
-- **At Feature Start**: Create `context.md` when beginning a new feature (if it doesn't exist)
-- **During Task Execution**: Update `todos.md` when task status changes
+- **At Feature Start**: Create `CONTEXT.md` when beginning a new feature (if it doesn't exist)
+- **During Task Execution**: Update `TODOS.md` when task status changes
 - **When Discoveries Are Made**: Write to `insights.json` when patterns or decisions are found (mark as evidence-based when supported by first-hand evidence)
-- **When Gathering Facts**: Write to `evidence.md` when collecting data (investigations)
+- **When Gathering Facts**: Write to `EVIDENCE.md` when collecting data (investigations)
 
 **Note Naming Examples**:
-- Feature notes: `docs/notes/features/user-authentication/context.md`
-- Investigation notes: `docs/notes/memory-leak-2024-01-15/evidence.md` (category: "investigations" in frontmatter)
+- Feature notes: `~/docs/{project-name}/notes/features/user-authentication/CONTEXT.md`
+- Investigation notes: `~/docs/{project-name}/notes/memory-leak-2024-01-15/EVIDENCE.md` (category: "investigations" in frontmatter)
 - Use kebab-case, descriptive names
 
 **Error Handling**: Note operations are non-fatal - if note reading/writing fails, execution continues (notes are helpful but not critical)
@@ -321,8 +321,8 @@ You are implementing user story **US-001: Add user login form**.
 
 1. **Read Context First**:
    - Review project notes for relevant patterns and learnings
-   - Check dev-notes.md for project-specific guidance
-   - **Review feature notes (context.md, todos.md, insights.json) if available above**
+   - Check DEV-NOTES.md for project-specific guidance
+   - **Review feature notes (CONTEXT.md, TODOS.md, insights.json) if available above**
    - **Learn from Previous Attempts**: If `insights.json` contains execution attempts, read them to understand (prioritize evidence-based insights):
      - What approaches were tried before
      - What failed and why
@@ -352,14 +352,14 @@ You are implementing user story **US-001: Add user login form**.
      - Add entries for any architectural decisions, design choices, or trade-offs made
      - Use format: Date, Context, Decision, Consequences
      - Document why decisions were made and their implications
-     - Location: `docs/DECISIONS.md`
+     - Location: `~/docs/{project-name}/DECISIONS.md`
    - **Other project docs** (update as needed):
-     - Update `docs/tech-stack.md` if new technologies or dependencies were added
-     - Update `docs/roadmap.md` if priorities or plans changed
+     - Update `~/docs/{project-name}/TECH-STACK.md` if new technologies or dependencies were added
+     - Update `~/docs/{project-name}/ROADMAP.md` if priorities or plans changed
      - Update any other relevant documentation
 
 6. **Update Notes** (if applicable):
-   - Update `todos.md` in `docs/notes/features/{feature-name}/` when task status changes
+   - Update `TODOS.md` in `~/docs/{project-name}/notes/features/{feature-name}/` when task status changes
    - **Document Execution Attempt**: After execution (success or failure), append to `insights.json`:
      - What approach was tried
      - What worked and what didn't
@@ -370,14 +370,14 @@ You are implementing user story **US-001: Add user login form**.
      - Include `evidence: {}` object when evidence-based
    - Write to `insights.json` when discoveries are made or decisions are documented
    - Use note tools (write_note, append_note) to maintain persistent memory
-   - **Note**: If this is the first story in a feature, create `context.md` with feature goals and scope
+   - **Note**: If this is the first story in a feature, create `CONTEXT.md` with feature goals and scope
    - **Iterative Learning**: Your documentation helps the next execution iteration learn from this attempt
 
 7. **Update Project State**:
    - After successful implementation, quality checks, and documentation updates:
-     - Set `passes: true` for this story in `docs/feature/{feature-name}/prd.json`
-     - Append progress entry to `docs/notes.md` using our format (see Progress Report Format below)
-     - Update `dev-notes.md` in directories where you edited files (only if you discovered NEW patterns not in coding standards - see dev-notes.md guidance)
+     - Set `passes: true` for this story in `~/docs/{project-name}/feature/{feature-name}/prd.json`
+     - Append progress entry to `~/docs/{project-name}/NOTES.md` using our format (see Progress Report Format below)
+     - Update `DEV-NOTES.md` in directories where you edited files (only if you discovered NEW patterns not in coding standards - see DEV-NOTES.md guidance)
 
 8. **Commit** (if quality checks pass):
    - Create a commit with message: `feat: [Story ID] - [Story Title]`
@@ -417,14 +417,14 @@ Here's how a complete prompt would look for a frontend story:
 
 ## Project Notes
 
-[Full content from docs/notes.md - all entries preserved]
+[Full content from ~/docs/{project-name}/NOTES.md - all entries preserved]
 
 ---
 
 ## Dev Notes
 
 ### Global Project Notes
-[Content from project-root/dev-notes.md if exists]
+[Content from project-root/DEV-NOTES.md if exists]
 
 ---
 

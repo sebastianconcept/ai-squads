@@ -5,6 +5,9 @@
 
 set -e
 
+# Source common functions
+. "$HOME/.cursor/scripts/common.sh"
+
 # Parse command-line arguments
 FEATURE_NAME=""
 DRY_RUN=false
@@ -43,7 +46,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+DOCS_DIR="$(get_docs_dir)"
 CURSOR_DIR="$HOME/.cursor"
 AGENTS_DIR="$CURSOR_DIR/agents"
 SKILLS_DIR="$CURSOR_DIR/skills"
@@ -124,7 +127,7 @@ check_prerequisites() {
 
 # Find all features with incomplete stories
 find_incomplete_features() {
-    local features_dir="$PROJECT_ROOT/docs/feature"
+    local features_dir="$DOCS_DIR/feature"
     local incomplete_features=""
     
     if [ ! -d "$features_dir" ]; then
@@ -156,16 +159,16 @@ find_incomplete_features() {
 find_feature() {
     if [ -z "$FEATURE_NAME" ]; then
         log "No feature name provided, scanning for prd.json files..."
-        FEATURES=$(find "$PROJECT_ROOT/docs/feature" -name "prd.json" 2>/dev/null | head -1)
+        FEATURES=$(find "$DOCS_DIR/feature" -name "prd.json" 2>/dev/null | head -1)
         if [ -z "$FEATURES" ]; then
-            error "No prd.json files found in docs/feature/"
+            error "No prd.json files found in ~/docs/{project-name}/feature/"
             exit 1
         fi
         FEATURE_NAME=$(basename "$(dirname "$FEATURES")")
         log "Found feature: $FEATURE_NAME"
     fi
     
-    PRD_JSON="$PROJECT_ROOT/docs/feature/$FEATURE_NAME/prd.json"
+    PRD_JSON="$DOCS_DIR/feature/$FEATURE_NAME/prd.json"
     
     if [ ! -f "$PRD_JSON" ]; then
         error "prd.json not found: $PRD_JSON"
@@ -284,9 +287,9 @@ init_git_branch() {
     fi
 }
 
-# Get notes file (single append-only file: notes.md)
+# Get notes file (single append-only file: NOTES.md)
 get_notes_file() {
-    echo "$PROJECT_ROOT/docs/notes.md"
+    echo "$DOCS_DIR/NOTES.md"
 }
 
 # Append to project notes (append-only format)
@@ -550,10 +553,10 @@ add_agent_definition() {
 
 # Add project progress context to prompt (read FIRST for project-level context)
 add_progress_context() {
-    if [ -f "$PROJECT_ROOT/docs/progress.md" ]; then
+    if [ -f "$DOCS_DIR/PROGRESS.md" ]; then
         echo "## Project Progress"
         echo ""
-        echo "**Source**: \`docs/progress.md\`"
+        echo "**Source**: \`~/docs/{project-name}/PROGRESS.md\`"
         echo ""
         echo "**Purpose**: Provides instant project-level context restoration. Read first to understand:"
         echo "- Where you are in the project overall (active feature, current story, overall progress)"
@@ -561,11 +564,11 @@ add_progress_context() {
         echo "- Accumulated context (recent decisions, active blockers, pending todos, active investigations)"
         echo "- Session continuity (last session, resume context)"
         echo ""
-        cat "$PROJECT_ROOT/docs/progress.md"
+        cat "$DOCS_DIR/PROGRESS.md"
         echo ""
         echo "---"
         echo ""
-        log "Reading project progress from docs/progress.md"
+        log "Reading project progress from ~/docs/{project-name}/PROGRESS.md"
     fi
 }
 
@@ -577,7 +580,7 @@ add_project_context() {
     if [ -f "$notes_file" ]; then
         echo "## Project Notes"
         echo ""
-        echo "Full project notes from \`docs/notes.md\` (all entries preserved, no truncation):"
+        echo "Full project notes from \`~/docs/{project-name}/NOTES.md\` (all entries preserved, no truncation):"
         echo ""
         cat "$notes_file"
         echo ""
@@ -586,76 +589,78 @@ add_project_context() {
     fi
     
     # Add DECISIONS.md if exists
-    if [ -f "$PROJECT_ROOT/docs/DECISIONS.md" ]; then
+    if [ -f "$DOCS_DIR/DECISIONS.md" ]; then
         echo "## Project Decisions"
         echo ""
-        echo "Architectural and design decisions from \`docs/DECISIONS.md\`:"
+        echo "Architectural and design decisions from \`~/docs/{project-name}/DECISIONS.md\`:"
         echo ""
-        cat "$PROJECT_ROOT/docs/DECISIONS.md"
+        cat "$DOCS_DIR/DECISIONS.md"
         echo ""
         echo "---"
         echo ""
     fi
     
-    # Add dev-notes.md if exists (root level)
-    if [ -f "$PROJECT_ROOT/dev-notes.md" ]; then
+    # Add DEV-NOTES.md if exists (root level)
+    local project_root
+    project_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+    if [ -f "$project_root/DEV-NOTES.md" ]; then
         echo "## Dev Notes (Global)"
         echo ""
-        cat "$PROJECT_ROOT/dev-notes.md"
+        cat "$project_root/DEV-NOTES.md"
         echo ""
         echo "---"
         echo ""
     fi
     
-    # Add feature-specific dev-notes.md if exists
-    if [ -f "$PROJECT_ROOT/docs/feature/$FEATURE_NAME/dev-notes.md" ]; then
+    # Add feature-specific DEV-NOTES.md if exists
+    if [ -f "$DOCS_DIR/feature/$FEATURE_NAME/DEV-NOTES.md" ]; then
         echo "## Dev Notes (Feature: $FEATURE_NAME)"
         echo ""
-        cat "$PROJECT_ROOT/docs/feature/$FEATURE_NAME/dev-notes.md"
+        cat "$DOCS_DIR/feature/$FEATURE_NAME/DEV-NOTES.md"
         echo ""
         echo "---"
         echo ""
     fi
 }
 
-# Add feature notes to prompt (from docs/notes/{feature-name}/ or flat files matching {feature-name}-*)
+# Add feature notes to prompt (from ~/docs/{project-name}/notes/{feature-name}/ or flat files matching {feature-name}-*)
 add_feature_notes() {
-    local feature_notes_dir="$PROJECT_ROOT/docs/notes/$FEATURE_NAME"
-    local notes_base_dir="$PROJECT_ROOT/docs/notes"
+    local feature_notes_dir="$DOCS_DIR/notes/$FEATURE_NAME"
+    local notes_base_dir="$DOCS_DIR/notes"
     local has_notes=false
     
     # First, try grouped structure: docs/notes/{feature-name}/
     # Note: Category is stored in frontmatter (category: "features"), not in directory path
     if [ -d "$feature_notes_dir" ]; then
-        # Check for context.md
-        if [ -f "$feature_notes_dir/context.md" ]; then
+        # Check for CONTEXT.md
+        if [ -f "$feature_notes_dir/CONTEXT.md" ]; then
             if [ "$has_notes" = "false" ]; then
                 echo "## Feature Notes"
                 echo ""
-                echo "**Source**: \`docs/notes/$FEATURE_NAME/\`"
+                echo "**Source**: \`~/docs/{project-name}/notes/$FEATURE_NAME/\`"
                 echo ""
                 has_notes=true
             fi
             echo "### Context"
             echo ""
-            cat "$feature_notes_dir/context.md"
+            cat "$feature_notes_dir/CONTEXT.md"
             echo ""
             echo "---"
             echo ""
         fi
         
-        # Check for todos.md
-        if [ -f "$feature_notes_dir/todos.md" ]; then
+        # Check for TODOS.md
+        if [ -f "$feature_notes_dir/TODOS.md" ]; then
             if [ "$has_notes" = "false" ]; then
                 echo "## Feature Notes"
                 echo ""
-                echo "**Source**: \`docs/notes/$FEATURE_NAME/\`"
+                echo "**Source**: \`~/docs/{project-name}/notes/$FEATURE_NAME/\`"
                 echo ""
                 has_notes=true
             fi
             echo "### Current Tasks"
             echo ""
-            cat "$feature_notes_dir/todos.md"
+            cat "$feature_notes_dir/TODOS.md"
             echo ""
             echo "---"
             echo ""
@@ -666,7 +671,7 @@ add_feature_notes() {
             if [ "$has_notes" = "false" ]; then
                 echo "## Feature Notes"
                 echo ""
-                echo "**Source**: \`docs/notes/$FEATURE_NAME/\`"
+                echo "**Source**: \`~/docs/{project-name}/notes/$FEATURE_NAME/\`"
                 echo ""
                 has_notes=true
             fi
@@ -719,14 +724,14 @@ add_feature_notes() {
     # Note: This is a simplified check - full implementation would scan all files and check frontmatter category
     if [ "$has_notes" = "false" ] && [ -d "$notes_base_dir" ]; then
         # Check for flat files matching feature name pattern (simplified - would need frontmatter parsing for full support)
-        local flat_context="$notes_base_dir/${FEATURE_NAME}-context.md"
-        local flat_todos="$notes_base_dir/${FEATURE_NAME}-todos.md"
+        local flat_context="$notes_base_dir/${FEATURE_NAME}-CONTEXT.md"
+        local flat_todos="$notes_base_dir/${FEATURE_NAME}-TODOS.md"
         local flat_insights="$notes_base_dir/${FEATURE_NAME}-insights.json"
         
         if [ -f "$flat_context" ] || [ -f "$flat_todos" ] || [ -f "$flat_insights" ]; then
             echo "## Feature Notes"
             echo ""
-            echo "**Source**: \`docs/notes/\` (flat structure, matching \`${FEATURE_NAME}-*\`)"
+            echo "**Source**: \`~/docs/{project-name}/notes/\` (flat structure, matching \`${FEATURE_NAME}-*\`)"
             echo ""
             echo "**Note**: Found flat structure notes. For full category filtering, notes should have \`category: features\` in frontmatter."
             echo ""
@@ -773,7 +778,7 @@ add_feature_notes() {
     fi
     
     if [ "$has_notes" = "true" ]; then
-        log "Included feature notes from docs/notes/$FEATURE_NAME/ or matching flat files"
+        log "Included feature notes from ~/docs/{project-name}/notes/$FEATURE_NAME/ or matching flat files"
     fi
 }
 
@@ -795,7 +800,7 @@ add_available_tools() {
     echo "     - \`content\` (string): Markdown content to write"
     echo "     - \`metadata\` (optional): Additional metadata (agent, command, context, commit)"
     echo "   - **Returns**: \`{success: boolean, path: string, error?: string}\`"
-    echo "   - **Implementation**: Use \`write_file\` to create note at \`docs/notes/{name}.md\` (flat) or \`docs/notes/{id}/{type}.md\` (grouped)"
+    echo "   - **Implementation**: Use \`write_file\` to create note at \`~/docs/{project-name}/notes/{name}.md\` (flat) or \`~/docs/{project-name}/notes/{id}/{type}.md\` (grouped)"
     echo "   - **Frontmatter**: Include YAML frontmatter with \`category\`, \`created\`, \`updated\`, and optional metadata"
     echo "   - **Git Commit**: Auto-detect commit hash using \`git rev-parse HEAD\` if in repository (unless provided)"
     echo ""
@@ -810,7 +815,7 @@ add_available_tools() {
     echo "   - List available notes"
     echo "   - **Parameters**: \`category\` (optional string): Filter by category, or null for all"
     echo "   - **Returns**: \`Array<{name: string, path: string, modified: string, size: number, category: string}>\`"
-    echo "   - **Implementation**: Use \`list_dir\` to scan \`docs/notes/\` (recursively), read frontmatter from each file to extract category, filter by category if provided"
+    echo "   - **Implementation**: Use \`list_dir\` to scan \`~/docs/{project-name}/notes/\` (recursively), read frontmatter from each file to extract category, filter by category if provided"
     echo "   - **Sorting**: Sort by modification time (newest first)"
     echo ""
     echo "4. **append_note(path | {category, name}, content)**"
@@ -825,7 +830,7 @@ add_available_tools() {
     echo "   - Search note content by keyword/phrase"
     echo "   - **Parameters**: \`query\` (string): Search term, \`category\` (optional string): Limit search to category"
     echo "   - **Returns**: \`Array<{path: string, snippet: string, matches: number, lineNumbers: number[]}>\`"
-    echo "   - **Implementation**: Use \`grep\` or text search across \`docs/notes/\` directory, read frontmatter to filter by category if provided"
+    echo "   - **Implementation**: Use \`grep\` or text search across \`~/docs/{project-name}/notes/\` directory, read frontmatter to filter by category if provided"
     echo "   - **Context Snippets**: Return 3 lines of context around each match"
     echo ""
     echo "### Note Storage Structure"
@@ -834,13 +839,13 @@ add_available_tools() {
     echo ""
     echo "**Flat Structure (Recommended)**:"
     echo "- \`docs/notes/{id}-{description}-{type}.md\`"
-    echo "  - Example: \`docs/notes/US-001-user-login-form-context.md\` (category: \"features\" in frontmatter)"
-    echo "  - Example: \`docs/notes/memory-leak-2024-01-15-investigating-memory-growth-evidence.md\` (category: \"investigations\" in frontmatter)"
+    echo "  - Example: \`docs/notes/US-001-user-login-form-CONTEXT.md\` (category: \"features\" in frontmatter)"
+    echo "  - Example: \`docs/notes/memory-leak-2024-01-15-investigating-memory-growth-EVIDENCE.md\` (category: \"investigations\" in frontmatter)"
     echo ""
     echo "**Grouped Structure (Optional, for complex entities)**:"
     echo "- \`docs/notes/{id}-{description}/{type}.md\`"
-    echo "  - Example: \`docs/notes/US-001-user-login-form/context.md\` (category: \"features\" in frontmatter)"
-    echo "  - Example: \`docs/notes/memory-leak-2024-01-15/evidence.md\` (category: \"investigations\" in frontmatter)"
+    echo "  - Example: \`docs/notes/US-001-user-login-form/CONTEXT.md\` (category: \"features\" in frontmatter)"
+    echo "  - Example: \`docs/notes/memory-leak-2024-01-15/EVIDENCE.md\` (category: \"investigations\" in frontmatter)"
     echo ""
     echo "**Key Points**:"
     echo "- Category is always in frontmatter (\`category: investigations\`) or JSON metadata (\`metadata.category\`), never in directory path"
@@ -851,24 +856,24 @@ add_available_tools() {
     echo ""
     echo "Use these standard note names for structured organization:"
     echo ""
-    echo "- **context.md**: Scope and goals (what the work is for, what problem it solves, success criteria)"
-    echo "- **evidence.md**: Facts gathered (logs, metrics, test results, experimental data)"
-    echo "- **todos.md**: Current tasks (what needs to be done, in progress, blocked)"
+    echo "- **CONTEXT.md**: Scope and goals (what the work is for, what problem it solves, success criteria)"
+    echo "- **EVIDENCE.md**: Facts gathered (logs, metrics, test results, experimental data)"
+    echo "- **TODOS.md**: Current tasks (what needs to be done, in progress, blocked)"
     echo "- **insights.json**: Discoveries with origin and impact (patterns found, decisions made, implications), stored as JSON with evidence-based tracking"
     echo ""
     echo "### When to Use Notes"
     echo ""
-    echo "- **At Feature Start**: Create \`context.md\` when beginning a new feature (if it doesn't exist)"
-    echo "- **During Task Execution**: Update \`todos.md\` when task status changes"
+    echo "- **At Feature Start**: Create \`CONTEXT.md\` when beginning a new feature (if it doesn't exist)"
+    echo "- **During Task Execution**: Update \`TODOS.md\` when task status changes"
     echo "- **When Discoveries Are Made**: Write to \`insights.json\` when patterns or decisions are found, marking as evidence-based when supported by first-hand evidence"
-    echo "- **When Gathering Facts**: Write to \`evidence.md\` when collecting data (investigations)"
+    echo "- **When Gathering Facts**: Write to \`EVIDENCE.md\` when collecting data (investigations)"
     echo ""
     echo "### Implementation Examples"
     echo ""
     echo "**Example: Writing a note**"
     echo "\`\`\`"
     echo "# Use write_file to create note"
-    echo "# Path: docs/notes/US-001-user-login-form-context.md"
+    echo "# Path: ~/docs/{project-name}/notes/US-001-user-login-form-CONTEXT.md"
     echo "# Content includes YAML frontmatter with category property:"
     echo "---"
     echo "created: 2024-01-15T10:00:00Z"
@@ -885,7 +890,7 @@ add_available_tools() {
     echo ""
     echo "**Example: Reading notes by category**"
     echo "\`\`\`"
-    echo "# Use list_dir to scan docs/notes/"
+    echo "# Use list_dir to scan ~/docs/{project-name}/notes/"
     echo "# For each file, use read_file to read frontmatter"
     echo "# Extract category from frontmatter: category: investigations"
     echo "# Filter files where frontmatter.category matches desired category"
@@ -987,7 +992,7 @@ add_execution_instructions() {
     echo ""
     echo "1. **Read Context First**:"
     echo "   - Review project notes and dev-notes for relevant patterns"
-    echo "   - Review feature notes (context.md, todos.md, insights.json) if available above"
+    echo "   - Review feature notes (CONTEXT.md, TODOS.md, insights.json) if available above"
     echo "   - **Learn from Previous Attempts**: If \`insights.json\` contains execution attempts, read them to understand:"
     echo "     - What approaches were tried before"
     echo "     - What failed and why (prioritize evidence-based insights)"
@@ -998,7 +1003,7 @@ add_execution_instructions() {
     echo "3. **For Frontend Stories**: Use browser-verification skill if type is \"frontend\""
     echo "4. **Run Quality Checks**: Execute all quality check commands, all must pass"
     echo "5. **Update Notes** (if applicable):"
-    echo "   - Update \`todos.md\` in \`docs/notes/$FEATURE_NAME/\` when task status changes (category: "features" in frontmatter)"
+    echo "   - Update \`TODOS.md\` in \`~/docs/{project-name}/notes/$FEATURE_NAME/\` when task status changes (category: "features" in frontmatter)"
     echo "   - **Document Execution Attempt**: After execution (success or failure), append to feature \`insights.json\`:"
     echo "     - What approach was tried"
     echo "     - What worked and what didn't"
@@ -1013,10 +1018,10 @@ add_execution_instructions() {
     echo "     - **Always capture lessons from feature completion**: Implementation learnings, patterns discovered, gotchas (mark as \`lesson: true\`)"
     echo "     - **Capture lessons when >3 iterations needed**: Document complexity and what made it difficult (mark as \`lesson: true\`, include \`iterations\` count)"
     echo "     - Lesson format: Clear description of what was learned, why it matters, how it should influence future work"
-    echo "     - Store in project-level insights.json: \`docs/notes/project-lessons-insights.json\` or project-level insights.json"
+    echo "     - Store in project-level insights.json: \`~/docs/{project-name}/notes/project-lessons-insights.json\` or project-level insights.json"
     echo "     - Lessons are automatically read before starting new tasks to inform approach and avoid repeating mistakes"
     echo "   - Use note tools (write_note, append_note) to maintain persistent memory"
-    echo "   - **Note**: If this is the first story in a feature, create \`context.md\` with feature goals and scope"
+    echo "   - **Note**: If this is the first story in a feature, create \`CONTEXT.md\` with feature goals and scope"
     echo "6. **Update Project Documentation**: Before marking story complete, update project docs if needed:"
     echo "   - **DECISIONS.md** (REQUIRED if architectural/design decisions were made):"
     echo "     - Add entries for any architectural decisions, design choices, or trade-offs made"
@@ -1024,18 +1029,18 @@ add_execution_instructions() {
     echo "     - Document why decisions were made and their implications"
     echo "     - Location: \`docs/DECISIONS.md\`"
     echo "   - **Other project docs** (update as needed):"
-    echo "     - Update \`docs/tech-stack.md\` if new technologies or dependencies were added"
-    echo "     - Update \`docs/roadmap.md\` if priorities or plans changed"
+    echo "     - Update \`docs/TECH-STACK.md\` if new technologies or dependencies were added"
+    echo "     - Update \`docs/ROADMAP.md\` if priorities or plans changed"
     echo "     - Update any other relevant documentation"
     echo "7. **Update Project State**: After successful implementation and documentation updates:"
     echo "   - Set \`passes: true\` for this story in \`docs/feature/$FEATURE_NAME/prd.json\`"
-    echo "   - Append progress entry to \`docs/notes.md\` using our format (see below)"
-    echo "   - Update \`dev-notes.md\` in directories where you edited files (if you discovered reusable patterns)"
+    echo "   - Append progress entry to \`docs/NOTES.md\` using our format (see below)"
+    echo "   - Update \`DEV-NOTES.md\` in directories where you edited files (if you discovered reusable patterns)"
     echo "8. **Commit**: Create commit with message: \`feat: $story_id - $story_title\`"
     echo ""
-    echo "### Progress Report Format (docs/notes.md)"
+    echo "### Progress Report Format (docs/NOTES.md)"
     echo ""
-    echo "APPEND to \`docs/notes.md\` (never replace, always append):"
+    echo "APPEND to \`docs/NOTES.md\` (never replace, always append):"
     echo "\`\`\`"
     echo "## [Date/Time] - [Story ID]"
     echo "- What was implemented"
@@ -1049,7 +1054,7 @@ add_execution_instructions() {
     echo ""
     echo "### Consolidate Patterns"
     echo ""
-    echo "If you discover a **reusable pattern** that future iterations should know, add it to the \`## Codebase Patterns\` section at the TOP of \`docs/notes.md\` (create it if it doesn't exist). This section should consolidate the most important learnings:"
+    echo "If you discover a **reusable pattern** that future iterations should know, add it to the \`## Codebase Patterns\` section at the TOP of \`~/docs/{project-name}/NOTES.md\` (create it if it doesn't exist). This section should consolidate the most important learnings:"
     echo ""
     echo "\`\`\`"
     echo "## Codebase Patterns"
@@ -1060,23 +1065,23 @@ add_execution_instructions() {
     echo ""
     echo "Only add patterns that are **general and reusable**, not story-specific details."
     echo ""
-    echo "### Update dev-notes.md Files (Directory-Level Learnings)"
+    echo "### Update DEV-NOTES.md Files (Directory-Level Learnings)"
     echo ""
-    echo "Before committing, check if any edited files have learnings worth preserving in nearby \`dev-notes.md\` files:"
+    echo "Before committing, check if any edited files have learnings worth preserving in nearby \`DEV-NOTES.md\` files:"
     echo ""
     echo "1. **Identify directories with edited files** - Look at which directories you modified"
-    echo "2. **Check for existing dev-notes.md** - Look for \`dev-notes.md\` in those directories or parent directories"
-    echo "3. **Check coding standards first** - Before adding to dev-notes.md, verify the knowledge is NOT already in:"
+    echo "2. **Check for existing DEV-NOTES.md** - Look for \`DEV-NOTES.md\` in those directories or parent directories"
+    echo "3. **Check coding standards first** - Before adding to DEV-NOTES.md, verify the knowledge is NOT already in:"
     echo "   - Your agent's style guide (referenced in agent definition, e.g., \`rust-style.md\`, \`javascript-style.md\`)"
     echo "   - Your agent's rules and capabilities (in the agent definition above)"
     echo "   - General coding standards and best practices"
-    echo "4. **Only add NEW learnings** - Only append to dev-notes.md if:"
+    echo "4. **Only add NEW learnings** - Only append to DEV-NOTES.md if:"
     echo "   - The knowledge is NOT already covered in coding standards"
     echo "   - It's a project-specific pattern, gotcha, or convention"
     echo "   - It's a bugfix learning (especially valuable after diagnosing an issue)"
     echo "   - It's a module-specific requirement or dependency"
     echo ""
-    echo "**Examples of good dev-notes.md additions (NEW learnings only):**"
+    echo "**Examples of good DEV-NOTES.md additions (NEW learnings only):**"
     echo "- \"When modifying X, also update Y to keep them in sync\" (project-specific dependency)"
     echo "- \"This module uses pattern Z for all API calls\" (project-specific convention)"
     echo "- \"Tests require the dev server running on PORT 3000\" (project-specific requirement)"
@@ -1088,7 +1093,7 @@ add_execution_instructions() {
     echo "- Best practices covered in agent rules"
     echo "- Story-specific implementation details"
     echo "- Temporary debugging notes"
-    echo "- Information already in docs/notes.md"
+    echo "- Information already in ~/docs/{project-name}/NOTES.md"
     echo "- Knowledge already in coding standards"
     echo ""
     echo "**Special emphasis on bugfix learnings:**"
@@ -1096,7 +1101,7 @@ add_execution_instructions() {
     echo "- These often reveal project-specific gotchas not covered in general standards"
     echo "- Document the bug, the fix, and why it happened to prevent recurrence"
     echo ""
-    echo "Only update dev-notes.md if you have **genuinely NEW, reusable knowledge** that would help future work in that directory."
+    echo "Only update DEV-NOTES.md if you have **genuinely NEW, reusable knowledge** that would help future work in that directory."
     echo ""
     echo "### Important Notes:"
     echo ""
@@ -1253,8 +1258,8 @@ archive_feature() {
     
     local date_prefix
     date_prefix=$(date +%Y-%m-%d)
-    local archived_dir="$PROJECT_ROOT/docs/archived/$date_prefix-$FEATURE_NAME"
-    local feature_dir="$PROJECT_ROOT/docs/feature/$FEATURE_NAME"
+    local archived_dir="$DOCS_DIR/archived/$date_prefix-$FEATURE_NAME"
+    local feature_dir="$DOCS_DIR/feature/$FEATURE_NAME"
     
     mkdir -p "$archived_dir"
     
@@ -1271,7 +1276,7 @@ archive_feature() {
 execute_single_feature() {
     local feature_name="$1"
     FEATURE_NAME="$feature_name"
-    PRD_JSON="$PROJECT_ROOT/docs/feature/$FEATURE_NAME/prd.json"
+    PRD_JSON="$DOCS_DIR/feature/$FEATURE_NAME/prd.json"
     
     log "Starting execution for feature: $FEATURE_NAME"
     
@@ -1373,7 +1378,7 @@ execute_single_feature() {
         # Dry-run mode: save prompt and exit
         if [ "$DRY_RUN" = "true" ]; then
             local dry_run_output_file
-            dry_run_output_file="$PROJECT_ROOT/docs/feature/$FEATURE_NAME/dry-run-prompt-${story_id}.md"
+            dry_run_output_file="$DOCS_DIR/feature/$FEATURE_NAME/dry-run-prompt-${story_id}.md"
             mkdir -p "$(dirname "$dry_run_output_file")"
             cp "$prompt_file" "$dry_run_output_file"
             
@@ -1397,7 +1402,9 @@ execute_single_feature() {
         
         # Run Cursor CLI
         log "Spawning Cursor CLI agent..."
-        if agent -p --force --workspace "$PROJECT_ROOT" --model "$MODEL" "$(cat "$prompt_file")" > /tmp/cursor-output.log 2>&1; then
+        local project_root
+        project_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+        if agent -p --force --workspace "$project_root" --model "$MODEL" "$(cat "$prompt_file")" > /tmp/cursor-output.log 2>&1; then
             success "Agent execution completed"
         else
             local agent_exit_code=$?

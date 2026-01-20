@@ -9,8 +9,8 @@ This command provides a standalone interface for creating and managing notes in 
 
 ## Prerequisites
 
-1. Project must have been adopted (have `docs/` directory)
-2. `docs/notes/` directory exists (created automatically if missing)
+1. Project must have been adopted (have `~/docs/{project-name}/` directory)
+2. `~/docs/{project-name}/notes/` directory exists (created automatically if missing)
 
 ## When to Use
 
@@ -75,7 +75,7 @@ Invoke this command when you need to:
 - API integration"
 ```
 
-**Creates**: `docs/notes/features/user-login-form-context.md` (or in subdirectory if name includes path)
+**Creates**: `~/docs/{project-name}/notes/features/user-login-form-CONTEXT.md` (or in subdirectory if name includes path)
 
 **File Format**:
 ```markdown
@@ -164,9 +164,9 @@ Completed login form validation. All acceptance criteria met."
 
 Use these standard note names for structured organization:
 
-- **context.md**: Scope and goals (what the work is for, what problem it solves, success criteria)
-- **evidence.md**: Facts gathered (logs, metrics, test results, experimental data)
-- **todos.md**: Current tasks (what needs to be done, in progress, blocked)
+- **CONTEXT.md**: Scope and goals (what the work is for, what problem it solves, success criteria)
+- **EVIDENCE.md**: Facts gathered (logs, metrics, test results, experimental data)
+- **TODOS.md**: Current tasks (what needs to be done, in progress, blocked)
 - **insights.json**: Discoveries with origin and impact (patterns found, decisions made, implications), stored as JSON for better actionability
 
 **Note**: `insights.json` uses JSON format, not markdown. Use `write_note` with JSON content.
@@ -175,12 +175,12 @@ Use these standard note names for structured organization:
 
 ### Feature Notes
 - Format: `{user-story-id}-{description}-{type}.md` or `{feature-name}/{type}.md`
-- Example: `US-001-user-login-form-context.md` or `user-login-form/context.md`
+- Example: `US-001-user-login-form-CONTEXT.md` or `user-login-form/CONTEXT.md`
 - Category: "features" (stored in frontmatter)
 
 ### Investigation Notes
 - Format: `{issue-id}-{description}-{type}.md` or `{issue-id}/{type}.md`
-- Example: `memory-leak-2024-01-15-investigating-memory-growth-evidence.md` or `memory-leak-2024-01-15/evidence.md`
+- Example: `memory-leak-2024-01-15-investigating-memory-growth-EVIDENCE.md` or `memory-leak-2024-01-15/EVIDENCE.md`
 - Category: "investigations" (stored in frontmatter)
 
 ### Project Notes
@@ -206,11 +206,11 @@ Use these standard note names for structured organization:
 
 ### execute-feature
 - Automatically reads feature notes before each story execution
-- Can call `take-note` to update `todos.md` or `insights.json` during execution
+- Can call `take-note` to update `TODOS.md` or `insights.json` during execution
 
 ### diagnose-issue
 - Creates investigation notes when starting investigation
-- Updates `evidence.md` as evidence is gathered
+- Updates `EVIDENCE.md` as evidence is gathered
 - Documents hypotheses in `insights.json`
 
 ### adopt-project

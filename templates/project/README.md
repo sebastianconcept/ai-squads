@@ -2,13 +2,17 @@
 
 This directory contains planning and documentation for this project, managed by ai-squads.
 
+**Location**: This documentation is stored in `~/docs/{project-name}/` where `{project-name}` is automatically derived from the git repository name.
+
 ## Contents
 
-- `mission.md` - Project mission and goals
-- `roadmap.md` - Project roadmap and priorities
-- `tech-stack.md` - Technology stack details
+- `MISSION.md` - Project mission and goals
+- `ROADMAP.md` - Project roadmap and priorities
+- `TECH-STACK.md` - Technology stack details
 - `DECISIONS.md` - Architectural and design decisions
-- `team.md` - AI agent team configuration
+- `TEAM.md` - AI agent team configuration
+- `PROGRESS.md` - Project progress tracking
+- `NOTES.md` - Project notes (append-only)
 - `feature/` - Feature planning documents
 
 ## Usage
@@ -22,6 +26,6 @@ This documentation is maintained through ai-squads commands:
 
 Features are planned in `feature/{feature_name}/` directories, each containing:
 - `PRD.md` - Product requirements document
-- `specs.md` - Technical specifications
-- `tasks.md` - Implementation tasks
+- `SPECS.md` - Technical specifications
+- `prd.json` - Machine-readable execution format (replaces deprecated tasks.md)
 

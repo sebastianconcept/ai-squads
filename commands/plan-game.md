@@ -9,8 +9,8 @@ This workflow guides the creation of a Game Design Document (GDD) for a new game
 
 ## Prerequisites
 
-1. Project must have been adopted (have `docs/` directory)
-2. Project should have `docs/team.md` (optional, but helpful for team context)
+1. Project must have been adopted (have `~/docs/{project-name}/` directory)
+2. Project should have `~/docs/{project-name}/TEAM.md` (optional, but helpful for team context)
 
 ## Steps
 
@@ -21,13 +21,13 @@ This workflow guides the creation of a Game Design Document (GDD) for a new game
 
 ### 2. Create Game Structure
 - Run `~/.cursor/scripts/create-game-docs.sh {game_name}` from project root
-- This creates `docs/game/{game_name}/` directory
+- This creates `~/docs/{project-name}/game/{game_name}/` directory
 - Copies GDD.md template
 
 ### 3. Load Project Context (if available)
-- Read `docs/team.md` to understand team composition
-- Read `docs/mission.md` for project alignment (if game is part of larger project)
-- Read `docs/tech-stack.md` for technical context
+- Read `~/docs/{project-name}/TEAM.md` to understand team composition
+- Read `~/docs/{project-name}/MISSION.md` for project alignment (if game is part of larger project)
+- Read `~/docs/{project-name}/TECH-STACK.md` for technical context
 
 ### 4. Activate Eric (Video Game Specialist)
 - Load Eric agent: `../../ai-squads/agents/video-game-specialist.md`
@@ -121,7 +121,7 @@ Eric will evaluate:
 ## Output
 
 After completion, the game should have:
-- `docs/game/{game_name}/GDD.md` - Complete Game Design Document
+- `~/docs/{project-name}/game/{game_name}/GDD.md` - Complete Game Design Document
 
 ## Cross-Agent Collaboration
 

@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # update-progress.sh
-# Generates or updates docs/progress.md with project-level progress digest
+# Generates or updates ~/docs/{project-name}/PROGRESS.md with project-level progress digest
 # Can be called by agents, users, or execution loop
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+# Source common functions
+. "$HOME/.cursor/scripts/common.sh"
 
 # Colors for output
 RED='\033[0;31m'
@@ -27,27 +27,21 @@ warn() {
     echo -e "${YELLOW}[update-progress] WARN:${NC} $1" >&2
 }
 
-# Check if we're in a project root (has docs/ directory)
-if [ ! -d "docs" ]; then
-    error "Not in a project root (docs/ directory not found)"
-    exit 1
-fi
-
-PROGRESS_FILE="docs/progress.md"
-PROJECT_ROOT="$(pwd)"
+DOCS_DIR="$(get_docs_dir)"
+PROGRESS_FILE="$DOCS_DIR/PROGRESS.md"
 
 # Get current timestamp
 CURRENT_TIME=$(date -u +"%Y-%m-%d %H:%M UTC")
 
-# Initialize progress.md if it doesn't exist
+# Initialize PROGRESS.md if it doesn't exist
 if [ ! -f "$PROGRESS_FILE" ]; then
-    log "Creating initial progress.md..."
+    log "Creating initial PROGRESS.md..."
     
     # Try to get project info from README.md
     CORE_VALUE=""
-    if [ -f "docs/README.md" ]; then
+    if [ -f "$DOCS_DIR/README.md" ]; then
         # Extract first meaningful line (skip title, get first paragraph)
-        CORE_VALUE=$(grep -v "^#" docs/README.md | grep -v "^$" | head -1 | sed 's/^[[:space:]]*//' | cut -c1-100)
+        CORE_VALUE=$(grep -v "^#" "$DOCS_DIR/README.md" | grep -v "^$" | head -1 | sed 's/^[[:space:]]*//' | cut -c1-100)
     fi
     
     cat > "$PROGRESS_FILE" <<EOF
@@ -58,7 +52,7 @@ if [ ! -f "$PROGRESS_FILE" ]; then
 
 ## Project Reference
 
-See: \`docs/README.md\`
+See: \`$DOCS_DIR/README.md\`
 **Core value:** ${CORE_VALUE:-[Project description]}
 **Current focus:** No active features
 
@@ -114,7 +108,7 @@ See: \`docs/README.md\`
 ## Accumulated Context
 
 ### Recent Decisions
-*No decisions yet. See \`docs/DECISIONS.md\` when available.*
+*No decisions yet. See \`$DOCS_DIR/DECISIONS.md\` when available.*
 
 ### Active Blockers
 *No active blockers*
@@ -151,31 +145,31 @@ See: \`docs/README.md\`
 **Upcoming:**
 - [ ] *No upcoming actions*
 EOF
-    log "Created initial progress.md"
+    log "Created initial PROGRESS.md"
     exit 0
 fi
 
-# Update existing progress.md
-log "Updating progress.md..."
+# Update existing PROGRESS.md
+log "Updating PROGRESS.md..."
 
 # This is a placeholder - full implementation would:
-# 1. Scan docs/feature/*/prd.json files
-# 2. Read feature notes from docs/notes/features/
-# 3. Read investigation notes from docs/notes/ (filter by category: "investigations" in frontmatter)
-# 4. Read recent decisions from docs/DECISIONS.md
+# 1. Scan $DOCS_DIR/feature/*/prd.json files
+# 2. Read feature notes from $DOCS_DIR/notes/features/
+# 3. Read investigation notes from $DOCS_DIR/notes/ (filter by category: "investigations" in frontmatter)
+# 4. Read recent decisions from $DOCS_DIR/DECISIONS.md
 # 5. Query git history for timestamps and commits
 # 6. Calculate metrics
-# 7. Generate updated progress.md
+# 7. Generate updated PROGRESS.md
 
 # For now, just update the timestamp
 if command -v sed >/dev/null 2>&1; then
     sed -i.bak "s/\*\*Last updated:\*\*.*/\*\*Last updated:\*\* $CURRENT_TIME/" "$PROGRESS_FILE"
     rm -f "${PROGRESS_FILE}.bak"
-    log "Updated timestamp in progress.md"
+    log "Updated timestamp in PROGRESS.md"
 else
     warn "sed not available, cannot update timestamp automatically"
 fi
 
-log "Progress.md update complete (basic update - full generation coming in future)"
-log "Note: Full progress.md generation requires parsing prd.json files, notes, and git history"
+log "PROGRESS.md update complete (basic update - full generation coming in future)"
+log "Note: Full PROGRESS.md generation requires parsing prd.json files, notes, and git history"
 log "This will be implemented as the execution loop is developed"

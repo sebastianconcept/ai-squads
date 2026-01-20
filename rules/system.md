@@ -88,7 +88,7 @@ If direct evidence cannot be obtained:
 - Agents are defined in the ai-squads source repository (`agents/`)
 - Each agent has specialization, rules, capabilities, and style guide references
 - Agents can be combined into teams per project
-- Team configuration stored in `docs/team.md`
+- Team configuration stored in `docs/TEAM.md`
 - Commands reference agents from the source repository
 
 ## Command System
@@ -100,18 +100,18 @@ If direct evidence cannot be obtained:
 ## Project Structure
 
 When a project adopts ai-squads:
-- `docs/` - Project planning documentation
-- `docs/feature/{feature_name}/` - Feature-specific documentation (PRD, specs, tasks)
+- `~/docs/{project-name}/` - Project planning documentation (where {project-name} is derived from git repository name)
+- `~/docs/{project-name}/feature/{feature_name}/` - Feature-specific documentation (PRD, specs, prd.json)
 
 ## Feature Context
 
 When working with a user, they are likely working in the scope of a planned feature:
-- Check for feature documentation in `docs/feature/{feature_name}/`
+- Check for feature documentation in `~/docs/{project-name}/feature/{feature_name}/`
 - The feature name typically matches the current git branch name
 - Feature documentation includes:
   - `PRD.md` - Product requirements and user stories
-  - `specs.md` - Technical specifications and architecture
-  - `tasks.md` - Implementation tasks and breakdown
+  - `SPECS.md` - Technical specifications and architecture
+  - `prd.json` - Machine-readable execution format (replaces deprecated tasks.md)
 - Reference this context when providing guidance to ensure alignment with planned work
 
 ## Documentation Standards
@@ -140,6 +140,6 @@ When working with a user, they are likely working in the scope of a planned feat
 
 - Keep agent rules succinct and focused
 - Update style guides based on team feedback
-- Document decisions in `docs/DECISIONS.md`
+- Document decisions in `~/docs/{project-name}/DECISIONS.md`
 - Review and refine workflows regularly
 - Maintain consistency across projects

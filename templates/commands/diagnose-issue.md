@@ -13,10 +13,10 @@ This command will:
 
 Run this command from your project root directory.
 
-The command reads your project context from `docs/` for technical understanding:
-- `docs/README.md` - Project overview
-- `docs/tech-stack.md` - Technologies and architecture
-- `docs/DECISIONS.md` - Design decisions that may be relevant
+The command reads your project context from `~/docs/{project-name}/` for technical understanding:
+- `~/docs/{project-name}/README.md` - Project overview
+- `~/docs/{project-name}/TECH-STACK.md` - Technologies and architecture
+- `~/docs/{project-name}/DECISIONS.md` - Design decisions that may be relevant
 
 ## Workflow
 

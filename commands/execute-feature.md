@@ -9,7 +9,7 @@ This workflow executes a planned feature autonomously using the execution loop.
 
 ## Prerequisites
 
-1. Feature must have been planned (have `docs/feature/{feature_name}/prd.json`)
+1. Feature must have been planned (have `~/docs/{project-name}/feature/{feature_name}/prd.json`)
 2. Project must be a git repository
 3. Cursor CLI must be available and authenticated
 4. Project must have quality checks defined in `prd.json.quality`
@@ -17,9 +17,9 @@ This workflow executes a planned feature autonomously using the execution loop.
 ## Steps
 
 ### 1. Get Feature Name
-- Prompt user for feature name (or scan `docs/feature/` for `prd.json` files in automatic mode)
+- Prompt user for feature name (or scan `~/docs/{project-name}/feature/` for `prd.json` files in automatic mode)
 - Validate feature exists and has `prd.json`
-- Read `prd.json` from `docs/feature/{feature_name}/prd.json`
+- Read `prd.json` from `~/docs/{project-name}/feature/{feature_name}/prd.json`
 - Check for `--dry-run` flag (preview mode without execution)
 
 ### 2. Validate prd.json
@@ -46,7 +46,7 @@ This workflow executes a planned feature autonomously using the execution loop.
   - Commits
   - Progress tracking
   - Archiving
-- **Dry-run mode**: Preview prompts without executing (saves prompts to `docs/feature/{feature_name}/dry-run-prompt-{story_id}.md`)
+- **Dry-run mode**: Preview prompts without executing (saves prompts to `~/docs/{project-name}/feature/{feature_name}/dry-run-prompt-{story_id}.md`)
 
 ### 5. Monitor Progress
 - Execution loop provides progress updates
@@ -57,7 +57,7 @@ This workflow executes a planned feature autonomously using the execution loop.
 ## Automatic Mode
 
 If no feature name is provided, the script can:
-- Scan `docs/feature/` directory for all `prd.json` files
+- Scan `~/docs/{project-name}/feature/` directory for all `prd.json` files
 - Automatically pick features with stories that have `passes: false`
 - Execute features in priority order (or feature creation order)
 - Continue until all planned features are archived
@@ -68,7 +68,7 @@ If no feature name is provided, the script can:
 If execution pauses (for any reason):
 - Current state is preserved in `prd.json`
 - Stories with `passes: false` remain in the feature
-- Feature directory remains in `docs/feature/{name}/` (not archived)
+- Feature directory remains in `~/docs/{project-name}/feature/{name}/` (not archived)
 - User can review code, fix issues, adjust `prd.json`
 - To resume: Run `/execute-feature` again on the same feature
 - Execution loop reads `prd.json` and continues from current progress
@@ -76,9 +76,9 @@ If execution pauses (for any reason):
 ## Output
 
 After completion (all stories pass):
-- Feature is automatically archived to `docs/archived/YYYY-MM-DD-{feature_name}/`
+- Feature is automatically archived to `~/docs/{project-name}/archived/YYYY-MM-DD-{feature_name}/`
 - All commits are on feature branch
-- Project notes updated in `docs/notes.md` (append-only format)
+- Project notes updated in `~/docs/{project-name}/NOTES.md` (append-only format)
 - Quality gates passed for all stories
 
 ## Dry-Run Mode
@@ -91,7 +91,7 @@ Use `--dry-run` flag to preview execution without actually running it:
 
 **What dry-run does:**
 - Builds the prompt for the next story to be executed
-- Saves the prompt to `docs/feature/{feature_name}/dry-run-prompt-{story_id}.md`
+- Saves the prompt to `~/docs/{project-name}/feature/{feature_name}/dry-run-prompt-{story_id}.md`
 - Shows prompt size (bytes, KB, lines)
 - Displays what would happen in real execution
 - **Does not**: Execute Cursor CLI, run quality checks, commit changes, or modify `prd.json`

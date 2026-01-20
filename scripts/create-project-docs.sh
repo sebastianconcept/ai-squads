@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # Create project documentation structure
-# Creates docs/ directory in the project root
+# Creates ~/docs/{project-name}/ directory
 
 set -e
 
-PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+# Source common functions
+. "$HOME/.cursor/scripts/common.sh"
+
 TARGET_DIR="$HOME/.cursor"
 
 if [ ! -d "$TARGET_DIR/templates" ]; then
@@ -15,7 +17,7 @@ if [ ! -d "$TARGET_DIR/templates" ]; then
 fi
 
 TEMPLATES_DIR="$TARGET_DIR/templates"
-DOCS_DIR="$PROJECT_ROOT/docs"
+DOCS_DIR="$(get_docs_dir)"
 
 # Create directories
 mkdir -p "$DOCS_DIR/feature"
@@ -32,6 +34,6 @@ echo "  - $DOCS_DIR/"
 echo ""
 echo "Next steps:"
 echo "  1. Customize templates in $DOCS_DIR/"
-echo "  2. Configure agent team in $DOCS_DIR/team.md"
+echo "  2. Configure agent team in $DOCS_DIR/TEAM.md"
 echo "  3. Use Cursor commands to plan features and review code"
 

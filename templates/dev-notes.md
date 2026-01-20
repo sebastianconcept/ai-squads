@@ -1,19 +1,19 @@
 # Dev Notes
 
 > **Location determines scope**: 
-> - Root level (`dev-notes.md`): Global project notes, important for entire repository
-> - Feature directory (`docs/feature/{name}/dev-notes.md`): Feature-specific notes
-> - Subdirectory (`dev-notes.md`): Directory-level learnings
+> - Root level (`DEV-NOTES.md`): Global project notes, important for entire repository
+> - Feature directory (`~/docs/{project-name}/feature/{name}/DEV-NOTES.md`): Feature-specific notes
+> - Subdirectory (`DEV-NOTES.md`): Directory-level learnings
 
 ## Purpose
 
 Dev notes capture project-specific learnings, patterns, gotchas, and important context that agents should be aware of when working on this project (or feature, or directory).
 
-**Directory-level dev-notes.md**: When working in a directory, check for `dev-notes.md` in that directory or parent directories. Add reusable patterns, gotchas, or module-specific conventions that would help future work in that directory.
+**Directory-level DEV-NOTES.md**: When working in a directory, check for `DEV-NOTES.md` in that directory or parent directories. Add reusable patterns, gotchas, or module-specific conventions that would help future work in that directory.
 
 ## What to Include
 
-**Important**: Before adding to dev-notes.md, check if the knowledge is already in:
+**Important**: Before adding to DEV-NOTES.md, check if the knowledge is already in:
 - Your agent's style guide (e.g., `rust-style.md`, `javascript-style.md`)
 - Your agent's rules and capabilities
 - General coding standards and best practices

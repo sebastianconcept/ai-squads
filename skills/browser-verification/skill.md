@@ -65,7 +65,7 @@ Capture a screenshot of the verified UI:
 
 ### 6. Document Verification
 
-Append to project notes (`~/docs/{project-name}/notes.md`):
+Append to project notes (`~/docs/{project-name}/NOTES.md`):
 ```
 ## [Date/Time] - [Story ID] - Browser Verification
 - Verified: [What was checked]

@@ -22,7 +22,7 @@ This workflow guides the adoption of ai-squads in a project.
 ### 2. Create Project Structure
 - Run `~/.cursor/scripts/create-project-docs.sh` from project root
 - This creates:
-  - `docs/` directory
+  - `~/docs/{project-name}/` directory (where {project-name} is derived from git repository name)
   - Copies all templates
 
 ### 3. Gather Project Information
@@ -64,50 +64,50 @@ Allow user to:
 
 ### 5. Customize Templates
 Fill in generated templates with gathered information:
-- `docs/mission.md` - Project mission
-- `docs/tech-stack.md` - Technology details
-- `docs/roadmap.md` - Project roadmap
-- `docs/DECISIONS.md` - Key decisions
-- `docs/README.md` - Project overview
-- `docs/team.md` - Selected agent team
+- `~/docs/{project-name}/MISSION.md` - Project mission
+- `~/docs/{project-name}/TECH-STACK.md` - Technology details
+- `~/docs/{project-name}/ROADMAP.md` - Project roadmap
+- `~/docs/{project-name}/DECISIONS.md` - Key decisions
+- `~/docs/{project-name}/README.md` - Project overview
+- `~/docs/{project-name}/TEAM.md` - Selected agent team
 
 ### 6. Create Initial Progress Tracking
 
-**Purpose**: Create `docs/progress.md` - project-level progress digest that provides instant context restoration.
+**Purpose**: Create `~/docs/{project-name}/PROGRESS.md` - project-level progress digest that provides instant context restoration.
 
 **Implementation Method**:
 - **Recommended**: Call `scripts/update-progress.sh` after project structure is created
-  - Script automatically creates initial progress.md if it doesn't exist
+  - Script automatically creates initial PROGRESS.md if it doesn't exist
   - Script is idempotent (safe to call multiple times)
   - Script location: `scripts/update-progress.sh` (project-local) or `~/.cursor/scripts/update-progress.sh` (global)
   - **Command**: Run `bash scripts/update-progress.sh` from project root
   - Script will:
-    1. Read `docs/README.md` to extract core value (one-liner summary)
-    2. Create `docs/progress.md` with initialized structure
+    1. Read `~/docs/{project-name}/README.md` to extract core value (one-liner summary)
+    2. Create `~/docs/{project-name}/PROGRESS.md` with initialized structure
     3. Set all metrics to 0 or N/A
     4. Set position to "No active features"
     5. Initialize empty context sections
 
 **Alternative Methods** (if script not available):
-- Use `@take-note` command to create progress.md manually
-- Create progress.md directly using file operations (use template from `docs/feature/autonomous-execution/PROGRESS-MD-DESIGN.md`)
+- Use `@take-note` command to create PROGRESS.md manually
+- Create PROGRESS.md directly using file operations (use template from `docs/feature/autonomous-execution/PROGRESS-MD-DESIGN.md`)
 
 **Initialization Steps**:
 
 1. **Read Project Information**:
-   - Read `docs/README.md` to extract core value (one-liner summary)
+   - Read `~/docs/{project-name}/README.md` to extract core value (one-liner summary)
    - If README.md doesn't exist or is empty, use placeholder: "[Project description]"
    - Get current timestamp for "Last updated" field
 
 2. **Create File Structure**:
-   - Location: `docs/progress.md` (project root level)
+   - Location: `~/docs/{project-name}/PROGRESS.md`
    - Format: Markdown with structured sections
    - Template: Use structure from `docs/feature/autonomous-execution/PROGRESS-MD-DESIGN.md`
 
 3. **Initialize Sections**:
 
    **Project Reference**:
-   - `See: docs/README.md`
+   - `See: ~/docs/{project-name}/README.md`
    - `Core value: [One-liner from README.md or placeholder]`
    - `Current focus: No active features`
 
@@ -139,7 +139,7 @@ Fill in generated templates with gathered information:
      - Most common gap type: N/A
 
    **Accumulated Context**:
-   - **Recent Decisions**: Empty, shows "*No decisions yet. See `docs/DECISIONS.md` when available.*"
+   - **Recent Decisions**: Empty, shows "*No decisions yet. See `~/docs/{project-name}/DECISIONS.md` when available.*"
    - **Active Blockers**: Empty, shows "*No active blockers*"
    - **Pending Todos**: "Total pending: 0 todos across 0 features"
    - **Active Investigations**: Empty, shows "*No active investigations*"
@@ -166,7 +166,7 @@ Fill in generated templates with gathered information:
    
    ## Project Reference
    
-   See: `docs/README.md`
+   See: `~/docs/{project-name}/README.md`
    **Core value:** [One-liner from README.md]
    **Current focus:** No active features
    
@@ -187,7 +187,7 @@ Fill in generated templates with gathered information:
    ```
 
 5. **Verification**:
-   - Verify file was created at `docs/progress.md`
+   - Verify file was created at `~/docs/{project-name}/PROGRESS.md`
    - Verify all sections are present
    - Verify file is readable and properly formatted
    - Verify timestamp is current
@@ -202,16 +202,16 @@ Fill in generated templates with gathered information:
 
 **When to Create**: After completing project analysis (steps 1-5), create project notes to preserve deep analysis.
 
-**Note Structure**: Create notes in `docs/notes/{project-name}/` (category: "projects" stored in frontmatter/metadata, not in directory path)
+**Note Structure**: Create notes in `~/docs/{project-name}/notes/{project-name}/` (category: "projects" stored in frontmatter/metadata, not in directory path)
 
 **Note Files to Create**:
 
-1. **context.md** (category: "projects" in frontmatter):
+1. **CONTEXT.md** (category: "projects" in frontmatter):
    - Project scope and analysis objectives
    - What was analyzed and why
    - Success criteria for analysis
 
-2. **evidence.md** (category: "projects" in frontmatter):
+2. **EVIDENCE.md** (category: "projects" in frontmatter):
    - Codebase facts discovered (file structures, dependencies, technologies used)
    - Key files and their purposes
    - Architecture patterns observed
@@ -228,14 +228,14 @@ Fill in generated templates with gathered information:
 **Implementation**:
 - Use note tools (documented APIs) to create notes - see "Available Tools" section in execution prompts
 - See `docs/feature/self-notes/specs.md` for complete format specifications
-- Notes can be in flat structure (`docs/notes/{project-name}-*.md`) or grouped structure (`docs/notes/{project-name}/*.md`)
+- Notes can be in flat structure (`~/docs/{project-name}/notes/{project-name}-*.md`) or grouped structure (`~/docs/{project-name}/notes/{project-name}/*.md`)
 - Category is always stored in frontmatter/metadata, not in directory path
 - Use standard file operations (`write_file`, `read_file`) to implement note tools
 
 **Example**: After analyzing a Rust project, create:
-- `docs/notes/payment-service-analysis-context.md` (category: "projects" in frontmatter)
-- `docs/notes/payment-service-analysis-evidence.md` (category: "projects" in frontmatter)
-- `docs/notes/payment-service-analysis-insights.json` (category: "projects" in metadata)
+- `~/docs/{project-name}/notes/payment-service-analysis-CONTEXT.md` (category: "projects" in frontmatter)
+- `~/docs/{project-name}/notes/payment-service-analysis-EVIDENCE.md` (category: "projects" in frontmatter)
+- `~/docs/{project-name}/notes/payment-service-analysis-insights.json` (category: "projects" in metadata)
 
 ### 8. Finalize
 - Review created structure
@@ -245,10 +245,10 @@ Fill in generated templates with gathered information:
 ## Output
 
 After completion, the project should have:
-- `docs/` with all project documentation
-- `docs/team.md` with agent team configuration
-- `docs/progress.md` - Initial project progress tracking file
-- `docs/notes/` directory (if project notes were created) - Project analysis notes
+- `~/docs/{project-name}/` with all project documentation
+- `~/docs/{project-name}/TEAM.md` with agent team configuration
+- `~/docs/{project-name}/PROGRESS.md` - Initial project progress tracking file
+- `~/docs/{project-name}/notes/` directory (if project notes were created) - Project analysis notes
 
 ## Notes
 

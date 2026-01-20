@@ -71,6 +71,11 @@ cp -rv "$AI_SQUADS_DIR/templates"/* "$TARGET_DIR/templates/"
 echo "Copying scripts..."
 cp -v "$AI_SQUADS_DIR/scripts"/*.sh "$TARGET_DIR/scripts/"
 
+# Ensure common.sh is copied (it's a new file)
+if [ -f "$AI_SQUADS_DIR/scripts/common.sh" ]; then
+    cp -v "$AI_SQUADS_DIR/scripts/common.sh" "$TARGET_DIR/scripts/common.sh"
+fi
+
 # Copy rules
 echo "Copying rules..."
 cp -v "$AI_SQUADS_DIR/rules"/*.md "$TARGET_DIR/rules/"

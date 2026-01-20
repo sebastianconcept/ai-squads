@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # Create feature documentation structure
-# Creates docs/feature/{feature_name}/ directory
+# Creates ~/docs/{project-name}/feature/{feature_name}/ directory
 
 set -e
+
+# Source common functions
+. "$HOME/.cursor/scripts/common.sh"
 
 if [ -z "$1" ]; then
     echo "Usage: $0 <feature_name>"
@@ -11,7 +14,6 @@ if [ -z "$1" ]; then
 fi
 
 FEATURE_NAME="$1"
-PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 TARGET_DIR="$HOME/.cursor"
 
 if [ ! -d "$TARGET_DIR/templates" ]; then
@@ -21,7 +23,8 @@ if [ ! -d "$TARGET_DIR/templates" ]; then
 fi
 
 TEMPLATES_DIR="$TARGET_DIR/templates"
-FEATURE_DIR="$PROJECT_ROOT/docs/feature/$FEATURE_NAME"
+DOCS_DIR="$(get_docs_dir)"
+FEATURE_DIR="$DOCS_DIR/feature/$FEATURE_NAME"
 
 # Validate feature name (no special characters except hyphens)
 if [[ ! "$FEATURE_NAME" =~ ^[a-zA-Z0-9-]+$ ]]; then
@@ -52,6 +55,6 @@ echo ""
 echo "Created: $FEATURE_DIR/"
 echo ""
 echo "Next steps:"
-echo "  1. Customize PRD.md, specs.md, and tasks.md"
+echo "  1. Customize PRD.md, SPECS.md, and prd.json"
 echo "  2. Use project's agent team to inform planning"
 
