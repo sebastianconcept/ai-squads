@@ -4,7 +4,7 @@ Review a merge request or pull request using your project's agent team.
 
 This command will:
 - Analyze git diff or selected files
-- Load project's agent team from `docs/team.md`
+- Load project's agent team from `~/docs/{project-name}/TEAM.md`
 - Invoke relevant agents based on file types and changes
 - Apply code style standards from ai-squads
 - Generate comprehensive review feedback

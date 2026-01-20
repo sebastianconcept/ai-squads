@@ -5,8 +5,10 @@
 
 set -e
 
-PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-DOCS_DIR="$PROJECT_ROOT/docs"
+# Source common functions
+. "$HOME/.cursor/scripts/common.sh"
+
+DOCS_DIR="$(get_docs_dir)"
 METADATA_FILE="$DOCS_DIR/docs-metadata.json"
 MODEL="${MODEL:-auto}"
 
@@ -42,8 +44,9 @@ check_prerequisites() {
         exit 1
     fi
     
+    # DOCS_DIR is created by get_docs_dir(), so it should always exist
     if [ ! -d "$DOCS_DIR" ]; then
-        error "docs/ directory not found. Project must have been adopted (run /adopt-project first)."
+        error "Docs directory not found: $DOCS_DIR"
         exit 1
     fi
     
@@ -187,9 +190,9 @@ update_doc_with_ai() {
     local tech_stack_content=""
     local team_content=""
     
-    [ -f "$DOCS_DIR/mission.md" ] && mission_content=$(cat "$DOCS_DIR/mission.md")
-    [ -f "$DOCS_DIR/tech-stack.md" ] && tech_stack_content=$(cat "$DOCS_DIR/tech-stack.md")
-    [ -f "$DOCS_DIR/team.md" ] && team_content=$(cat "$DOCS_DIR/team.md")
+    [ -f "$DOCS_DIR/MISSION.md" ] && mission_content=$(cat "$DOCS_DIR/MISSION.md")
+    [ -f "$DOCS_DIR/TECH-STACK.md" ] && tech_stack_content=$(cat "$DOCS_DIR/TECH-STACK.md")
+    [ -f "$DOCS_DIR/TEAM.md" ] && team_content=$(cat "$DOCS_DIR/TEAM.md")
     
     # Build AI prompt
     local prompt_file
@@ -250,7 +253,9 @@ EOF
     # Call Cursor CLI
     log "Updating $doc_path via AI..."
     local updated_content_raw
-    updated_content_raw=$(agent -p --force --workspace "$PROJECT_ROOT" --model "$MODEL" "$(cat "$prompt_file")" 2>&1)
+    local project_root
+    project_root="$(git rev-parse --show-toplevel)"
+    updated_content_raw=$(agent -p --force --workspace "$project_root" --model "$MODEL" "$(cat "$prompt_file")" 2>&1)
     
     # Clean up prompt file
     rm -f "$prompt_file"

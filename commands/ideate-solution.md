@@ -9,7 +9,7 @@ This command generates multiple solution approaches to a problem, ranging from m
 
 ## Prerequisites
 
-1. Project must have been adopted (have `docs/` directory)
+1. Project must have been adopted (have `~/docs/{project-name}/` directory)
 2. Problem must be solvable within the scope of the adopted project(s)
 
 ## When to Use
@@ -46,11 +46,11 @@ If the problem seems to span multiple projects or could benefit from a wider sco
 ### 2. Load Project Context
 
 Read and understand from:
-- `docs/README.md` - Project overview
-- `docs/mission.md` - Project purpose and goals
-- `docs/tech-stack.md` - Technologies and constraints
-- `docs/DECISIONS.md` - Existing architectural decisions
-- `docs/team.md` - Available agent expertise
+- `~/docs/{project-name}/README.md` - Project overview
+- `~/docs/{project-name}/MISSION.md` - Project purpose and goals
+- `~/docs/{project-name}/TECH-STACK.md` - Technologies and constraints
+- `~/docs/{project-name}/DECISIONS.md` - Existing architectural decisions
+- `~/docs/{project-name}/TEAM.md` - Available agent expertise
 - Relevant source code areas affected by the problem
 
 ### 3. Generate Solution Approaches

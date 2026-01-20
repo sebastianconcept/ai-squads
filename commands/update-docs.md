@@ -10,20 +10,20 @@ This workflow maintains documentation consistency by tracking when each doc was 
 ## Prerequisites
 
 1. Project must be a git repository
-2. Project must have `docs/` directory
+2. Project must have `~/docs/{project-name}/` directory
 3. Cursor CLI must be available and authenticated (for AI updates)
 
 ## Steps
 
 ### 1. Verify Prerequisites
 - Check if project is a git repository
-- Verify `docs/` directory exists
+- Verify `~/docs/{project-name}/` directory exists
 - Check if Cursor CLI is available
 - Check if `jq` is installed (for JSON handling)
 
 ### 2. Initialize or Load Metadata
-- Check if `docs/docs-metadata.json` exists
-- If missing: Initialize metadata for all docs in `docs/` (excluding `docs/archived/`)
+- Check if `~/docs/{project-name}/docs-metadata.json` exists
+- If missing: Initialize metadata for all docs in `~/docs/{project-name}/` (excluding `~/docs/{project-name}/archived/`)
   - Use `git log` to find last-modified commit for each doc
   - Create metadata file with commit hashes
 - If exists: Load metadata and scan for new docs to add
@@ -76,14 +76,14 @@ For each doc in metadata:
 ## Output
 
 After completion:
-- `docs/docs-metadata.json` - Updated with current commit hashes and timestamps
+- `~/docs/{project-name}/docs-metadata.json` - Updated with current commit hashes and timestamps
 - Updated documentation files (if changes were needed)
 - Summary of what was updated
 
 ## Notes
 
 - **Idempotency**: Running the command multiple times with no code changes will not modify any docs
-- **Archived Docs**: `docs/archived/` is excluded from all operations (historical records)
+- **Archived Docs**: `~/docs/{project-name}/archived/` is excluded from all operations (historical records)
 - **Backward Compatibility**: Works on older projects without metadata (auto-initializes)
 - **Content Hashing**: Uses SHA256 hash comparison to prevent unnecessary writes
 - **Atomic Updates**: Metadata only updated after successful doc writes
@@ -93,7 +93,7 @@ After completion:
 Run `/update-docs` command in Cursor from your project root.
 
 The command will:
-1. Scan all docs in `docs/` (excluding `archived/`)
+1. Scan all docs in `~/docs/{project-name}/` (excluding `archived/`)
 2. Check which docs need updates based on git diffs
 3. Update docs that have changed
 4. Update metadata with new commit hashes

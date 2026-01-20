@@ -13,12 +13,12 @@ This command will:
 
 Run this command from your project root directory.
 
-The command reads your project context from `docs/` to provide relevant guidance:
-- `docs/README.md` - Project overview
-- `docs/mission.md` - Project purpose and goals
-- `docs/tech-stack.md` - Technologies and constraints
-- `docs/DECISIONS.md` - Existing architectural decisions
-- `docs/team.md` - Available agent expertise
+The command reads your project context from `~/docs/{project-name}/` to provide relevant guidance:
+- `~/docs/{project-name}/README.md` - Project overview
+- `~/docs/{project-name}/MISSION.md` - Project purpose and goals
+- `~/docs/{project-name}/TECH-STACK.md` - Technologies and constraints
+- `~/docs/{project-name}/DECISIONS.md` - Existing architectural decisions
+- `~/docs/{project-name}/TEAM.md` - Available agent expertise
 
 ## Templates Used
 

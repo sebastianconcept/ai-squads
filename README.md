@@ -73,10 +73,10 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 1. Run the `/adopt-project` command in Cursor from your project root
 
 This will:
-- Create `docs/` directory with project documentation
+- Create `~/docs/{project-name}/` directory with project documentation (where {project-name} is derived from git repository name)
 - Ask questions about mission, tech stack, and roadmap
 - Configure agent team based on tech stack
-- Save team configuration to `docs/team.md`
+- Save team configuration to `~/docs/{project-name}/TEAM.md`
 - Based on templates, generate mission, roadmap, decisions
 
 ## Usage
@@ -110,8 +110,8 @@ Run the `/ideate-solution` command to explore approaches. This will:
 ### Plan a Feature
 
 Run the `/plan-feature` command in Cursor. This will:
-- Create feature directory in `docs/feature/{feature_name}/`
-- Generate PRD.md, specs.md, and prd.json (machine-readable execution format)
+- Create feature directory in `~/docs/{project-name}/feature/{feature_name}/`
+- Generate PRD.md, SPECS.md, and prd.json (machine-readable execution format)
 - Use your project's agent team to inform planning
 - Customize planning documents with feature details
 - Create user stories with acceptance criteria, dependencies, and agent assignments
@@ -121,7 +121,7 @@ Run the `/plan-feature` command in Cursor. This will:
 ### Execute a Feature
 
 Run the `/execute-feature` command in Cursor to autonomously implement a planned feature. This will:
-- Read feature plan from `docs/feature/{feature_name}/prd.json`
+- Read feature plan from `~/docs/{project-name}/feature/{feature_name}/prd.json`
 - Resolve dependencies and execute user stories in order
 - Route stories to appropriate agents based on type and tech stack
 - Run quality checks (typecheck, lint, format, test) before commits
@@ -136,7 +136,7 @@ Run the `/execute-feature` command in Cursor to autonomously implement a planned
 ### Plan a Game
 
 Run the `/plan-game` command in Cursor. This will:
-- Create game directory in `docs/game/{game_name}/`
+- Create game directory in `~/docs/{project-name}/game/{game_name}/`
 - Generate GDD.md (Game Design Document) template
 - Use Eric (Video Game Specialist) to guide GDD creation
 - Apply game design principles from industry canon (Schell, Koster, Swink)
@@ -221,17 +221,17 @@ After adopting ai-squads, your project will have:
 ```
 my-project/
 ├── docs/                     # Project planning docs
-│   ├── mission.md
-│   ├── roadmap.md
-│   ├── tech-stack.md
+│   ├── MISSION.md
+│   ├── ROADMAP.md
+│   ├── TECH-STACK.md
 │   ├── DECISIONS.md
 │   ├── README.md
-│   ├── team.md
-│   ├── quality.md            # Quality check commands
+│   ├── TEAM.md
+│   ├── QUALITY.md            # Quality check commands
 │   ├── feature/
 │   │   └── {feature_name}/
 │   │       ├── PRD.md
-│   │       ├── specs.md
+│   │       ├── SPECS.md
 │   │       └── prd.json      # Machine-readable execution format
 │   ├── game/
 │   │   └── {game_name}/
@@ -369,7 +369,7 @@ Edit these files in the ai-squads repository, then re-run `./scripts/install.sh`
 
 ## Team Configuration
 
-Your project's agent team is configured in `docs/team.md`. This file lists:
+Your project's agent team is configured in `docs/TEAM.md`. This file lists:
 - Assigned agents
 - Agent roles and responsibilities
 - Tech stack alignment
@@ -378,7 +378,7 @@ The team configuration is used by commands to provide relevant guidance.
 
 ## Quality Checks
 
-Quality checks are defined in `docs/quality.md` in your project. These commands are copied to `prd.json.quality` when planning features and executed during feature execution. Common quality checks include:
+Quality checks are defined in `docs/QUALITY.md` in your project. These commands are copied to `prd.json.quality` when planning features and executed during feature execution. Common quality checks include:
 - Type checking (e.g., `tsc --noEmit`, `cargo check`)
 - Linting (e.g., `npm run lint`, `cargo clippy`)
 - Formatting (e.g., `npm run format`, `cargo fmt`)
