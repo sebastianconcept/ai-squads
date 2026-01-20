@@ -548,6 +548,27 @@ add_agent_definition() {
     echo ""
 }
 
+# Add project progress context to prompt (read FIRST for project-level context)
+add_progress_context() {
+    if [ -f "$PROJECT_ROOT/docs/progress.md" ]; then
+        echo "## Project Progress"
+        echo ""
+        echo "**Source**: \`docs/progress.md\`"
+        echo ""
+        echo "**Purpose**: Provides instant project-level context restoration. Read first to understand:"
+        echo "- Where you are in the project overall (active feature, current story, overall progress)"
+        echo "- Performance metrics (velocity, iterations, success rate, quality metrics)"
+        echo "- Accumulated context (recent decisions, active blockers, pending todos, active investigations)"
+        echo "- Session continuity (last session, resume context)"
+        echo ""
+        cat "$PROJECT_ROOT/docs/progress.md"
+        echo ""
+        echo "---"
+        echo ""
+        log "Reading project progress from docs/progress.md"
+    fi
+}
+
 # Add project context to prompt
 add_project_context() {
     # Add project notes (if exists)
@@ -595,6 +616,285 @@ add_project_context() {
         echo "---"
         echo ""
     fi
+}
+
+# Add feature notes to prompt (from docs/notes/{feature-name}/ or flat files matching {feature-name}-*)
+add_feature_notes() {
+    local feature_notes_dir="$PROJECT_ROOT/docs/notes/$FEATURE_NAME"
+    local notes_base_dir="$PROJECT_ROOT/docs/notes"
+    local has_notes=false
+    
+    # First, try grouped structure: docs/notes/{feature-name}/
+    # Note: Category is stored in frontmatter (category: "features"), not in directory path
+    if [ -d "$feature_notes_dir" ]; then
+        # Check for context.md
+        if [ -f "$feature_notes_dir/context.md" ]; then
+            if [ "$has_notes" = "false" ]; then
+                echo "## Feature Notes"
+                echo ""
+                echo "**Source**: \`docs/notes/$FEATURE_NAME/\`"
+                echo ""
+                has_notes=true
+            fi
+            echo "### Context"
+            echo ""
+            cat "$feature_notes_dir/context.md"
+            echo ""
+            echo "---"
+            echo ""
+        fi
+        
+        # Check for todos.md
+        if [ -f "$feature_notes_dir/todos.md" ]; then
+            if [ "$has_notes" = "false" ]; then
+                echo "## Feature Notes"
+                echo ""
+                echo "**Source**: \`docs/notes/$FEATURE_NAME/\`"
+                echo ""
+                has_notes=true
+            fi
+            echo "### Current Tasks"
+            echo ""
+            cat "$feature_notes_dir/todos.md"
+            echo ""
+            echo "---"
+            echo ""
+        fi
+        
+        # Check for insights.json (prioritize evidence-based insights)
+        if [ -f "$feature_notes_dir/insights.json" ]; then
+            if [ "$has_notes" = "false" ]; then
+                echo "## Feature Notes"
+                echo ""
+                echo "**Source**: \`docs/notes/$FEATURE_NAME/\`"
+                echo ""
+                has_notes=true
+            fi
+            echo "### Insights"
+            echo ""
+            echo "**Note**: Evidence-based insights (marked with \`evidenceBased: true\`) are prioritized as they are supported by first-hand evidence (logs, test results, metrics)."
+            echo ""
+            # Parse and format insights.json, prioritizing evidence-based insights
+            if command -v jq >/dev/null 2>&1; then
+                # Sort insights: evidence-based first, then by timestamp (newest first)
+                jq -r '.insights | sort_by(.evidenceBased == false, .timestamp) | reverse | .[] | 
+                    "#### \(.title) (\(.type))\n" +
+                    "- **Timestamp**: \(.timestamp)\n" +
+                    "- **Evidence-Based**: \(.evidenceBased)\n" +
+                    (if .description then "- **Description**: \(.description)\n" else "" end) +
+                    (if .impact then "- **Impact**: \(.impact)\n" else "" end) +
+                    (if .decision then "- **Decision**: \(.decision)\n" else "" end) +
+                    (if .result then "- **Result**: \(.result)\n" else "" end) +
+                    (if .error then "- **Error**: \(.error)\n" else "" end) +
+                    (if .learning then "- **Learning**: \(.learning)\n" else "" end) +
+                    (if .nextAttempt then "- **Next Attempt**: \(.nextAttempt)\n" else "" end) +
+                    (if .evidence and .evidenceBased == true then 
+                        "- **Evidence**:\n" +
+                        "  - Source: \(.evidence.source // "unknown")\n" +
+                        "  - Observation: \(.evidence.observation // "N/A")\n" +
+                        (if .evidence.files then "  - Files: \(.evidence.files | join(", "))\n" else "" end) +
+                        (if .evidence.commit then "  - Commit: \(.evidence.commit)\n" else "" end)
+                    else "" end) +
+                    "\n---\n"' "$feature_notes_dir/insights.json" 2>/dev/null || {
+                    # Fallback: if jq parsing fails, show raw JSON
+                    echo "**Note**: Unable to parse insights.json. Raw content:"
+                    echo "\`\`\`json"
+                    cat "$feature_notes_dir/insights.json"
+                    echo "\`\`\`"
+                }
+            else
+                # Fallback: if jq not available, show raw JSON
+                echo "**Note**: jq not available. Raw insights.json content:"
+                echo "\`\`\`json"
+                cat "$feature_notes_dir/insights.json"
+                echo "\`\`\`"
+            fi
+            echo ""
+            echo "---"
+            echo ""
+        fi
+    fi
+    
+    # If grouped structure didn't have notes, try flat structure: docs/notes/{feature-name}-*.md
+    # Note: This is a simplified check - full implementation would scan all files and check frontmatter category
+    if [ "$has_notes" = "false" ] && [ -d "$notes_base_dir" ]; then
+        # Check for flat files matching feature name pattern (simplified - would need frontmatter parsing for full support)
+        local flat_context="$notes_base_dir/${FEATURE_NAME}-context.md"
+        local flat_todos="$notes_base_dir/${FEATURE_NAME}-todos.md"
+        local flat_insights="$notes_base_dir/${FEATURE_NAME}-insights.json"
+        
+        if [ -f "$flat_context" ] || [ -f "$flat_todos" ] || [ -f "$flat_insights" ]; then
+            echo "## Feature Notes"
+            echo ""
+            echo "**Source**: \`docs/notes/\` (flat structure, matching \`${FEATURE_NAME}-*\`)"
+            echo ""
+            echo "**Note**: Found flat structure notes. For full category filtering, notes should have \`category: features\` in frontmatter."
+            echo ""
+            has_notes=true
+            
+            if [ -f "$flat_context" ]; then
+                echo "### Context"
+                echo ""
+                cat "$flat_context"
+                echo ""
+                echo "---"
+                echo ""
+            fi
+            
+            if [ -f "$flat_todos" ]; then
+                echo "### Current Tasks"
+                echo ""
+                cat "$flat_todos"
+                echo ""
+                echo "---"
+                echo ""
+            fi
+            
+            if [ -f "$flat_insights" ]; then
+                echo "### Insights"
+                echo ""
+                if command -v jq >/dev/null 2>&1; then
+                    jq -r '.insights | sort_by(.evidenceBased == false, .timestamp) | reverse | .[] | 
+                        "#### \(.title) (\(.type))\n" +
+                        "- **Timestamp**: \(.timestamp)\n" +
+                        "- **Evidence-Based**: \(.evidenceBased)\n" +
+                        (if .description then "- **Description**: \(.description)\n" else "" end) +
+                        (if .impact then "- **Impact**: \(.impact)\n" else "" end) +
+                        (if .learning then "- **Learning**: \(.learning)\n" else "" end) +
+                        "\n---\n"' "$flat_insights" 2>/dev/null || cat "$flat_insights"
+                else
+                    cat "$flat_insights"
+                fi
+                echo ""
+                echo "---"
+                echo ""
+            fi
+        fi
+    fi
+    
+    if [ "$has_notes" = "true" ]; then
+        log "Included feature notes from docs/notes/$FEATURE_NAME/ or matching flat files"
+    fi
+}
+
+# Add available tools section to prompt
+add_available_tools() {
+    echo "## Available Tools"
+    echo ""
+    echo "You have access to note management tools for maintaining persistent memory across conversation boundaries."
+    echo ""
+    echo "**Important**: These are **documented APIs** that you implement using standard Cursor file operations (\`read_file\`, \`write_file\`, \`list_dir\`, \`grep\`). No custom tool implementations exist - you use standard file operations to implement these APIs."
+    echo ""
+    echo "### Note Tools (Documented APIs)"
+    echo ""
+    echo "1. **write_note(category, name, content, metadata?)**"
+    echo "   - Write a new note file"
+    echo "   - **Parameters**:"
+    echo "     - \`category\` (string): Category stored in frontmatter (e.g., \"investigations\", \"features\", \"projects\", \"general\")"
+    echo "     - \`name\` (string): Note name/filename (sanitized: alphanumeric, hyphens, underscores)"
+    echo "     - \`content\` (string): Markdown content to write"
+    echo "     - \`metadata\` (optional): Additional metadata (agent, command, context, commit)"
+    echo "   - **Returns**: \`{success: boolean, path: string, error?: string}\`"
+    echo "   - **Implementation**: Use \`write_file\` to create note at \`docs/notes/{name}.md\` (flat) or \`docs/notes/{id}/{type}.md\` (grouped)"
+    echo "   - **Frontmatter**: Include YAML frontmatter with \`category\`, \`created\`, \`updated\`, and optional metadata"
+    echo "   - **Git Commit**: Auto-detect commit hash using \`git rev-parse HEAD\` if in repository (unless provided)"
+    echo ""
+    echo "2. **read_note(path | {category, name})**"
+    echo "   - Read an existing note file"
+    echo "   - **Parameters**: Either full \`path\` (string) or \`{category, name}\` (object)"
+    echo "   - **Returns**: \`{content: string, metadata: object, error?: string}\`"
+    echo "   - **Implementation**: Use \`read_file\` to read note, parse YAML frontmatter to extract category and metadata"
+    echo "   - **Category Filtering**: If category provided, read frontmatter to verify category matches"
+    echo ""
+    echo "3. **list_notes(category?)**"
+    echo "   - List available notes"
+    echo "   - **Parameters**: \`category\` (optional string): Filter by category, or null for all"
+    echo "   - **Returns**: \`Array<{name: string, path: string, modified: string, size: number, category: string}>\`"
+    echo "   - **Implementation**: Use \`list_dir\` to scan \`docs/notes/\` (recursively), read frontmatter from each file to extract category, filter by category if provided"
+    echo "   - **Sorting**: Sort by modification time (newest first)"
+    echo ""
+    echo "4. **append_note(path | {category, name}, content)**"
+    echo "   - Append content to an existing note (creates note if it doesn't exist)"
+    echo "   - **Parameters**: Either full \`path\` (string) or \`{category, name}\` (object), plus \`content\` (string)"
+    echo "   - **Returns**: \`{success: boolean, path: string, error?: string}\`"
+    echo "   - **Implementation**: Use \`read_file\` to read existing note, append timestamp separator and new content, use \`write_file\` to save"
+    echo "   - **Timestamp Separator**: Add \`---\\n## [ISO 8601 timestamp]\\n[content]\` before appended content"
+    echo "   - **Update Metadata**: Update \`updated\` timestamp in frontmatter"
+    echo ""
+    echo "5. **search_notes(query, category?)**"
+    echo "   - Search note content by keyword/phrase"
+    echo "   - **Parameters**: \`query\` (string): Search term, \`category\` (optional string): Limit search to category"
+    echo "   - **Returns**: \`Array<{path: string, snippet: string, matches: number, lineNumbers: number[]}>\`"
+    echo "   - **Implementation**: Use \`grep\` or text search across \`docs/notes/\` directory, read frontmatter to filter by category if provided"
+    echo "   - **Context Snippets**: Return 3 lines of context around each match"
+    echo ""
+    echo "### Note Storage Structure"
+    echo ""
+    echo "**Category is stored in frontmatter/metadata, NOT in directory path.**"
+    echo ""
+    echo "**Flat Structure (Recommended)**:"
+    echo "- \`docs/notes/{id}-{description}-{type}.md\`"
+    echo "  - Example: \`docs/notes/US-001-user-login-form-context.md\` (category: \"features\" in frontmatter)"
+    echo "  - Example: \`docs/notes/memory-leak-2024-01-15-investigating-memory-growth-evidence.md\` (category: \"investigations\" in frontmatter)"
+    echo ""
+    echo "**Grouped Structure (Optional, for complex entities)**:"
+    echo "- \`docs/notes/{id}-{description}/{type}.md\`"
+    echo "  - Example: \`docs/notes/US-001-user-login-form/context.md\` (category: \"features\" in frontmatter)"
+    echo "  - Example: \`docs/notes/memory-leak-2024-01-15/evidence.md\` (category: \"investigations\" in frontmatter)"
+    echo ""
+    echo "**Key Points**:"
+    echo "- Category is always in frontmatter (\`category: investigations\`) or JSON metadata (\`metadata.category\`), never in directory path"
+    echo "- Tools filter by reading category property from frontmatter, not from directory structure"
+    echo "- Agents have freedom to use flat or grouped structure based on task complexity"
+    echo ""
+    echo "### Semantic Note Types"
+    echo ""
+    echo "Use these standard note names for structured organization:"
+    echo ""
+    echo "- **context.md**: Scope and goals (what the work is for, what problem it solves, success criteria)"
+    echo "- **evidence.md**: Facts gathered (logs, metrics, test results, experimental data)"
+    echo "- **todos.md**: Current tasks (what needs to be done, in progress, blocked)"
+    echo "- **insights.json**: Discoveries with origin and impact (patterns found, decisions made, implications), stored as JSON with evidence-based tracking"
+    echo ""
+    echo "### When to Use Notes"
+    echo ""
+    echo "- **At Feature Start**: Create \`context.md\` when beginning a new feature (if it doesn't exist)"
+    echo "- **During Task Execution**: Update \`todos.md\` when task status changes"
+    echo "- **When Discoveries Are Made**: Write to \`insights.json\` when patterns or decisions are found, marking as evidence-based when supported by first-hand evidence"
+    echo "- **When Gathering Facts**: Write to \`evidence.md\` when collecting data (investigations)"
+    echo ""
+    echo "### Implementation Examples"
+    echo ""
+    echo "**Example: Writing a note**"
+    echo "\`\`\`"
+    echo "# Use write_file to create note"
+    echo "# Path: docs/notes/US-001-user-login-form-context.md"
+    echo "# Content includes YAML frontmatter with category property:"
+    echo "---"
+    echo "created: 2024-01-15T10:00:00Z"
+    echo "updated: 2024-01-15T10:00:00Z"
+    echo "category: features"
+    echo "commit: abc123def456"
+    echo "---"
+    echo ""
+    echo "# Feature: User Login Form"
+    echo ""
+    echo "## Problem Statement"
+    echo "Users need to authenticate..."
+    echo "\`\`\`"
+    echo ""
+    echo "**Example: Reading notes by category**"
+    echo "\`\`\`"
+    echo "# Use list_dir to scan docs/notes/"
+    echo "# For each file, use read_file to read frontmatter"
+    echo "# Extract category from frontmatter: category: investigations"
+    echo "# Filter files where frontmatter.category matches desired category"
+    echo "\`\`\`"
+    echo ""
+    echo "**Error Handling**: Note operations are non-fatal - if note reading/writing fails, execution continues (notes are helpful but not critical)"
+    echo ""
+    echo "---"
+    echo ""
 }
 
 # Add story details to prompt
@@ -685,11 +985,39 @@ add_execution_instructions() {
     echo ""
     echo "### Steps:"
     echo ""
-    echo "1. **Read Context First**: Review project notes and dev-notes for relevant patterns"
+    echo "1. **Read Context First**:"
+    echo "   - Review project notes and dev-notes for relevant patterns"
+    echo "   - Review feature notes (context.md, todos.md, insights.json) if available above"
+    echo "   - **Learn from Previous Attempts**: If \`insights.json\` contains execution attempts, read them to understand:"
+    echo "     - What approaches were tried before"
+    echo "     - What failed and why (prioritize evidence-based insights)"
+    echo "     - What worked"
+    echo "     - How to adjust your approach based on previous learnings"
+    echo "   - Understand the current story requirements"
     echo "2. **Implement the Story**: Follow the agent's rules and style guides"
     echo "3. **For Frontend Stories**: Use browser-verification skill if type is \"frontend\""
     echo "4. **Run Quality Checks**: Execute all quality check commands, all must pass"
-    echo "5. **Update Project Documentation**: Before marking story complete, update project docs if needed:"
+    echo "5. **Update Notes** (if applicable):"
+    echo "   - Update \`todos.md\` in \`docs/notes/$FEATURE_NAME/\` when task status changes (category: "features" in frontmatter)"
+    echo "   - **Document Execution Attempt**: After execution (success or failure), append to feature \`insights.json\`:"
+    echo "     - What approach was tried"
+    echo "     - What worked and what didn't"
+    echo "     - What errors or issues were encountered (if any)"
+    echo "     - What was learned from this attempt"
+    echo "     - How the next attempt should differ (if the story didn't complete)"
+    echo "     - Whether the insight is evidence-based (\`evidenceBased: true/false\`)"
+    echo "     - If evidence-based, document evidence in \`evidence: {}\` object"
+    echo "   - Write to feature \`insights.json\` when discoveries are made or decisions are documented"
+    echo "   - **Capture Lessons**: After completing work (bug fix or feature completion), document lessons in project-level \`insights.json\` (category: \"projects\"):"
+    echo "     - **Always capture lessons from bug fixes**: What was learned from diagnosing/fixing the bug (mark as \`lesson: true\`)"
+    echo "     - **Always capture lessons from feature completion**: Implementation learnings, patterns discovered, gotchas (mark as \`lesson: true\`)"
+    echo "     - **Capture lessons when >3 iterations needed**: Document complexity and what made it difficult (mark as \`lesson: true\`, include \`iterations\` count)"
+    echo "     - Lesson format: Clear description of what was learned, why it matters, how it should influence future work"
+    echo "     - Store in project-level insights.json: \`docs/notes/project-lessons-insights.json\` or project-level insights.json"
+    echo "     - Lessons are automatically read before starting new tasks to inform approach and avoid repeating mistakes"
+    echo "   - Use note tools (write_note, append_note) to maintain persistent memory"
+    echo "   - **Note**: If this is the first story in a feature, create \`context.md\` with feature goals and scope"
+    echo "6. **Update Project Documentation**: Before marking story complete, update project docs if needed:"
     echo "   - **DECISIONS.md** (REQUIRED if architectural/design decisions were made):"
     echo "     - Add entries for any architectural decisions, design choices, or trade-offs made"
     echo "     - Use format: Date, Context, Decision, Consequences"
@@ -699,11 +1027,11 @@ add_execution_instructions() {
     echo "     - Update \`docs/tech-stack.md\` if new technologies or dependencies were added"
     echo "     - Update \`docs/roadmap.md\` if priorities or plans changed"
     echo "     - Update any other relevant documentation"
-    echo "6. **Update Project State**: After successful implementation and documentation updates:"
+    echo "7. **Update Project State**: After successful implementation and documentation updates:"
     echo "   - Set \`passes: true\` for this story in \`docs/feature/$FEATURE_NAME/prd.json\`"
     echo "   - Append progress entry to \`docs/notes.md\` using our format (see below)"
     echo "   - Update \`dev-notes.md\` in directories where you edited files (if you discovered reusable patterns)"
-    echo "7. **Commit**: Create commit with message: \`feat: $story_id - $story_title\`"
+    echo "8. **Commit**: Create commit with message: \`feat: $story_id - $story_title\`"
     echo ""
     echo "### Progress Report Format (docs/notes.md)"
     echo ""
@@ -795,10 +1123,13 @@ build_prompt() {
     
     # Add all components
     add_agent_definition "$story_id" || return 1
+    add_progress_context  # Read FIRST for project-level context
     add_project_context
+    add_feature_notes
     add_story_details "$story_id" || return 1
     add_browser_verification "$story_id"
     add_quality_checks
+    add_available_tools
     add_execution_instructions "$story_id"
 }
 

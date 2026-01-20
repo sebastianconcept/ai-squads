@@ -65,7 +65,7 @@ For each piece of evidence:
 
 ### 4. Hypothesis Generation
 
-Generate hypotheses ordered by likelihood:
+Generate hypotheses ordered by likelihood using a scientific, evidence-based approach:
 
 **For each hypothesis:**
 - State the proposed cause clearly
@@ -73,6 +73,14 @@ Generate hypotheses ordered by likelihood:
 - Explain what evidence contradicts it
 - Rate confidence level (Low/Medium/High)
 - Identify what would confirm or refute it
+- Design small experiments to test the hypothesis
+
+**Hypothesis Generation Principles:**
+- **Generate Multiple Hypotheses**: Don't fixate on the first explanation - consider alternatives
+- **Design Small Experiments**: Create minimal, controlled tests to validate or refute each hypothesis
+- **Reduce Ambiguity**: Use experiments to narrow down possibilities and unlock progress
+- **Evidence-Based**: Base hypotheses on observed evidence, not assumptions
+- **Document in Notes**: Use investigation notes (`docs/notes/{issue-id}/`) to track hypotheses, evidence, and experiments (category: "investigations" stored in frontmatter)
 
 **Hypothesis Categories:**
 - **Code bugs** - Logic errors, race conditions, edge cases
@@ -82,6 +90,66 @@ Generate hypotheses ordered by likelihood:
 - **External systems** - Third-party APIs, databases, services
 - **Concurrency** - Deadlocks, starvation, ordering issues
 - **Resource exhaustion** - Memory, connections, file handles
+
+**Using Investigation Notes:**
+- Create notes in `docs/notes/{issue-id}/` when starting investigation (category: "investigations" stored in frontmatter/metadata, not in directory path)
+- Document hypotheses in `insights.json` with confidence levels, evidence-based tracking, and supporting/contradicting evidence
+- Document evidence in `evidence.md` as it's gathered (logs, metrics, test results, experimental data) with timestamps and sources
+- Update `todos.md` with experiments to run and checks to perform
+- Reference evidence in hypotheses (supporting or contradicting)
+- Discard hypotheses that are contradicted by evidence to focus on viable paths
+- Mark insights as `evidenceBased: true` when supported by first-hand evidence (logs, test results, metrics, experimental data)
+- Include `evidence: {}` object in insights.json when evidence-based
+
+**Note Creation Workflow:**
+
+1. **When Starting Investigation:**
+   - Generate an issue ID (e.g., `memory-leak-2024-01-15` or `api-timeout-2024-01-15`)
+   - Create note directory: `docs/notes/{issue-id}/` (or use flat structure: `docs/notes/{issue-id}-*.md`)
+   - Create initial `context.md` with investigation scope, goals, and success criteria (category: "investigations" in frontmatter)
+   - Create initial `evidence.md` to document evidence as it's gathered (category: "investigations" in frontmatter)
+   - Create initial `todos.md` to track experiments and checks (category: "investigations" in frontmatter)
+   - Create initial `insights.json` to document hypotheses and findings (category: "investigations" in metadata)
+
+2. **During Investigation:**
+   - **Document Evidence Immediately**: When gathering logs, metrics, test results, or experimental data, append to `evidence.md` with:
+     - What was observed
+     - When (ISO 8601 timestamp)
+     - Source (logs, metrics, test results, etc.)
+     - Controlled inputs (if applicable)
+     - Observed outputs (if applicable)
+     - Commit hash (to scope validity to codebase version)
+   - **Document Hypotheses**: When generating hypotheses, add to `insights.json` with:
+     - Hypothesis title and description
+     - Confidence level (Low/Medium/High)
+     - Supporting evidence (references to evidence.md entries)
+     - Contradicting evidence (if any)
+     - Type: "hypothesis"
+     - `evidenceBased: true` if supported by first-hand evidence
+     - `evidence: {}` object documenting the evidence
+   - **Track Experiments**: Update `todos.md` with:
+     - Experiments to run (with expected outcomes)
+     - Checks to perform
+     - Status (pending, in-progress, completed, blocked)
+   - **Update Insights**: When experiments confirm or refute hypotheses:
+     - Update hypothesis status in `insights.json` (verified, discarded)
+     - Add execution-attempt insights documenting what was tried
+     - Include commit hash that validates the reasoning
+
+3. **When Resuming Investigation:**
+   - Read existing notes from `docs/notes/{issue-id}/` (or matching flat files)
+   - Review `context.md` to understand investigation scope
+   - Review `evidence.md` to see what evidence has been gathered
+   - Review `todos.md` to see what experiments are pending
+   - Review `insights.json` to see previous hypotheses and findings (prioritize evidence-based insights)
+   - Continue investigation from where it left off
+
+**Note File Format Examples:**
+
+See `docs/feature/self-notes/specs.md` for complete format specifications. Key points:
+- Markdown notes (context.md, evidence.md, todos.md) use YAML frontmatter with `category: investigations`
+- insights.json uses JSON format with `metadata.category: "investigations"`
+- All notes include timestamps, commit hash (if in git repo), and optional metadata (agent, command, context)
 
 ### 5. Investigation Guidance
 
@@ -101,6 +169,9 @@ When cause is NOT yet determined, provide:
 - Controlled tests to confirm/refute hypotheses
 - Reproduction scenarios
 - Isolation strategies
+- **Design Principle**: Small, focused experiments that test one hypothesis at a time
+- **Document**: Record experimental inputs and observed outputs in `evidence.md`
+- **Purpose**: Reduce ambiguity and unlock progress by confirming or discarding hypotheses
 
 ### 6. Root Cause Determination
 
