@@ -48,6 +48,7 @@ mkdir -p "$FEATURE_DIR"
 # Copy feature templates
 echo "Creating feature documentation for: $FEATURE_NAME"
 cp -v "$TEMPLATES_DIR/feature"/*.md "$FEATURE_DIR/"
+cp -v "$TEMPLATES_DIR/feature"/*.json "$FEATURE_DIR/" 2>/dev/null || true
 
 echo ""
 echo "✓ Feature structure created successfully!"
