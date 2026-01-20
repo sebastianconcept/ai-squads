@@ -77,13 +77,71 @@ Ask questions based on project's agent team:
 - What are the performance considerations?
 - What are the integration points?
 
-### 5. Generate Planning Documents
+### 5. Determine if Research Phase Needed
+
+**Analyze feature complexity/uncertainty/risk:**
+
+Check for:
+- **Complexity indicators:**
+  - New technology/language/framework not in current stack
+  - External service/API integration
+  - Complex algorithms or data structures
+  - Architectural changes (new services, databases, etc.)
+- **Uncertainty indicators:**
+  - Knowledge gaps identified
+  - Ambiguous or incomplete requirements
+  - Multiple implementation approaches exist
+  - Performance or scalability concerns
+- **Risk indicators:**
+  - Touches critical system components
+  - Security implications
+  - Migration or data transformation
+  - High failure impact
+
+**User flags:**
+- `--research`: Force research phase (even if trivial)
+- `--skip-research`: Skip research phase (even if non-trivial)
+
+**Decision:**
+- If non-trivial OR `--research` flag → Proceed to Research Phase (Step 6)
+- If trivial AND no `--research` flag → Skip to Planning Documents (Step 7)
+
+### 6. Research Phase (if triggered)
+
+**Process:**
+1. Determine research scope based on:
+   - Feature description
+   - Assigned specialist agent
+   - Project tech stack (`docs/tech-stack.md`)
+   - Project context (`docs/mission.md`, `docs/quality.md`)
+
+2. Specialist agent performs methodical research:
+   - Investigate technical blockers
+   - Research available techniques/libraries
+   - Research best practices
+   - Research integration challenges
+   - Research performance considerations
+
+3. Generate `RESEARCH.md`:
+   - Research findings per area
+   - Comparative analysis
+   - Recommendations with rationale
+   - Sources and evidence
+
+**Output:** `docs/feature/{feature_name}/RESEARCH.md`
+
+**Integration:** Research findings will inform planning documents (PRD, specs, prd.json)
+
+**See:** `docs/feature/autonomous-execution/RESEARCH-PHASE.md` for detailed specification
+
+### 7. Generate Planning Documents
 
 **PRD.md (Product Requirements Document):**
 - Feature overview
 - User stories/jobs to be done (see format below)
 - Success metrics
 - Out of scope items
+- **If RESEARCH.md exists:** Incorporate research findings into user stories and technical constraints
 
 **User Stories Format:**
 
@@ -126,6 +184,7 @@ Be explicit and unambiguous. Functional requirements complement user stories by 
 - API design (if applicable)
 - Data models (if applicable)
 - Integration points
+- **If RESEARCH.md exists:** Incorporate research recommendations into technical approach, document integration challenges and performance considerations
 
 **prd.json (Machine-readable execution format - replaces tasks.md):**
 - User stories with actionable properties (id, title, description, type, dependencies, agent, acceptanceCriteria, priority)
@@ -134,6 +193,7 @@ Be explicit and unambiguous. Functional requirements complement user stories by 
 - Story types: `backend`, `frontend`, `integration`, `config`, `infrastructure`, `fullstack`, `library`
 - Agent assignments based on story type and tech stack
 - Dependencies between stories for proper execution order
+- **If RESEARCH.md exists:** Research blockers inform dependencies, research techniques inform story notes, research recommendations inform agent guidance
 - **Note**: `tasks.md` is deprecated. `prd.json` replaces it entirely.
 
 
@@ -157,6 +217,7 @@ After completion, the feature should have:
 - `docs/feature/{feature_name}/PRD.md`
 - `docs/feature/{feature_name}/specs.md`
 - `docs/feature/{feature_name}/prd.json` (required for autonomous execution)
+- `docs/feature/{feature_name}/RESEARCH.md` (if research phase was triggered)
 
 **Note**: `tasks.md` is deprecated. `prd.json` replaces it entirely because it's machine-readable and tracks execution status via `userStories[].passes`.
 

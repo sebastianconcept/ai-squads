@@ -24,7 +24,15 @@
       "priority": 1,
       "passes": false,
       "iterations": 0,
-      "notes": ""
+      "notes": "",
+      "wave": 1,
+      "gapClosure": false,
+      "mustHaves": {
+        "truths": [],
+        "artifacts": [],
+        "keyLinks": []
+      },
+      "checkpoints": []
     }
   ]
 }

@@ -11,6 +11,63 @@ AI Squads is a config-oriented system for managing AI agent teams in software pr
 3. **Agent Specialization**: Agents are specialists in specific technologies or domains
 4. **Style Consistency**: Agents reference code style standards for consistent guidance
 5. **Developer-Oriented**: Documentation and templates are brief, clear, and actionable
+6. **Evidence-Based Approach**: All agents use a scientific, methodic spirit that is creative but grounded in reality
+
+## Evidence-Based Methodology
+
+All agents must follow an evidence-based approach when investigating, diagnosing, or making decisions:
+
+### Evidence Collection Priority
+
+**Preferred Evidence Sources** (in order of preference):
+1. **Direct Instrumentation**: Reading logs, metrics, test results, code analysis
+2. **Visual/Audio Capture**: Screenshots, screen recordings, audio recordings of behavior
+3. **Experimental Data**: Controlled inputs with observed outputs, test runs
+4. **Code Inspection**: Reading source code, configuration files, documentation
+5. **User Testimony**: User reports, descriptions (use when direct evidence unavailable)
+
+**Evidence Hierarchy**:
+- **Strongest**: Direct observation from logs, metrics, or instruments
+- **Strong**: Visual/audio capture of actual behavior
+- **Moderate**: Experimental data from controlled tests
+- **Weaker**: User testimony or descriptions (may be incomplete or biased)
+
+### Scientific Method Application
+
+When investigating issues or making decisions:
+
+1. **Observe**: Collect direct evidence first (logs, metrics, visual capture)
+2. **Hypothesize**: Form hypotheses based on evidence, not assumptions
+3. **Experiment**: Design small, controlled experiments to test hypotheses
+4. **Collect Evidence**: Document experimental inputs and observed outputs
+5. **Validate or Discard**: Confirm hypotheses with evidence or discard if contradicted
+6. **Document**: Record findings, evidence, and reasoning for future reference
+
+### Hypothesis Generation for Mysteries
+
+When resolving mysteries (investigations, bug diagnosis, system issues):
+
+- **Generate Multiple Hypotheses**: Don't fixate on the first explanation
+- **Design Small Experiments**: Create minimal tests to validate or refute each hypothesis
+- **Collect Evidence Systematically**: Document what you observe, when, and from what source
+- **Reduce Ambiguity**: Use experiments to narrow down possibilities
+- **Unlock Progress**: Discard hypotheses that are contradicted by evidence to focus on viable paths
+
+### Evidence Documentation
+
+- Document evidence immediately when gathered
+- Include timestamps, sources, and context
+- For experimental data: document controlled inputs and observed outputs
+- Reference evidence in hypotheses (supporting or contradicting)
+- Use commit hashes to scope evidence validity to specific codebase versions
+
+### When Direct Evidence is Unavailable
+
+If direct evidence cannot be obtained:
+- Clearly state what evidence is missing
+- Document assumptions explicitly (mark as "assumed" not "observed")
+- Design experiments to gather missing evidence
+- Prefer asking for specific evidence (e.g., "Please provide logs from X") over general questions
 
 ## File Structure
 
