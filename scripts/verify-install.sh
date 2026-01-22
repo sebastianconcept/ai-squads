@@ -52,6 +52,7 @@ echo ""
 # Check commands
 echo "## Commands"
 check_exists "$TARGET_DIR/commands/adopt-project.md" "adopt-project.md" required
+check_exists "$TARGET_DIR/commands/project-starter.md" "project-starter.md" required
 check_exists "$TARGET_DIR/commands/diagnose-issue.md" "diagnose-issue.md" required
 check_exists "$TARGET_DIR/commands/explain-system.md" "explain-system.md" required
 check_exists "$TARGET_DIR/commands/ideate-solution.md" "ideate-solution.md" required
@@ -62,6 +63,7 @@ echo ""
 
 # Check agent commands
 echo "## Agent Commands"
+check_exists "$TARGET_DIR/commands/ben.md" "ben.md (Startup Advisor)" required
 check_exists "$TARGET_DIR/commands/rusty.md" "rusty.md (Rust)" required
 check_exists "$TARGET_DIR/commands/alan.md" "alan.md (Smalltalk)" required
 check_exists "$TARGET_DIR/commands/uidev.md" "uidev.md (JavaScript)" required
@@ -79,6 +81,8 @@ check_exists "$TARGET_DIR/templates/project" "templates/project/" required
 check_exists "$TARGET_DIR/templates/feature" "templates/feature/" required
 check_exists "$TARGET_DIR/templates/commands" "templates/commands/" required
 check_exists "$TARGET_DIR/templates/team-lately" "templates/team-lately/" required
+check_exists "$TARGET_DIR/templates/lean-canvas.md" "lean-canvas.md" required
+check_exists "$TARGET_DIR/templates/pitch-deck.md" "pitch-deck.md" required
 check_exists "$TARGET_DIR/templates/ideation" "templates/ideation/" optional
 check_exists "$TARGET_DIR/templates/diagnosis" "templates/diagnosis/" optional
 echo ""
@@ -109,6 +113,7 @@ check_exists "$AI_SQUADS_DIR/agents/strategic-designer.md" "strategic-designer.m
 check_exists "$AI_SQUADS_DIR/agents/brazilian-copywriter.md" "brazilian-copywriter.md" required
 check_exists "$AI_SQUADS_DIR/agents/financial-advisor.md" "financial-advisor.md" required
 check_exists "$AI_SQUADS_DIR/agents/devops-specialist.md" "devops-specialist.md" required
+check_exists "$AI_SQUADS_DIR/agents/startup-advisor.md" "startup-advisor.md" required
 echo ""
 
 echo "## Standards (in source repo)"
