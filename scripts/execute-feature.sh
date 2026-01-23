@@ -863,66 +863,11 @@ add_feature_notes() {
 
 # Add project-level lessons to prompt (from project-level insights.json)
 add_project_lessons() {
-    local notes_base_dir="$DOCS_DIR/notes"
-    local project_lessons_file="$notes_base_dir/project-lessons-insights.json"
-    local project_insights_file="$notes_base_dir/project-insights.json"
+    local project_insights_file="$DOCS_DIR/insights.json"
     local has_lessons=false
     
-    # Try project-lessons-insights.json first (explicit lessons file)
-    if [ -f "$project_lessons_file" ]; then
-        if command -v jq >/dev/null 2>&1; then
-            # Filter for insights with lesson: true and category: "projects"
-            local lessons
-            lessons=$(jq -r '.insights[] | select(.lesson == true) | select(.metadata.category == "projects" or .metadata.category == null)' "$project_lessons_file" 2>/dev/null)
-            
-            if [ -n "$lessons" ] && [ "$lessons" != "null" ]; then
-                echo "## Project-Level Lessons"
-                echo ""
-                echo "**Source**: \`~/docs/{project-name}/notes/project-lessons-insights.json\`"
-                echo ""
-                echo "**Purpose**: Lessons learned from past work (bug fixes, feature completion, high-iteration tasks). Read these to inform your approach and avoid repeating mistakes."
-                echo ""
-                echo "**Note**: These lessons are prioritized alongside evidence-based insights. They represent learnings that should influence future work."
-                echo ""
-                
-                # Format lessons, prioritizing evidence-based ones
-                jq -r '.insights | 
-                    map(select(.lesson == true)) | 
-                    sort_by(.evidenceBased == false, .timestamp) | 
-                    reverse | 
-                    .[] | 
-                    "#### \(.title) (\(.type))\n" +
-                    "- **Timestamp**: \(.timestamp)\n" +
-                    "- **Evidence-Based**: \(.evidenceBased)\n" +
-                    (if .description then "- **Description**: \(.description)\n" else "" end) +
-                    (if .learning then "- **Learning**: \(.learning)\n" else "" end) +
-                    (if .impact then "- **Impact**: \(.impact)\n" else "" end) +
-                    (if .iterations then "- **Iterations**: \(.iterations)\n" else "" end) +
-                    (if .evidence and .evidenceBased == true then 
-                        "- **Evidence**:\n" +
-                        "  - Source: \(.evidence.source // "unknown")\n" +
-                        "  - Observation: \(.evidence.observation // "N/A")\n" +
-                        (if .evidence.files then "  - Files: \(.evidence.files | join(", "))\n" else "" end) +
-                        (if .evidence.commit then "  - Commit: \(.evidence.commit)\n" else "" end)
-                    else "" end) +
-                    "\n---\n"' "$project_lessons_file" 2>/dev/null || {
-                    # Fallback: if jq parsing fails, show raw JSON
-                    echo "**Note**: Unable to parse project lessons. Raw content:"
-                    echo "\`\`\`json"
-                    cat "$project_lessons_file"
-                    echo "\`\`\`"
-                }
-                echo ""
-                echo "---"
-                echo ""
-                has_lessons=true
-                log "Reading project-level lessons from ~/docs/{project-name}/notes/project-lessons-insights.json"
-            fi
-        fi
-    fi
-    
-    # Also try project-insights.json with category: "projects" filter
-    if [ "$has_lessons" = "false" ] && [ -f "$project_insights_file" ]; then
+    # Read project-level insights.json at docs root
+    if [ -f "$project_insights_file" ]; then
         if command -v jq >/dev/null 2>&1; then
             # Check if file has category: "projects" in metadata and has lessons
             local category
@@ -933,9 +878,11 @@ add_project_lessons() {
             if [ "$category" = "projects" ] && [ -n "$has_project_lessons" ]; then
                 echo "## Project-Level Lessons"
                 echo ""
-                echo "**Source**: \`~/docs/{project-name}/notes/project-insights.json\` (category: projects)"
+                echo "**Source**: \`~/docs/{project-name}/insights.json\` (category: projects)"
                 echo ""
-                echo "**Purpose**: Lessons learned from past work. Read these to inform your approach and avoid repeating mistakes."
+                echo "**Purpose**: Lessons learned from past work (bug fixes, feature completion, high-iteration tasks). Read these to inform your approach and avoid repeating mistakes."
+                echo ""
+                echo "**Note**: These lessons are prioritized alongside evidence-based insights. They represent learnings that should influence future work."
                 echo ""
                 
                 # Format lessons, prioritizing evidence-based ones
@@ -968,12 +915,13 @@ add_project_lessons() {
                 echo "---"
                 echo ""
                 has_lessons=true
-                log "Reading project-level lessons from ~/docs/{project-name}/notes/project-insights.json"
+                log "Reading project-level lessons from ~/docs/{project-name}/insights.json"
             fi
         fi
     fi
     
-    # Also search for any insights.json files in notes/ with category: "projects"
+    # Also search for any insights.json files in notes/ with category: "projects" (fallback for backward compatibility)
+    local notes_base_dir="$DOCS_DIR/notes"
     if [ "$has_lessons" = "false" ] && [ -d "$notes_base_dir" ]; then
         # Find all insights.json files and check for project-level lessons
         while IFS= read -r insights_file; do
@@ -1240,8 +1188,11 @@ add_available_tools() {
     echo "- **Task status changes**: Update \`TODOS.md\` when task status changes (REQUIRED when status changes)"
     echo "- **Discoveries made**: Write to \`insights.json\` when patterns or decisions are found, marking as evidence-based when supported by first-hand evidence"
     echo "- **Bug fixes**: Capture lessons in project-level \`insights.json\` (REQUIRED when fixing bugs)"
+    echo "  - Location: \`~/docs/{project-name}/insights.json\`"
     echo "- **Feature completion**: Capture lessons in project-level \`insights.json\` (REQUIRED when completing features)"
+    echo "  - Location: \`~/docs/{project-name}/insights.json\`"
     echo "- **>3 iterations needed**: Capture lessons in project-level \`insights.json\` (REQUIRED when >3 iterations)"
+    echo "  - Location: \`~/docs/{project-name}/insights.json\`"
     echo "- **When gathering facts**: Write to \`EVIDENCE.md\` when collecting data (investigations)"
     echo ""
     echo "### Implementation Examples"
@@ -1406,6 +1357,7 @@ add_execution_instructions() {
     echo ""
     echo "   **REQUIRED - Always do these:**"
     echo "   - **First story in feature**: If this is the first story in the feature, you MUST create \`CONTEXT.md\` with feature goals, scope, and success criteria"
+    echo "     - **How to detect first story**: Check \`prd.json\` to see if any other stories have \`passes: true\`. If no other stories have passed, this is the first story."
     echo "     - Location: \`~/docs/{project-name}/notes/$FEATURE_NAME/CONTEXT.md\` or \`~/docs/{project-name}/notes/$FEATURE_NAME-CONTEXT.md\`"
     echo "     - Category: \"features\" in frontmatter"
     echo "   - **After execution (success or failure)**: You MUST document this execution attempt in feature \`insights.json\`:"
@@ -1424,16 +1376,19 @@ add_execution_instructions() {
     echo "   - **Discoveries made**: Write to feature \`insights.json\` when patterns are found, decisions are made, or important discoveries occur"
     echo "   - **Bug fixes**: ALWAYS capture lessons in project-level \`insights.json\` (category: \"projects\") when fixing bugs"
     echo "     - What was learned from diagnosing/fixing the bug (mark as \`lesson: true\`)"
-    echo "     - Location: \`~/docs/{project-name}/notes/project-lessons-insights.json\` or project-level insights.json"
+    echo "     - Location: \`~/docs/{project-name}/insights.json\`"
     echo "   - **Feature completion**: ALWAYS capture lessons in project-level \`insights.json\` when completing a feature"
     echo "     - Implementation learnings, patterns discovered, gotchas (mark as \`lesson: true\`)"
+    echo "     - Location: \`~/docs/{project-name}/insights.json\`"
     echo "   - **>3 iterations needed**: ALWAYS capture lessons when more than 3 iterations were needed"
     echo "     - Document complexity and what made it difficult (mark as \`lesson: true\`, include \`iterations\` count)"
+    echo "     - Location: \`~/docs/{project-name}/insights.json\`"
     echo ""
     echo "   **Tag Requirements** (apply to all notes):"
     echo "   - **Always include minimum required tags** in frontmatter:"
     echo "     - Domain tag: \"backend\" or \"frontend\" (based on story type) - REQUIRED"
     echo "     - Agent name tag: your agent name (e.g., \"uidev\", \"rusty\", \"steve\") - REQUIRED"
+    echo "   - **Tag Validation**: Before marking story complete, verify that all notes you created/updated include the minimum required tags (domain tag + agent name tag)"
     echo "   - **Optional additional tags**: Add any relevant tags using your specialized knowledge (technology, feature area, patterns, etc.)"
     echo "   - **Tag Consistency**: Before adding new tags, check tags index using \`read_tags_index()\` to see if similar tags already exist (e.g., prefer \"authentication\" over \"auth\" if \"authentication\" is already used)"
     echo "   - **Add Tags to Index**: When using tags in your notes, call \`add_tag(\"tag-name\", category?, description?)\` to add them to the tags index (idempotent - safe to call multiple times)"
@@ -1450,11 +1405,12 @@ add_execution_instructions() {
     echo "   - Include \`iterations\` count if applicable"
     echo "   - Lessons are automatically read before starting new tasks to inform approach and avoid repeating mistakes"
     echo "6. **Verify Notes Updated**: Before proceeding, verify you have updated notes according to the triggers above:"
-    echo "   - If this is the first story in the feature, verify \`CONTEXT.md\` was created"
+    echo "   - If this is the first story in the feature, verify \`CONTEXT.md\` was created (check \`prd.json\` to confirm no other stories have \`passes: true\`)"
     echo "   - Verify execution attempt was documented in \`insights.json\`"
     echo "   - If task status changed, verify \`TODOS.md\` was updated"
     echo "   - If discoveries were made, verify they were added to \`insights.json\`"
-    echo "   - If this was a bug fix, feature completion, or required >3 iterations, verify lessons were captured in project-level \`insights.json\`"
+    echo "   - If this was a bug fix, feature completion, or required >3 iterations, verify lessons were captured in project-level \`insights.json\` at \`~/docs/{project-name}/insights.json\`"
+    echo "   - **Tag Validation**: Verify all notes you created/updated include minimum required tags (domain tag + agent name tag) in frontmatter"
     echo "7. **Update Project Documentation**: Before marking story complete, update project docs if needed:"
     echo "   - **DECISIONS.md** (REQUIRED if architectural/design decisions were made):"
     echo "     - Add entries for any architectural decisions, design choices, or trade-offs made"
