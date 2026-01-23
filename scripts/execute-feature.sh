@@ -623,13 +623,41 @@ add_project_context() {
     fi
 }
 
+# Helper function to extract category from markdown frontmatter
+extract_category_from_frontmatter() {
+    local file="$1"
+    if [ ! -f "$file" ]; then
+        return 1
+    fi
+    
+    # Extract category from YAML frontmatter (between --- markers)
+    # Handles both "category: features" and "category: 'features'" formats
+    local category
+    category=$(awk '
+        /^---$/ { in_frontmatter = !in_frontmatter; next }
+        in_frontmatter && /^category:/ {
+            gsub(/^category:[[:space:]]*/, "")
+            gsub(/^["'\'']|["'\'']$/, "")  # Remove quotes
+            gsub(/[[:space:]]*$/, "")      # Remove trailing spaces
+            print
+            exit
+        }
+    ' "$file" 2>/dev/null)
+    
+    if [ -n "$category" ]; then
+        echo "$category"
+        return 0
+    fi
+    return 1
+}
+
 # Add feature notes to prompt (from ~/docs/{project-name}/notes/{feature-name}/ or flat files matching {feature-name}-*)
 add_feature_notes() {
     local feature_notes_dir="$DOCS_DIR/notes/$FEATURE_NAME"
     local notes_base_dir="$DOCS_DIR/notes"
     local has_notes=false
     
-    # First, try grouped structure: docs/notes/{feature-name}/
+    # First, try grouped structure: ~/docs/{project-name}/notes/{feature-name}/
     # Note: Category is stored in frontmatter (category: "features"), not in directory path
     if [ -d "$feature_notes_dir" ]; then
         # Check for CONTEXT.md
@@ -661,6 +689,26 @@ add_feature_notes() {
             echo "### Current Tasks"
             echo ""
             cat "$feature_notes_dir/TODOS.md"
+            echo ""
+            echo "---"
+            echo ""
+        fi
+        
+        # Check for chapter index (read chapters before full notes for quick overview)
+        local chapters_dir="$feature_notes_dir/chapters"
+        if [ -d "$chapters_dir" ] && [ -f "$chapters_dir/index.md" ]; then
+            if [ "$has_notes" = "false" ]; then
+                echo "## Feature Notes"
+                echo ""
+                echo "**Source**: \`~/docs/{project-name}/notes/$FEATURE_NAME/\`"
+                echo ""
+                has_notes=true
+            fi
+            echo "### Chapters"
+            echo ""
+            echo "**Note**: This feature is organized into chapters for better navigation. Read the chapter index for a quick overview before diving into full notes."
+            echo ""
+            cat "$chapters_dir/index.md"
             echo ""
             echo "---"
             echo ""
@@ -720,20 +768,51 @@ add_feature_notes() {
         fi
     fi
     
-    # If grouped structure didn't have notes, try flat structure: docs/notes/{feature-name}-*.md
-    # Note: This is a simplified check - full implementation would scan all files and check frontmatter category
+    # If grouped structure didn't have notes, try flat structure: ~/docs/{project-name}/notes/{feature-name}-*.md
+    # Now with full frontmatter parsing to verify category
     if [ "$has_notes" = "false" ] && [ -d "$notes_base_dir" ]; then
-        # Check for flat files matching feature name pattern (simplified - would need frontmatter parsing for full support)
+        # Check for flat files matching feature name pattern
         local flat_context="$notes_base_dir/${FEATURE_NAME}-CONTEXT.md"
         local flat_todos="$notes_base_dir/${FEATURE_NAME}-TODOS.md"
         local flat_insights="$notes_base_dir/${FEATURE_NAME}-insights.json"
         
-        if [ -f "$flat_context" ] || [ -f "$flat_todos" ] || [ -f "$flat_insights" ]; then
+        # Verify files exist and have correct category in frontmatter
+        local found_valid_notes=false
+        
+        # Check markdown files (CONTEXT.md, TODOS.md)
+        for file in "$flat_context" "$flat_todos"; do
+            if [ -f "$file" ]; then
+                local file_category
+                file_category=$(extract_category_from_frontmatter "$file")
+                if [ "$file_category" = "features" ]; then
+                    found_valid_notes=true
+                    break
+                elif [ -z "$file_category" ]; then
+                    # No category found in frontmatter - treat as feature note (for notes created before category was required)
+                    found_valid_notes=true
+                    break
+                fi
+            fi
+        done
+        
+        # Check insights.json (has different structure - category in metadata)
+        if [ -f "$flat_insights" ] && command -v jq >/dev/null 2>&1; then
+            local json_category
+            json_category=$(jq -r '.metadata.category // "unknown"' "$flat_insights" 2>/dev/null)
+            if [ "$json_category" = "features" ] || [ "$json_category" = "null" ] || [ "$json_category" = "unknown" ]; then
+                found_valid_notes=true
+            fi
+        elif [ -f "$flat_insights" ]; then
+            # jq not available - include file (category verification skipped when jq unavailable)
+            found_valid_notes=true
+        fi
+        
+        if [ "$found_valid_notes" = "true" ]; then
             echo "## Feature Notes"
             echo ""
             echo "**Source**: \`~/docs/{project-name}/notes/\` (flat structure, matching \`${FEATURE_NAME}-*\`)"
             echo ""
-            echo "**Note**: Found flat structure notes. For full category filtering, notes should have \`category: features\` in frontmatter."
+            echo "**Note**: Flat structure notes verified with category filtering (frontmatter parsed to confirm \`category: features\`)."
             echo ""
             has_notes=true
             
@@ -782,6 +861,159 @@ add_feature_notes() {
     fi
 }
 
+# Add project-level lessons to prompt (from project-level insights.json)
+add_project_lessons() {
+    local project_insights_file="$DOCS_DIR/insights.json"
+    local has_lessons=false
+    
+    # Read project-level insights.json at docs root
+    if [ -f "$project_insights_file" ]; then
+        if command -v jq >/dev/null 2>&1; then
+            # Check if file has category: "projects" in metadata and has lessons
+            local category
+            category=$(jq -r '.metadata.category // "unknown"' "$project_insights_file" 2>/dev/null)
+            local has_project_lessons
+            has_project_lessons=$(jq -r '.insights[] | select(.lesson == true) | .id' "$project_insights_file" 2>/dev/null | head -1)
+            
+            if [ "$category" = "projects" ] && [ -n "$has_project_lessons" ]; then
+                echo "## Project-Level Lessons"
+                echo ""
+                echo "**Source**: \`~/docs/{project-name}/insights.json\` (category: projects)"
+                echo ""
+                echo "**Purpose**: Lessons learned from past work (bug fixes, feature completion, high-iteration tasks). Read these to inform your approach and avoid repeating mistakes."
+                echo ""
+                echo "**Note**: These lessons are prioritized alongside evidence-based insights. They represent learnings that should influence future work."
+                echo ""
+                
+                # Format lessons, prioritizing evidence-based ones
+                jq -r '.insights | 
+                    map(select(.lesson == true)) | 
+                    sort_by(.evidenceBased == false, .timestamp) | 
+                    reverse | 
+                    .[] | 
+                    "#### \(.title) (\(.type))\n" +
+                    "- **Timestamp**: \(.timestamp)\n" +
+                    "- **Evidence-Based**: \(.evidenceBased)\n" +
+                    (if .description then "- **Description**: \(.description)\n" else "" end) +
+                    (if .learning then "- **Learning**: \(.learning)\n" else "" end) +
+                    (if .impact then "- **Impact**: \(.impact)\n" else "" end) +
+                    (if .iterations then "- **Iterations**: \(.iterations)\n" else "" end) +
+                    (if .evidence and .evidenceBased == true then 
+                        "- **Evidence**:\n" +
+                        "  - Source: \(.evidence.source // "unknown")\n" +
+                        "  - Observation: \(.evidence.observation // "N/A")\n" +
+                        (if .evidence.files then "  - Files: \(.evidence.files | join(", "))\n" else "" end) +
+                        (if .evidence.commit then "  - Commit: \(.evidence.commit)\n" else "" end)
+                    else "" end) +
+                    "\n---\n"' "$project_insights_file" 2>/dev/null || {
+                    echo "**Note**: Unable to parse project lessons. Raw content:"
+                    echo "\`\`\`json"
+                    cat "$project_insights_file"
+                    echo "\`\`\`"
+                }
+                echo ""
+                echo "---"
+                echo ""
+                has_lessons=true
+                log "Reading project-level lessons from ~/docs/{project-name}/insights.json"
+            fi
+        fi
+    fi
+    
+    # Also search for any insights.json files in notes/ with category: "projects" (fallback for backward compatibility)
+    local notes_base_dir="$DOCS_DIR/notes"
+    if [ "$has_lessons" = "false" ] && [ -d "$notes_base_dir" ]; then
+        # Find all insights.json files and check for project-level lessons
+        while IFS= read -r insights_file; do
+            if command -v jq >/dev/null 2>&1; then
+                local file_category
+                file_category=$(jq -r '.metadata.category // "unknown"' "$insights_file" 2>/dev/null)
+                local file_has_lessons
+                file_has_lessons=$(jq -r '.insights[] | select(.lesson == true) | .id' "$insights_file" 2>/dev/null | head -1)
+                
+                if [ "$file_category" = "projects" ] && [ -n "$file_has_lessons" ]; then
+                    echo "## Project-Level Lessons"
+                    echo ""
+                    echo "**Source**: \`$(basename "$insights_file")\` (category: projects)"
+                    echo ""
+                    echo "**Purpose**: Lessons learned from past work. Read these to inform your approach and avoid repeating mistakes."
+                    echo ""
+                    
+                    # Format lessons
+                    jq -r '.insights | 
+                        map(select(.lesson == true)) | 
+                        sort_by(.evidenceBased == false, .timestamp) | 
+                        reverse | 
+                        .[] | 
+                        "#### \(.title) (\(.type))\n" +
+                        "- **Timestamp**: \(.timestamp)\n" +
+                        "- **Evidence-Based**: \(.evidenceBased)\n" +
+                        (if .description then "- **Description**: \(.description)\n" else "" end) +
+                        (if .learning then "- **Learning**: \(.learning)\n" else "" end) +
+                        (if .impact then "- **Impact**: \(.impact)\n" else "" end) +
+                        (if .iterations then "- **Iterations**: \(.iterations)\n" else "" end) +
+                        "\n---\n"' "$insights_file" 2>/dev/null || true
+                    echo ""
+                    echo "---"
+                    echo ""
+                    has_lessons=true
+                    log "Reading project-level lessons from $(basename "$insights_file")"
+                    break  # Only use first matching file
+                fi
+            fi
+        done < <(find "$notes_base_dir" -name "insights.json" -type f 2>/dev/null)
+    fi
+}
+
+# Check and create chapter if quantitative triggers are met
+check_and_create_chapter_if_needed() {
+    local feature_notes_dir="$DOCS_DIR/notes/$FEATURE_NAME"
+    
+    # Only check if feature notes directory exists
+    if [ ! -d "$feature_notes_dir" ]; then
+        return 0
+    fi
+    
+    # Source create-chapter script functions
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    
+    # Check quantitative triggers using create-chapter.sh
+    if [ -f "$script_dir/create-chapter.sh" ]; then
+        local trigger_result
+        if trigger_result=$("$script_dir/create-chapter.sh" "$feature_notes_dir" "features" "auto" 2>/dev/null); then
+            if [ -n "$trigger_result" ] && [ -f "$trigger_result" ]; then
+                log "Chapter created automatically: $(basename "$trigger_result")"
+                log "Trigger detected: Quantitative threshold met"
+            fi
+        fi
+    fi
+}
+
+# Create feature completion chapter (qualitative trigger)
+create_feature_completion_chapter() {
+    local feature_notes_dir="$DOCS_DIR/notes/$FEATURE_NAME"
+    
+    # Only create if feature notes directory exists
+    if [ ! -d "$feature_notes_dir" ]; then
+        return 0
+    fi
+    
+    # Source create-chapter script
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    
+    # Create feature completion chapter
+    if [ -f "$script_dir/create-chapter.sh" ]; then
+        local chapter_file
+        if chapter_file=$("$script_dir/create-chapter.sh" "$feature_notes_dir" "features" "feature-completion" 2>/dev/null); then
+            if [ -n "$chapter_file" ] && [ -f "$chapter_file" ]; then
+                log "Feature completion chapter created: $(basename "$chapter_file")"
+            fi
+        fi
+    fi
+}
+
 # Add available tools section to prompt
 add_available_tools() {
     echo "## Available Tools"
@@ -798,10 +1030,20 @@ add_available_tools() {
     echo "     - \`category\` (string): Category stored in frontmatter (e.g., \"investigations\", \"features\", \"projects\", \"general\")"
     echo "     - \`name\` (string): Note name/filename (sanitized: alphanumeric, hyphens, underscores)"
     echo "     - \`content\` (string): Markdown content to write"
-    echo "     - \`metadata\` (optional): Additional metadata (agent, command, context, commit)"
+    echo "     - \`metadata\` (optional): Additional metadata (agent, command, context, commit, tags)"
     echo "   - **Returns**: \`{success: boolean, path: string, error?: string}\`"
     echo "   - **Implementation**: Use \`write_file\` to create note at \`~/docs/{project-name}/notes/{name}.md\` (flat) or \`~/docs/{project-name}/notes/{id}/{type}.md\` (grouped)"
     echo "   - **Frontmatter**: Include YAML frontmatter with \`category\`, \`created\`, \`updated\`, and optional metadata"
+    echo "   - **Tags**: **Always include minimum required tags** in frontmatter, plus any additional relevant tags:"
+    echo "     - **Required minimum**:"
+    echo "       - Domain tag: \"backend\" or \"frontend\" based on story type"
+    echo "       - Agent name tag: your agent name (e.g., \"uidev\", \"rusty\", \"steve\")"
+    echo "     - **Optional additional tags**: Add any relevant tags using your specialized knowledge:"
+    echo "       - Technology tags: \"react\", \"rust\", \"postgresql\", \"api\", etc."
+    echo "       - Feature area tags: \"authentication\", \"payment\", \"user-management\", etc."
+    echo "       - Pattern tags: \"migration\", \"testing\", \"optimization\", etc."
+    echo "     - Example: \`tags: [\"frontend\", \"uidev\", \"react\", \"authentication\", \"form-validation\"]\`"
+    echo "     - **Note**: Minimum tags are required, but you should add more tags when they provide value for discovery"
     echo "   - **Git Commit**: Auto-detect commit hash using \`git rev-parse HEAD\` if in repository (unless provided)"
     echo ""
     echo "2. **read_note(path | {category, name})**"
@@ -833,19 +1075,94 @@ add_available_tools() {
     echo "   - **Implementation**: Use \`grep\` or text search across \`~/docs/{project-name}/notes/\` directory, read frontmatter to filter by category if provided"
     echo "   - **Context Snippets**: Return 3 lines of context around each match"
     echo ""
+    echo "6. **search_by_tag(tag, category?)**"
+    echo "   - Search notes and features by tag (case-insensitive)"
+    echo "   - **Parameters**: \`tag\` (string): Tag to search for, \`category\` (optional string): Limit search to category"
+    echo "   - **Returns**: \`{notes: Array<{path, name, category, tags, modified, snippet?}>, features: Array<{featureName, path, tags, description, status}>, totalMatches: number}\`"
+    echo "   - **Implementation**:"
+    echo "     - Search all notes in \`~/docs/{project-name}/notes/\` (read frontmatter/metadata to extract tags)"
+    echo "     - Search all \`prd.json\` files in \`~/docs/{project-name}/feature/*/prd.json\` (read feature-level tags)"
+    echo "     - Case-insensitive matching (e.g., \"Authentication\" matches \"authentication\")"
+    echo "     - If category provided, filter notes by reading category from frontmatter/metadata"
+    echo "     - Sort results by modification time (newest first)"
+    echo "   - **Tags Format**: Tags stored as array in frontmatter (\`tags: [\"authentication\", \"security\"]\`) or JSON metadata (\`metadata.tags\`)"
+    echo "   - **Use Case**: Find related work across different entities (notes, features) using shared tags"
+    echo "   - **Recommended Usage**: Before starting a task, use \`search_by_tag(\"backend\")\` or \`search_by_tag(\"frontend\")\` to find related notes from similar work"
+    echo "   - **Agent-Specific Learning**: Use \`search_by_tag(\"your-agent-name\")\` to find notes from your previous work and learn from your own patterns"
+    echo ""
+    echo "7. **read_tags_index()**"
+    echo "   - Read tags index to discover existing tags and maintain tag consistency"
+    echo "   - **Parameters**: None"
+    echo "   - **Returns**: \`{tags: {[tagName: string]: {count: number, category: string, required: boolean, description: string, relatedTags: string[]}}, tagCategories: {[category: string]: string[]}, usageStats: {totalNotes: number, totalTags: number, mostUsedTags: string[]}, error?: string}\`"
+    echo "   - **Implementation**: Read \`~/docs/{project-name}/notes/tags.json\` and parse JSON"
+    echo "   - **Use Case**: Before creating notes, read tags index to discover existing tags and use them for consistency"
+    echo "   - **Recommended Usage**: Read tags index before creating notes to see what tags exist and which are commonly used together"
+    echo ""
+    echo "8. **add_tag(tag, category?, description?, relatedTags?)**"
+    echo "   - Add a tag to the tags index (idempotent - safe to call multiple times)"
+    echo "   - **Parameters**:"
+    echo "     - \`tag\` (string, required): Tag name to add (case-insensitive, normalized to lowercase)"
+    echo "     - \`category\` (string, optional): Tag category (\"domain\", \"agent\", \"technology\", \"feature\", \"pattern\")"
+    echo "     - \`description\` (string, optional): Human-readable description of the tag"
+    echo "     - \`relatedTags\` (array, optional): Array of related tag names (tags commonly used together)"
+    echo "   - **Returns**: \`{success: boolean, tag: string, created: boolean, error?: string}\`"
+    echo "     - \`created\`: true if tag was newly created, false if it already existed"
+    echo "   - **Implementation**:"
+    echo "     - Read \`~/docs/{project-name}/notes/tags.json\` (create if doesn't exist)"
+    echo "     - Normalize tag to lowercase for consistency"
+    echo "     - Check if tag already exists in tags object"
+    echo "     - If tag exists: Update metadata (category, description, relatedTags) if provided, keep existing count"
+    echo "     - If tag doesn't exist: Add new tag entry with count: 0, provided metadata, and default values"
+    echo "     - Write updated \`tags.json\` back to file"
+    echo "   - **Idempotent**: Safe to call multiple times with same tag - won't create duplicates"
+    echo "   - **Use Case**: When creating notes, add new tags to the index so they're discoverable by other agents"
+    echo "   - **Recommended Usage**: Call \`add_tag()\` for any new tags you're using in your notes (the tool handles uniqueness)"
+    echo ""
+    echo "9. **update_tags_index()**"
+    echo "   - Update tags index by scanning all notes and features"
+    echo "   - **Parameters**: None"
+    echo "   - **Returns**: \`{success: boolean, tagsUpdated: number, error?: string}\`"
+    echo "   - **Implementation**:"
+    echo "     - Scan all notes in \`~/docs/{project-name}/notes/\` (recursively) and extract tags from frontmatter/metadata"
+    echo "     - Scan all \`prd.json\` files in \`~/docs/{project-name}/feature/*/prd.json\` and extract feature-level tags"
+    echo "     - Count tag usage, build related tags (tags used together), calculate statistics"
+    echo "     - Write updated \`tags.json\` to \`~/docs/{project-name}/notes/tags.json\`"
+    echo "   - **Use Case**: After creating or updating notes, update tags index to refresh tag usage statistics"
+    echo "   - **Recommended Usage**: Call after creating/updating notes to keep tags index current"
+    echo ""
+    echo "10. **create_chapter(entity_id, chapter_name, reason, notes_scope?)**"
+    echo "   - Create a chapter manually for organizing notes into logical sections"
+    echo "   - **Parameters**:"
+    echo "     - \`entity_id\` (string, required): Entity identifier (e.g., \"user-login-form\", \"memory-leak-2024-01-15\")"
+    echo "     - \`chapter_name\` (string, required): Descriptive name for the chapter (e.g., \"Initial Investigation\", \"Feature Completion\")"
+    echo "     - \`reason\` (string, required): Why this chapter is being created (e.g., \"Feature completed\", \"20 notes threshold reached\")"
+    echo "     - \`notes_scope\` (object, optional): Specific notes to include in chapter:"
+    echo "       - \`evidence_lines\` (string, optional): Line range (e.g., \"1-150\")"
+    echo "       - \`insights_ids\` (array, optional): Specific insight IDs to include"
+    echo "       - \`time_span\` (object, optional): Time range with \`start\` and \`end\` (ISO 8601)"
+    echo "   - **Returns**: \`{success: boolean, chapter_path: string, chapter_number: number, error?: string}\`"
+    echo "   - **Implementation**:"
+    echo "     - Call \`scripts/create-chapter.sh\` with entity directory, category, and trigger type"
+    echo "     - Chapter is created in \`~/docs/{project-name}/notes/{entity_id}/chapters/XX-{chapter-name}.md\`"
+    echo "     - Chapter index (\`chapters/index.md\`) is automatically updated"
+    echo "     - Main \`context.md\` is updated with chapter table of contents"
+    echo "   - **Use Case**: Manually organize notes into chapters when needed, or when automatic triggers don't apply"
+    echo "   - **Recommended Usage**: Create chapters for important milestones or when notes become unwieldy"
+    echo "   - **Note**: Chapters are summaries, not replacements - original notes are preserved"
+    echo ""
     echo "### Note Storage Structure"
     echo ""
     echo "**Category is stored in frontmatter/metadata, NOT in directory path.**"
     echo ""
     echo "**Flat Structure (Recommended)**:"
-    echo "- \`docs/notes/{id}-{description}-{type}.md\`"
-    echo "  - Example: \`docs/notes/US-001-user-login-form-CONTEXT.md\` (category: \"features\" in frontmatter)"
-    echo "  - Example: \`docs/notes/memory-leak-2024-01-15-investigating-memory-growth-EVIDENCE.md\` (category: \"investigations\" in frontmatter)"
+    echo "- \`~/docs/{project-name}/notes/{id}-{description}-{type}.md\`"
+    echo "  - Example: \`~/docs/my-project/notes/US-001-user-login-form-CONTEXT.md\` (category: \"features\" in frontmatter)"
+    echo "  - Example: \`~/docs/my-project/notes/memory-leak-2024-01-15-investigating-memory-growth-EVIDENCE.md\` (category: \"investigations\" in frontmatter)"
     echo ""
     echo "**Grouped Structure (Optional, for complex entities)**:"
-    echo "- \`docs/notes/{id}-{description}/{type}.md\`"
-    echo "  - Example: \`docs/notes/US-001-user-login-form/CONTEXT.md\` (category: \"features\" in frontmatter)"
-    echo "  - Example: \`docs/notes/memory-leak-2024-01-15/EVIDENCE.md\` (category: \"investigations\" in frontmatter)"
+    echo "- \`~/docs/{project-name}/notes/{id}-{description}/{type}.md\`"
+    echo "  - Example: \`~/docs/my-project/notes/US-001-user-login-form/CONTEXT.md\` (category: \"features\" in frontmatter)"
+    echo "  - Example: \`~/docs/my-project/notes/memory-leak-2024-01-15/EVIDENCE.md\` (category: \"investigations\" in frontmatter)"
     echo ""
     echo "**Key Points**:"
     echo "- Category is always in frontmatter (\`category: investigations\`) or JSON metadata (\`metadata.category\`), never in directory path"
@@ -861,24 +1178,36 @@ add_available_tools() {
     echo "- **TODOS.md**: Current tasks (what needs to be done, in progress, blocked)"
     echo "- **insights.json**: Discoveries with origin and impact (patterns found, decisions made, implications), stored as JSON with evidence-based tracking"
     echo ""
-    echo "### When to Use Notes"
+    echo "### When to Use Notes (Trigger-Based)"
     echo ""
-    echo "- **At Feature Start**: Create \`CONTEXT.md\` when beginning a new feature (if it doesn't exist)"
-    echo "- **During Task Execution**: Update \`TODOS.md\` when task status changes"
-    echo "- **When Discoveries Are Made**: Write to \`insights.json\` when patterns or decisions are found, marking as evidence-based when supported by first-hand evidence"
-    echo "- **When Gathering Facts**: Write to \`EVIDENCE.md\` when collecting data (investigations)"
+    echo "**REQUIRED Triggers** (always do these):"
+    echo "- **First story in feature**: Create \`CONTEXT.md\` when beginning a new feature (REQUIRED for first story)"
+    echo "- **After execution**: Document execution attempt in \`insights.json\` after every execution (success or failure) - REQUIRED"
+    echo ""
+    echo "**Conditional Triggers** (do when condition occurs):"
+    echo "- **Task status changes**: Update \`TODOS.md\` when task status changes (REQUIRED when status changes)"
+    echo "- **Discoveries made**: Write to \`insights.json\` when patterns or decisions are found, marking as evidence-based when supported by first-hand evidence"
+    echo "- **Bug fixes**: Capture lessons in project-level \`insights.json\` (REQUIRED when fixing bugs)"
+    echo "  - Location: \`~/docs/{project-name}/insights.json\`"
+    echo "- **Feature completion**: Capture lessons in project-level \`insights.json\` (REQUIRED when completing features)"
+    echo "  - Location: \`~/docs/{project-name}/insights.json\`"
+    echo "- **>3 iterations needed**: Capture lessons in project-level \`insights.json\` (REQUIRED when >3 iterations)"
+    echo "  - Location: \`~/docs/{project-name}/insights.json\`"
+    echo "- **When gathering facts**: Write to \`EVIDENCE.md\` when collecting data (investigations)"
     echo ""
     echo "### Implementation Examples"
     echo ""
-    echo "**Example: Writing a note**"
+    echo "**Example: Writing a note with tags**"
     echo "\`\`\`"
     echo "# Use write_file to create note"
     echo "# Path: ~/docs/{project-name}/notes/US-001-user-login-form-CONTEXT.md"
-    echo "# Content includes YAML frontmatter with category property:"
+    echo "# Content includes YAML frontmatter with category and tags:"
     echo "---"
     echo "created: 2024-01-15T10:00:00Z"
     echo "updated: 2024-01-15T10:00:00Z"
     echo "category: features"
+    echo "agent: uidev"
+    echo "tags: [\"frontend\", \"uidev\", \"authentication\"]"
     echo "commit: abc123def456"
     echo "---"
     echo ""
@@ -888,12 +1217,22 @@ add_available_tools() {
     echo "Users need to authenticate..."
     echo "\`\`\`"
     echo ""
-    echo "**Example: Reading notes by category**"
+    echo "**Note**: Always include **minimum required tags** (domain: \"backend\" or \"frontend\", agent name), plus any additional relevant tags using your specialized knowledge"
+    echo ""
+    echo "**Example: Searching notes by tag**"
     echo "\`\`\`"
-    echo "# Use list_dir to scan ~/docs/{project-name}/notes/"
-    echo "# For each file, use read_file to read frontmatter"
-    echo "# Extract category from frontmatter: category: investigations"
-    echo "# Filter files where frontmatter.category matches desired category"
+    echo "# Before starting a frontend task, search for related work:"
+    echo "# 1. Use search_by_tag(\"frontend\") to find all frontend-related notes"
+    echo "# 2. Use search_by_tag(\"uidev\") to find notes from your previous work"
+    echo "# 3. Use search_by_tag(\"authentication\") to find authentication-related notes"
+    echo "# 4. Read the most relevant notes to learn from previous work"
+    echo "#"
+    echo "# Implementation:"
+    echo "# - Use grep to search frontmatter for tags: [\"frontend\"]"
+    echo "# - Use list_dir to scan ~/docs/{project-name}/notes/"
+    echo "# - For each file, use read_file to read frontmatter"
+    echo "# - Extract tags array from frontmatter: tags: [\"frontend\", \"uidev\"]"
+    echo "# - Filter files where tags array contains the search tag (case-insensitive)"
     echo "\`\`\`"
     echo ""
     echo "**Error Handling**: Note operations are non-fatal - if note reading/writing fails, execution continues (notes are helpful but not critical)"
@@ -993,6 +1332,16 @@ add_execution_instructions() {
     echo "1. **Read Context First**:"
     echo "   - Review project notes and dev-notes for relevant patterns"
     echo "   - Review feature notes (CONTEXT.md, TODOS.md, insights.json) if available above"
+    echo "   - **Discover Existing Tags**: Read tags index using \`read_tags_index()\` to discover existing tags and maintain consistency:"
+    echo "     - See what tags have been used before (avoid creating duplicate tags like \"auth\" vs \"authentication\")"
+    echo "     - Find related tags that might help discover similar work"
+    echo "     - Check tag usage counts to see which tags are most common"
+    echo "   - **Search Related Notes**: Use \`search_by_tag\` to find related work before starting:"
+    echo "     - \`search_by_tag(\"backend\")\` or \`search_by_tag(\"frontend\")\` to find notes from similar domain work"
+    echo "     - \`search_by_tag(\"your-agent-name\")\` to find notes from your previous work and learn from your own patterns"
+    echo "     - Use tags discovered from tags index to find related work (e.g., if tags index shows \"authentication\" is used, search for it)"
+    echo "     - Read related notes to understand patterns, learnings, and approaches from similar work"
+    echo "   - **Review Project-Level Lessons**: Project-level lessons (if available above) contain learnings from past work - read these to inform your approach and avoid repeating mistakes"
     echo "   - **Learn from Previous Attempts**: If \`insights.json\` contains execution attempts, read them to understand:"
     echo "     - What approaches were tried before"
     echo "     - What failed and why (prioritize evidence-based insights)"
@@ -1002,9 +1351,16 @@ add_execution_instructions() {
     echo "2. **Implement the Story**: Follow the agent's rules and style guides"
     echo "3. **For Frontend Stories**: Use browser-verification skill if type is \"frontend\""
     echo "4. **Run Quality Checks**: Execute all quality check commands, all must pass"
-    echo "5. **Update Notes** (if applicable):"
-    echo "   - Update \`TODOS.md\` in \`~/docs/{project-name}/notes/$FEATURE_NAME/\` when task status changes (category: "features" in frontmatter)"
-    echo "   - **Document Execution Attempt**: After execution (success or failure), append to feature \`insights.json\`:"
+    echo "5. **Update Notes** (Required based on triggers below):"
+    echo ""
+    echo "   **Note-Taking Triggers** (create/update notes when these conditions are met):"
+    echo ""
+    echo "   **REQUIRED - Always do these:**"
+    echo "   - **First story in feature**: If this is the first story in the feature, you MUST create \`CONTEXT.md\` with feature goals, scope, and success criteria"
+    echo "     - **How to detect first story**: Check \`prd.json\` to see if any other stories have \`passes: true\`. If no other stories have passed, this is the first story."
+    echo "     - Location: \`~/docs/{project-name}/notes/$FEATURE_NAME/CONTEXT.md\` or \`~/docs/{project-name}/notes/$FEATURE_NAME-CONTEXT.md\`"
+    echo "     - Category: \"features\" in frontmatter"
+    echo "   - **After execution (success or failure)**: You MUST document this execution attempt in feature \`insights.json\`:"
     echo "     - What approach was tried"
     echo "     - What worked and what didn't"
     echo "     - What errors or issues were encountered (if any)"
@@ -1012,17 +1368,50 @@ add_execution_instructions() {
     echo "     - How the next attempt should differ (if the story didn't complete)"
     echo "     - Whether the insight is evidence-based (\`evidenceBased: true/false\`)"
     echo "     - If evidence-based, document evidence in \`evidence: {}\` object"
-    echo "   - Write to feature \`insights.json\` when discoveries are made or decisions are documented"
-    echo "   - **Capture Lessons**: After completing work (bug fix or feature completion), document lessons in project-level \`insights.json\` (category: \"projects\"):"
-    echo "     - **Always capture lessons from bug fixes**: What was learned from diagnosing/fixing the bug (mark as \`lesson: true\`)"
-    echo "     - **Always capture lessons from feature completion**: Implementation learnings, patterns discovered, gotchas (mark as \`lesson: true\`)"
-    echo "     - **Capture lessons when >3 iterations needed**: Document complexity and what made it difficult (mark as \`lesson: true\`, include \`iterations\` count)"
-    echo "     - Lesson format: Clear description of what was learned, why it matters, how it should influence future work"
-    echo "     - Store in project-level insights.json: \`~/docs/{project-name}/notes/project-lessons-insights.json\` or project-level insights.json"
-    echo "     - Lessons are automatically read before starting new tasks to inform approach and avoid repeating mistakes"
-    echo "   - Use note tools (write_note, append_note) to maintain persistent memory"
-    echo "   - **Note**: If this is the first story in a feature, create \`CONTEXT.md\` with feature goals and scope"
-    echo "6. **Update Project Documentation**: Before marking story complete, update project docs if needed:"
+    echo "     - Location: \`~/docs/{project-name}/notes/$FEATURE_NAME/insights.json\` or \`~/docs/{project-name}/notes/$FEATURE_NAME-insights.json\`"
+    echo ""
+    echo "   **REQUIRED - When these conditions occur:**"
+    echo "   - **Task status changes**: Update \`TODOS.md\` when task status changes (mark tasks complete, add new tasks, update blockers)"
+    echo "     - Location: \`~/docs/{project-name}/notes/$FEATURE_NAME/TODOS.md\` or \`~/docs/{project-name}/notes/$FEATURE_NAME-TODOS.md\`"
+    echo "   - **Discoveries made**: Write to feature \`insights.json\` when patterns are found, decisions are made, or important discoveries occur"
+    echo "   - **Bug fixes**: ALWAYS capture lessons in project-level \`insights.json\` (category: \"projects\") when fixing bugs"
+    echo "     - What was learned from diagnosing/fixing the bug (mark as \`lesson: true\`)"
+    echo "     - Location: \`~/docs/{project-name}/insights.json\`"
+    echo "   - **Feature completion**: ALWAYS capture lessons in project-level \`insights.json\` when completing a feature"
+    echo "     - Implementation learnings, patterns discovered, gotchas (mark as \`lesson: true\`)"
+    echo "     - Location: \`~/docs/{project-name}/insights.json\`"
+    echo "   - **>3 iterations needed**: ALWAYS capture lessons when more than 3 iterations were needed"
+    echo "     - Document complexity and what made it difficult (mark as \`lesson: true\`, include \`iterations\` count)"
+    echo "     - Location: \`~/docs/{project-name}/insights.json\`"
+    echo ""
+    echo "   **Tag Requirements** (apply to all notes):"
+    echo "   - **Always include minimum required tags** in frontmatter:"
+    echo "     - Domain tag: \"backend\" or \"frontend\" (based on story type) - REQUIRED"
+    echo "     - Agent name tag: your agent name (e.g., \"uidev\", \"rusty\", \"steve\") - REQUIRED"
+    echo "   - **Tag Validation**: Before marking story complete, verify that all notes you created/updated include the minimum required tags (domain tag + agent name tag)"
+    echo "   - **Optional additional tags**: Add any relevant tags using your specialized knowledge (technology, feature area, patterns, etc.)"
+    echo "   - **Tag Consistency**: Before adding new tags, check tags index using \`read_tags_index()\` to see if similar tags already exist (e.g., prefer \"authentication\" over \"auth\" if \"authentication\" is already used)"
+    echo "   - **Add Tags to Index**: When using tags in your notes, call \`add_tag(\"tag-name\", category?, description?)\` to add them to the tags index (idempotent - safe to call multiple times)"
+    echo "     - Example: \`add_tag(\"react\", \"technology\", \"React framework\")\`"
+    echo "     - Example: \`add_tag(\"authentication\", \"feature\", \"Authentication and authorization features\")\`"
+    echo "   - **Update Tags Index**: After creating/updating notes, call \`update_tags_index()\` to refresh tag usage statistics"
+    echo "   - Example frontmatter: \`tags: [\"frontend\", \"uidev\", \"react\", \"authentication\", \"form-validation\"]\`"
+    echo ""
+    echo "   **Lesson Format** (for project-level lessons):"
+    echo "   - Clear description of what was learned"
+    echo "   - Why it matters"
+    echo "   - How it should influence future work"
+    echo "   - Mark as \`lesson: true\`"
+    echo "   - Include \`iterations\` count if applicable"
+    echo "   - Lessons are automatically read before starting new tasks to inform approach and avoid repeating mistakes"
+    echo "6. **Verify Notes Updated**: Before proceeding, verify you have updated notes according to the triggers above:"
+    echo "   - If this is the first story in the feature, verify \`CONTEXT.md\` was created (check \`prd.json\` to confirm no other stories have \`passes: true\`)"
+    echo "   - Verify execution attempt was documented in \`insights.json\`"
+    echo "   - If task status changed, verify \`TODOS.md\` was updated"
+    echo "   - If discoveries were made, verify they were added to \`insights.json\`"
+    echo "   - If this was a bug fix, feature completion, or required >3 iterations, verify lessons were captured in project-level \`insights.json\` at \`~/docs/{project-name}/insights.json\`"
+    echo "   - **Tag Validation**: Verify all notes you created/updated include minimum required tags (domain tag + agent name tag) in frontmatter"
+    echo "7. **Update Project Documentation**: Before marking story complete, update project docs if needed:"
     echo "   - **DECISIONS.md** (REQUIRED if architectural/design decisions were made):"
     echo "     - Add entries for any architectural decisions, design choices, or trade-offs made"
     echo "     - Use format: Date, Context, Decision, Consequences"
@@ -1032,11 +1421,11 @@ add_execution_instructions() {
     echo "     - Update \`docs/TECH-STACK.md\` if new technologies or dependencies were added"
     echo "     - Update \`docs/ROADMAP.md\` if priorities or plans changed"
     echo "     - Update any other relevant documentation"
-    echo "7. **Update Project State**: After successful implementation and documentation updates:"
+    echo "8. **Update Project State**: After successful implementation and documentation updates:"
     echo "   - Set \`passes: true\` for this story in \`docs/feature/$FEATURE_NAME/prd.json\`"
     echo "   - Append progress entry to \`docs/NOTES.md\` using our format (see below)"
     echo "   - Update \`DEV-NOTES.md\` in directories where you edited files (if you discovered reusable patterns)"
-    echo "8. **Commit**: Create commit with message: \`feat: $story_id - $story_title\`"
+    echo "9. **Commit**: Create commit with message: \`feat: $story_id - $story_title\`"
     echo ""
     echo "### Progress Report Format (docs/NOTES.md)"
     echo ""
@@ -1131,6 +1520,7 @@ build_prompt() {
     add_progress_context  # Read FIRST for project-level context
     add_project_context
     add_feature_notes
+    add_project_lessons  # Read project-level lessons after feature notes
     add_story_details "$story_id" || return 1
     add_browser_verification "$story_id"
     add_quality_checks
@@ -1302,6 +1692,9 @@ execute_single_feature() {
                 return 0
             fi
             
+            # Create feature completion chapter (qualitative trigger)
+            create_feature_completion_chapter
+            
             # Run final quality gate
             log "Running final quality gate..."
             if run_quality_checks; then
@@ -1458,6 +1851,9 @@ execute_single_feature() {
             
             # Append to notes
             append_notes "Story $story_id completed: $story_title (completed in $story_iterations iteration(s))"
+            
+            # Check for chapter creation triggers (quantitative triggers)
+            check_and_create_chapter_if_needed
             
             success "Story $story_id completed successfully in $story_iterations iteration(s)"
         else
