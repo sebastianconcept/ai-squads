@@ -517,7 +517,7 @@ main() {
 if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     if [ $# -lt 1 ]; then
         echo "Usage: $0 <entity_dir> [category] [trigger_type]"
-        echo "  entity_dir: Directory containing notes (e.g., ~/docs/project/notes/feature-name)"
+        echo "  entity_dir: Directory containing notes (e.g., ~/docs/{project-name}/notes/feature-name)"
         echo "  category: Category (features, investigations, projects) - default: features"
         echo "  trigger_type: auto, note-count, append-operations, line-count, insights-count, feature-completion, bug-fix, business-goal, significant-lesson, hypothesis-resolution"
         exit 1

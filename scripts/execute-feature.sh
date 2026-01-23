@@ -657,7 +657,7 @@ add_feature_notes() {
     local notes_base_dir="$DOCS_DIR/notes"
     local has_notes=false
     
-    # First, try grouped structure: docs/notes/{feature-name}/
+    # First, try grouped structure: ~/docs/{project-name}/notes/{feature-name}/
     # Note: Category is stored in frontmatter (category: "features"), not in directory path
     if [ -d "$feature_notes_dir" ]; then
         # Check for CONTEXT.md
@@ -768,7 +768,7 @@ add_feature_notes() {
         fi
     fi
     
-    # If grouped structure didn't have notes, try flat structure: docs/notes/{feature-name}-*.md
+    # If grouped structure didn't have notes, try flat structure: ~/docs/{project-name}/notes/{feature-name}-*.md
     # Now with full frontmatter parsing to verify category
     if [ "$has_notes" = "false" ] && [ -d "$notes_base_dir" ]; then
         # Check for flat files matching feature name pattern
@@ -1207,14 +1207,14 @@ add_available_tools() {
     echo "**Category is stored in frontmatter/metadata, NOT in directory path.**"
     echo ""
     echo "**Flat Structure (Recommended)**:"
-    echo "- \`docs/notes/{id}-{description}-{type}.md\`"
-    echo "  - Example: \`docs/notes/US-001-user-login-form-CONTEXT.md\` (category: \"features\" in frontmatter)"
-    echo "  - Example: \`docs/notes/memory-leak-2024-01-15-investigating-memory-growth-EVIDENCE.md\` (category: \"investigations\" in frontmatter)"
+    echo "- \`~/docs/{project-name}/notes/{id}-{description}-{type}.md\`"
+    echo "  - Example: \`~/docs/my-project/notes/US-001-user-login-form-CONTEXT.md\` (category: \"features\" in frontmatter)"
+    echo "  - Example: \`~/docs/my-project/notes/memory-leak-2024-01-15-investigating-memory-growth-EVIDENCE.md\` (category: \"investigations\" in frontmatter)"
     echo ""
     echo "**Grouped Structure (Optional, for complex entities)**:"
-    echo "- \`docs/notes/{id}-{description}/{type}.md\`"
-    echo "  - Example: \`docs/notes/US-001-user-login-form/CONTEXT.md\` (category: \"features\" in frontmatter)"
-    echo "  - Example: \`docs/notes/memory-leak-2024-01-15/EVIDENCE.md\` (category: \"investigations\" in frontmatter)"
+    echo "- \`~/docs/{project-name}/notes/{id}-{description}/{type}.md\`"
+    echo "  - Example: \`~/docs/my-project/notes/US-001-user-login-form/CONTEXT.md\` (category: \"features\" in frontmatter)"
+    echo "  - Example: \`~/docs/my-project/notes/memory-leak-2024-01-15/EVIDENCE.md\` (category: \"investigations\" in frontmatter)"
     echo ""
     echo "**Key Points**:"
     echo "- Category is always in frontmatter (\`category: investigations\`) or JSON metadata (\`metadata.category\`), never in directory path"
