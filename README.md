@@ -46,6 +46,7 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 
 **Project Commands:**
 - Adopt Project - Set up ai-squads in a new project
+- Project Starter - Organize business ideas into structured projects with pitch deck and lean canvas generation
 - Diagnose Issue - Investigate problems with hypothesis-driven analysis
 - Explain System - Generate narrative understanding of architecture
 - Ideate Solution - Explore solution approaches from minimal to comprehensive
@@ -57,6 +58,7 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 - Update Docs - Maintain documentation consistency by tracking changes and updating docs via AI
 
 **Specialist Agent Commands:**
+- Ben - Startup Advisor & Business Planning expert
 - Rusty - Rust programming expert
 - Alan - Smalltalk/Pharo expert
 - UIDev - JavaScript/CSS/HTML expert
@@ -68,6 +70,32 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 - Ops - DevOps & Infrastructure expert
 - Eric - Video Game Development expert
 
+### Start a New Business Project (or Add Business Planning to Existing Project)
+
+1. Run the `/project-starter` command in Cursor
+
+**For new business ideas:**
+- Prompt for business name and validate it
+- Create `~/docs/{project-name}/` directory with project documentation
+- Use a multi-agent team (Ben - Startup Advisor, Bob, Steve, Rian, Gustavo) to guide you through business planning
+- Generate `LEAN-CANVAS.md` and `PITCH-DECK.md` based on your business idea
+- Create initial project documentation (MISSION.md, ROADMAP.md, TEAM.md)
+- Set up conversation tracking for ongoing business planning
+
+**For existing projects:**
+- If project already exists, command will detect it and add business planning documents
+- Won't overwrite existing documentation (MISSION.md, ROADMAP.md, TECH-STACK.md)
+- Creates `LEAN-CANVAS.md` and `PITCH-DECK.md` alongside existing docs
+- Adds Ben (Startup Advisor) to TEAM.md
+- Useful for: Adding business planning to existing products, preparing for fundraising, refining business model
+
+**Ongoing guidance:** After initial setup, you can invoke `@ben` (Startup Advisor) anytime to:
+- Continue refining your business planning documents
+- Stress-test your idea with adversarial questioning
+- Evaluate features as business hypotheses
+- Plan MVP strategy and validation experiments
+- Get growth guidance as your business evolves
+
 ### Adopt in a Project
 
 1. Run the `/adopt-project` command in Cursor from your project root
@@ -78,6 +106,8 @@ This will:
 - Configure agent team based on tech stack
 - Save team configuration to `~/docs/{project-name}/TEAM.md`
 - Based on templates, generate mission, roadmap, decisions
+
+**Note:** `/project-starter` is for business planning before code exists. `/adopt-project` is for adopting ai-squads in an existing code repository. If you've used `/project-starter` and later create a code repo, you can run `/adopt-project` to merge business planning docs with code repo docs.
 
 ## Usage
 
@@ -166,6 +196,42 @@ Run the `/team-lately` command to understand what the team has been working on. 
 @team-lately last 2 weeks
 @team-lately 1 month
 ```
+
+### Start a Business Project
+
+Run the `/project-starter` command to organize your business idea into a structured project. This will:
+- Guide you through business planning with a multi-agent team (Startup Advisor, Bob, Steve, Rian, Gustavo)
+- Ask strategic questions from multiple perspectives (Jobs to be Done, UX, Growth, Financial)
+- Generate a Lean Canvas (`LEAN-CANVAS.md`) - one-page business model
+- Generate a Pitch Deck (`PITCH-DECK.md`) - investor-ready presentation
+- Create project documentation structure ready for development planning
+- Set up conversation tracking so you can resume planning anytime
+
+**Multi-agent collaboration:** The team provides both supportive and adversarial perspectives to help you mature your business idea:
+- **Startup Advisor** orchestrates conversation and ensures comprehensive coverage
+- **Bob (Jobs to be Done)** ensures your business serves core jobs and understands user motivations
+- **Steve (UI/UX)** ensures your business considers user experience and usability
+- **Rian (Strategic Designer)** ensures your business has growth strategy and engagement loops
+- **Gustavo (Financial Advisor)** ensures your business model is financially viable with working unit economics
+
+**Example usage:**
+```
+/project-starter
+```
+
+After initial setup, continue refining your business plan:
+```
+@ben - Continue business planning conversation (Startup Advisor)
+@bob - Explore Jobs to be Done perspective
+@steve - Think about user experience
+@rian - Explore growth strategy
+@gustavo - Validate business model and unit economics
+```
+
+**Next steps after business planning:**
+- Continue refining business documents with agents
+- Run `/discover-product` to translate business planning into product strategy
+- Plan features using `/plan-feature` (which uses your business planning as context)
 
 ### Update Documentation
 

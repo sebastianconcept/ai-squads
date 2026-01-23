@@ -33,6 +33,15 @@ PROGRESS_FILE="$DOCS_DIR/PROGRESS.md"
 # Get current timestamp
 CURRENT_TIME=$(date -u +"%Y-%m-%d %H:%M UTC")
 
+# Check if this is a business planning project
+# Business planning projects have notes/business-planning/ directory or business-planning category notes
+BUSINESS_PLANNING_MODE=false
+if [ -d "$DOCS_DIR/notes/business-planning" ] || \
+   find "$DOCS_DIR/notes" -name "*.md" -type f 2>/dev/null | grep -q "business-planning" || \
+   grep -r "category.*business-planning" "$DOCS_DIR/notes" 2>/dev/null | grep -q .; then
+    BUSINESS_PLANNING_MODE=true
+fi
+
 # Initialize PROGRESS.md if it doesn't exist
 if [ ! -f "$PROGRESS_FILE" ]; then
     log "Creating initial PROGRESS.md..."
@@ -44,7 +53,77 @@ if [ ! -f "$PROGRESS_FILE" ]; then
         CORE_VALUE=$(grep -v "^#" "$DOCS_DIR/README.md" | grep -v "^$" | head -1 | sed 's/^[[:space:]]*//' | cut -c1-100)
     fi
     
-    cat > "$PROGRESS_FILE" <<EOF
+    # Check if business planning mode should be used
+    # Also check if LEAN-CANVAS.md or PITCH-DECK.md exists (indicators of business planning project)
+    if [ "$BUSINESS_PLANNING_MODE" = true ] || [ -f "$DOCS_DIR/LEAN-CANVAS.md" ] || [ -f "$DOCS_DIR/PITCH-DECK.md" ]; then
+        # Business planning mode
+        cat > "$PROGRESS_FILE" <<EOF
+# Project Progress
+
+**Last updated:** $CURRENT_TIME
+**Generated from:** Business planning conversation, notes, business documents
+
+## Project Reference
+
+See: \`$DOCS_DIR/README.md\`
+**Core value:** ${CORE_VALUE:-[Business concept]}
+**Current focus:** Business planning
+
+## Current Position
+
+**Active Feature:** Business Planning
+**Current Story:** Completing business planning conversation
+**Status:** Business planning in progress
+**Last activity:** $CURRENT_TIME — Business planning started
+
+**Business Planning Progress:**
+- Lean Canvas: ${LEAN_CANVAS_STATUS:-Not started}
+- Pitch Deck: ${PITCH_DECK_STATUS:-Not started}
+- Business model components discussed: 0/9
+- Information gaps: *To be tracked by startup advisor*
+
+## Business Planning Context
+
+### Lean Canvas Components
+- [ ] Problem
+- [ ] Solution
+- [ ] Key Metrics
+- [ ] Unique Value Proposition
+- [ ] Unfair Advantage
+- [ ] Channels
+- [ ] Customer Segments
+- [ ] Cost Structure
+- [ ] Revenue Streams
+
+### Information Gaps
+*Startup advisor will track gaps in notes/business-planning/TODOS.md*
+
+### Recent Insights
+*Key insights will be documented in notes/business-planning/insights.json*
+
+## Session Continuity
+
+**Last session:** $CURRENT_TIME
+**Stopped at:** Business planning started
+**Resume context:**
+- Status: Business planning in progress
+- Next: Begin conversation with startup advisor
+
+## Next Actions
+
+**Immediate:**
+- [ ] Begin business planning conversation with startup advisor
+- [ ] Discuss business idea and problem statement
+
+**Upcoming:**
+- [ ] Complete lean canvas components
+- [ ] Generate LEAN-CANVAS.md (when information complete)
+- [ ] Generate PITCH-DECK.md (when information complete)
+- [ ] Begin roadmap execution (when business planning complete)
+EOF
+    else
+        # Standard feature execution mode
+        cat > "$PROGRESS_FILE" <<EOF
 # Project Progress
 
 **Last updated:** $CURRENT_TIME
@@ -145,6 +224,7 @@ See: \`$DOCS_DIR/README.md\`
 **Upcoming:**
 - [ ] *No upcoming actions*
 EOF
+    fi
     log "Created initial PROGRESS.md"
     exit 0
 fi

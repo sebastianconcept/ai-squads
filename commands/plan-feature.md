@@ -58,6 +58,11 @@ This lets users respond with "1A, 2C, 3B" for quick iteration.
 - Read `~/docs/{project-name}/TEAM.md` to get agent team
 - Read `~/docs/{project-name}/TECH-STACK.md` for technical context
 - Read `~/docs/{project-name}/MISSION.md` for project alignment
+- Read `~/docs/{project-name}/PRODUCT-DISCOVERY.md` (if exists) for product strategy context:
+  - Use product vision to align feature
+  - Use feature prioritization framework to evaluate feature
+  - Use product roadmap to understand phase
+  - Use jobs to be done to understand user value
 
 ### 4. Gather Feature Information
 Ask questions based on project's agent team:
