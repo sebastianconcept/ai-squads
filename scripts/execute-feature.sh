@@ -623,6 +623,34 @@ add_project_context() {
     fi
 }
 
+# Helper function to extract category from markdown frontmatter
+extract_category_from_frontmatter() {
+    local file="$1"
+    if [ ! -f "$file" ]; then
+        return 1
+    fi
+    
+    # Extract category from YAML frontmatter (between --- markers)
+    # Handles both "category: features" and "category: 'features'" formats
+    local category
+    category=$(awk '
+        /^---$/ { in_frontmatter = !in_frontmatter; next }
+        in_frontmatter && /^category:/ {
+            gsub(/^category:[[:space:]]*/, "")
+            gsub(/^["'\'']|["'\'']$/, "")  # Remove quotes
+            gsub(/[[:space:]]*$/, "")      # Remove trailing spaces
+            print
+            exit
+        }
+    ' "$file" 2>/dev/null)
+    
+    if [ -n "$category" ]; then
+        echo "$category"
+        return 0
+    fi
+    return 1
+}
+
 # Add feature notes to prompt (from ~/docs/{project-name}/notes/{feature-name}/ or flat files matching {feature-name}-*)
 add_feature_notes() {
     local feature_notes_dir="$DOCS_DIR/notes/$FEATURE_NAME"
@@ -721,19 +749,50 @@ add_feature_notes() {
     fi
     
     # If grouped structure didn't have notes, try flat structure: docs/notes/{feature-name}-*.md
-    # Note: This is a simplified check - full implementation would scan all files and check frontmatter category
+    # Now with full frontmatter parsing to verify category
     if [ "$has_notes" = "false" ] && [ -d "$notes_base_dir" ]; then
-        # Check for flat files matching feature name pattern (simplified - would need frontmatter parsing for full support)
+        # Check for flat files matching feature name pattern
         local flat_context="$notes_base_dir/${FEATURE_NAME}-CONTEXT.md"
         local flat_todos="$notes_base_dir/${FEATURE_NAME}-TODOS.md"
         local flat_insights="$notes_base_dir/${FEATURE_NAME}-insights.json"
         
-        if [ -f "$flat_context" ] || [ -f "$flat_todos" ] || [ -f "$flat_insights" ]; then
+        # Verify files exist and have correct category in frontmatter
+        local found_valid_notes=false
+        
+        # Check markdown files (CONTEXT.md, TODOS.md)
+        for file in "$flat_context" "$flat_todos"; do
+            if [ -f "$file" ]; then
+                local file_category
+                file_category=$(extract_category_from_frontmatter "$file")
+                if [ "$file_category" = "features" ]; then
+                    found_valid_notes=true
+                    break
+                elif [ -z "$file_category" ]; then
+                    # No category found in frontmatter - treat as feature note (for notes created before category was required)
+                    found_valid_notes=true
+                    break
+                fi
+            fi
+        done
+        
+        # Check insights.json (has different structure - category in metadata)
+        if [ -f "$flat_insights" ] && command -v jq >/dev/null 2>&1; then
+            local json_category
+            json_category=$(jq -r '.metadata.category // "unknown"' "$flat_insights" 2>/dev/null)
+            if [ "$json_category" = "features" ] || [ "$json_category" = "null" ] || [ "$json_category" = "unknown" ]; then
+                found_valid_notes=true
+            fi
+        elif [ -f "$flat_insights" ]; then
+            # jq not available - include file (category verification skipped when jq unavailable)
+            found_valid_notes=true
+        fi
+        
+        if [ "$found_valid_notes" = "true" ]; then
             echo "## Feature Notes"
             echo ""
             echo "**Source**: \`~/docs/{project-name}/notes/\` (flat structure, matching \`${FEATURE_NAME}-*\`)"
             echo ""
-            echo "**Note**: Found flat structure notes. For full category filtering, notes should have \`category: features\` in frontmatter."
+            echo "**Note**: Flat structure notes verified with category filtering (frontmatter parsed to confirm \`category: features\`)."
             echo ""
             has_notes=true
             
@@ -779,6 +838,162 @@ add_feature_notes() {
     
     if [ "$has_notes" = "true" ]; then
         log "Included feature notes from ~/docs/{project-name}/notes/$FEATURE_NAME/ or matching flat files"
+    fi
+}
+
+# Add project-level lessons to prompt (from project-level insights.json)
+add_project_lessons() {
+    local notes_base_dir="$DOCS_DIR/notes"
+    local project_lessons_file="$notes_base_dir/project-lessons-insights.json"
+    local project_insights_file="$notes_base_dir/project-insights.json"
+    local has_lessons=false
+    
+    # Try project-lessons-insights.json first (explicit lessons file)
+    if [ -f "$project_lessons_file" ]; then
+        if command -v jq >/dev/null 2>&1; then
+            # Filter for insights with lesson: true and category: "projects"
+            local lessons
+            lessons=$(jq -r '.insights[] | select(.lesson == true) | select(.metadata.category == "projects" or .metadata.category == null)' "$project_lessons_file" 2>/dev/null)
+            
+            if [ -n "$lessons" ] && [ "$lessons" != "null" ]; then
+                echo "## Project-Level Lessons"
+                echo ""
+                echo "**Source**: \`~/docs/{project-name}/notes/project-lessons-insights.json\`"
+                echo ""
+                echo "**Purpose**: Lessons learned from past work (bug fixes, feature completion, high-iteration tasks). Read these to inform your approach and avoid repeating mistakes."
+                echo ""
+                echo "**Note**: These lessons are prioritized alongside evidence-based insights. They represent learnings that should influence future work."
+                echo ""
+                
+                # Format lessons, prioritizing evidence-based ones
+                jq -r '.insights | 
+                    map(select(.lesson == true)) | 
+                    sort_by(.evidenceBased == false, .timestamp) | 
+                    reverse | 
+                    .[] | 
+                    "#### \(.title) (\(.type))\n" +
+                    "- **Timestamp**: \(.timestamp)\n" +
+                    "- **Evidence-Based**: \(.evidenceBased)\n" +
+                    (if .description then "- **Description**: \(.description)\n" else "" end) +
+                    (if .learning then "- **Learning**: \(.learning)\n" else "" end) +
+                    (if .impact then "- **Impact**: \(.impact)\n" else "" end) +
+                    (if .iterations then "- **Iterations**: \(.iterations)\n" else "" end) +
+                    (if .evidence and .evidenceBased == true then 
+                        "- **Evidence**:\n" +
+                        "  - Source: \(.evidence.source // "unknown")\n" +
+                        "  - Observation: \(.evidence.observation // "N/A")\n" +
+                        (if .evidence.files then "  - Files: \(.evidence.files | join(", "))\n" else "" end) +
+                        (if .evidence.commit then "  - Commit: \(.evidence.commit)\n" else "" end)
+                    else "" end) +
+                    "\n---\n"' "$project_lessons_file" 2>/dev/null || {
+                    # Fallback: if jq parsing fails, show raw JSON
+                    echo "**Note**: Unable to parse project lessons. Raw content:"
+                    echo "\`\`\`json"
+                    cat "$project_lessons_file"
+                    echo "\`\`\`"
+                }
+                echo ""
+                echo "---"
+                echo ""
+                has_lessons=true
+                log "Reading project-level lessons from ~/docs/{project-name}/notes/project-lessons-insights.json"
+            fi
+        fi
+    fi
+    
+    # Also try project-insights.json with category: "projects" filter
+    if [ "$has_lessons" = "false" ] && [ -f "$project_insights_file" ]; then
+        if command -v jq >/dev/null 2>&1; then
+            # Check if file has category: "projects" in metadata and has lessons
+            local category
+            category=$(jq -r '.metadata.category // "unknown"' "$project_insights_file" 2>/dev/null)
+            local has_project_lessons
+            has_project_lessons=$(jq -r '.insights[] | select(.lesson == true) | .id' "$project_insights_file" 2>/dev/null | head -1)
+            
+            if [ "$category" = "projects" ] && [ -n "$has_project_lessons" ]; then
+                echo "## Project-Level Lessons"
+                echo ""
+                echo "**Source**: \`~/docs/{project-name}/notes/project-insights.json\` (category: projects)"
+                echo ""
+                echo "**Purpose**: Lessons learned from past work. Read these to inform your approach and avoid repeating mistakes."
+                echo ""
+                
+                # Format lessons, prioritizing evidence-based ones
+                jq -r '.insights | 
+                    map(select(.lesson == true)) | 
+                    sort_by(.evidenceBased == false, .timestamp) | 
+                    reverse | 
+                    .[] | 
+                    "#### \(.title) (\(.type))\n" +
+                    "- **Timestamp**: \(.timestamp)\n" +
+                    "- **Evidence-Based**: \(.evidenceBased)\n" +
+                    (if .description then "- **Description**: \(.description)\n" else "" end) +
+                    (if .learning then "- **Learning**: \(.learning)\n" else "" end) +
+                    (if .impact then "- **Impact**: \(.impact)\n" else "" end) +
+                    (if .iterations then "- **Iterations**: \(.iterations)\n" else "" end) +
+                    (if .evidence and .evidenceBased == true then 
+                        "- **Evidence**:\n" +
+                        "  - Source: \(.evidence.source // "unknown")\n" +
+                        "  - Observation: \(.evidence.observation // "N/A")\n" +
+                        (if .evidence.files then "  - Files: \(.evidence.files | join(", "))\n" else "" end) +
+                        (if .evidence.commit then "  - Commit: \(.evidence.commit)\n" else "" end)
+                    else "" end) +
+                    "\n---\n"' "$project_insights_file" 2>/dev/null || {
+                    echo "**Note**: Unable to parse project lessons. Raw content:"
+                    echo "\`\`\`json"
+                    cat "$project_insights_file"
+                    echo "\`\`\`"
+                }
+                echo ""
+                echo "---"
+                echo ""
+                has_lessons=true
+                log "Reading project-level lessons from ~/docs/{project-name}/notes/project-insights.json"
+            fi
+        fi
+    fi
+    
+    # Also search for any insights.json files in notes/ with category: "projects"
+    if [ "$has_lessons" = "false" ] && [ -d "$notes_base_dir" ]; then
+        # Find all insights.json files and check for project-level lessons
+        while IFS= read -r insights_file; do
+            if command -v jq >/dev/null 2>&1; then
+                local file_category
+                file_category=$(jq -r '.metadata.category // "unknown"' "$insights_file" 2>/dev/null)
+                local file_has_lessons
+                file_has_lessons=$(jq -r '.insights[] | select(.lesson == true) | .id' "$insights_file" 2>/dev/null | head -1)
+                
+                if [ "$file_category" = "projects" ] && [ -n "$file_has_lessons" ]; then
+                    echo "## Project-Level Lessons"
+                    echo ""
+                    echo "**Source**: \`$(basename "$insights_file")\` (category: projects)"
+                    echo ""
+                    echo "**Purpose**: Lessons learned from past work. Read these to inform your approach and avoid repeating mistakes."
+                    echo ""
+                    
+                    # Format lessons
+                    jq -r '.insights | 
+                        map(select(.lesson == true)) | 
+                        sort_by(.evidenceBased == false, .timestamp) | 
+                        reverse | 
+                        .[] | 
+                        "#### \(.title) (\(.type))\n" +
+                        "- **Timestamp**: \(.timestamp)\n" +
+                        "- **Evidence-Based**: \(.evidenceBased)\n" +
+                        (if .description then "- **Description**: \(.description)\n" else "" end) +
+                        (if .learning then "- **Learning**: \(.learning)\n" else "" end) +
+                        (if .impact then "- **Impact**: \(.impact)\n" else "" end) +
+                        (if .iterations then "- **Iterations**: \(.iterations)\n" else "" end) +
+                        "\n---\n"' "$insights_file" 2>/dev/null || true
+                    echo ""
+                    echo "---"
+                    echo ""
+                    has_lessons=true
+                    log "Reading project-level lessons from $(basename "$insights_file")"
+                    break  # Only use first matching file
+                fi
+            fi
+        done < <(find "$notes_base_dir" -name "insights.json" -type f 2>/dev/null)
     fi
 }
 
@@ -832,6 +1047,19 @@ add_available_tools() {
     echo "   - **Returns**: \`Array<{path: string, snippet: string, matches: number, lineNumbers: number[]}>\`"
     echo "   - **Implementation**: Use \`grep\` or text search across \`~/docs/{project-name}/notes/\` directory, read frontmatter to filter by category if provided"
     echo "   - **Context Snippets**: Return 3 lines of context around each match"
+    echo ""
+    echo "6. **search_by_tag(tag, category?)**"
+    echo "   - Search notes and features by tag (case-insensitive)"
+    echo "   - **Parameters**: \`tag\` (string): Tag to search for, \`category\` (optional string): Limit search to category"
+    echo "   - **Returns**: \`{notes: Array<{path, name, category, tags, modified, snippet?}>, features: Array<{featureName, path, tags, description, status}>, totalMatches: number}\`"
+    echo "   - **Implementation**:"
+    echo "     - Search all notes in \`~/docs/{project-name}/notes/\` (read frontmatter/metadata to extract tags)"
+    echo "     - Search all \`prd.json\` files in \`~/docs/{project-name}/feature/*/prd.json\` (read feature-level tags)"
+    echo "     - Case-insensitive matching (e.g., \"Authentication\" matches \"authentication\")"
+    echo "     - If category provided, filter notes by reading category from frontmatter/metadata"
+    echo "     - Sort results by modification time (newest first)"
+    echo "   - **Tags Format**: Tags stored as array in frontmatter (\`tags: [\"authentication\", \"security\"]\`) or JSON metadata (\`metadata.tags\`)"
+    echo "   - **Use Case**: Find related work across different entities (notes, features) using shared tags"
     echo ""
     echo "### Note Storage Structure"
     echo ""
@@ -993,6 +1221,7 @@ add_execution_instructions() {
     echo "1. **Read Context First**:"
     echo "   - Review project notes and dev-notes for relevant patterns"
     echo "   - Review feature notes (CONTEXT.md, TODOS.md, insights.json) if available above"
+    echo "   - **Review Project-Level Lessons**: Project-level lessons (if available above) contain learnings from past work - read these to inform your approach and avoid repeating mistakes"
     echo "   - **Learn from Previous Attempts**: If \`insights.json\` contains execution attempts, read them to understand:"
     echo "     - What approaches were tried before"
     echo "     - What failed and why (prioritize evidence-based insights)"
@@ -1020,6 +1249,7 @@ add_execution_instructions() {
     echo "     - Lesson format: Clear description of what was learned, why it matters, how it should influence future work"
     echo "     - Store in project-level insights.json: \`~/docs/{project-name}/notes/project-lessons-insights.json\` or project-level insights.json"
     echo "     - Lessons are automatically read before starting new tasks to inform approach and avoid repeating mistakes"
+    echo "     - **Note**: Lesson capture is manual (agents document lessons themselves when completing work)."
     echo "   - Use note tools (write_note, append_note) to maintain persistent memory"
     echo "   - **Note**: If this is the first story in a feature, create \`CONTEXT.md\` with feature goals and scope"
     echo "6. **Update Project Documentation**: Before marking story complete, update project docs if needed:"
@@ -1131,6 +1361,7 @@ build_prompt() {
     add_progress_context  # Read FIRST for project-level context
     add_project_context
     add_feature_notes
+    add_project_lessons  # Read project-level lessons after feature notes
     add_story_details "$story_id" || return 1
     add_browser_verification "$story_id"
     add_quality_checks
