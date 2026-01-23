@@ -694,6 +694,26 @@ add_feature_notes() {
             echo ""
         fi
         
+        # Check for chapter index (read chapters before full notes for quick overview)
+        local chapters_dir="$feature_notes_dir/chapters"
+        if [ -d "$chapters_dir" ] && [ -f "$chapters_dir/index.md" ]; then
+            if [ "$has_notes" = "false" ]; then
+                echo "## Feature Notes"
+                echo ""
+                echo "**Source**: \`~/docs/{project-name}/notes/$FEATURE_NAME/\`"
+                echo ""
+                has_notes=true
+            fi
+            echo "### Chapters"
+            echo ""
+            echo "**Note**: This feature is organized into chapters for better navigation. Read the chapter index for a quick overview before diving into full notes."
+            echo ""
+            cat "$chapters_dir/index.md"
+            echo ""
+            echo "---"
+            echo ""
+        fi
+        
         # Check for insights.json (prioritize evidence-based insights)
         if [ -f "$feature_notes_dir/insights.json" ]; then
             if [ "$has_notes" = "false" ]; then
@@ -997,6 +1017,55 @@ add_project_lessons() {
     fi
 }
 
+# Check and create chapter if quantitative triggers are met
+check_and_create_chapter_if_needed() {
+    local feature_notes_dir="$DOCS_DIR/notes/$FEATURE_NAME"
+    
+    # Only check if feature notes directory exists
+    if [ ! -d "$feature_notes_dir" ]; then
+        return 0
+    fi
+    
+    # Source create-chapter script functions
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    
+    # Check quantitative triggers using create-chapter.sh
+    if [ -f "$script_dir/create-chapter.sh" ]; then
+        local trigger_result
+        if trigger_result=$("$script_dir/create-chapter.sh" "$feature_notes_dir" "features" "auto" 2>/dev/null); then
+            if [ -n "$trigger_result" ] && [ -f "$trigger_result" ]; then
+                log "Chapter created automatically: $(basename "$trigger_result")"
+                log "Trigger detected: Quantitative threshold met"
+            fi
+        fi
+    fi
+}
+
+# Create feature completion chapter (qualitative trigger)
+create_feature_completion_chapter() {
+    local feature_notes_dir="$DOCS_DIR/notes/$FEATURE_NAME"
+    
+    # Only create if feature notes directory exists
+    if [ ! -d "$feature_notes_dir" ]; then
+        return 0
+    fi
+    
+    # Source create-chapter script
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    
+    # Create feature completion chapter
+    if [ -f "$script_dir/create-chapter.sh" ]; then
+        local chapter_file
+        if chapter_file=$("$script_dir/create-chapter.sh" "$feature_notes_dir" "features" "feature-completion" 2>/dev/null); then
+            if [ -n "$chapter_file" ] && [ -f "$chapter_file" ]; then
+                log "Feature completion chapter created: $(basename "$chapter_file")"
+            fi
+        fi
+    fi
+}
+
 # Add available tools section to prompt
 add_available_tools() {
     echo "## Available Tools"
@@ -1013,10 +1082,20 @@ add_available_tools() {
     echo "     - \`category\` (string): Category stored in frontmatter (e.g., \"investigations\", \"features\", \"projects\", \"general\")"
     echo "     - \`name\` (string): Note name/filename (sanitized: alphanumeric, hyphens, underscores)"
     echo "     - \`content\` (string): Markdown content to write"
-    echo "     - \`metadata\` (optional): Additional metadata (agent, command, context, commit)"
+    echo "     - \`metadata\` (optional): Additional metadata (agent, command, context, commit, tags)"
     echo "   - **Returns**: \`{success: boolean, path: string, error?: string}\`"
     echo "   - **Implementation**: Use \`write_file\` to create note at \`~/docs/{project-name}/notes/{name}.md\` (flat) or \`~/docs/{project-name}/notes/{id}/{type}.md\` (grouped)"
     echo "   - **Frontmatter**: Include YAML frontmatter with \`category\`, \`created\`, \`updated\`, and optional metadata"
+    echo "   - **Tags**: **Always include minimum required tags** in frontmatter, plus any additional relevant tags:"
+    echo "     - **Required minimum**:"
+    echo "       - Domain tag: \"backend\" or \"frontend\" based on story type"
+    echo "       - Agent name tag: your agent name (e.g., \"uidev\", \"rusty\", \"steve\")"
+    echo "     - **Optional additional tags**: Add any relevant tags using your specialized knowledge:"
+    echo "       - Technology tags: \"react\", \"rust\", \"postgresql\", \"api\", etc."
+    echo "       - Feature area tags: \"authentication\", \"payment\", \"user-management\", etc."
+    echo "       - Pattern tags: \"migration\", \"testing\", \"optimization\", etc."
+    echo "     - Example: \`tags: [\"frontend\", \"uidev\", \"react\", \"authentication\", \"form-validation\"]\`"
+    echo "     - **Note**: Minimum tags are required, but you should add more tags when they provide value for discovery"
     echo "   - **Git Commit**: Auto-detect commit hash using \`git rev-parse HEAD\` if in repository (unless provided)"
     echo ""
     echo "2. **read_note(path | {category, name})**"
@@ -1060,6 +1139,68 @@ add_available_tools() {
     echo "     - Sort results by modification time (newest first)"
     echo "   - **Tags Format**: Tags stored as array in frontmatter (\`tags: [\"authentication\", \"security\"]\`) or JSON metadata (\`metadata.tags\`)"
     echo "   - **Use Case**: Find related work across different entities (notes, features) using shared tags"
+    echo "   - **Recommended Usage**: Before starting a task, use \`search_by_tag(\"backend\")\` or \`search_by_tag(\"frontend\")\` to find related notes from similar work"
+    echo "   - **Agent-Specific Learning**: Use \`search_by_tag(\"your-agent-name\")\` to find notes from your previous work and learn from your own patterns"
+    echo ""
+    echo "7. **read_tags_index()**"
+    echo "   - Read tags index to discover existing tags and maintain tag consistency"
+    echo "   - **Parameters**: None"
+    echo "   - **Returns**: \`{tags: {[tagName: string]: {count: number, category: string, required: boolean, description: string, relatedTags: string[]}}, tagCategories: {[category: string]: string[]}, usageStats: {totalNotes: number, totalTags: number, mostUsedTags: string[]}, error?: string}\`"
+    echo "   - **Implementation**: Read \`~/docs/{project-name}/notes/tags.json\` and parse JSON"
+    echo "   - **Use Case**: Before creating notes, read tags index to discover existing tags and use them for consistency"
+    echo "   - **Recommended Usage**: Read tags index before creating notes to see what tags exist and which are commonly used together"
+    echo ""
+    echo "8. **add_tag(tag, category?, description?, relatedTags?)**"
+    echo "   - Add a tag to the tags index (idempotent - safe to call multiple times)"
+    echo "   - **Parameters**:"
+    echo "     - \`tag\` (string, required): Tag name to add (case-insensitive, normalized to lowercase)"
+    echo "     - \`category\` (string, optional): Tag category (\"domain\", \"agent\", \"technology\", \"feature\", \"pattern\")"
+    echo "     - \`description\` (string, optional): Human-readable description of the tag"
+    echo "     - \`relatedTags\` (array, optional): Array of related tag names (tags commonly used together)"
+    echo "   - **Returns**: \`{success: boolean, tag: string, created: boolean, error?: string}\`"
+    echo "     - \`created\`: true if tag was newly created, false if it already existed"
+    echo "   - **Implementation**:"
+    echo "     - Read \`~/docs/{project-name}/notes/tags.json\` (create if doesn't exist)"
+    echo "     - Normalize tag to lowercase for consistency"
+    echo "     - Check if tag already exists in tags object"
+    echo "     - If tag exists: Update metadata (category, description, relatedTags) if provided, keep existing count"
+    echo "     - If tag doesn't exist: Add new tag entry with count: 0, provided metadata, and default values"
+    echo "     - Write updated \`tags.json\` back to file"
+    echo "   - **Idempotent**: Safe to call multiple times with same tag - won't create duplicates"
+    echo "   - **Use Case**: When creating notes, add new tags to the index so they're discoverable by other agents"
+    echo "   - **Recommended Usage**: Call \`add_tag()\` for any new tags you're using in your notes (the tool handles uniqueness)"
+    echo ""
+    echo "9. **update_tags_index()**"
+    echo "   - Update tags index by scanning all notes and features"
+    echo "   - **Parameters**: None"
+    echo "   - **Returns**: \`{success: boolean, tagsUpdated: number, error?: string}\`"
+    echo "   - **Implementation**:"
+    echo "     - Scan all notes in \`~/docs/{project-name}/notes/\` (recursively) and extract tags from frontmatter/metadata"
+    echo "     - Scan all \`prd.json\` files in \`~/docs/{project-name}/feature/*/prd.json\` and extract feature-level tags"
+    echo "     - Count tag usage, build related tags (tags used together), calculate statistics"
+    echo "     - Write updated \`tags.json\` to \`~/docs/{project-name}/notes/tags.json\`"
+    echo "   - **Use Case**: After creating or updating notes, update tags index to refresh tag usage statistics"
+    echo "   - **Recommended Usage**: Call after creating/updating notes to keep tags index current"
+    echo ""
+    echo "10. **create_chapter(entity_id, chapter_name, reason, notes_scope?)**"
+    echo "   - Create a chapter manually for organizing notes into logical sections"
+    echo "   - **Parameters**:"
+    echo "     - \`entity_id\` (string, required): Entity identifier (e.g., \"user-login-form\", \"memory-leak-2024-01-15\")"
+    echo "     - \`chapter_name\` (string, required): Descriptive name for the chapter (e.g., \"Initial Investigation\", \"Feature Completion\")"
+    echo "     - \`reason\` (string, required): Why this chapter is being created (e.g., \"Feature completed\", \"20 notes threshold reached\")"
+    echo "     - \`notes_scope\` (object, optional): Specific notes to include in chapter:"
+    echo "       - \`evidence_lines\` (string, optional): Line range (e.g., \"1-150\")"
+    echo "       - \`insights_ids\` (array, optional): Specific insight IDs to include"
+    echo "       - \`time_span\` (object, optional): Time range with \`start\` and \`end\` (ISO 8601)"
+    echo "   - **Returns**: \`{success: boolean, chapter_path: string, chapter_number: number, error?: string}\`"
+    echo "   - **Implementation**:"
+    echo "     - Call \`scripts/create-chapter.sh\` with entity directory, category, and trigger type"
+    echo "     - Chapter is created in \`~/docs/{project-name}/notes/{entity_id}/chapters/XX-{chapter-name}.md\`"
+    echo "     - Chapter index (\`chapters/index.md\`) is automatically updated"
+    echo "     - Main \`context.md\` is updated with chapter table of contents"
+    echo "   - **Use Case**: Manually organize notes into chapters when needed, or when automatic triggers don't apply"
+    echo "   - **Recommended Usage**: Create chapters for important milestones or when notes become unwieldy"
+    echo "   - **Note**: Chapters are summaries, not replacements - original notes are preserved"
     echo ""
     echo "### Note Storage Structure"
     echo ""
@@ -1098,15 +1239,17 @@ add_available_tools() {
     echo ""
     echo "### Implementation Examples"
     echo ""
-    echo "**Example: Writing a note**"
+    echo "**Example: Writing a note with tags**"
     echo "\`\`\`"
     echo "# Use write_file to create note"
     echo "# Path: ~/docs/{project-name}/notes/US-001-user-login-form-CONTEXT.md"
-    echo "# Content includes YAML frontmatter with category property:"
+    echo "# Content includes YAML frontmatter with category and tags:"
     echo "---"
     echo "created: 2024-01-15T10:00:00Z"
     echo "updated: 2024-01-15T10:00:00Z"
     echo "category: features"
+    echo "agent: uidev"
+    echo "tags: [\"frontend\", \"uidev\", \"authentication\"]"
     echo "commit: abc123def456"
     echo "---"
     echo ""
@@ -1116,12 +1259,22 @@ add_available_tools() {
     echo "Users need to authenticate..."
     echo "\`\`\`"
     echo ""
-    echo "**Example: Reading notes by category**"
+    echo "**Note**: Always include **minimum required tags** (domain: \"backend\" or \"frontend\", agent name), plus any additional relevant tags using your specialized knowledge"
+    echo ""
+    echo "**Example: Searching notes by tag**"
     echo "\`\`\`"
-    echo "# Use list_dir to scan ~/docs/{project-name}/notes/"
-    echo "# For each file, use read_file to read frontmatter"
-    echo "# Extract category from frontmatter: category: investigations"
-    echo "# Filter files where frontmatter.category matches desired category"
+    echo "# Before starting a frontend task, search for related work:"
+    echo "# 1. Use search_by_tag(\"frontend\") to find all frontend-related notes"
+    echo "# 2. Use search_by_tag(\"uidev\") to find notes from your previous work"
+    echo "# 3. Use search_by_tag(\"authentication\") to find authentication-related notes"
+    echo "# 4. Read the most relevant notes to learn from previous work"
+    echo "#"
+    echo "# Implementation:"
+    echo "# - Use grep to search frontmatter for tags: [\"frontend\"]"
+    echo "# - Use list_dir to scan ~/docs/{project-name}/notes/"
+    echo "# - For each file, use read_file to read frontmatter"
+    echo "# - Extract tags array from frontmatter: tags: [\"frontend\", \"uidev\"]"
+    echo "# - Filter files where tags array contains the search tag (case-insensitive)"
     echo "\`\`\`"
     echo ""
     echo "**Error Handling**: Note operations are non-fatal - if note reading/writing fails, execution continues (notes are helpful but not critical)"
@@ -1221,6 +1374,15 @@ add_execution_instructions() {
     echo "1. **Read Context First**:"
     echo "   - Review project notes and dev-notes for relevant patterns"
     echo "   - Review feature notes (CONTEXT.md, TODOS.md, insights.json) if available above"
+    echo "   - **Discover Existing Tags**: Read tags index using \`read_tags_index()\` to discover existing tags and maintain consistency:"
+    echo "     - See what tags have been used before (avoid creating duplicate tags like \"auth\" vs \"authentication\")"
+    echo "     - Find related tags that might help discover similar work"
+    echo "     - Check tag usage counts to see which tags are most common"
+    echo "   - **Search Related Notes**: Use \`search_by_tag\` to find related work before starting:"
+    echo "     - \`search_by_tag(\"backend\")\` or \`search_by_tag(\"frontend\")\` to find notes from similar domain work"
+    echo "     - \`search_by_tag(\"your-agent-name\")\` to find notes from your previous work and learn from your own patterns"
+    echo "     - Use tags discovered from tags index to find related work (e.g., if tags index shows \"authentication\" is used, search for it)"
+    echo "     - Read related notes to understand patterns, learnings, and approaches from similar work"
     echo "   - **Review Project-Level Lessons**: Project-level lessons (if available above) contain learnings from past work - read these to inform your approach and avoid repeating mistakes"
     echo "   - **Learn from Previous Attempts**: If \`insights.json\` contains execution attempts, read them to understand:"
     echo "     - What approaches were tried before"
@@ -1232,6 +1394,19 @@ add_execution_instructions() {
     echo "3. **For Frontend Stories**: Use browser-verification skill if type is \"frontend\""
     echo "4. **Run Quality Checks**: Execute all quality check commands, all must pass"
     echo "5. **Update Notes** (if applicable):"
+    echo "   - **Always Include Tags**: When creating or updating notes, always include **minimum required tags** plus any additional relevant tags:"
+    echo "     - **Required minimum**:"
+    echo "       - Domain tag: \"backend\" or \"frontend\" (based on story type)"
+    echo "       - Agent name tag: your agent name (e.g., \"uidev\", \"rusty\", \"steve\")"
+    echo "     - **Optional additional tags**: Add any relevant tags using your specialized knowledge (technology, feature area, patterns, etc.)"
+    echo "     - **Tag Consistency**: Before adding new tags, check tags index using \`read_tags_index()\` to see if similar tags already exist (e.g., prefer \"authentication\" over \"auth\" if \"authentication\" is already used)"
+    echo "     - **Add Tags to Index**: When using tags in your notes, call \`add_tag(\"tag-name\", category?, description?)\` to add them to the tags index (idempotent - safe to call multiple times)"
+    echo "       - Example: \`add_tag(\"react\", \"technology\", \"React framework\")\`"
+    echo "       - Example: \`add_tag(\"authentication\", \"feature\", \"Authentication and authorization features\")\`"
+    echo "       - The tool handles uniqueness - you don't need to check if tag exists first"
+    echo "     - Example frontmatter: \`tags: [\"frontend\", \"uidev\", \"react\", \"authentication\", \"form-validation\"]\`"
+    echo "     - **Update Tags Index**: After creating/updating notes, call \`update_tags_index()\` to refresh tag usage statistics (counts how many notes use each tag)"
+    echo "     - **Note**: Minimum tags are required for discovery, but add more when they help find related work"
     echo "   - Update \`TODOS.md\` in \`~/docs/{project-name}/notes/$FEATURE_NAME/\` when task status changes (category: "features" in frontmatter)"
     echo "   - **Document Execution Attempt**: After execution (success or failure), append to feature \`insights.json\`:"
     echo "     - What approach was tried"
@@ -1533,6 +1708,9 @@ execute_single_feature() {
                 return 0
             fi
             
+            # Create feature completion chapter (qualitative trigger)
+            create_feature_completion_chapter
+            
             # Run final quality gate
             log "Running final quality gate..."
             if run_quality_checks; then
@@ -1689,6 +1867,9 @@ execute_single_feature() {
             
             # Append to notes
             append_notes "Story $story_id completed: $story_title (completed in $story_iterations iteration(s))"
+            
+            # Check for chapter creation triggers (quantitative triggers)
+            check_and_create_chapter_if_needed
             
             success "Story $story_id completed successfully in $story_iterations iteration(s)"
         else
