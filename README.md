@@ -70,17 +70,24 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 - Ops - DevOps & Infrastructure expert
 - Eric - Video Game Development expert
 
-### Start a New Business Project
+### Start a New Business Project (or Add Business Planning to Existing Project)
 
 1. Run the `/project-starter` command in Cursor
 
-This will:
+**For new business ideas:**
 - Prompt for business name and validate it
 - Create `~/docs/{project-name}/` directory with project documentation
 - Use a multi-agent team (Ben - Startup Advisor, Bob, Steve, Rian, Gustavo) to guide you through business planning
 - Generate `LEAN-CANVAS.md` and `PITCH-DECK.md` based on your business idea
 - Create initial project documentation (MISSION.md, ROADMAP.md, TEAM.md)
 - Set up conversation tracking for ongoing business planning
+
+**For existing projects:**
+- If project already exists, command will detect it and add business planning documents
+- Won't overwrite existing documentation (MISSION.md, ROADMAP.md, TECH-STACK.md)
+- Creates `LEAN-CANVAS.md` and `PITCH-DECK.md` alongside existing docs
+- Adds Ben (Startup Advisor) to TEAM.md
+- Useful for: Adding business planning to existing products, preparing for fundraising, refining business model
 
 **Ongoing guidance:** After initial setup, you can invoke `@ben` (Startup Advisor) anytime to:
 - Continue refining your business planning documents

@@ -32,25 +32,37 @@ This workflow helps founders organize their business idea into a structured proj
   - Spaces automatically converted to hyphens
   - Must be a valid directory name
 - Check if project already exists in `~/docs/{project-name}/`
-- If exists, warn user and allow:
-  - Override (continue with existing project)
-  - Choose different name
-  - Cancel
+- If exists, detect project type:
+  - **Business planning project** (has LEAN-CANVAS.md or PITCH-DECK.md): Continue refining business planning
+  - **Code repository project** (has TECH-STACK.md or was created via `/adopt-project`): Add business planning documents alongside existing docs
+  - **New project**: Create new business planning project
+- If exists, inform user and allow:
+  - **Continue/Add** (default) - Add business planning documents to existing project (won't overwrite existing docs)
+  - **Override** - Start fresh (warns about overwriting)
+  - **Choose different name** - Use a different project name
+  - **Cancel** - Abort operation
 - Store validated project name for use in subsequent steps
 
 ### 3. Initialize Project Structure
 - Create `~/docs/{project-name}/` directory if it doesn't exist
-- Copy project templates to `~/docs/{project-name}/`:
-  - MISSION.md (will be populated from business concept)
-  - ROADMAP.md (will be populated from business plan)
-  - TECH-STACK.md (placeholder, to be filled later)
-  - DECISIONS.md (empty initially)
-  - README.md (will be populated with project overview)
-  - TEAM.md (will include startup advisor agent)
-- Create `~/docs/{project-name}/notes/` directory for conversation state
-- Create initial `~/docs/{project-name}/PROGRESS.md` using `update-progress.sh` script
+- **If project already exists:**
+  - Check which files exist (MISSION.md, ROADMAP.md, TECH-STACK.md, etc.)
+  - **Do NOT overwrite existing files** - Only create missing files
+  - If LEAN-CANVAS.md or PITCH-DECK.md already exist, inform user that business planning is already in progress
+  - Update TEAM.md to include startup advisor agent (add if not present, don't remove existing agents)
+- **If new project:**
+  - Copy project templates to `~/docs/{project-name}/`:
+    - MISSION.md (will be populated from business concept)
+    - ROADMAP.md (will be populated from business plan)
+    - TECH-STACK.md (placeholder, to be filled later)
+    - DECISIONS.md (empty initially)
+    - README.md (will be populated with project overview)
+    - TEAM.md (will include startup advisor agent)
+- Create `~/docs/{project-name}/notes/` directory for conversation state (if doesn't exist)
+- Create or update `~/docs/{project-name}/PROGRESS.md` using `update-progress.sh` script
   - Script detects business planning mode (checks for LEAN-CANVAS.md, PITCH-DECK.md, or business-planning notes)
-  - Script creates PROGRESS.md with business planning structure
+  - If PROGRESS.md exists, update it to include business planning tracking
+  - If new, create PROGRESS.md with business planning structure
   - Status: "Business planning in progress"
   - Current focus: "Completing business planning with startup advisor"
   - Next actions: Track conversation progress
