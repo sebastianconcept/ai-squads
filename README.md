@@ -154,12 +154,19 @@ Run the `/execute-feature` command in Cursor to autonomously implement a planned
 - Read feature plan from `~/docs/{project-name}/feature/{feature_name}/prd.json`
 - Resolve dependencies and execute user stories in order
 - Route stories to appropriate agents based on type and tech stack
+- **Intelligent Mode Selection**: Automatically use `/plan` mode for complex stories and `/ask` mode for failure diagnosis
+- **Dynamic Model Selection**: Select between fast and best models based on story characteristics (defaults to `auto`)
+- **Parallel Execution**: Execute independent stories in parallel using local Git worktrees for isolation
+- **Failure Diagnosis Loop**: Automatically diagnose failures and ideate solutions to inform the next iteration
+- **Non-Interactive Mode**: Support for automated environments via `--non-interactive` flag
 - Run quality checks (typecheck, lint, format, test) before commits
 - Perform browser verification for frontend stories
 - Track progress and commit each completed story
 - Archive feature when all stories pass
 
 **Dry-run mode**: Use `--dry-run` flag to preview execution prompts without running them.
+
+**Non-interactive mode**: Use `--non-interactive` to skip confirmation prompts (e.g., for MCP server allowlist).
 
 **Automatic mode**: Run without a feature name to automatically find and execute features with incomplete stories.
 
