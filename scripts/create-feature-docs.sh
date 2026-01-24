@@ -47,8 +47,22 @@ mkdir -p "$FEATURE_DIR"
 
 # Copy feature templates
 echo "Creating feature documentation for: $FEATURE_NAME"
-cp -v "$TEMPLATES_DIR/feature"/*.md "$FEATURE_DIR/"
+cp -v "$TEMPLATES_DIR/feature"/*.md "$FEATURE_DIR/" 2>/dev/null || true
 cp -v "$TEMPLATES_DIR/feature"/*.json "$FEATURE_DIR/" 2>/dev/null || true
+
+# Copy ux-specs-schema.json if it exists (for UX workflow validation)
+# Try multiple possible locations to find the schema file
+SCHEMA_PATHS=(
+  "$HOME/.cursor/projects/ai-squads/docs/ai-squads/feature/ux-workflow-improvement/ux-specs-schema.json"
+  "$(dirname "$0")/../docs/ai-squads/feature/ux-workflow-improvement/ux-specs-schema.json"
+  "$HOME/.cursor/ai-squads/docs/ai-squads/feature/ux-workflow-improvement/ux-specs-schema.json"
+)
+
+for SCHEMA_PATH in "${SCHEMA_PATHS[@]}"; do
+  if [ -f "$SCHEMA_PATH" ]; then
+    cp -v "$SCHEMA_PATH" "$FEATURE_DIR/" 2>/dev/null && break
+  fi
+done
 
 echo ""
 echo "✓ Feature structure created successfully!"

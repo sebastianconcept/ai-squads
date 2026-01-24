@@ -59,3 +59,52 @@ See `../standards/code/javascript-style.md` and `../standards/code/htmx-style.md
 - Ensuring accessibility
 - Debugging frontend issues
 - Code review of frontend code
+
+## UX Workflow Integration
+
+### When Implementing UX-Derived Stories
+
+When implementing stories generated from `ux-specs.json`, you must:
+
+1. **Read UX Specifications**:
+   - Read `ux-specs.json` (structured JSON format)
+   - Read `UX-SPECS.md` (human-readable markdown, including Visual Specifications section)
+   - Understand layout context from stories (grid system, spacing scale, typography hierarchy)
+
+2. **Layout-First Implementation**:
+   - Implement layout structure before component details
+   - Use grid system from layout specs
+   - Use spacing scale for consistent spacing
+   - Use typography hierarchy for text styling
+   - Use visual hierarchy for component prominence
+   - Use component composition for component relationships
+   - Use responsive behavior for breakpoint adaptations
+
+3. **Apply Layout Context**:
+   - Stories include layout context (grid system, spacing, typography, visual hierarchy)
+   - Use layout templates when applicable (list view, detail view, form view)
+   - Follow responsive behavior specifications
+
+4. **Accessibility Requirements**:
+   - Keyboard navigation for all interactive elements
+   - Screen reader compatibility (ARIA labels, roles)
+   - Color contrast: WCAG AA (4.5:1 for text, 3:1 for UI components)
+   - Focus management (visible focus indicators)
+   - Respect `prefers-reduced-motion` for animations
+
+5. **Performance Requirements**:
+   - Animation performance: 60fps target
+   - Image optimization
+   - Bundle size constraints
+   - Loading performance targets (First Contentful Paint, Largest Contentful Paint)
+
+6. **Browser Verification**:
+   - Feature works in Chrome, Firefox, Safari (latest 2 versions)
+   - Feature is verified in browser before marking complete
+   - Feature respects `prefers-reduced-motion`
+
+7. **Code Standards**:
+   - Follow `javascript-style.md` standards
+   - Follow `htmx-style.md` standards
+   - Use semantic HTML
+   - Ensure WCAG compliance
