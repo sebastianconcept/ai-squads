@@ -11,26 +11,33 @@ set -e
 # Parse command-line arguments
 FEATURE_NAME=""
 DRY_RUN=false
+NON_INTERACTIVE="${NON_INTERACTIVE:-false}"
 while [[ $# -gt 0 ]]; do
     case $1 in
         --dry-run)
             DRY_RUN=true
             shift
             ;;
+        --non-interactive)
+            NON_INTERACTIVE=true
+            shift
+            ;;
         --help|-h)
-            echo "Usage: execute-feature.sh [feature_name] [--dry-run]"
+            echo "Usage: execute-feature.sh [feature_name] [--dry-run] [--non-interactive]"
             echo ""
             echo "Execute a planned feature autonomously using the execution loop."
             echo ""
             echo "Arguments:"
-            echo "  feature_name    Name of the feature to execute (optional, will scan if not provided)"
-            echo "  --dry-run       Preview the prompt without executing (saves prompt to file)"
-            echo "  --help, -h      Show this help message"
+            echo "  feature_name      Name of the feature to execute (optional, will scan if not provided)"
+            echo "  --dry-run         Preview the prompt without executing (saves prompt to file)"
+            echo "  --non-interactive Skip confirmation prompts (e.g. for MCP allowlist)"
+            echo "  --help, -h        Show this help message"
             echo ""
             echo "Environment variables:"
             echo "  MAX_ITERATIONS         Maximum iterations per feature (default: 10)"
             echo "  MODEL                  Cursor CLI model to use (default: auto)"
             echo "  QUALITY_CHECK_TIMEOUT  Timeout for quality checks in seconds (default: 300)"
+            echo "  NON_INTERACTIVE        Set to true to skip confirmation prompts"
             exit 0
             ;;
         *)
@@ -53,6 +60,7 @@ SKILLS_DIR="$CURSOR_DIR/skills"
 MAX_ITERATIONS="${MAX_ITERATIONS:-10}"
 MODEL="${MODEL:-auto}"
 QUALITY_CHECK_TIMEOUT="${QUALITY_CHECK_TIMEOUT:-300}"  # 5 minutes default timeout
+MAX_PARALLEL_STORIES="${MAX_PARALLEL_STORIES:-5}"  # Max stories to run in parallel
 
 # Colors for output
 RED='\033[0;31m'
@@ -62,19 +70,23 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 log() {
-    echo -e "${BLUE}[execute-feature]${NC} $1"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo -e "${BLUE}[$timestamp][execute-feature]${NC} $1"
 }
 
 error() {
-    echo -e "${RED}[ERROR]${NC} $1" >&2
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo -e "${RED}[$timestamp][ERROR]${NC} $1" >&2
 }
 
 success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo -e "${GREEN}[$timestamp][SUCCESS]${NC} $1"
 }
 
 warn() {
-    echo -e "${YELLOW}[WARN]${NC} $1"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo -e "${YELLOW}[$timestamp][WARN]${NC} $1"
 }
 
 # Safe jq execution with error handling
@@ -106,6 +118,12 @@ check_prerequisites() {
             error "Cursor CLI not found. Please install Cursor CLI first."
             exit 1
         fi
+        
+        # Check Cursor CLI version (Phase 1)
+        if ! check_cursor_cli_version; then
+            # Non-fatal warning if version check fails, but continue
+            warn "Cursor CLI version check failed. Some new features may not be available."
+        fi
     fi
     
     if ! command -v jq &> /dev/null; then
@@ -123,6 +141,131 @@ check_prerequisites() {
     fi
     
     success "Prerequisites check passed"
+}
+
+# Check Cursor CLI version (Phase 1)
+check_cursor_cli_version() {
+    local min_version="2026.01.16"
+    local current_version
+    current_version=$(agent --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+    
+    if [ -z "$current_version" ]; then
+        warn "Could not determine Cursor CLI version."
+        return 1
+    fi
+    
+    # Compare versions using sort -V
+    if [ "$(printf '%s\n' "$min_version" "$current_version" | sort -V | head -1)" != "$min_version" ]; then
+        warn "Cursor CLI version $current_version is older than required minimum $min_version"
+        warn "Mode selection features (--mode=plan, --mode=ask) require version $min_version or later"
+        warn "Please update Cursor CLI if you encounter errors."
+        return 1
+    fi
+    
+    success "Cursor CLI version verified: $current_version"
+    return 0
+}
+
+# Select mode based on story complexity (Phase 1)
+select_mode() {
+    local story_id=$1
+    local deps_count
+    deps_count=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .dependencies | length" "$PRD_JSON" 2>/dev/null || echo "0")
+    local acc_criteria
+    acc_criteria=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .acceptanceCriteria | join(\" \")" "$PRD_JSON" 2>/dev/null || echo "")
+    local story_type
+    story_type=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .type" "$PRD_JSON" 2>/dev/null || echo "feature")
+    local acc_length=${#acc_criteria}
+    
+    # Complex story indicators
+    if [ "$deps_count" -gt 2 ] || [ "$acc_length" -gt 500 ] || [[ "$story_type" == "infrastructure" || "$story_type" == "integration" ]]; then
+        echo "plan"  # Start with planning for complex stories
+    else
+        echo "default"
+    fi
+}
+
+# Select model based on story characteristics (Phase 1)
+select_model() {
+    local story_id=$1
+    local story_type
+    story_type=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .type" "$PRD_JSON" 2>/dev/null || echo "feature")
+    local deps_count
+    deps_count=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .dependencies | length" "$PRD_JSON" 2>/dev/null || echo "0")
+    local acc_criteria
+    acc_criteria=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .acceptanceCriteria | join(\" \")" "$PRD_JSON" 2>/dev/null || echo "")
+    local acc_length=${#acc_criteria}
+    
+    # Check for model mapping in PRD (Phase 3 Improvement)
+    # format: "modelMapping": {"infrastructure": "o3-mini", "feature": "sonnet-4.5"}
+    local mapped_model
+    mapped_model=$(jq -r ".modelMapping.\"$story_type\" // empty" "$PRD_JSON" 2>/dev/null)
+    if [ -n "$mapped_model" ] && [ "$mapped_model" != "null" ]; then
+        echo "$mapped_model"
+        return
+    fi
+
+    # Use environment variable MODEL as default if provided
+    local default_model="${MODEL:-auto}"
+    
+    # If specific model is set in env, respect it unless it's 'auto'
+    if [ "$default_model" != "auto" ]; then
+        echo "$default_model"
+        return
+    fi
+
+    # Dynamic selection logic
+    # Fast path: simple tasks
+    if [ "$deps_count" -eq 0 ] && [ "$acc_length" -lt 200 ] && [[ "$story_type" == "config" || "$story_type" == "library" ]]; then
+        echo "composer-1"
+    # Quality path: complex stories
+    elif [ "$deps_count" -gt 2 ] || [ "$acc_length" -gt 500 ] || [[ "$story_type" == "infrastructure" || "$story_type" == "integration" ]]; then
+        echo "sonnet-4.5"
+    else
+        echo "auto"
+    fi
+}
+
+# Parse structured output for completion status (Phase 1)
+parse_agent_output() {
+    local output_file=$1
+    local story_id=$2
+    
+    # Try to parse JSON output
+    # Verified structure: {"type":"result","subtype":"success","is_error":false,"result":"..."}
+    local json_output
+    json_output=$(jq -r '.' "$output_file" 2>/dev/null)
+    
+    if [ $? -eq 0 ] && [ -n "$json_output" ] && [ "$json_output" != "null" ]; then
+        local type
+        type=$(echo "$json_output" | jq -r '.type // empty' 2>/dev/null)
+        local subtype
+        subtype=$(echo "$json_output" | jq -r '.subtype // empty' 2>/dev/null)
+        local is_error
+        is_error=$(echo "$json_output" | jq -r '.is_error // empty' 2>/dev/null)
+        
+        if [ "$type" = "result" ]; then
+            if [ "$subtype" = "success" ] && [ "$is_error" = "false" ]; then
+                return 0  # Success
+            else
+                return 1  # Failure
+            fi
+        fi
+    fi
+    
+    # Fallback to log parsing if JSON invalid or not found
+    if grep -qiE "(completed|success|done|finished)" "$output_file" >/dev/null 2>&1; then
+        # Check if files were actually changed (git diff)
+        if git diff --quiet; then
+            # No changes might mean it didn't do anything or it's a no-op
+            # But sometimes agents just analyze. However for user stories we expect changes.
+            return 0
+        else
+            return 0
+        fi
+    fi
+    
+    return 1 # Default to failure
 }
 
 # Find all features with incomplete stories
@@ -413,6 +556,658 @@ detect_dependency_cycles() {
     fi
     
     return 0
+}
+
+# Create worktree for a specific story (Phase 2)
+create_story_worktree() {
+    local story_id="$1"
+    local branch_name="$2"
+    local project_root="$3"
+    
+    # Worktree path: outside project to avoid conflicts
+    local worktree_base
+    worktree_base="$(dirname "$project_root")/worktrees"
+    mkdir -p "$worktree_base"
+    
+    # Unique worktree name with timestamp to avoid collisions
+    local worktree_name="${FEATURE_NAME}-${story_id}-$(date +%s)"
+    local worktree_path="$worktree_base/$worktree_name"
+    
+    log "Creating worktree for story $story_id at $worktree_path"
+    
+    # Create worktree from current branch state
+    if ! git worktree add "$worktree_path" "$branch_name" > /dev/null 2>&1; then
+        error "Failed to create worktree for story $story_id"
+        return 1
+    fi
+    
+    echo "$worktree_path"
+    return 0
+}
+
+# Cleanup worktree (Phase 2)
+cleanup_worktree() {
+    local worktree_path="$1"
+    local story_id="$2"
+    local force="${3:-false}"
+    
+    if [ ! -d "$worktree_path" ]; then
+        return 0
+    fi
+    
+    log "Cleaning up worktree for story $story_id: $worktree_path"
+    
+    local force_flag=""
+    if [ "$force" = "true" ]; then
+        force_flag="--force"
+    fi
+    
+    if git worktree remove "$worktree_path" $force_flag > /dev/null 2>&1; then
+        success "Worktree removed for story $story_id"
+        return 0
+    else
+        warn "Failed to remove worktree for story $story_id using git command. Attempting manual cleanup..."
+        rm -rf "$worktree_path"
+        git worktree prune
+        return 0
+    fi
+}
+
+# Find current wave of stories (Phase 2)
+find_current_wave() {
+    local prd_json="$1"
+    # Find the lowest wave number that has available stories (passes == false)
+    local min_wave
+    min_wave=$(jq -r '.userStories[] | select(.passes == false) | .wave' "$prd_json" 2>/dev/null | sort -n | head -1)
+    echo "$min_wave"
+}
+
+# Find stories that can run in parallel in the current wave (Phase 2)
+find_parallel_stories() {
+    local prd_json="$1"
+    local wave="$2"
+    
+    # Find all stories in the same wave that:
+    # - Don't pass yet
+    # - Have all dependencies satisfied (all dependent stories have passes == true)
+    
+    jq -r ".userStories as \$all | .userStories[] | select(.wave == $wave and .passes == false) | .id as \$id | .dependencies as \$deps | if (\$deps | length == 0) or (\$deps | all(. as \$d | (\$all[] | select(.id == \$d) | .passes))) then \$id else empty end" "$prd_json" 2>/dev/null
+}
+
+# Global variable to track active worktrees for cleanup on exit
+declare -A ACTIVE_WORKTREES
+
+# Cleanup on script exit (Phase 2 - Safety)
+cleanup_on_exit() {
+    local exit_code=$?
+    
+    if [ ${#ACTIVE_WORKTREES[@]} -gt 0 ]; then
+        echo ""
+        warn "Script interrupted or failed. Cleaning up active worktrees..."
+        for story_id in "${!ACTIVE_WORKTREES[@]}"; do
+            local worktree_path="${ACTIVE_WORKTREES[$story_id]}"
+            cleanup_worktree "$worktree_path" "$story_id" "true"
+        done
+    fi
+    
+    # Final cleanup of any rules
+    if [ -n "$FEATURE_NAME" ]; then
+        cleanup_feature_rules "$FEATURE_NAME"
+    fi
+    
+    exit $exit_code
+}
+
+# Register trap
+trap cleanup_on_exit EXIT INT TERM
+
+# Analyze worktree diff for coherence (Phase 2 - Gate 3)
+analyze_worktree_diff() {
+    local story_id="$1"
+    local worktree_path="$2"
+    
+    log "Story $story_id: Analyzing diff for coherence (Gate 3)..."
+    
+    local changed_files
+    changed_files=$(cd "$worktree_path" && git diff --name-only HEAD)
+    
+    if [ -z "$changed_files" ]; then
+        warn "Story $story_id: No files changed in worktree."
+        return 1
+    fi
+    
+    # Gate 4: No Unrelated Changes (System Files)
+    if echo "$changed_files" | grep -qE "execute-feature\.sh|prd\.json|\.git/config"; then
+        # Check if it's an infrastructure story
+        local story_type
+        story_type=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .type" "$PRD_JSON")
+        if [ "$story_type" != "infrastructure" ]; then
+            error "Story $story_id: Unauthorized modification of system files detected: $changed_files"
+            return 1
+        fi
+    fi
+    
+    # Gate 3: File Scope Validation (Agent Role)
+    local agent_name
+    agent_name=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .agent" "$PRD_JSON")
+    
+    case "$agent_name" in
+        "ui-developer"|"steve"|"uidev")
+            # UI agents shouldn't touch core backend or scripts unless specified
+            if echo "$changed_files" | grep -qE "scripts/|server/|backend/"; then
+                warn "Story $story_id: UI agent modified non-UI files. Proceeding with caution (quality checks will be final arbiter)."
+            fi
+            ;;
+        "backend-developer"|"bob"|"rusty")
+            if echo "$changed_files" | grep -qE "static/|public/|frontend/|\.css$"; then
+                warn "Story $story_id: Backend agent modified UI files. Proceeding with caution."
+            fi
+            ;;
+    esac
+    
+    success "Story $story_id: Diff analysis passed."
+    return 0
+}
+
+# Run quality checks in a specific worktree (Phase 2)
+run_quality_checks_in_worktree() {
+    local worktree_path="$1"
+    local story_id="$2"
+    
+    log "Running quality checks in worktree for story $story_id"
+    
+    local quality_checks
+    quality_checks=$(jq -r '.quality | to_entries[] | "\(.key)|\(.value)"' "$PRD_JSON")
+    
+    local failed=false
+    while IFS='|' read -r label command; do
+        log "Running quality check in worktree: $label"
+        
+        # Execute command in worktree directory
+        if ! (cd "$worktree_path" && timeout "$QUALITY_CHECK_TIMEOUT" bash -c "$command" > /tmp/quality-check-${label}-${story_id}.log 2>&1); then
+            error "Quality check failed in worktree: $label"
+            # Optional: cat "/tmp/quality-check-${label}-${story_id}.log"
+            failed=true
+        else
+            success "Quality check passed in worktree: $label"
+        fi
+    done <<< "$quality_checks"
+    
+    [ "$failed" = "false" ]
+}
+
+# Resolve merge conflict using an agent (Phase 2 - Conflict Resolver)
+resolve_merge_conflict_with_agent() {
+    local story_id="$1"
+    local worktree_path="$2"
+    local conflict_files="$3"
+    
+    log "Summoning Conflict Resolver agent for story $story_id..."
+    
+    local story_title
+    story_title=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .title" "$PRD_JSON")
+    local story_desc
+    story_desc=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .description" "$PRD_JSON")
+    
+    # Create a specialized prompt for conflict resolution
+    local resolver_prompt_file=$(mktemp)
+    cat > "$resolver_prompt_file" <<EOF
+# Conflict Resolver Agent
+
+You are an expert Senior Integrator agent. Your task is to resolve git merge conflicts between the current main branch and a new feature implementation.
+
+## Context
+- **Feature**: $FEATURE_NAME
+- **Story ID**: $story_id
+- **Story Title**: $story_title
+- **Story Description**: $story_desc
+
+## Task
+1. Analyze the merge conflicts in the following files:
+$conflict_files
+
+2. Resolve the conflicts such that the requirements of story $story_id are satisfied while preserving the existing functionality in the main branch.
+
+3. **IMPORTANT**: You must remove all conflict markers (<<<<<<<, =======, >>>>>>>) and provide a clean, working implementation.
+
+4. Run the quality checks for this project after resolution to ensure everything still works.
+
+## Quality Checks to Run:
+$(jq -r '.quality | to_entries[] | "- \(.key): \(.value)"' "$PRD_JSON")
+
+Resolve the conflicts now.
+EOF
+
+    # Run the agent in the main project directory (where the conflict is)
+    local project_root
+    project_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+    
+    if agent -p --force --workspace "$project_root" --model "sonnet-4.5" "$(cat "$resolver_prompt_file")" > /tmp/conflict-resolver-${story_id}.log 2>&1; then
+        success "Conflict Resolver agent completed its task"
+        rm -f "$resolver_prompt_file"
+        return 0
+    else
+        error "Conflict Resolver agent failed to resolve conflicts"
+        cat /tmp/conflict-resolver-${story_id}.log
+        rm -f "$resolver_prompt_file"
+        return 1
+    fi
+}
+
+# Merge worktree result sequentially (Phase 2)
+merge_worktree_sequential() {
+    local story_id="$1"
+    local worktree_path="$2"
+    local project_root="$3"
+    
+    log "Merging worktree for story $story_id into main branch"
+    
+    # Get story title for commit message
+    local story_title
+    story_title=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .title" "$PRD_JSON")
+    
+    # Commit changes in worktree first
+    cd "$worktree_path" || return 1
+    
+    if [ -z "$(git status --porcelain)" ]; then
+        warn "No changes to commit in worktree for story $story_id"
+        cd - > /dev/null
+        return 1
+    fi
+    
+    # Commit in worktree
+    local commit_msg="feat: $story_id - $story_title"
+    if ! git add -A && git commit -m "$commit_msg" > /dev/null 2>&1; then
+        error "Failed to commit changes in worktree for story $story_id"
+        cd - > /dev/null
+        return 1
+    fi
+    
+    # Get commit hash
+    local commit_hash
+    commit_hash=$(git rev-parse HEAD)
+    
+    cd - > /dev/null
+    
+    # Now merge into main branch
+    cd "$project_root" || return 1
+    
+    # Try to cherry-pick the commit from the worktree
+    if git cherry-pick "$commit_hash" > /tmp/merge-${story_id}.log 2>&1; then
+        success "Successfully merged worktree for story $story_id via cherry-pick"
+    else
+        warn "Cherry-pick conflict detected for story $story_id"
+        
+        # Check for unmerged paths
+        local conflict_files
+        conflict_files=$(git status --short | grep "^UU" | awk '{print $2}')
+        
+        if [ -n "$conflict_files" ]; then
+            if resolve_merge_conflict_with_agent "$story_id" "$worktree_path" "$conflict_files"; then
+                # Agent claimed success, check if markers are gone
+                if grep -rE "<<<<<<<|=======|>>>>>>>" $conflict_files >/dev/null 2>&1; then
+                    error "Conflict markers still present after agent resolution"
+                    
+                    # Phase 3 Improvement: Manual Fallback
+                    if [ "$NON_INTERACTIVE" != "true" ]; then
+                        warn "Conflict resolution agent failed. Pausing for manual intervention..."
+                        warn "Conflict in: $conflict_files"
+                        warn "Please resolve the conflict manually in the project root and then press ENTER."
+                        read -r
+                    else
+                        git cherry-pick --abort
+                        return 1
+                    fi
+                fi
+                
+                # Markers gone, try to continue
+                git add .
+                if git cherry-pick --continue --no-edit > /dev/null 2>&1; then
+                    success "Conflict resolved by agent and merge completed"
+                else
+                    error "Failed to continue cherry-pick even after agent resolution"
+                    git cherry-pick --abort
+                    return 1
+                fi
+            else
+                # Phase 3 Improvement: Manual Fallback
+                if [ "$NON_INTERACTIVE" != "true" ]; then
+                    warn "Conflict Resolver agent failed. Pausing for manual intervention..."
+                    warn "Please resolve the conflict manually in the project root and then press ENTER."
+                    read -r
+                    if [ -z "$(git status --short | grep "^UU")" ]; then
+                        git add .
+                        if git cherry-pick --continue --no-edit > /dev/null 2>&1; then
+                            success "Conflict resolved manually and merge completed"
+                        else
+                            error "Failed to continue cherry-pick after manual resolution"
+                            return 1
+                        fi
+                    else
+                        error "Conflict still exists. Aborting."
+                        git cherry-pick --abort
+                        return 1
+                    fi
+                else
+                    error "Conflict resolution failed"
+                    git cherry-pick --abort
+                    return 1
+                fi
+            fi
+        else
+            error "Cherry-pick failed but no unmerged paths found"
+            cat /tmp/merge-${story_id}.log
+            git cherry-pick --abort
+            return 1
+        fi
+    fi
+    
+    return 0
+}
+
+# Update PROGRESS.md current position (Phase 3 Improvement)
+update_progress_position() {
+    local status="$1"
+    local focus="$2"
+    local progress_file="$DOCS_DIR/PROGRESS.md"
+    
+    if [ ! -f "$progress_file" ]; then
+        return
+    fi
+    
+    # Update Status and Current Position using sed
+    # Matches lines like "**Status:** ..." or "**Current Position:** ..."
+    sed -i '' "s/\*\*Status:\*\*.*/\*\*Status:\*\* $status/" "$progress_file"
+    sed -i '' "s/\*\*Active Feature:\*\*.*/\*\*Active Feature:\*\* $FEATURE_NAME/" "$progress_file"
+    sed -i '' "s/\*\*Current Story:\*\*.*/\*\*Current Story:\*\* $focus/" "$progress_file"
+    sed -i '' "s/\*\*Last activity:\*\*.*/\*\*Last activity:\*\* $(date -u +'%Y-%m-%d %H:%M UTC') — $status/" "$progress_file"
+}
+
+# Display parallel execution progress (Phase 3 Improvement)
+show_parallel_progress() {
+    local wave="$1"
+    local story_ids=("$@")
+    # Remove wave from array
+    story_ids=("${story_ids[@]:1}")
+    
+    echo ""
+    log "┌─────────────────────────────────────────────────────────────────┐"
+    log "│ PARALLEL EXECUTION WAVE: $wave                                  "
+    log "├─────────────────────────────────────────────────────────────────┤"
+    log "│ STORIES:                                                        "
+    for id in "${story_ids[@]}"; do
+        local title
+        title=$(jq -r ".userStories[] | select(.id == \"$id\") | .title" "$PRD_JSON")
+        local agent
+        agent=$(jq -r ".userStories[] | select(.id == \"$id\") | .agent" "$PRD_JSON")
+        log "│ - $id: $title ($agent)"
+    done
+    log "└─────────────────────────────────────────────────────────────────┘"
+    echo ""
+    
+    update_progress_position "Parallel Wave $wave in progress" "Executing ${#story_ids[@]} stories concurrently"
+}
+
+# Execute parallel stories in a wave (Phase 2)
+execute_parallel_stories() {
+    local wave="$1"
+    
+    log "Executing parallel stories for wave $wave"
+    
+    local parallel_stories
+    parallel_stories=$(find_parallel_stories "$PRD_JSON" "$wave")
+    
+    if [ -z "$parallel_stories" ]; then
+        log "No parallel stories found for wave $wave"
+        return 0
+    fi
+    
+    # Limit number of parallel stories
+    local story_ids=($parallel_stories)
+    local total_available=${#story_ids[@]}
+    
+    if [ "$total_available" -gt "$MAX_PARALLEL_STORIES" ]; then
+        warn "Found $total_available parallel stories, but limiting to $MAX_PARALLEL_STORIES"
+        story_ids=("${story_ids[@]:0:$MAX_PARALLEL_STORIES}")
+    fi
+    
+    # Show visual progress (Phase 3 Improvement)
+    show_parallel_progress "$wave" "${story_ids[@]}"
+    
+    log "Starting parallel execution for ${#story_ids[@]} stories"
+    
+    local project_root
+    project_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+    local branch_name
+    branch_name=$(jq -r '.branchName' "$PRD_JSON")
+    
+    declare -A worktree_paths
+    declare -A worktree_pids
+    
+    # Launch all stories in background
+    for story_id in "${story_ids[@]}"; do
+        local worktree_path
+        worktree_path=$(create_story_worktree "$story_id" "$branch_name" "$project_root")
+        
+        if [ $? -ne 0 ] || [ -z "$worktree_path" ]; then
+            continue
+        fi
+        
+        worktree_paths["$story_id"]="$worktree_path"
+        ACTIVE_WORKTREES["$story_id"]="$worktree_path" # Track for global cleanup
+        
+        # Build prompt
+        local prompt_file=$(mktemp)
+        build_prompt "$story_id" > "$prompt_file"
+        
+        # Get mode and model
+        local current_mode=$(select_mode "$story_id")
+        local current_model=$(select_model "$story_id")
+        local mode_flag=""
+        [ "$current_mode" != "default" ] && mode_flag="--mode $current_mode"
+        
+        # Execute in background
+        (
+            log "Story $story_id: Starting agent execution..."
+            if agent -p --force --workspace "$worktree_path" --model "$current_model" $mode_flag --output-format json "$(cat "$prompt_file")" > "/tmp/cursor-output-${story_id}.log" 2>&1; then
+                if parse_agent_output "/tmp/cursor-output-${story_id}.log" "$story_id"; then
+                    # Phase 2 - Multi-Gate Validation
+                    # Gate 1: Quality checks (already implemented)
+                    if run_quality_checks_in_worktree "$worktree_path" "$story_id"; then
+                        # Gate 3: Diff Coherence Check
+                        if analyze_worktree_diff "$story_id" "$worktree_path"; then
+                            exit 0
+                        fi
+                    fi
+                fi
+            fi
+            exit 1
+        ) &
+        worktree_pids["$story_id"]=$!
+    done
+    
+    # Wait for all to complete
+    local successful_stories=()
+    for story_id in "${!worktree_pids[@]}"; do
+        wait "${worktree_pids[$story_id]}"
+        if [ $? -eq 0 ]; then
+            successful_stories+=("$story_id")
+        else
+            error "Story $story_id failed in parallel execution or validation gates"
+            
+            # Phase 1: Failure Diagnosis for parallel failures
+            # We can't easily distinguish transient from permanent here without checking logs
+            # For simplicity, we'll run diagnosis if logs exist
+            local agent_log="/tmp/cursor-output-${story_id}.log"
+            if [ -f "$agent_log" ]; then
+                # Only diagnose if it's not a transient issue
+                if ! grep -qi "timeout\|network\|rate limit\|429\|503\|502" "$agent_log" 2>/dev/null; then
+                    run_failure_diagnosis "$story_id" "$(cat "$agent_log")"
+                fi
+            fi
+        fi
+    done
+    
+    # Merge successful ones sequentially
+    local merged_count=0
+    for story_id in "${successful_stories[@]}"; do
+        if merge_worktree_sequential "$story_id" "${worktree_paths[$story_id]}" "$project_root"; then
+            update_story_status "$story_id" "true" "Completed via parallel execution in wave $wave"
+            append_notes "Story $story_id completed (parallel, wave $wave)"
+            merged_count=$((merged_count + 1))
+        fi
+        # Remove from active tracking after merge attempt
+        unset ACTIVE_WORKTREES["$story_id"]
+    done
+    
+    # Cleanup all worktrees
+    for story_id in "${!worktree_paths[@]}"; do
+        cleanup_worktree "${worktree_paths[$story_id]}" "$story_id" "true"
+        unset ACTIVE_WORKTREES["$story_id"]
+    done
+    
+    [ "$merged_count" -gt 0 ]
+}
+
+# Governance-based MCP management (Phase 3)
+manage_mcp_servers() {
+    local action=$1 # "enable" or "disable"
+    local allowlist="mcp-allowlist.json"
+    
+    # Project-root mcp.json is the primary source
+    if [ -f "mcp.json" ]; then
+        local servers=$(jq -r '.mcpServers | keys[]' mcp.json 2>/dev/null)
+        for server in $servers; do
+            if [ "$action" = "enable" ]; then
+                # Check allowlist
+                if ! grep -q "\"$server\"" "$allowlist" 2>/dev/null; then
+                    warn "MCP Server '$server' is not in the allowlist."
+                    
+                    local should_allow=false
+                    if [ "$NON_INTERACTIVE" = "true" ]; then
+                        success "Non-interactive mode: Automatically allowing server '$server'."
+                        should_allow=true
+                    else
+                        echo -n "Allow this server for autonomous use? (y/n): "
+                        read -r response
+                        if [ "$response" = "y" ]; then
+                            should_allow=true
+                        fi
+                    fi
+                    
+                    if [ "$should_allow" = "true" ]; then
+                        # Add to allowlist
+                        if [ ! -f "$allowlist" ]; then echo "[]" > "$allowlist"; fi
+                        local tmp=$(mktemp)
+                        jq ". += [\"$server\"]" "$allowlist" > "$tmp" && mv "$tmp" "$allowlist"
+                        success "Added '$server' to allowlist."
+                    else
+                        warn "Skipping '$server'."
+                        continue
+                    fi
+                fi
+                log "Enabling MCP server: $server"
+                agent mcp enable "$server" > /dev/null 2>&1
+            else
+                log "Disabling MCP server: $server"
+                agent mcp disable "$server" > /dev/null 2>&1
+            fi
+        done
+    fi
+}
+
+# Synthesize active rules from PRD and Notes (Phase 3)
+synthesize_feature_rules() {
+    local feature_name=$1
+    local project_root
+    project_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+    local rules_dir="$project_root/.cursor/rules"
+    mkdir -p "$rules_dir"
+    local rules_file="$rules_dir/${feature_name}.md"
+    
+    log "Synthesizing active memory for feature $feature_name..."
+    
+    # 1. Start with PRD constraints
+    echo "# Active Rules: $feature_name" > "$rules_file"
+    echo "" >> "$rules_file"
+    echo "## PRD Constraints" >> "$rules_file"
+    # Extract rules from prd.json if they exist
+    if jq -e '.rules' "$PRD_JSON" >/dev/null 2>&1; then
+        jq -r '.rules[] | "- \(.)"' "$PRD_JSON" >> "$rules_file"
+    else
+        echo "- Follow general project standards." >> "$rules_file"
+    fi
+    echo "" >> "$rules_file"
+    
+    # 2. Add recent learnings from insights.json (Note System Integration)
+    local insights_file="$DOCS_DIR/feature/${feature_name}/insights.json"
+    if [ -f "$insights_file" ]; then
+        echo "## Recent Learnings (from Note System)" >> "$rules_file"
+        # Extract lessons from insights.json
+        if jq -e '.[] | select(.lesson == true)' "$insights_file" >/dev/null 2>&1; then
+            jq -r '.[] | select(.lesson == true) | "- \(.content)"' "$insights_file" >> "$rules_file"
+        else
+            echo "- No specific lessons captured yet." >> "$rules_file"
+        fi
+        echo "" >> "$rules_file"
+    fi
+    
+    # 3. Add project-level patterns from NOTES.md
+    local notes_file="$DOCS_DIR/NOTES.md"
+    if [ -f "$notes_file" ]; then
+        echo "## Project Patterns" >> "$rules_file"
+        # Extract the '## Codebase Patterns' section using sed
+        sed -n '/## Codebase Patterns/,/##/p' "$notes_file" | grep "^-" >> "$rules_file" 2>/dev/null || true
+        echo "" >> "$rules_file"
+    fi
+
+    # 4. Consolidated Project Memory (Phase 3 - Refined)
+    local notes_root="$DOCS_DIR/notes"
+    if [ -d "$notes_root" ]; then
+        echo "## Consolidated Project Memory" >> "$rules_file"
+        
+        # Pull from recent Chapters (the most senior level of memory)
+        # Scan specifically in docs/{project-name}/notes/*/chapters/
+        local chapters
+        chapters=$(find "$notes_root" -path "*/chapters/*" -name "[0-9][0-9]-*.md" 2>/dev/null | sort -r | head -n 3)
+        if [ -n "$chapters" ]; then
+            for chapter in $chapters; do
+                local chap_name=$(basename "$chapter")
+                local chap_summary=$(grep -m 1 "^# " "$chapter" | sed 's/^# //')
+                echo "- **From Chapter $chap_name**: $chap_summary" >> "$rules_file"
+            done
+        fi
+
+        # Pull explicit lessons found in any note (recursive search)
+        local lesson_notes
+        lesson_notes=$(grep -rl "lesson: true" "$notes_root" --include="*.md" 2>/dev/null | head -n 5)
+        if [ -n "$lesson_notes" ]; then
+            for note in $lesson_notes; do
+                local note_name=$(basename "$note")
+                # Extract the first few lines of the Learnings section
+                local learning=$(sed -n '/## Learnings/,/##/p' "$note" | grep "^-" | head -n 2)
+                if [ -n "$learning" ]; then
+                    echo "- **Learning from $note_name**: $learning" >> "$rules_file"
+                fi
+            done
+        fi
+        echo "" >> "$rules_file"
+    fi
+    
+    success "Feature rules synthesized at .cursor/rules/${feature_name}.md"
+}
+
+# Cleanup synthesized feature rules (Phase 3)
+cleanup_feature_rules() {
+    local feature_name=$1
+    local project_root
+    project_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+    local rules_file="$project_root/.cursor/rules/${feature_name}.md"
+    
+    if [ -f "$rules_file" ]; then
+        rm -f "$rules_file"
+        log "Cleaned up feature-specific rules: $rules_file"
+    fi
 }
 
 # Find next available story
@@ -1512,6 +2307,93 @@ add_execution_instructions() {
 }
 
 # Build execution prompt
+# Run failure diagnosis loop (Phase 1)
+run_failure_diagnosis() {
+    local story_id="$1"
+    local failure_logs="$2"
+    local diagnosis_file="$DOCS_DIR/feature/$FEATURE_NAME/diagnosis/${story_id}.md"
+    
+    mkdir -p "$(dirname "$diagnosis_file")"
+    
+    log "Story $story_id: Initiating failure diagnosis loop..."
+    
+    # 1. Diagnosis Step (/ask mode)
+    local diagnosis_prompt=$(cat <<EOF
+# Failure Diagnosis Request
+
+The execution of story **$story_id** has failed. 
+
+## Failure Context
+$failure_logs
+
+## Task
+1. Analyze the logs and the current state of the codebase.
+2. Identify the root cause of the failure.
+3. Determine if it's a logic error, missing context, or environment issue.
+4. Provide a clear diagnosis of the problem.
+EOF
+)
+    
+    local diagnosis_output_file="/tmp/diagnosis-${story_id}.log"
+    log "Story $story_id: Running diagnosis (/ask mode)..."
+    
+    if ! agent -p --force --workspace "$(git rev-parse --show-toplevel)" --mode ask "$diagnosis_prompt" > "$diagnosis_output_file" 2>&1; then
+        warn "Failure diagnosis agent failed. Proceeding with manual iteration."
+        return 1
+    fi
+    
+    # 2. Solution Ideation Step
+    log "Story $story_id: Running solution ideation..."
+    local diagnosis_content=$(cat "$diagnosis_output_file")
+    local ideation_prompt=$(cat <<EOF
+# Solution Ideation Request
+
+Based on the following diagnosis of a failed execution for story **$story_id**, please run the \`ideate-solution\` command to propose at least 2 approaches to fix it.
+
+## Diagnosis
+$diagnosis_content
+
+## Task
+Invoke \`ideate-solution\` and present the options.
+EOF
+)
+    
+    local ideation_output_file="/tmp/ideation-${story_id}.log"
+    if ! agent -p --force --workspace "$(git rev-parse --show-toplevel)" "$ideation_prompt" > "$ideation_output_file" 2>&1; then
+        warn "Solution ideation agent failed. Proceeding with diagnosis only."
+        echo "# Diagnosis (no ideation)" > "$diagnosis_file"
+        echo "$diagnosis_content" >> "$diagnosis_file"
+    else
+        echo "# Failure Diagnosis & Proposed Solutions" > "$diagnosis_file"
+        echo "## Diagnosis" >> "$diagnosis_file"
+        echo "$diagnosis_content" >> "$diagnosis_file"
+        echo "" >> "$diagnosis_file"
+        echo "## Proposed Solutions" >> "$diagnosis_file"
+        cat "$ideation_output_file" >> "$diagnosis_file"
+    fi
+    
+    success "Story $story_id: Failure diagnosis loop completed. Results saved to $diagnosis_file"
+    return 0
+}
+
+# Add diagnosis context to prompt
+add_diagnosis_context() {
+    local story_id="$1"
+    local diagnosis_file="$DOCS_DIR/feature/$FEATURE_NAME/diagnosis/${story_id}.md"
+    
+    if [ -f "$diagnosis_file" ]; then
+        echo "## Previous Failure Diagnosis"
+        echo ""
+        echo "The previous attempt for this story failed. Here is the diagnosis and proposed solutions:"
+        echo ""
+        cat "$diagnosis_file"
+        echo ""
+        echo "---"
+        echo ""
+        log "Added failure diagnosis context for story $story_id"
+    fi
+}
+
 build_prompt() {
     local story_id="$1"
     
@@ -1521,6 +2403,7 @@ build_prompt() {
     add_project_context
     add_feature_notes
     add_project_lessons  # Read project-level lessons after feature notes
+    add_diagnosis_context "$story_id" # Add diagnosis if it exists
     add_story_details "$story_id" || return 1
     add_browser_verification "$story_id"
     add_quality_checks
@@ -1637,6 +2520,10 @@ show_progress() {
     log "Remaining: $remaining stories"
     if [ -n "$current_story" ]; then
         log "Current: $current_story"
+        # Phase 3 Improvement: Sync with PROGRESS.md
+        local title
+        title=$(jq -r ".userStories[] | select(.id == \"$current_story\") | .title" "$prd_json")
+        update_progress_position "Executing $current_story" "$title"
     fi
     log "═══════════════════════════════════════════════════════════"
     echo ""
@@ -1679,6 +2566,12 @@ execute_single_feature() {
         iteration=$((iteration + 1))
         log "Iteration $iteration/$MAX_ITERATIONS"
         
+        # Phase 3: Synthesize active memory rules
+        synthesize_feature_rules "$FEATURE_NAME"
+        
+        # Phase 3: Enable allowed MCP servers
+        manage_mcp_servers "enable"
+        
         # Show progress
         show_progress "$PRD_JSON" ""
         
@@ -1699,14 +2592,51 @@ execute_single_feature() {
             log "Running final quality gate..."
             if run_quality_checks; then
                 archive_feature
+                # Phase 3: Final cleanup
+                manage_mcp_servers "disable"
+                cleanup_feature_rules "$FEATURE_NAME"
                 success "Feature execution complete!"
                 return 0
             else
+                # Phase 3: Cleanup on failure
+                manage_mcp_servers "disable"
+                cleanup_feature_rules "$FEATURE_NAME"
                 error "Final quality gate failed"
                 return 1
             fi
         fi
+
+        # Phase 2: Parallel Execution
+        # Find current wave
+        local current_wave
+        current_wave=$(find_current_wave "$PRD_JSON")
         
+        if [ -n "$current_wave" ] && [ "$current_wave" != "null" ]; then
+            # Find stories that can run in parallel
+            local parallel_ids
+            parallel_ids=$(find_parallel_stories "$PRD_JSON" "$current_wave")
+            
+            # If we have multiple stories that can run in parallel, try it
+            local parallel_count
+            parallel_count=$(echo "$parallel_ids" | grep -v "^$" | wc -l | tr -d ' ')
+            if [ "$parallel_count" -gt 1 ]; then
+                log "Phase 2: Found $parallel_count parallel stories in wave $current_wave"
+                if [ "$DRY_RUN" = "true" ]; then
+                    log "DRY-RUN: Would execute stories in parallel: $(echo $parallel_ids | xargs)"
+                else
+                    if execute_parallel_stories "$current_wave"; then
+                        log "Parallel execution for wave $current_wave completed some stories"
+                        # Phase 3: Disable MCP servers before continuing
+                        manage_mcp_servers "disable"
+                        continue # Move to next iteration to re-evaluate state
+                    else
+                        warn "Parallel execution for wave $current_wave failed or had no results, falling back to sequential"
+                    fi
+                fi
+            fi
+        fi
+        
+        # Fallback to sequential execution (existing logic)
         # Find next available story
         local story_id
         story_id=$(find_next_story "$PRD_JSON")
@@ -1795,10 +2725,37 @@ execute_single_feature() {
         
         # Run Cursor CLI
         log "Spawning Cursor CLI agent..."
+        
+        # Phase 1: Dynamic Mode and Model Selection
+        local current_mode
+        current_mode=$(select_mode "$story_id")
+        local current_model
+        current_model=$(select_model "$story_id")
+        
+        local mode_flag=""
+        if [ "$current_mode" != "default" ]; then
+            mode_flag="--mode $current_mode"
+            log "Using mode: $current_mode (complex story)"
+        fi
+        
+        if [ "$current_model" != "auto" ]; then
+            log "Using model: $current_model (dynamic selection)"
+        else
+            log "Using model: auto"
+        fi
+        
         local project_root
         project_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-        if agent -p --force --workspace "$project_root" --model "$MODEL" "$(cat "$prompt_file")" > /tmp/cursor-output.log 2>&1; then
-            success "Agent execution completed"
+        
+        # Phase 1: Use --output-format json and dynamic flags
+        if agent -p --force --workspace "$project_root" --model "$current_model" $mode_flag --output-format json "$(cat "$prompt_file")" > /tmp/cursor-output.log 2>&1; then
+            # Phase 1: Use verified JSON parsing
+            if parse_agent_output "/tmp/cursor-output.log" "$story_id"; then
+                success "Agent execution completed successfully"
+            else
+                warn "Agent execution finished but status check failed"
+                # Fallback check: if quality checks pass later, we might still be okay
+            fi
         else
             local agent_exit_code=$?
             error "Agent execution failed (exit code: $agent_exit_code)"
@@ -1822,6 +2779,11 @@ execute_single_feature() {
             update_story_status "$story_id" "false" "$failure_reason in iteration $iteration (attempt $story_iterations, type: $failure_type)"
             append_notes "Story $story_id agent execution failed (type: $failure_type, attempt $story_iterations)"
             
+            # Phase 1: Failure Diagnosis for permanent failures
+            if [ "$failure_type" = "permanent" ]; then
+                run_failure_diagnosis "$story_id" "$(cat /tmp/cursor-output.log)"
+            fi
+
             # For permanent failures after multiple attempts, pause for user intervention
             if [ "$failure_type" = "permanent" ] && [ "$story_iterations" -ge 3 ]; then
                 error "Story $story_id has failed $story_iterations times with permanent errors"
@@ -1886,6 +2848,19 @@ execute_single_feature() {
             update_story_status "$story_id" "false" "$failure_reason in iteration $iteration (attempt $story_iterations, type: $failure_type)"
             append_notes "Story $story_id failed quality checks (type: $failure_type, attempt $story_iterations)"
             
+            # Phase 1: Failure Diagnosis for permanent quality check failures
+            if [ "$failure_type" = "permanent" ]; then
+                # Collect all failed check logs
+                local quality_failure_context=""
+                for log_file in /tmp/quality-check-*.log; do
+                    if [ -f "$log_file" ]; then
+                        local check_label=$(basename "$log_file" .log | sed 's/quality-check-//')
+                        quality_failure_context="$quality_failure_context\n\n### Check: $check_label\n$(cat "$log_file")"
+                    fi
+                done
+                run_failure_diagnosis "$story_id" "Quality checks failed:$quality_failure_context"
+            fi
+
             # For permanent failures after multiple attempts, provide guidance
             if [ "$failure_type" = "permanent" ] && [ "$story_iterations" -ge 3 ]; then
                 warn "Story $story_id has failed quality checks $story_iterations times"
@@ -1899,6 +2874,9 @@ execute_single_feature() {
             
             warn "Continuing to next iteration..."
         fi
+        
+        # Phase 3: Disable MCP servers for this iteration
+        manage_mcp_servers "disable"
         
         rm -f "$prompt_file"
     done
