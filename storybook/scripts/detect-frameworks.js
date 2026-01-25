@@ -1,3 +1,23 @@
+/**
+ * Framework Detection Script for Storybook
+ * 
+ * Automatically detects the frontend framework used in a project by checking:
+ * 1. TECH-STACK.md for explicit framework specification
+ * 2. package.json for framework dependencies (React, Vue, Svelte, Angular)
+ * 3. File extensions (.jsx, .vue, .svelte) in package directories
+ * 4. Defaults to HTML if no framework detected
+ * 
+ * Also detects native/game engine packages (iOS, Android, Godot, Unity) to skip Storybook.
+ * 
+ * Used by:
+ * - Storybook configuration (.storybook/main.js) to select correct framework
+ * - Story generation script (generate-stories.js) to generate framework-appropriate stories
+ * 
+ * Exports:
+ * - frameworks: { frontend: 'react'|'vue'|'svelte'|'html', mobile: ... }
+ * - skipStorybook: { frontend: boolean, mobile: boolean }
+ */
+
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

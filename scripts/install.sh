@@ -1,7 +1,18 @@
 #!/bin/bash
 
 # Install ai-squads globally to ~/.cursor/
-# This installs commands, templates, and scripts for use across all projects
+# 
+# This installs commands, templates, scripts, rules, and skills for use across all projects.
+# 
+# What gets installed:
+# - Commands: All workflow commands (plan-feature, adopt-project, etc.)
+# - Templates: Documentation templates including Storybook templates
+# - Scripts: Helper scripts including init-storybook.sh
+# - Rules: System rules applied globally
+# - Skills: Specialized capabilities (browser-verification, etc.)
+# 
+# After installation, run '/adopt-project' in Cursor to set up a project.
+# Storybook will be automatically initialized for frontend projects.
 
 set -e
 
@@ -67,11 +78,9 @@ cp -v "$AI_SQUADS_DIR/commands"/*.md "$TARGET_DIR/commands/"
 echo "Copying templates..."
 cp -rv "$AI_SQUADS_DIR/templates"/* "$TARGET_DIR/templates/"
 
-# Ensure Storybook templates are included
+# Ensure Storybook templates are included (explicit check for clarity)
 if [ -d "$AI_SQUADS_DIR/templates/storybook" ]; then
-    echo "Copying Storybook templates..."
-    mkdir -p "$TARGET_DIR/templates/storybook"
-    cp -rv "$AI_SQUADS_DIR/templates/storybook"/* "$TARGET_DIR/templates/storybook/"
+    echo "  ✓ Storybook templates included"
 fi
 
 # Copy scripts
@@ -81,6 +90,11 @@ cp -v "$AI_SQUADS_DIR/scripts"/*.sh "$TARGET_DIR/scripts/"
 # Ensure common.sh is copied (it's a new file)
 if [ -f "$AI_SQUADS_DIR/scripts/common.sh" ]; then
     cp -v "$AI_SQUADS_DIR/scripts/common.sh" "$TARGET_DIR/scripts/common.sh"
+fi
+
+# Verify init-storybook.sh is included
+if [ -f "$AI_SQUADS_DIR/scripts/init-storybook.sh" ]; then
+    echo "  ✓ Storybook initialization script included"
 fi
 
 # Copy rules

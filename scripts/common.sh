@@ -38,8 +38,19 @@ get_docs_dir() {
 }
 
 # Detect if project has frontend code
+# 
 # Returns: "true" if frontend detected, "false" otherwise
-# Checks: frontend/, src/, app/, public/, or package.json with frontend dependencies
+# 
+# Detection checks (in order):
+# 1. Common frontend directories: frontend/, src/, app/, public/, www/, web/
+# 2. Root package.json for frontend dependencies (React, Vue, Svelte, Angular, Alpine.js, htmx)
+# 3. TECH-STACK.md for frontend technologies mentioned
+# 
+# Used by:
+# - /adopt-project workflow to offer Storybook initialization
+# - /plan-feature workflow to detect frontend features
+# 
+# Returns: "true" or "false" (string, not boolean)
 has_frontend() {
     local project_root
     local docs_dir

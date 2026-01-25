@@ -1,3 +1,25 @@
+/**
+ * Storybook Main Configuration
+ * 
+ * Framework-aware Storybook configuration that:
+ * - Detects framework automatically (React, Vue, Svelte, HTML/Alpine.js)
+ * - Configures appropriate Storybook framework addon
+ * - Sets up monorepo import resolution (supports flexible project structures)
+ * - Configures accessibility addon and essential addons
+ * 
+ * Framework Detection:
+ * - Uses detect-frameworks.js to determine primary framework
+ * - Defaults to HTML if detection fails (graceful degradation)
+ * - Supports multiple frameworks in same monorepo (different packages)
+ * 
+ * Monorepo Integration:
+ * - Resolves imports from frontend/, mobile/, etc. packages
+ * - Works with flexible monorepo structures (no packages/ wrapper required)
+ * - Backend-agnostic (only integrates with frontend/mobile)
+ * 
+ * This file is copied to projects during Storybook initialization.
+ */
+
 import path from 'path';
 import { fileURLToPath } from 'url';
 

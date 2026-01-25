@@ -27,6 +27,7 @@ cd /path/to/your-project
 - **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, Brazilian SaaS Copywriter, Financial Advisor, DevOps, Video Game Development
 - **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, and htmx
 - **Project Planning**: Structured workflows for feature planning with PRD, specs, and machine-readable execution format (prd.json)
+- **Storybook Integration**: Framework-aware component documentation with automatic story generation from UX specifications
 - **Autonomous Execution**: Execute planned features autonomously with dependency resolution, quality checks, and progress tracking
 - **Code Review**: Agent-based code review using project's tech stack and style guides
 - **Skills System**: Specialized capabilities like browser verification for frontend work
@@ -45,12 +46,12 @@ cd ai-squads
 This installs global commands, templates, scripts, rules, and skills to `~/.cursor/`:
 
 **Project Commands:**
-- Adopt Project - Set up ai-squads in a new project
+- Adopt Project - Set up ai-squads in a new project (includes Storybook initialization for frontend projects)
 - Project Starter - Organize business ideas into structured projects with pitch deck and lean canvas generation
 - Diagnose Issue - Investigate problems with hypothesis-driven analysis
 - Explain System - Generate narrative understanding of architecture
 - Ideate Solution - Explore solution approaches from minimal to comprehensive
-- Plan Feature - Create structured feature documentation (PRD, specs, prd.json)
+- Plan Feature - Create structured feature documentation (PRD, specs, prd.json, Storybook stories for frontend)
 - Execute Feature - Autonomously execute planned features with quality checks and progress tracking
 - Plan Game - Create Game Design Document (GDD) for game projects
 - Review Merge Request - Agent-based code review
@@ -145,6 +146,9 @@ Run the `/plan-feature` command in Cursor. This will:
 - Use your project's agent team to inform planning
 - Customize planning documents with feature details
 - Create user stories with acceptance criteria, dependencies, and agent assignments
+- **For frontend features**: Automatically initialize Storybook if not already set up, then generate component stories from UX specifications
+
+**Storybook Integration**: When planning frontend features, Storybook is automatically initialized (if needed) and component stories are generated from `ux-specs.json`. Stories are framework-aware (React, Vue, Svelte, HTML/Alpine.js) and stay in sync with UX specifications automatically.
 
 **Note**: `tasks.md` is deprecated. `prd.json` replaces it entirely and is required for autonomous execution.
 
@@ -291,38 +295,52 @@ Each agent provides:
 
 After adopting ai-squads, your project will have:
 
+**Project Repository** (`my-project/`):
 ```
 my-project/
-├── docs/                     # Project planning docs
-│   ├── MISSION.md
-│   ├── ROADMAP.md
-│   ├── TECH-STACK.md
-│   ├── DECISIONS.md
-│   ├── README.md
-│   ├── TEAM.md
-│   ├── QUALITY.md            # Quality check commands
-│   ├── feature/
-│   │   └── {feature_name}/
-│   │       ├── PRD.md
-│   │       ├── SPECS.md
-│   │       └── prd.json      # Machine-readable execution format
-│   ├── game/
-│   │   └── {game_name}/
-│   │       └── GDD.md
-│   └── archived/             # Completed features
-│       └── YYYY-MM-DD-{feature_name}/
+├── storybook/                 # Storybook (if frontend project)
+│   ├── .storybook/           # Storybook configuration
+│   ├── stories/              # Component stories (auto-generated)
+│   └── package.json          # Storybook dependencies
 └── src/                      # Your project code
 ```
 
-Global installation (at `~/.cursor/`):
+**Project Documentation** (`$HOME/docs/{project-name}/`):
+```
+$HOME/docs/{project-name}/
+├── MISSION.md
+├── ROADMAP.md
+├── TECH-STACK.md
+├── DECISIONS.md
+├── README.md
+├── TEAM.md
+├── QUALITY.md                # Quality check commands
+├── STORYBOOK.md              # Storybook documentation (if frontend project)
+├── feature/
+│   └── {feature_name}/
+│       ├── PRD.md
+│       ├── SPECS.md
+│       ├── prd.json          # Machine-readable execution format
+│       ├── ux-specs.json     # UX specifications (if frontend feature)
+│       └── UX-SPECS.md       # Human-readable UX specs
+├── game/
+│   └── {game_name}/
+│       └── GDD.md
+└── archived/                 # Completed features
+    └── YYYY-MM-DD-{feature_name}/
+```
+
+**Global Installation** (at `~/.cursor/`):
 ```
 ~/.cursor/
 ├── commands/                 # Command workflows
-├── templates/                # Documentation templates
-├── scripts/                  # Helper scripts
+├── templates/                # Documentation templates (including Storybook templates)
+├── scripts/                  # Helper scripts (including init-storybook.sh)
 ├── rules/                    # System rules (applied globally)
 └── skills/                   # Specialized capabilities (e.g., browser-verification)
 ```
+
+**Note**: Project documentation lives in `$HOME/docs/{project-name}/` (outside the repository), while Storybook lives in `storybook/` within the project repository. This separation keeps planning docs separate from code while allowing Storybook to import components from the codebase.
 
 ## Agents
 
@@ -350,11 +368,15 @@ Global installation (at `~/.cursor/`):
 - Inspired by Steve Krug
 - Focuses on usability and user experience
 - Provides design and interaction guidance
+- Generates UX specifications (ux-specs.json) that automatically create Storybook stories
+- Coordinates 6-pass UX methodology for comprehensive feature design
 
 ### UI Developer
 - Specializes in frontend implementation
 - References JavaScript and htmx style guides
 - Provides component architecture and implementation guidance
+- Integrates with Storybook for component documentation and testing
+- Uses Storybook for component discovery and isolated development
 
 ### Strategic Designer
 - Inspired by Rian Dutra's "Enviesados"
@@ -424,6 +446,25 @@ Skills are specialized capabilities that agents can use during execution. Skills
 - **browser-verification**: Verifies frontend changes work correctly in a browser. Required for frontend user stories. Navigates to pages, interacts with UI elements, and confirms expected behavior.
 
 Skills are automatically invoked when relevant (e.g., browser verification for frontend stories with "Verify in browser" in acceptance criteria).
+
+## Storybook Integration
+
+Storybook is automatically integrated into the UX workflow for frontend features:
+
+- **Automatic Initialization**: Storybook is initialized when adopting a project with frontend code or when planning frontend features
+- **Framework-Aware**: Automatically detects framework (React, Vue, Svelte, HTML/Alpine.js) and generates appropriate stories
+- **Auto-Generated Stories**: Component stories are automatically generated from `ux-specs.json` during feature planning
+- **Framework Detection**: Checks TECH-STACK.md, package.json, and file extensions to determine framework
+- **Native/Game Engine Handling**: Automatically skips Storybook for iOS/Android/Godot/Unity projects
+- **Isolated Setup**: Storybook lives in `storybook/` directory, separate from product code
+- **Monorepo Support**: Works with flexible monorepo structures (no packages/ wrapper required)
+
+**Usage:**
+- Stories are generated automatically during `/plan-feature` for frontend features
+- Start Storybook: `cd storybook && npm run storybook`
+- Manual story generation: `cd storybook && npm run generate-stories <feature-path> [package-name]`
+
+**Documentation:** See `~/docs/{project-name}/STORYBOOK.md` for complete Storybook documentation.
 
 ## Configuration
 

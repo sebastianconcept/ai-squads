@@ -1,7 +1,24 @@
-// Story Template for Manual Override
-// Use this template when you need to manually create or customize a Storybook story
-// Copy this file and customize as needed
-// Mark your story with "MANUAL EDIT" comment to prevent regeneration from overwriting
+/**
+ * Story Template for Manual Override
+ * 
+ * Use this template when you need to manually create or customize a Storybook story.
+ * This is rare - most stories are auto-generated from ux-specs.json during feature planning.
+ * 
+ * When to use:
+ * - Component needs custom story that can't be generated from ux-specs.json
+ * - Complex interactions that require manual setup
+ * - Testing edge cases not covered by auto-generated stories
+ * 
+ * Instructions:
+ * 1. Copy this file to: storybook/stories/components/{ComponentName}.stories.{js|jsx|vue|svelte}
+ * 2. Customize the story content
+ * 3. Add "MANUAL EDIT" comment at the top to prevent regeneration from overwriting
+ * 
+ * Framework: HTML (adjust for React, Vue, Svelte as needed)
+ * 
+ * Note: Auto-generated stories are marked "DO NOT EDIT MANUALLY" and will be
+ * regenerated from ux-specs.json. Manual stories with "MANUAL EDIT" are preserved.
+ */
 
 // Framework: HTML (adjust for React, Vue, Svelte as needed)
 

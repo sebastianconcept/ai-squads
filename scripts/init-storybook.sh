@@ -1,8 +1,28 @@
 #!/bin/bash
 
-# Initialize Storybook in a project
-# Copies Storybook templates to project-root/storybook/
-# Installs dependencies and configures for the project
+# Initialize Storybook in a Project
+# 
+# This script initializes Storybook in a project by:
+# 1. Copying Storybook templates from ~/.cursor/templates/storybook/
+# 2. Creating storybook/ directory structure in project root
+# 3. Optionally installing npm dependencies
+# 4. Configuring Storybook for the detected framework
+# 
+# Usage:
+#   ~/.cursor/scripts/init-storybook.sh
+# 
+# Must be run from project root directory.
+# 
+# Called automatically during:
+# - /adopt-project workflow (if frontend detected)
+# - /plan-feature workflow (if frontend feature detected and Storybook not initialized)
+# 
+# Can also be run manually:
+#   cd /path/to/project
+#   ~/.cursor/scripts/init-storybook.sh
+# 
+# Storybook is isolated in storybook/ directory and doesn't interfere with
+# existing code. Framework is auto-detected and configured appropriately.
 
 set -e
 

@@ -1,3 +1,36 @@
+/**
+ * Storybook Story Generation Script
+ * 
+ * Automatically generates Storybook component stories from ux-specs.json during
+ * the UX workflow. Stories are framework-aware and generated in the appropriate
+ * format for the detected framework (React, Vue, Svelte, HTML).
+ * 
+ * Process:
+ * 1. Reads ux-specs.json from feature directory
+ * 2. Detects framework for the package (frontend, mobile, etc.)
+ * 3. Extracts components from ux-specs.json (affordances, stateDesign, layout)
+ * 4. Generates framework-appropriate story files with all component states
+ * 5. Includes design tokens, accessibility requirements, and import paths
+ * 
+ * Usage: 
+ *   node scripts/generate-stories.js <feature-path> [package-name]
+ * 
+ * Example:
+ *   node scripts/generate-stories.js ~/docs/my-project/feature/user-auth frontend
+ * 
+ * Error Handling:
+ * - If story generation fails, logs error and continues (doesn't block workflow)
+ * - If native/game engine detected, skips Storybook generation
+ * - If component doesn't exist yet, generates story with placeholder
+ * 
+ * Story Organization:
+ * - Shared components: storybook/stories/components/
+ * - Package-specific: storybook/stories/packages/{package-name}/components/
+ * 
+ * Files are marked "DO NOT EDIT MANUALLY - Auto-generated" and are regenerated
+ * from ux-specs.json. Manual edits can be preserved by marking with "MANUAL EDIT".
+ */
+
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -5,14 +38,6 @@ import { frameworks, skipStorybook } from './detect-frameworks.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, '../../');
-
-/**
- * Generate Storybook stories from ux-specs.json
- * 
- * Usage: node scripts/generate-stories.js [feature-path] [package-name]
- * 
- * If feature-path is not provided, searches for ux-specs.json in common locations
- */
 async function generateStories() {
   const args = process.argv.slice(2);
   const featurePath = args[0] || null;

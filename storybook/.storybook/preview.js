@@ -1,3 +1,23 @@
+/**
+ * Storybook Preview Configuration
+ * 
+ * Global decorators and parameters for all stories:
+ * - Framework-specific decorators (Alpine.js for HTML framework)
+ * - Accessibility addon configuration
+ * - Global parameters (actions, controls, etc.)
+ * 
+ * Alpine.js Integration:
+ * - Only initializes Alpine.js if HTML framework is detected
+ * - Cleans up Alpine instances between stories
+ * - Ensures Alpine processes story elements correctly
+ * 
+ * Framework Support:
+ * - HTML/Alpine.js: Alpine.js decorator added automatically
+ * - React/Vue/Svelte: No Alpine.js needed (use their own reactivity)
+ * 
+ * This file is copied to projects during Storybook initialization.
+ */
+
 // Framework-specific decorators
 const decorators = [];
 
