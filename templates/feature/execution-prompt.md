@@ -160,6 +160,9 @@ Full project notes from `~/docs/{project-name}/NOTES.md` (all entries preserved,
 
 ### Insights
 [Relevant content from insights.json if exists, prioritized by evidence-based flag]
+
+### Previous Introspection (if available)
+[Introspection from previous execution attempts, aggregated and formatted for pattern analysis]
 ```
 
 **Behavior**:
@@ -167,6 +170,7 @@ Full project notes from `~/docs/{project-name}/NOTES.md` (all entries preserved,
 - If notes don't exist, this section is omitted
 - Agent can read notes proactively during execution using note tools
 - Agent can update `TODOS.md` to track progress during execution
+- Previous introspection is automatically aggregated and displayed to inform approach
 
 ---
 
@@ -323,6 +327,12 @@ You are implementing user story **US-001: Add user login form**.
    - Review project notes for relevant patterns and learnings
    - Check DEV-NOTES.md for project-specific guidance
    - **Review feature notes (CONTEXT.md, TODOS.md, insights.json) if available above**
+   - **Learn from Previous Introspection**: If `insights.json` contains execution attempts with introspection, read them to understand:
+     - What approaches were tried before (from `introspection.whatWentWell` and `introspection.whatCouldBeImproved`)
+     - What worked well (from `introspection.whatWentWell`)
+     - What could be improved (from `introspection.whatCouldBeImproved`)
+     - Previous recommendations (from `introspection.recommendations`)
+     - How to adjust your approach based on previous introspection
    - **Learn from Previous Attempts**: If `insights.json` contains execution attempts, read them to understand (prioritize evidence-based insights):
      - What approaches were tried before
      - What failed and why
@@ -358,9 +368,15 @@ You are implementing user story **US-001: Add user login form**.
      - Update `~/docs/{project-name}/ROADMAP.md` if priorities or plans changed
      - Update any other relevant documentation
 
-6. **Update Notes** (if applicable):
+6. **Update Notes** (REQUIRED):
    - Update `TODOS.md` in `~/docs/{project-name}/notes/features/{feature-name}/` when task status changes
-   - **Document Execution Attempt**: After execution (success or failure), append to `insights.json`:
+   - **REQUIRED - After EVERY execution attempt**: You MUST document introspection in `insights.json`:
+     - Create or update execution-attempt insight with `introspection` object
+     - Include `whatWentWell: string[]` (at least one observation about what worked)
+     - Include `whatCouldBeImproved: string[]` (at least one observation about what could improve)
+     - Include `recommendations: string[]` (at least one actionable recommendation for next attempt)
+     - This is mandatory, not optional - every attempt must have introspection
+   - **Document Execution Attempt**: After execution (success or failure), add to `insights.json`:
      - What approach was tried
      - What worked and what didn't
      - What errors or issues were encountered (if any)
@@ -368,6 +384,13 @@ You are implementing user story **US-001: Add user login form**.
      - How the next attempt should differ (if the story didn't complete)
      - Mark insights as `evidenceBased: true` when supported by first-hand evidence (logs, test results, metrics)
      - Include `evidence: {}` object when evidence-based
+   - **How to Add Introspection to Existing insights.json**:
+     1. Read existing file: `read_file("~/docs/{project-name}/notes/{feature-name}/insights.json")`
+     2. Parse JSON structure
+     3. Create new insight object with required `introspection` object (see structure above)
+     4. Append to `insights` array
+     5. Update `metadata.updated` timestamp
+     6. Write back using `write_file`
    - Write to `insights.json` when discoveries are made or decisions are documented
    - Use note tools (write_note, append_note) to maintain persistent memory
    - **Note**: If this is the first story in a feature, create `CONTEXT.md` with feature goals and scope

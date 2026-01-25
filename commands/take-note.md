@@ -237,6 +237,66 @@ Users need to authenticate to access their accounts.
 - Sessions persist across page reloads"
 ```
 
+### Creating Feature Context Note with Introspection
+
+Markdown notes can also include introspection sections:
+
+```markdown
+@take-note write category="features" name="user-login-form/context" content="# Feature: User Login Form
+
+## Problem Statement
+Users need to authenticate to access their accounts.
+
+## Goals
+- Secure user authentication
+- Password-based login
+- Session management
+
+## Success Criteria
+- Users can log in with valid credentials
+- Invalid credentials show appropriate errors
+- Sessions persist across page reloads
+
+---
+
+## Introspection & Retrospection
+
+### What Went Well
+- Iterative learning approach worked well - each attempt built on previous learnings
+- Evidence-based insights helped prioritize correct approaches
+- Note-taking system preserved context across memory resets
+
+### What Could Be Improved
+- First attempt could have been avoided by reading project-level lessons
+- API error format discovery took 4 iterations - could have tested API earlier
+- Should have checked localStorage pattern in codebase before first attempt
+
+### Recommendations
+- Always read project-level lessons before starting new features
+- Check codebase for existing patterns (localStorage, API endpoints, error formats) first
+- Test external dependencies (APIs, localStorage) early in implementation"
+```
+
+**Alternative**: Store introspection in YAML frontmatter:
+
+```yaml
+---
+created: 2024-01-15T10:00:00Z
+updated: 2024-01-16T16:00:00Z
+category: features
+commit: ghi789jkl012
+introspection:
+  whatWentWell:
+    - "Iterative learning approach worked well"
+    - "Evidence-based insights helped prioritize correct solutions"
+  whatCouldBeImproved:
+    - "Should have read project-level lessons before starting"
+    - "Could have tested API endpoints earlier"
+  recommendations:
+    - "Always read project-level lessons before starting"
+    - "Check codebase for existing patterns first"
+---
+
 ### Appending to Todos
 ```markdown
 @take-note append category="features" name="user-login-form/todos" content="## 2024-01-15T14:30:00Z
@@ -272,6 +332,94 @@ Users need to authenticate to access their accounts.
   ]
 }'
 ```
+
+### Creating Insights JSON with Introspection
+
+**REQUIRED**: Every execution attempt MUST include introspection. Here's an example:
+
+```markdown
+@take-note write category="features" name="user-login-form/insights" content='{
+  "metadata": {
+    "created": "2024-01-15T10:00:00Z",
+    "updated": "2024-01-15T15:30:00Z",
+    "category": "features",
+    "commit": "abc123def456"
+  },
+  "insights": [
+    {
+      "id": "insight-006",
+      "timestamp": "2024-01-15T15:30:00Z",
+      "type": "execution-attempt",
+      "story": "US-001",
+      "attempt": 3,
+      "title": "Login Form Implementation - Attempt 3",
+      "description": "Used localStorage with null check, proper error handling",
+      "result": "success",
+      "learning": "localStorage + null checks + error handling = working solution",
+      "evidenceBased": true,
+      "lesson": true,
+      "iterations": 3,
+      "evidence": {
+        "source": "quality-check",
+        "observation": "All quality checks passed",
+        "files": ["src/components/LoginForm.tsx"],
+        "commit": "ghi789jkl012"
+      },
+      "introspection": {
+        "whatWentWell": [
+          "Reading previous insights.json helped avoid repeating the localStorage vs cookies mistake",
+          "Null check pattern from attempt 2 was the key missing piece",
+          "Systematic approach of trying one thing at a time made debugging easier"
+        ],
+        "whatCouldBeImproved": [
+          "Should have checked codebase patterns (localStorage) before first attempt",
+          "Could have tested localStorage access patterns earlier",
+          "Should have read project-level lessons before starting"
+        ],
+        "recommendations": [
+          "Future agents: Read project-level lessons before implementing auth features",
+          "Check localStorage.getItem('token') pattern in existing codebase first",
+          "Always include null checks when reading from localStorage",
+          "Test localStorage access early in the implementation process"
+        ]
+      }
+    }
+  ]
+}'
+```
+
+### Adding Introspection to Existing insights.json
+
+When updating an existing `insights.json` file, follow this pattern:
+
+1. **Read existing file**: Use `read_file("~/docs/{project-name}/notes/{feature-name}/insights.json")`
+2. **Parse JSON structure**: Extract the `insights` array
+3. **Create new insight with introspection**:
+   ```json
+   {
+     "id": "insight-XXX",
+     "timestamp": "2024-01-15T16:00:00Z",
+     "type": "execution-attempt",
+     "story": "US-001",
+     "attempt": 4,
+     "title": "Login Form Implementation - Attempt 4",
+     "description": "...",
+     "result": "failed",
+     "introspection": {
+       "whatWentWell": ["observation 1", "observation 2"],
+       "whatCouldBeImproved": ["observation 1"],
+       "recommendations": ["recommendation 1", "recommendation 2"]
+     }
+   }
+   ```
+4. **Append to insights array**: Add the new insight to the existing array
+5. **Update metadata.updated**: Set to current timestamp
+6. **Write back**: Use `write_file` to save the updated JSON
+
+**Important**: The `introspection` object is REQUIRED for every execution attempt. It must include:
+- `whatWentWell: string[]` - At least one observation
+- `whatCouldBeImproved: string[]` - At least one observation  
+- `recommendations: string[]` - At least one actionable recommendation
 
 ## Error Handling
 

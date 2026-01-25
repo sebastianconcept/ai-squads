@@ -29,6 +29,7 @@ cd /path/to/your-project
 - **Project Planning**: Structured workflows for feature planning with PRD, specs, and machine-readable execution format (prd.json)
 - **Storybook Integration**: Framework-aware component documentation with automatic story generation from UX specifications
 - **Autonomous Execution**: Execute planned features autonomously with dependency resolution, quality checks, and progress tracking
+- **Introspection & Retrospection**: Structured reflection after every execution attempt, enabling cross-session learning and approach questioning when tasks exceed iteration thresholds
 - **Code Review**: Agent-based code review using project's tech stack and style guides
 - **Skills System**: Specialized capabilities like browser verification for frontend work
 - **Configuration-Driven**: All agents, standards, and workflows defined in `.md` files for easy adjustment
@@ -173,6 +174,19 @@ Run the `/execute-feature` command in Cursor to autonomously implement a planned
 **Non-interactive mode**: Use `--non-interactive` to skip confirmation prompts (e.g., for MCP server allowlist).
 
 **Automatic mode**: Run without a feature name to automatically find and execute features with incomplete stories.
+
+**Introspection & Retrospection**: The execution system includes structured introspection capabilities:
+
+- **Required Reflection**: Every execution attempt MUST include introspection documenting:
+  - What went well (observations about successful approaches)
+  - What could be improved (areas for improvement, root causes)
+  - Recommendations (actionable next steps for future attempts)
+- **Cross-Session Learning**: Introspection is automatically read before each attempt, enabling agents to learn from previous work
+- **Pattern Identification**: When a story reaches the introspection threshold (default: 20 iterations), the system aggregates introspection from ALL previous attempts to identify patterns and trigger approach questioning
+- **Approach Questioning**: At threshold, agents are prompted to fundamentally question the approach, analyze root causes, and propose alternative solutions
+- **Continuous Improvement**: Each iteration builds on previous introspection, creating a learning loop that improves over time
+
+**Configuration**: Set `INTROSPECTION_THRESHOLD` environment variable to customize when enhanced introspection is triggered (default: 20 iterations).
 
 ### Plan a Game
 
@@ -323,6 +337,15 @@ $HOME/docs/{project-name}/
 │       ├── prd.json          # Machine-readable execution format
 │       ├── ux-specs.json     # UX specifications (if frontend feature)
 │       └── UX-SPECS.md       # Human-readable UX specs
+├── notes/                     # AI Self-Notes System (persistent memory)
+│   ├── features/
+│   │   └── {feature_name}/
+│   │       ├── CONTEXT.md    # Feature goals, scope, success criteria
+│   │       ├── TODOS.md       # Current tasks and status
+│   │       ├── EVIDENCE.md    # Facts gathered (investigations)
+│   │       └── insights.json  # Discoveries with introspection (whatWentWell, whatCouldBeImproved, recommendations)
+│   ├── investigations/        # Investigation notes
+│   └── projects/             # Project-level notes
 ├── game/
 │   └── {game_name}/
 │       └── GDD.md
