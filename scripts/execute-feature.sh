@@ -61,6 +61,7 @@ MAX_ITERATIONS="${MAX_ITERATIONS:-10}"
 MODEL="${MODEL:-auto}"
 QUALITY_CHECK_TIMEOUT="${QUALITY_CHECK_TIMEOUT:-300}"  # 5 minutes default timeout
 MAX_PARALLEL_STORIES="${MAX_PARALLEL_STORIES:-5}"  # Max stories to run in parallel
+INTROSPECTION_THRESHOLD="${INTROSPECTION_THRESHOLD:-20}"  # Default: 20 iterations before enhanced introspection
 
 # Colors for output
 RED='\033[0;31m'
@@ -1543,6 +1544,25 @@ add_feature_notes() {
                         (if .evidence.files then "  - Files: \(.evidence.files | join(", "))\n" else "" end) +
                         (if .evidence.commit then "  - Commit: \(.evidence.commit)\n" else "" end)
                     else "" end) +
+                    (if .introspection then
+                        "- **Introspection**:\n" +
+                        (if .introspection.whatWentWell and (.introspection.whatWentWell | length) > 0 then
+                            "  - **What Went Well**:\n" +
+                            (.introspection.whatWentWell[] | "    - \(.)\n")
+                        else "" end) +
+                        (if .introspection.whatCouldBeImproved and (.introspection.whatCouldBeImproved | length) > 0 then
+                            "  - **What Could Be Improved**:\n" +
+                            (.introspection.whatCouldBeImproved[] | "    - \(.)\n")
+                        else "" end) +
+                        (if .introspection.recommendations and (.introspection.recommendations | length) > 0 then
+                            "  - **Recommendations**:\n" +
+                            (.introspection.recommendations[] | "    - \(.)\n")
+                        else "" end) +
+                        (if .introspection.whatShouldIDoDifferentlyNow and (.introspection.whatShouldIDoDifferentlyNow | length) > 0 then
+                            "  - **What Should I Do Differently Now**:\n" +
+                            (.introspection.whatShouldIDoDifferentlyNow[] | "    - \(.)\n")
+                        else "" end)
+                    else "" end) +
                     "\n---\n"' "$feature_notes_dir/insights.json" 2>/dev/null || {
                     # Fallback: if jq parsing fails, show raw JSON
                     echo "**Note**: Unable to parse insights.json. Raw content:"
@@ -1640,6 +1660,21 @@ add_feature_notes() {
                         (if .description then "- **Description**: \(.description)\n" else "" end) +
                         (if .impact then "- **Impact**: \(.impact)\n" else "" end) +
                         (if .learning then "- **Learning**: \(.learning)\n" else "" end) +
+                        (if .introspection then
+                            "- **Introspection**:\n" +
+                            (if .introspection.whatWentWell and (.introspection.whatWentWell | length) > 0 then
+                                "  - **What Went Well**:\n" +
+                                (.introspection.whatWentWell[] | "    - \(.)\n")
+                            else "" end) +
+                            (if .introspection.whatCouldBeImproved and (.introspection.whatCouldBeImproved | length) > 0 then
+                                "  - **What Could Be Improved**:\n" +
+                                (.introspection.whatCouldBeImproved[] | "    - \(.)\n")
+                            else "" end) +
+                            (if .introspection.recommendations and (.introspection.recommendations | length) > 0 then
+                                "  - **Recommendations**:\n" +
+                                (.introspection.recommendations[] | "    - \(.)\n")
+                            else "" end)
+                        else "" end) +
                         "\n---\n"' "$flat_insights" 2>/dev/null || cat "$flat_insights"
                 else
                     cat "$flat_insights"
@@ -2155,7 +2190,12 @@ add_execution_instructions() {
     echo "     - **How to detect first story**: Check \`prd.json\` to see if any other stories have \`passes: true\`. If no other stories have passed, this is the first story."
     echo "     - Location: \`~/docs/{project-name}/notes/$FEATURE_NAME/CONTEXT.md\` or \`~/docs/{project-name}/notes/$FEATURE_NAME-CONTEXT.md\`"
     echo "     - Category: \"features\" in frontmatter"
-    echo "   - **After execution (success or failure)**: You MUST document this execution attempt in feature \`insights.json\`:"
+    echo "   - **REQUIRED - After EVERY execution attempt (success or failure)**: You MUST document introspection in feature \`insights.json\`:"
+    echo "     - Create or update execution-attempt insight with \`introspection\` object"
+    echo "     - Include \`whatWentWell: string[]\` (at least one observation about what worked)"
+    echo "     - Include \`whatCouldBeImproved: string[]\` (at least one observation about what could improve)"
+    echo "     - Include \`recommendations: string[]\` (at least one actionable recommendation for next attempt)"
+    echo "     - This is mandatory, not optional - every attempt must have introspection"
     echo "     - What approach was tried"
     echo "     - What worked and what didn't"
     echo "     - What errors or issues were encountered (if any)"
@@ -2164,6 +2204,31 @@ add_execution_instructions() {
     echo "     - Whether the insight is evidence-based (\`evidenceBased: true/false\`)"
     echo "     - If evidence-based, document evidence in \`evidence: {}\` object"
     echo "     - Location: \`~/docs/{project-name}/notes/$FEATURE_NAME/insights.json\` or \`~/docs/{project-name}/notes/$FEATURE_NAME-insights.json\`"
+    echo ""
+    echo "   **How to Add Introspection to Existing insights.json**:"
+    echo "   1. Read existing file: \`read_file(\"~/docs/{project-name}/notes/$FEATURE_NAME/insights.json\")\`"
+    echo "   2. Parse JSON structure"
+    echo "   3. Create new insight object with required \`introspection\` object:"
+    echo "      \`\`\`json"
+    echo "      {"
+    echo "        \"id\": \"insight-XXX\","
+    echo "        \"timestamp\": \"ISO8601\","
+    echo "        \"type\": \"execution-attempt\","
+    echo "        \"story\": \"$story_id\","
+    echo "        \"attempt\": N,"
+    echo "        \"title\": \"...\","
+    echo "        \"description\": \"...\","
+    echo "        \"result\": \"success\" | \"failed\" | \"partial\","
+    echo "        \"introspection\": {"
+    echo "          \"whatWentWell\": [\"observation 1\", \"observation 2\"],"
+    echo "          \"whatCouldBeImproved\": [\"observation 1\"],"
+    echo "          \"recommendations\": [\"recommendation 1\", \"recommendation 2\"]"
+    echo "        }"
+    echo "      }"
+    echo "      \`\`\`"
+    echo "   4. Append to \`insights\` array"
+    echo "   5. Update \`metadata.updated\` timestamp"
+    echo "   6. Write back using \`write_file\`"
     echo ""
     echo "   **REQUIRED - When these conditions occur:**"
     echo "   - **Task status changes**: Update \`TODOS.md\` when task status changes (mark tasks complete, add new tasks, update blockers)"
@@ -2394,16 +2459,254 @@ add_diagnosis_context() {
     fi
 }
 
+# Add previous introspection from feature notes
+add_previous_introspection() {
+    local story_id="$1"
+    local feature_notes_dir="$DOCS_DIR/notes/$FEATURE_NAME"
+    local notes_base_dir="$DOCS_DIR/notes"
+    local has_introspection=false
+    
+    # Try grouped structure first
+    if [ -f "$feature_notes_dir/insights.json" ] && command -v jq >/dev/null 2>&1; then
+        # Check if there are any execution-attempt insights with introspection for this story
+        local has_story_introspection
+        has_story_introspection=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection) | .id" "$feature_notes_dir/insights.json" 2>/dev/null | head -1)
+        
+        if [ -n "$has_story_introspection" ]; then
+            echo "## Previous Introspection"
+            echo ""
+            echo "**Source**: Previous execution attempts for this story from \`~/docs/{project-name}/notes/$FEATURE_NAME/insights.json\`"
+            echo ""
+            echo "**Purpose**: Learn from previous introspection to inform your approach and avoid repeating mistakes."
+            echo ""
+            
+            # Extract introspection from execution-attempt insights for this story
+            local what_went_well
+            local what_could_improve
+            local recommendations
+            
+            what_went_well=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection.whatWentWell) | .introspection.whatWentWell[]" "$feature_notes_dir/insights.json" 2>/dev/null | sort -u)
+            what_could_improve=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection.whatCouldBeImproved) | .introspection.whatCouldBeImproved[]" "$feature_notes_dir/insights.json" 2>/dev/null | sort -u)
+            recommendations=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection.recommendations) | .introspection.recommendations[]" "$feature_notes_dir/insights.json" 2>/dev/null | sort -u)
+            
+            if [ -n "$what_went_well" ] || [ -n "$what_could_improve" ] || [ -n "$recommendations" ]; then
+                has_introspection=true
+                
+                if [ -n "$what_went_well" ]; then
+                    echo "### What Went Well (from previous attempts)"
+                    echo "$what_went_well" | while IFS= read -r line; do
+                        echo "- $line"
+                    done
+                    echo ""
+                fi
+                
+                if [ -n "$what_could_improve" ]; then
+                    echo "### What Could Be Improved (from previous attempts)"
+                    echo "$what_could_improve" | while IFS= read -r line; do
+                        echo "- $line"
+                    done
+                    echo ""
+                fi
+                
+                if [ -n "$recommendations" ]; then
+                    echo "### Recommendations (from previous attempts)"
+                    echo "$recommendations" | while IFS= read -r line; do
+                        echo "- $line"
+                    done
+                    echo ""
+                fi
+                
+                echo "**Use this introspection to inform your approach and avoid repeating mistakes.**"
+                echo ""
+                echo "---"
+                echo ""
+            fi
+        fi
+    fi
+    
+    # Try flat structure if no introspection found
+    if [ "$has_introspection" = "false" ] && [ -f "$notes_base_dir/${FEATURE_NAME}-insights.json" ] && command -v jq >/dev/null 2>&1; then
+        local flat_insights="$notes_base_dir/${FEATURE_NAME}-insights.json"
+        local has_story_introspection
+        has_story_introspection=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection) | .id" "$flat_insights" 2>/dev/null | head -1)
+        
+        if [ -n "$has_story_introspection" ]; then
+            echo "## Previous Introspection"
+            echo ""
+            echo "**Source**: Previous execution attempts for this story"
+            echo ""
+            
+            local what_went_well
+            local what_could_improve
+            local recommendations
+            
+            what_went_well=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection.whatWentWell) | .introspection.whatWentWell[]" "$flat_insights" 2>/dev/null | sort -u)
+            what_could_improve=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection.whatCouldBeImproved) | .introspection.whatCouldBeImproved[]" "$flat_insights" 2>/dev/null | sort -u)
+            recommendations=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection.recommendations) | .introspection.recommendations[]" "$flat_insights" 2>/dev/null | sort -u)
+            
+            if [ -n "$what_went_well" ] || [ -n "$what_could_improve" ] || [ -n "$recommendations" ]; then
+                has_introspection=true
+                
+                if [ -n "$what_went_well" ]; then
+                    echo "### What Went Well (from previous attempts)"
+                    echo "$what_went_well" | while IFS= read -r line; do
+                        echo "- $line"
+                    done
+                    echo ""
+                fi
+                
+                if [ -n "$what_could_improve" ]; then
+                    echo "### What Could Be Improved (from previous attempts)"
+                    echo "$what_could_improve" | while IFS= read -r line; do
+                        echo "- $line"
+                    done
+                    echo ""
+                fi
+                
+                if [ -n "$recommendations" ]; then
+                    echo "### Recommendations (from previous attempts)"
+                    echo "$recommendations" | while IFS= read -r line; do
+                        echo "- $line"
+                    done
+                    echo ""
+                fi
+                
+                echo "---"
+                echo ""
+            fi
+        fi
+    fi
+}
+
+# Add enhanced introspection prompt when threshold is reached
+add_introspection_threshold_prompt() {
+    local story_id="$1"
+    local story_iterations="$2"
+    local feature_notes_dir="$DOCS_DIR/notes/$FEATURE_NAME"
+    local notes_base_dir="$DOCS_DIR/notes"
+    local insights_file=""
+    
+    # Find insights.json file
+    if [ -f "$feature_notes_dir/insights.json" ]; then
+        insights_file="$feature_notes_dir/insights.json"
+    elif [ -f "$notes_base_dir/${FEATURE_NAME}-insights.json" ]; then
+        insights_file="$notes_base_dir/${FEATURE_NAME}-insights.json"
+    fi
+    
+    if [ -z "$insights_file" ] || [ ! -f "$insights_file" ] || ! command -v jq >/dev/null 2>&1; then
+        return 0  # No insights file or jq not available, skip
+    fi
+    
+    # Check if there are execution-attempt insights for this story
+    local has_attempts
+    has_attempts=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\") | .id" "$insights_file" 2>/dev/null | head -1)
+    
+    if [ -z "$has_attempts" ]; then
+        return 0  # No previous attempts found
+    fi
+    
+    echo "## ⚠️ Enhanced Introspection Required - Threshold Reached"
+    echo ""
+    echo "This story has reached $INTROSPECTION_THRESHOLD iterations without completion."
+    echo ""
+    echo "**Action Required**: Enhanced introspection - question the original approach and reconceive the task."
+    echo ""
+    
+    # Aggregate introspection from all attempts
+    local all_what_went_well
+    local all_what_could_improve
+    local all_recommendations
+    
+    all_what_went_well=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection.whatWentWell) | .introspection.whatWentWell[]" "$insights_file" 2>/dev/null | sort -u)
+    all_what_could_improve=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection.whatCouldBeImproved) | .introspection.whatCouldBeImproved[]" "$insights_file" 2>/dev/null | sort -u)
+    all_recommendations=$(jq -r ".insights[] | select(.type == \"execution-attempt\" and .story == \"$story_id\" and .introspection.recommendations) | .introspection.recommendations[]" "$insights_file" 2>/dev/null | sort -u)
+    
+    echo "### Aggregated Introspection from All Previous Attempts"
+    echo ""
+    echo "Below is introspection aggregated from ALL $story_iterations previous attempts. Use this to identify patterns:"
+    echo ""
+    
+    if [ -n "$all_what_went_well" ]; then
+        echo "#### Patterns Across All Attempts - What Went Well:"
+        echo "$all_what_went_well" | while IFS= read -r line; do
+            echo "- $line"
+        done
+        echo ""
+    fi
+    
+    if [ -n "$all_what_could_improve" ]; then
+        echo "#### Patterns Across All Attempts - What Could Be Improved:"
+        echo "$all_what_could_improve" | while IFS= read -r line; do
+            echo "- $line"
+        done
+        echo ""
+    fi
+    
+    if [ -n "$all_recommendations" ]; then
+        echo "#### Patterns Across All Attempts - Previous Recommendations:"
+        echo "$all_recommendations" | while IFS= read -r line; do
+            echo "- $line"
+        done
+        echo ""
+    fi
+    
+    echo "### Enhanced Reflection Questions:"
+    echo ""
+    echo "1. **Pattern Analysis**: What patterns emerge from the aggregated introspection above?"
+    echo "   - What has been tried repeatedly? (Review all previous approaches)"
+    echo "   - What consistently went wrong across attempts?"
+    echo "   - What (if anything) consistently worked?"
+    echo ""
+    echo "2. **Root Cause**: Why is the current approach not working? (Based on pattern analysis)"
+    echo ""
+    echo "3. **Approach Questioning**:"
+    echo "   - Are the acceptance criteria realistic given what we've learned?"
+    echo "   - Should the approach be fundamentally changed?"
+    echo "   - Are there alternative ways to solve this problem?"
+    echo ""
+    echo "4. **Alternative Approaches**: Based on all previous attempts, what fundamentally different approaches should be considered?"
+    echo ""
+    echo "### Required Enhanced Actions:"
+    echo ""
+    echo "1. **Document enhanced introspection** in insights.json with:"
+    echo "   - Summary of all approaches tried (from aggregated introspection above)"
+    echo "   - Pattern analysis: What consistently worked vs. what consistently failed"
+    echo "   - Root cause analysis: Why current approach isn't working (based on patterns)"
+    echo "   - Alternative approaches to consider (with rationale based on pattern insights)"
+    echo "   - Recommendations for reconceiving the task (specific, actionable, informed by all attempts)"
+    echo ""
+    echo "2. **Propose approach change** if needed (update CONTEXT.md or create new approach document)"
+    echo ""
+    echo "3. **Update recommendations** with actionable next steps for new approach"
+    echo ""
+    echo "**Goal**: Break out of iteration loop by finding a fundamentally different approach or adjusting requirements, informed by comprehensive pattern analysis from all previous attempts."
+    echo ""
+    echo "---"
+    echo ""
+}
+
 build_prompt() {
     local story_id="$1"
+    local story_iterations="${2:-0}"
     
     # Add all components
     add_agent_definition "$story_id" || return 1
     add_progress_context  # Read FIRST for project-level context
     add_project_context
     add_feature_notes
+    add_previous_introspection "$story_id"  # Add previous introspection after feature notes
     add_project_lessons  # Read project-level lessons after feature notes
     add_diagnosis_context "$story_id" # Add diagnosis if it exists
+    
+    # Add enhanced introspection prompt if threshold reached
+    if [ "$story_iterations" -ge "$INTROSPECTION_THRESHOLD" ]; then
+        local story_passes
+        story_passes=$(jq -r ".userStories[] | select(.id == \"$story_id\") | .passes" "$PRD_JSON" 2>/dev/null)
+        if [ "$story_passes" != "true" ]; then
+            add_introspection_threshold_prompt "$story_id" "$story_iterations"
+        fi
+    fi
+    
     add_story_details "$story_id" || return 1
     add_browser_verification "$story_id"
     add_quality_checks
@@ -2674,10 +2977,10 @@ execute_single_feature() {
             log "Story $story_id attempt #$story_iterations"
         fi
         
-        # Build prompt
+        # Build prompt (pass story_iterations for threshold check)
         local prompt_file
         prompt_file=$(mktemp)
-        build_prompt "$story_id" > "$prompt_file"
+        build_prompt "$story_id" "$story_iterations" > "$prompt_file"
         
         # Log prompt size for visibility
         local prompt_size_bytes
