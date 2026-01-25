@@ -148,6 +148,132 @@ Check for:
 - Out of scope items
 - **If RESEARCH.md exists:** Incorporate research findings into user stories and technical constraints
 
+### 7.5. Initialize Storybook (if feature has frontend/fullstack stories and Storybook not yet initialized)
+
+**Timing**: Before UX workflow, check if Storybook is needed and initialized.
+
+**Detection**: 
+1. Check if feature has `frontend` or `fullstack` stories in `prd.json`
+2. Check if `storybook/` directory exists in project root
+3. If frontend/fullstack stories exist AND Storybook not initialized:
+   - Ask user: "This feature has frontend components. Would you like to initialize Storybook for component documentation? (Stories will be auto-generated from UX specifications)"
+   - If yes: 
+     - Run `~/.cursor/scripts/init-storybook.sh` from project root
+     - This creates `storybook/` directory and installs dependencies
+     - Storybook will be used in Step 5 (Storybook Story Generation)
+   - If no: Continue without Storybook (can be initialized later, stories won't be generated)
+
+**Note**: Storybook initialization is optional but recommended for frontend features. It can be done later if skipped. If Storybook is not initialized, the story generation step will be skipped automatically.
+
+### 7.6. UX Workflow (if feature has frontend/fullstack stories)
+
+**Timing**: This step occurs after Step 7 (Generate Planning Documents) completes and the initial `prd.json` file has been created and saved.
+
+**Detection**: Check the saved `prd.json` file for any stories with `type: "frontend"` or `type: "fullstack"`. If found, trigger UX workflow.
+
+**Decision: Full UX Workflow vs. Quick UX Mode**
+
+Ask user or determine automatically based on:
+- **Full UX Workflow**: Complex features (> 3 screens, > 5 components), new user-facing features, high business impact, epic features
+- **Quick UX Mode**: Simple features (single component, simple interaction), internal tools, low-risk changes, iterative improvements
+
+**If Full UX Workflow:**
+
+1. **Multi-Agent UX Clarification** (Steve coordinates):
+   - **Steve (Senior UX Architect)**: Coordinates session, asks UX & technical questions
+   - **Bob (JTBD)**: Asks about struggling moments, job statements, forces of progress, competing solutions
+   - **Rian (Strategic Designer)**: Asks about growth metrics, decision points, conversion funnel, ethical design
+   - **Ben (Startup Advisor)**: Asks about business hypothesis, MVP definition, growth impact
+   - **Design System Question**: "Do you want to use an existing design system?" (Material Design, Tailwind UI, shadcn/ui, Chakra UI, Ant Design, or custom)
+   - **Technical Constraints Questions**:
+     - Browser support requirements (which browsers? which versions?)
+     - Performance targets (Lighthouse scores, Core Web Vitals)
+     - Accessibility requirements (WCAG level: A, AA, AAA?)
+     - Technical stack constraints (what frameworks/libraries are available?)
+   - **Epic Detection**: If feature is tagged as `epic: true` in prd.json, suggest persona research
+   - **Output**: Refined PRD with clarified requirements, design system preference, technical constraints
+
+2. **6-Pass UX Methodology** (Steve leads, with Bob, Rian, Ben input):
+   - **Pass 1: Mental Model** (Bob & Steve): Struggling moments, job statements, first-time vs. returning users, context of use, desired outcomes
+   - **Pass 2: Information Architecture** (Steve & Rian): Concept organization, visibility decisions
+   - **Pass 3: Affordances** (Steve, with Rian & Bob input): Interaction signals, micro-animations, copy/microcopy, mobile-first considerations, ethical design checklist
+   - **Pass 4: Cognitive Load** (Rian & Steve): Friction points, decision architecture, ethical bias application
+   - **Pass 5: State Design** (Steve, with Rian input): Empty, loading, success, error states with clear guidance
+   - **Pass 6: Flow Integrity** (Rian & Steve): Usability heuristics checklist, end-to-end journey, animation flow
+   - **Conflict Resolution**: Steve → Rian+Steve → Rian (final authority)
+   - **Output**: `ux-specs.json` (structured JSON) and `UX-SPECS.md` (human-readable markdown)
+
+3. **Layout Design Phase** (Steve, with Rian input):
+   - Visual hierarchy (primary, secondary, tertiary focal points)
+   - Grid systems and breakpoints
+   - Typography hierarchy with specific sizes/weights
+   - Spacing rhythm and component composition
+   - Color usage guidelines
+   - Responsive layout behavior
+   - **Output**: Enhanced `ux-specs.json` with `layout` section
+
+4. **Validation Phase**:
+   - Pre-translation validation: Check UX-SPECS completeness, all passes complete, struggling moment defined, business hypothesis validated, technical constraints documented, usability heuristics checked, ethical design verified
+   - **See**: `templates/feature/UX-SPECS-VALIDATION.md` for complete validation checklist
+   - If validation fails, list gaps and ask user to address
+
+5. **Storybook Story Generation** (After UX-SPECS validation, before translation - only if Storybook is initialized):
+   
+   **Prerequisites**: Storybook must be initialized in project (`storybook/` directory exists)
+   
+   **If Storybook not initialized**: Skip this step, continue to translation (Storybook is optional)
+   
+   **If Storybook initialized**:
+   - Determine component package context (frontend, mobile, etc.) from feature location
+   - **Detect framework** for the package (React, Vue, Svelte, HTML, etc.) using framework detection
+   - **Check if Storybook applies**: Skip Storybook generation if native/game engine detected
+   - Extract component specifications from ux-specs.json
+   - Generate Storybook story files in appropriate location with framework-appropriate format:
+     - Shared components: `storybook/stories/components/`
+     - Package-specific: `storybook/stories/packages/{package-name}/components/`
+     - File extension matches framework (.jsx for React, .vue for Vue, .svelte for Svelte, .js for HTML)
+   - Create stories for all component states (from Pass 5: State Design) in framework-appropriate format
+   - Include design system token references (from layout specs)
+   - Add accessibility documentation (from technical constraints)
+   - Generate correct import paths based on package location and framework (relative paths, adapts to project structure)
+   - **For native/game engine**: Document alternative approach (skip Storybook, use platform-specific tools)
+   - **Error handling**: If story generation fails, log error and continue workflow (don't block feature planning)
+
+6. **UX-SPECS to prd.json Story Translation**:
+   - Parse `ux-specs.json` (validate against schema)
+   - **See**: `templates/feature/ux-specs-to-prd-translation.md` for detailed translation guide
+   - Extract atomic units from passes and layout sections
+   - Map dependencies (Foundation → Layout → Components → Interactions → States → Polish)
+   - Generate stories with:
+     - Job statements in descriptions
+     - Layout context (grid system, spacing, typography, visual hierarchy)
+     - Accessibility requirements in acceptance criteria
+     - Performance requirements in acceptance criteria
+     - Browser verification requirements in acceptance criteria
+     - Code standards references
+     - **Storybook path** in story metadata (link to generated Storybook story)
+   - Merge UX-derived stories into existing `prd.json` (append, don't replace)
+   - **Post-translation validation**: Ensure all UX-SPECS sections represented, all acceptance criteria verifiable
+
+**If Quick UX Mode:**
+
+1. **Basic Clarification** (Steve coordinates, 5-10 minutes):
+   - Essential questions from Bob, Rian, Ben
+   - Design system question
+   - Basic technical constraints
+
+2. **3-Pass Methodology**:
+   - **Pass 1: Mental Model** (Bob & Steve): Struggling moment, job statement, desired outcome
+   - **Pass 3: Affordances** (Steve): Interaction signals, basic accessibility
+   - **Pass 6: Flow Integrity** (Rian & Steve): Usability heuristics, end-to-end check
+
+3. **Basic Story Generation**: Translate to prd.json stories (Foundation → Components → States)
+
+**Output Files:**
+- `ux-specs.json`: Structured JSON format (validated against schema)
+- `UX-SPECS.md`: Human-readable markdown version
+- Updated `prd.json`: Merged with UX-derived stories
+
 **User Stories Format:**
 
 Each story needs:
@@ -223,6 +349,8 @@ After completion, the feature should have:
 - `~/docs/{project-name}/feature/{feature_name}/SPECS.md`
 - `~/docs/{project-name}/feature/{feature_name}/prd.json` (required for autonomous execution)
 - `~/docs/{project-name}/feature/{feature_name}/RESEARCH.md` (if research phase was triggered)
+- `~/docs/{project-name}/feature/{feature_name}/ux-specs.json` (if feature has frontend/fullstack stories)
+- `~/docs/{project-name}/feature/{feature_name}/UX-SPECS.md` (if feature has frontend/fullstack stories)
 
 **Note**: `tasks.md` is deprecated. `prd.json` replaces it entirely because it's machine-readable and tracks execution status via `userStories[].passes`.
 
@@ -244,3 +372,17 @@ Before saving the PRD:
 [ ] Non-goals section defines clear boundaries
 [ ] Saved to ~/docs/{project-name}/feature/{feature-name}/PRD.md
 [ ] Saved to ~/docs/{project-name}/feature/{feature-name}/prd.json
+
+**If feature has frontend/fullstack stories:**
+
+[ ] Detected frontend/fullstack stories in prd.json
+[ ] Determined workflow mode (Full UX vs. Quick UX)
+[ ] Completed multi-agent UX clarification (if Full UX)
+[ ] Completed 6-pass methodology (or 3-pass for Quick UX)
+[ ] Completed Layout Design Phase (if Full UX)
+[ ] Validated UX-SPECS completeness
+[ ] Generated Storybook stories from ux-specs.json (framework-aware, skipped if native/game engine)
+[ ] Translated UX-SPECS to prd.json stories
+[ ] Merged UX-derived stories into prd.json (with storybookPath metadata)
+[ ] Saved ux-specs.json (validated against schema)
+[ ] Saved UX-SPECS.md (human-readable version)

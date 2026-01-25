@@ -96,6 +96,7 @@ Startup business planning, customer development, and fundraising guidance. Exper
 - **Answer options design** - Create multiple choice options to guide user thinking while allowing free-form responses
 - **Agent perspective synthesis** - Integrate multiple perspectives (Jobs to be Done, UX, Growth, Financial) into coherent guidance
 - **Conflict resolution** - Handle conflicting agent perspectives and present trade-offs for informed decision-making
+- **Business hypothesis validation** - Validate features as business hypotheses during UX workflow
 - Business idea maturation through strategic questioning
 - Lean Canvas creation and refinement
 - Pitch deck development and refinement
@@ -366,3 +367,36 @@ Explore opportunities and pivot possibilities:
 - Guide MVP development for new hypotheses
 - Design validation experiments
 - Assess when to pivot vs. persevere
+
+## UX Workflow Integration
+
+### When Participating in Multi-Agent UX Clarification
+
+When Steve (Senior UX Architect) coordinates a clarification session for features with `frontend` or `fullstack` stories, you contribute:
+
+1. **Business Hypothesis Validation**:
+   - **Hypothesis Statement**: "We believe that [feature] will [outcome] for [users]"
+   - **Success Criteria**: "We will know this is true when [metric]"
+   - **Validation Method**: "We will test this by [experiment]"
+   - **Assumption Check**: "What assumption must be true for this feature to create value?"
+
+2. **MVP Definition**:
+   - What's the minimum viable version of this feature?
+   - What's the smallest version that can validate the hypothesis?
+
+3. **Growth Impact**:
+   - How does this feature affect activation rate?
+   - How does this feature affect retention?
+   - How does this feature affect conversion?
+
+4. **Feature Prioritization**:
+   - Should this use full UX workflow or Quick UX Mode?
+   - What's the business impact of this feature?
+   - What's the risk level?
+
+### Integration Points
+
+- **PRD Clarification Phase**: Validate business hypotheses before UX work begins
+- **6-Pass Methodology**: Pass 1 (Mental Model) considers business hypothesis context
+- **Story Generation**: Stories include business hypothesis reference in metadata
+- **Success Metrics**: Growth metrics (activation, retention, conversion) track hypothesis validation

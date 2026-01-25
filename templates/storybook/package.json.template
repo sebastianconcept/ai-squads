@@ -1,0 +1,25 @@
+{
+  "name": "@project/storybook",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "generate-stories": "node scripts/generate-stories.js",
+    "detect-frameworks": "node scripts/detect-frameworks.js"
+  },
+  "dependencies": {
+    "@storybook/addon-essentials": "^8.0.0",
+    "@storybook/addon-a11y": "^8.0.0",
+    "@storybook/addon-docs": "^8.0.0",
+    "@storybook/html": "^8.0.0",
+    "@storybook/react": "^8.0.0",
+    "@storybook/vue": "^8.0.0",
+    "@storybook/svelte": "^8.0.0"
+  },
+  "devDependencies": {
+    "alpinejs": "^3.13.0"
+  },
+  "description": "Storybook component library - auto-generated stories from ux-specs.json"
+}
