@@ -133,3 +133,26 @@ Always verify against Nielsen's 10 Usability Heuristics:
 - [ ] No dark patterns (forced continuity, misdirection, etc.)
 - [ ] User autonomy preserved (clear exit paths)
 - [ ] Transparency maintained (users understand what's happening)
+
+## Storybook Story Generation (Fully Automated)
+
+After generating ux-specs.json:
+1. **Determine package context** from feature location or explicit specification
+2. **Detect framework** for the package (React, Vue, Svelte, HTML, etc.) using framework detection (`storybook/scripts/detect-frameworks.js`)
+3. **Check applicability**: Skip Storybook if native/game engine detected
+4. **Automatically extract** component specifications from ux-specs.json:
+   - `passes.affordances.actions` (component interactions)
+   - `passes.stateDesign.elements` (component states)
+   - `layout.componentComposition` (component relationships)
+5. **Automatically generate** Storybook story files in appropriate monorepo location with framework-appropriate format:
+   - Shared components: `storybook/stories/components/`
+   - Package-specific: `storybook/stories/packages/{package-name}/components/`
+   - File extension matches framework (.jsx for React, .vue for Vue, .svelte for Svelte, .js for HTML)
+6. **Automatically create** stories for all component states (from Pass 5: State Design) in framework-appropriate format
+7. **Automatically include** design system token references (from layout specs)
+8. **Automatically add** accessibility documentation (from technical constraints)
+9. **Automatically generate** correct import paths based on package location and framework
+
+**No Manual Work Required**: Story generation is fully automated and framework-aware. Stories are created during UX workflow and stay in sync with ux-specs.json. Storybook is isolated in `storybook/` to preserve separation from product code. Native/game engine features skip Storybook appropriately.
+
+**Error Handling**: If story generation fails, log error and continue workflow (don't block feature planning). Storybook is helpful but not blocking.

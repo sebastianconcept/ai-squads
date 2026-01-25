@@ -282,6 +282,42 @@ For each atomic unit, create a user story with:
 }
 ```
 
+### 4.5. Generate Storybook Stories
+
+For each component identified in UX-SPECS:
+1. Determine component package (frontend, mobile, etc.) from feature context
+2. **Detect framework** for the package using framework detection script (`storybook/scripts/detect-frameworks.js`)
+3. **Check applicability**: If native/game engine, skip Storybook and document alternative
+4. Create Storybook story file in appropriate location with framework-appropriate extension:
+   - Shared components: `storybook/stories/components/{ComponentName}.stories.{js|jsx|vue|svelte}`
+   - Package-specific: `storybook/stories/packages/{package-name}/components/{ComponentName}.stories.{js|jsx|vue|svelte}`
+5. Generate stories for all states (empty, loading, error, success) in framework-appropriate format:
+   - React: JSX format
+   - Vue: Vue component format
+   - Svelte: Svelte component format
+   - HTML: HTML string format
+6. Include design system token references
+7. Add accessibility documentation
+8. Generate correct import paths based on framework (e.g., `../../frontend/components/Button` for HTML, `../../frontend/components/Button.jsx` for React)
+9. Link to component story in prd.json via `storybookPath` metadata
+
+**Story Metadata in prd.json**:
+```json
+{
+  "id": "US-025",
+  "title": "Implement Primary Button Component",
+  "storybookPath": "packages/frontend/Button",
+  "package": "frontend",
+  ...
+}
+```
+
+**Error Handling**:
+- If framework detection fails: Default to HTML, log warning, continue workflow
+- If story generation fails: Log error, continue workflow (don't block feature planning)
+- If component import fails: Generate story with placeholder, document issue in comments
+- If native/game engine detected: Skip Storybook, document alternative approach
+
 ### 6. Merge into prd.json
 
 **Important**: UX-derived stories are **merged** into existing `prd.json`, not replacing initial planning stories.
@@ -291,7 +327,8 @@ For each atomic unit, create a user story with:
 2. Generate UX-derived stories (starting from next available US-XXX ID)
 3. Append UX-derived stories to `userStories` array
 4. Maintain existing story IDs and structure
-5. Update `prd.json.quality` if needed (should already be set)
+5. Add `storybookPath` metadata to component stories (if Storybook story was generated)
+6. Update `prd.json.quality` if needed (should already be set)
 
 **Story ID Continuation:**
 - If existing stories go up to US-020, UX-derived stories start at US-021
@@ -309,6 +346,8 @@ After translation, validate:
 - [ ] Job statements included in story descriptions
 - [ ] Layout context included in stories
 - [ ] Browser verification requirements included
+- [ ] Storybook stories generated (if applicable, web frameworks only)
+- [ ] storybookPath metadata added to component stories (if Storybook story exists)
 
 ### 8. Integration with Execution Loop
 

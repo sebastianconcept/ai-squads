@@ -148,7 +148,24 @@ Check for:
 - Out of scope items
 - **If RESEARCH.md exists:** Incorporate research findings into user stories and technical constraints
 
-### 7.5. UX Workflow (if feature has frontend/fullstack stories)
+### 7.5. Initialize Storybook (if feature has frontend/fullstack stories and Storybook not yet initialized)
+
+**Timing**: Before UX workflow, check if Storybook is needed and initialized.
+
+**Detection**: 
+1. Check if feature has `frontend` or `fullstack` stories in `prd.json`
+2. Check if `storybook/` directory exists in project root
+3. If frontend/fullstack stories exist AND Storybook not initialized:
+   - Ask user: "This feature has frontend components. Would you like to initialize Storybook for component documentation? (Stories will be auto-generated from UX specifications)"
+   - If yes: 
+     - Run `~/.cursor/scripts/init-storybook.sh` from project root
+     - This creates `storybook/` directory and installs dependencies
+     - Storybook will be used in Step 5 (Storybook Story Generation)
+   - If no: Continue without Storybook (can be initialized later, stories won't be generated)
+
+**Note**: Storybook initialization is optional but recommended for frontend features. It can be done later if skipped. If Storybook is not initialized, the story generation step will be skipped automatically.
+
+### 7.6. UX Workflow (if feature has frontend/fullstack stories)
 
 **Timing**: This step occurs after Step 7 (Generate Planning Documents) completes and the initial `prd.json` file has been created and saved.
 
@@ -200,7 +217,29 @@ Ask user or determine automatically based on:
    - **See**: `templates/feature/UX-SPECS-VALIDATION.md` for complete validation checklist
    - If validation fails, list gaps and ask user to address
 
-5. **UX-SPECS to prd.json Story Translation**:
+5. **Storybook Story Generation** (After UX-SPECS validation, before translation - only if Storybook is initialized):
+   
+   **Prerequisites**: Storybook must be initialized in project (`storybook/` directory exists)
+   
+   **If Storybook not initialized**: Skip this step, continue to translation (Storybook is optional)
+   
+   **If Storybook initialized**:
+   - Determine component package context (frontend, mobile, etc.) from feature location
+   - **Detect framework** for the package (React, Vue, Svelte, HTML, etc.) using framework detection
+   - **Check if Storybook applies**: Skip Storybook generation if native/game engine detected
+   - Extract component specifications from ux-specs.json
+   - Generate Storybook story files in appropriate location with framework-appropriate format:
+     - Shared components: `storybook/stories/components/`
+     - Package-specific: `storybook/stories/packages/{package-name}/components/`
+     - File extension matches framework (.jsx for React, .vue for Vue, .svelte for Svelte, .js for HTML)
+   - Create stories for all component states (from Pass 5: State Design) in framework-appropriate format
+   - Include design system token references (from layout specs)
+   - Add accessibility documentation (from technical constraints)
+   - Generate correct import paths based on package location and framework (relative paths, adapts to project structure)
+   - **For native/game engine**: Document alternative approach (skip Storybook, use platform-specific tools)
+   - **Error handling**: If story generation fails, log error and continue workflow (don't block feature planning)
+
+6. **UX-SPECS to prd.json Story Translation**:
    - Parse `ux-specs.json` (validate against schema)
    - **See**: `templates/feature/ux-specs-to-prd-translation.md` for detailed translation guide
    - Extract atomic units from passes and layout sections
@@ -212,6 +251,7 @@ Ask user or determine automatically based on:
      - Performance requirements in acceptance criteria
      - Browser verification requirements in acceptance criteria
      - Code standards references
+     - **Storybook path** in story metadata (link to generated Storybook story)
    - Merge UX-derived stories into existing `prd.json` (append, don't replace)
    - **Post-translation validation**: Ensure all UX-SPECS sections represented, all acceptance criteria verifiable
 
@@ -341,7 +381,8 @@ Before saving the PRD:
 [ ] Completed 6-pass methodology (or 3-pass for Quick UX)
 [ ] Completed Layout Design Phase (if Full UX)
 [ ] Validated UX-SPECS completeness
+[ ] Generated Storybook stories from ux-specs.json (framework-aware, skipped if native/game engine)
 [ ] Translated UX-SPECS to prd.json stories
-[ ] Merged UX-derived stories into prd.json
+[ ] Merged UX-derived stories into prd.json (with storybookPath metadata)
 [ ] Saved ux-specs.json (validated against schema)
 [ ] Saved UX-SPECS.md (human-readable version)

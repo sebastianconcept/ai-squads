@@ -62,7 +62,25 @@ Allow user to:
 - Remove suggested agents
 - Specify roles for each agent
 
-### 5. Customize Templates
+### 5. Initialize Storybook (if project has frontend)
+
+**Detection**: Use `has_frontend()` helper function from `common.sh` to check if project has frontend code:
+- Checks for `frontend/`, `src/`, `app/`, `public/`, `www/`, `web/` directories
+- Checks root `package.json` for frontend dependencies (React, Vue, Svelte, Angular, Alpine.js, htmx)
+- Checks `TECH-STACK.md` for frontend technologies
+
+**If frontend detected**:
+- Ask user: "This project appears to have frontend code. Would you like to initialize Storybook for component documentation?"
+- If yes:
+  1. Run `~/.cursor/scripts/init-storybook.sh` from project root
+  2. This creates `storybook/` directory in project
+  3. Optionally installs Storybook dependencies (prompts user)
+  4. Configures Storybook for detected framework automatically
+- If no or skipped: Storybook can be initialized later when planning frontend features
+
+**Note**: Storybook is isolated in `storybook/` directory and doesn't interfere with existing code. It can be initialized at any time.
+
+### 6. Customize Templates
 Fill in generated templates with gathered information:
 - `~/docs/{project-name}/MISSION.md` - Project mission
 - `~/docs/{project-name}/TECH-STACK.md` - Technology details

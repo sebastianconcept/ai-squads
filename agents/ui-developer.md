@@ -108,3 +108,45 @@ When implementing stories generated from `ux-specs.json`, you must:
    - Follow `htmx-style.md` standards
    - Use semantic HTML
    - Ensure WCAG compliance
+
+## Storybook Integration (Part of Normal Development)
+
+Storybook is integrated into the development workflow - no extra steps required:
+
+**Component Discovery** (Before implementing):
+1. **Check framework**: Framework is auto-detected, but verify if needed
+2. **Start Storybook** (if web-based framework): `cd storybook && npm run storybook`
+3. Check Storybook component library (if web-based framework):
+   - Shared components: `storybook/stories/components/`
+   - Package-specific: `storybook/stories/packages/{package-name}/components/`
+4. Check project-level component catalog (`$HOME/docs/{project-name}/STORYBOOK.md`)
+5. Reuse existing components when possible
+6. If component doesn't exist:
+   - **Web framework**: Storybook story will be auto-generated during implementation
+   - **Native/game engine**: Storybook is skipped, use platform-specific documentation
+
+**Component Implementation** (During development):
+1. Framework is auto-detected (React, Vue, Svelte, HTML, etc.)
+2. Stories are auto-generated from ux-specs.json in framework-appropriate format (no manual writing needed)
+3. **If story generation failed**: Check logs, fix issues, or use markdown component docs as fallback
+4. Use Storybook for isolated component development and testing
+5. Test all component states in Storybook (empty, loading, error, success)
+6. Verify accessibility in Storybook (a11y addon runs automatically)
+7. **If component import fails in story**: Fix import path, story will work once component exists
+8. Component changes automatically sync to Storybook (stories regenerate from ux-specs.json)
+9. **For native/game engine**: Storybook is skipped, use platform-specific documentation instead
+10. **Error handling**: If Storybook has issues, continue with implementation (Storybook is helpful but not blocking)
+
+**Component Maintenance** (After implementation):
+1. Stories stay in sync automatically (regenerated from ux-specs.json)
+2. No manual story updates required
+3. If manual customization needed, use story templates (rare)
+4. Link component implementation to Storybook story path in prd.json
+
+**Troubleshooting**:
+- If Storybook won't start: Check dependencies, check framework detection, check configuration
+- If stories don't load: Check import paths, check component exists, check framework compatibility
+- If framework detection wrong: Manually specify in TECH-STACK.md
+- If story generation fails: Check logs, continue with markdown docs as fallback
+
+**Key Principle**: Storybook is part of normal development, not an extra step. Stories are auto-generated and stay in sync automatically. Storybook is isolated in `storybook/` to preserve separation from product code.
