@@ -120,6 +120,7 @@ echo "  - Adopt Project (includes Storybook initialization for frontend projects
 echo "  - Project Starter (business planning with pitch deck and lean canvas)"
 echo "  - Diagnose Issue"
 echo "  - Explain System"
+echo "  - Catchup (read-only: warm up on uncommitted and branch changes)"
 echo "  - Ideate Solution"
 echo "  - Plan Feature (includes Storybook initialization for frontend features)"
 echo "  - Execute Feature (requires Cursor CLI)"
