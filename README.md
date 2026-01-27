@@ -51,6 +51,7 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 - Project Starter - Organize business ideas into structured projects with pitch deck and lean canvas generation
 - Diagnose Issue - Investigate problems with hypothesis-driven analysis
 - Explain System - Generate narrative understanding of architecture
+- Catchup - Warm up the agent with current uncommitted and branch changes (read-only; interprets intent and implications)
 - Ideate Solution - Explore solution approaches from minimal to comprehensive
 - Plan Feature - Create structured feature documentation (PRD, specs, prd.json, Storybook stories for frontend)
 - Execute Feature - Autonomously execute planned features with quality checks and progress tracking
@@ -130,6 +131,22 @@ Run the `/explain-system` command to understand architecture. This will:
 - Trace data flows and dependencies
 - Surface design decisions and rationale
 - Help onboard quickly with coherent mental models
+
+### Catch up on Changes
+
+Run the `/catchup` command to align the agent with your current work before a discussion. **Read-only**—it does not change any files. This will:
+- Inspect uncommitted changes (staged and unstaged) first, then compare your branch to main/master
+- Summarize what changed and use branch name + diffs to infer intent
+- Describe implications (technical, product, risks) from the agent’s perspective
+- Offer to discuss or plan next steps
+
+Use it at session start or after switching context to get a shared view of local changes.
+
+**Example usage:**
+```
+@catchup
+@catchup we're on feature/user-settings
+```
 
 ### Ideate Solutions
 
