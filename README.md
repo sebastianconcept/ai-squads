@@ -24,7 +24,7 @@ cd /path/to/your-project
 
 ## Features
 
-- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, Brazilian SaaS Copywriter, Financial Advisor, DevOps, Video Game Development
+- **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, SaaS Copywriter, Financial Advisor, DevOps, Video Game Development
 - **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, and htmx
 - **Project Planning**: Structured workflows for feature planning with PRD, specs, and machine-readable execution format (prd.json)
 - **Storybook Integration**: Framework-aware component documentation with automatic story generation from UX specifications
@@ -68,7 +68,7 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 - Bob - Jobs to be Done expert
 - Steve - Product & UX expert
 - Rian - Strategic Designer & Cognitive Biases expert
-- Clovis - Brazilian SaaS Copywriting & Growth expert
+- Clovis - SaaS Copywriting & Growth expert
 - Gustavo - Financial Advisor & Wealth Management expert
 - Ops - DevOps & Infrastructure expert
 - Eric - Video Game Development expert
@@ -311,7 +311,7 @@ Invoke specialist agents directly by their command names in Cursor:
 - `@bob` - Jobs to be Done expert
 - `@steve` - Product & UX expert
 - `@rian` - Strategic Designer & Cognitive Biases expert
-- `@clovis` - Brazilian SaaS Copywriting & Growth expert
+- `@clovis` - SaaS Copywriting & Growth expert
 - `@gustavo` - Financial Advisor & Wealth Management expert
 - `@ops` - DevOps & Infrastructure expert
 - `@eric` - Video Game Development expert
@@ -425,24 +425,23 @@ $HOME/docs/{project-name}/
 - Detects and prevents dark patterns
 - Optimizes choice architecture and decision-making flows
 
-### Brazilian SaaS Copywriter & Growth
-- Specializes in Brazilian SaaS market copywriting and growth strategies
-- Expert in cultural localization for Brazilian audiences
+### SaaS Copywriter & Growth
+- Specializes in SaaS copywriting and growth strategies (global; strong in market localization when requested, e.g. Brazilian)
+- Expert in cultural localization for target audiences
 - Applies persuasion principles from Cialdini, SPIN Selling, and negotiation tactics
 - Influenced by Betina Rudolph, Jeffrey Gitomer, Chris Voss, and others
-- Provides conversion-optimized copy in Brazilian Portuguese
-- Platform expertise: WhatsApp, Instagram, LinkedIn for Brazilian market
+- Provides conversion-optimized copy in English (localize when requested)
+- Platform expertise: WhatsApp, Instagram, LinkedIn and other channels
 - Focuses on ethical growth strategies and long-term relationship building
 
 ### Financial Advisor & Wealth Management
-- Specializes in Brazilian financial advisory, accounting, and wealth management
+- Specializes in financial advisory, accounting, and wealth management (global; strong in Brazilian and other market context when requested)
 - Expert in transaction categorization for tax reporting and financial analysis
 - Provides cost optimization and revenue expansion strategies
 - Focuses on personal and family wealth building
 - Influenced by Gustavo Cerbasi's financial education methodology
-- Bilingual approach: Brazilian Portuguese for financial advice, English for technical matters
 - Explains complex financial concepts in simple, accessible language for non-accountants
-- Expertise in Brazilian tax regulations (IRPF, IRPJ, Simples Nacional) and accounting standards
+- Expertise in tax and accounting (incl. Brazilian IRPF, IRPJ, Simples Nacional when specified)
 - Helps with budget planning, investment strategies, and retirement planning
 - Emphasizes financial education and empowerment
 

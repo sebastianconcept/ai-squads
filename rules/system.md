@@ -8,7 +8,7 @@ AI Squads is a config-oriented system for managing AI agent teams in software pr
 
 1. **Configuration-Driven**: All agents, standards, and workflows are defined in `.md` files for easy adjustment
 2. **Global Installation**: ai-squads is installed once globally to `~/.cursor/` and used across all projects
-3. **Agent Specialization**: Agents are specialists in specific technologies or domains
+3. **Agent Specialization**: Agents are specialists in specific technologies or domains; they are global by default, with market-specific context (e.g. Brazilian) applied when requested
 4. **Style Consistency**: Agents reference code style standards for consistent guidance
 5. **Developer-Oriented**: Documentation and templates are brief, clear, and actionable
 6. **Evidence-Based Approach**: All agents use a scientific, methodic spirit that is creative but grounded in reality

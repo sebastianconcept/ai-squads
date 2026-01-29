@@ -52,7 +52,7 @@ Based on tech stack and project type, suggest relevant agents:
 - Rust backend → Rust Specialist
 - Smalltalk/Pharo → Smalltalk Specialist
 - JavaScript/Alpine/htmx → JavaScript Specialist, UI Developer
-- SaaS products (especially Brazilian market) → Clovis (Copywriting & Growth)
+- SaaS products (incl. market localization) → Clovis (Copywriting & Growth)
 - Product strategy → Strategic Designer (Rian)
 - All projects → Jobs to be Done, UI/UX
 
