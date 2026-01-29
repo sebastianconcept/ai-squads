@@ -103,6 +103,13 @@ When a project adopts ai-squads:
 - `~/docs/{project-name}/` - Project planning documentation (where {project-name} is derived from git repository name)
 - `~/docs/{project-name}/feature/{feature_name}/` - Feature-specific documentation (PRD, specs, prd.json)
 
+### User Preferences (Interaction Language)
+
+When working in an adopted project (`~/docs/{project-name}/` exists):
+- Read `~/docs/{project-name}/PREFERENCES.md` if present
+- Use the **Interaction language** value from that file for all responses to the user (explanations, questions, summaries). Default is English if the file is missing or the key is absent
+- Keep code, identifiers, and technical terms unchanged; only the conversation with the user follows the preference
+
 ## Feature Context
 
 When working with a user, they are likely working in the scope of a planned feature:

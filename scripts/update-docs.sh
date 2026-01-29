@@ -63,6 +63,15 @@ check_prerequisites() {
     success "Prerequisites check passed"
 }
 
+# Ensure required project docs exist (e.g. PREFERENCES.md for older adoptions)
+ensure_required_docs() {
+    local templates_dir="${HOME}/.cursor/templates/project"
+    if [ ! -f "$DOCS_DIR/PREFERENCES.md" ] && [ -f "$templates_dir/PREFERENCES.md" ]; then
+        cp "$templates_dir/PREFERENCES.md" "$DOCS_DIR/PREFERENCES.md"
+        log "Created PREFERENCES.md from template (interaction language preference)"
+    fi
+}
+
 # Normalize content for comparison
 normalize_content() {
     local content="$1"
@@ -435,7 +444,8 @@ update_metadata_with_new_docs() {
 # Main execution
 main() {
     check_prerequisites
-    
+    ensure_required_docs
+
     log "Starting documentation update process..."
     
     # Initialize or update metadata

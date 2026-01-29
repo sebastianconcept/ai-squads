@@ -21,14 +21,17 @@ This workflow maintains documentation consistency by tracking when each doc was 
 - Check if Cursor CLI is available
 - Check if `jq` is installed (for JSON handling)
 
-### 2. Initialize or Load Metadata
+### 2. Ensure Required Docs Exist
+- If `~/docs/{project-name}/PREFERENCES.md` is missing and the template exists at `~/.cursor/templates/project/PREFERENCES.md`, copy it into the docs directory (so older adopted projects get the interaction language preference file).
+
+### 3. Initialize or Load Metadata
 - Check if `~/docs/{project-name}/docs-metadata.json` exists
 - If missing: Initialize metadata for all docs in `~/docs/{project-name}/` (excluding `~/docs/{project-name}/archived/`)
   - Use `git log` to find last-modified commit for each doc
   - Create metadata file with commit hashes
 - If exists: Load metadata and scan for new docs to add
 
-### 3. Scan Documentation Files
+### 4. Scan Documentation Files
 - Recursively scan `docs/` for all `.md` files (excluding `docs/archived/`)
 - Compare found docs with metadata entries
 - Identify:
@@ -36,11 +39,11 @@ This workflow maintains documentation consistency by tracking when each doc was 
   - New docs (will be added to metadata)
   - Docs in metadata that no longer exist (will be removed from metadata)
 
-### 4. Ask About Uncommitted Changes
+### 5. Ask About Uncommitted Changes
 - Prompt user: "Include uncommitted changes in diff analysis? (y/n)"
 - This determines whether to diff against HEAD or working directory
 
-### 5. Process Each Document
+### 6. Process Each Document
 For each doc in metadata:
 
 1. **Get Diff**:
@@ -65,7 +68,7 @@ For each doc in metadata:
    - Update `lastChecked` timestamp for all processed docs
    - Only update `commitHash` and `lastUpdated` if doc was actually modified
 
-### 6. Present Summary
+### 7. Present Summary
 - Show total docs processed
 - Show docs updated (content changed)
 - Show docs skipped (no changes needed)

@@ -11,6 +11,7 @@ This directory contains planning and documentation for this project, managed by 
 - `TECH-STACK.md` - Technology stack details
 - `DECISIONS.md` - Architectural and design decisions
 - `TEAM.md` - AI agent team configuration
+- `PREFERENCES.md` - Interaction language and preferences (agents respond in this language)
 - `PROGRESS.md` - Project progress tracking
 - `NOTES.md` - Project notes (append-only)
 - `feature/` - Feature planning documents

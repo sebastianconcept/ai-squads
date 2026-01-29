@@ -47,6 +47,8 @@ Ask the user interactive questions:
 - What important architectural decisions have been made?
 - What trade-offs were considered?
 
+**Interaction language (optional):** Default is English; can be set later in `PREFERENCES.md`.
+
 ### 4. Select Agent Team
 Based on tech stack and project type, suggest relevant agents:
 - Rust backend → Rust Specialist
@@ -88,6 +90,7 @@ Fill in generated templates with gathered information:
 - `~/docs/{project-name}/DECISIONS.md` - Key decisions
 - `~/docs/{project-name}/README.md` - Project overview
 - `~/docs/{project-name}/TEAM.md` - Selected agent team
+- `~/docs/{project-name}/PREFERENCES.md` - Set interaction language if desired (default English)
 
 ### 6. Create Initial Progress Tracking
 
