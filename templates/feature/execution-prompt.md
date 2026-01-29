@@ -25,11 +25,11 @@ The execution prompt is constructed programmatically by combining the following 
 # UI Developer Agent
 
 ## Specialization
-Frontend development, UI implementation, JavaScript, Alpine.js, htmx
+Frontend development, UI implementation, JavaScript, Alpine.js, htmx, Tailwind (and SvelteKit when the project uses it)
 
 ## Rules
 - Implement UI designs accurately
-- Write maintainable frontend code
+- Write production-grade, understandable frontend code
 [... full agent definition ...]
 
 ## Skills

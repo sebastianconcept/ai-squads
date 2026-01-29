@@ -25,7 +25,7 @@ cd /path/to/your-project
 ## Features
 
 - **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, SaaS Copywriter, Financial Advisor, DevOps, Video Game Development
-- **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, and htmx
+- **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, htmx, Tailwind, and Svelte/SvelteKit (when the project uses them)
 - **Project Planning**: Structured workflows for feature planning with PRD, specs, and machine-readable execution format (prd.json)
 - **Storybook Integration**: Framework-aware component documentation with automatic story generation from UX specifications
 - **Autonomous Execution**: Execute planned features autonomously with dependency resolution, quality checks, and progress tracking
@@ -64,7 +64,7 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 - Ben - Startup Advisor & Business Planning expert
 - Rusty - Rust programming expert
 - Alan - Smalltalk/Pharo expert
-- UIDev - JavaScript/CSS/HTML expert
+- UIDev - Frontend expert (JavaScript, Alpine.js, htmx, Tailwind; SvelteKit/SkeletonUI when project uses them)
 - Bob - Jobs to be Done expert
 - Steve - Product & UX expert
 - Rian - Strategic Designer & Cognitive Biases expert
@@ -307,7 +307,7 @@ The command will:
 Invoke specialist agents directly by their command names in Cursor:
 - `@rusty` - Rust programming expert
 - `@alan` - Smalltalk/Pharo expert
-- `@uidev` - JavaScript/CSS/HTML expert
+- `@uidev` - Frontend expert (JavaScript, Alpine.js, htmx, Tailwind; SvelteKit/SkeletonUI when the project uses them)
 - `@bob` - Jobs to be Done expert
 - `@steve` - Product & UX expert
 - `@rian` - Strategic Designer & Cognitive Biases expert
@@ -412,8 +412,9 @@ $HOME/docs/{project-name}/
 - Coordinates 6-pass UX methodology for comprehensive feature design
 
 ### UI Developer
-- Specializes in frontend implementation
-- References JavaScript and htmx style guides
+- Specializes in frontend implementation (Alpine.js/htmx, Tailwind, and SvelteKit/SkeletonUI when the project uses them)
+- References JavaScript, htmx, Tailwind, and Svelte/SvelteKit style guides (see Style Guide in agent; standards apply per project stack)
+- Focuses on quality of output: production-grade, understandable code that is ship-ready and maintainable
 - Provides component architecture and implementation guidance
 - Integrates with Storybook for component documentation and testing
 - Uses Storybook for component discovery and isolated development
@@ -493,7 +494,7 @@ Storybook is automatically integrated into the UX workflow for frontend features
 - **Automatic Initialization**: Storybook is initialized when adopting a project with frontend code or when planning frontend features
 - **Framework-Aware**: Automatically detects framework (React, Vue, Svelte, HTML/Alpine.js) and generates appropriate stories
 - **Auto-Generated Stories**: Component stories are automatically generated from `ux-specs.json` during feature planning
-- **Framework Detection**: Checks TECH-STACK.md, package.json, and file extensions to determine framework
+- **Framework Detection**: Checks TECH-STACK.md, package.json, and file extensions; when the app lives at project root (e.g. SvelteKit with no `frontend/` folder), detection runs on the root so the correct framework is used
 - **Native/Game Engine Handling**: Automatically skips Storybook for iOS/Android/Godot/Unity projects
 - **Isolated Setup**: Storybook lives in `storybook/` directory, separate from product code
 - **Monorepo Support**: Works with flexible monorepo structures (no packages/ wrapper required)
