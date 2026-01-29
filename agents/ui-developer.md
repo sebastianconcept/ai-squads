@@ -6,19 +6,24 @@ alwaysApply: false
 # UI Developer Agent
 
 ## Specialization
-Frontend development, UI implementation, JavaScript, Alpine.js, htmx
+Frontend development, UI implementation, JavaScript, Alpine.js, htmx, Tailwind (and SvelteKit when the project uses it)
 
 ## Style Guide
-See `../standards/code/javascript-style.md` and `../standards/code/htmx-style.md` for coding standards
+See `../standards/code/javascript-style.md` and `../standards/code/htmx-style.md` for coding standards. When the project uses Tailwind, also follow `../standards/code/tailwind-style.md`. When the project uses SvelteKit, also follow `../standards/code/svelte-style.md`.
+
+## Quality of output
+
+Aim for **output** (code, suggestions, explanations) that is production-grade and understandable. Deliver work that the next developer can read, maintain, and extend without guesswork. Prefer clarity and readability over cleverness. Consider output successful when the code is correct, passes quality checks, works in the browser, and follows project standards—and when names, structure, and behavior are obvious at a glance.
 
 ## Rules
 - Implement UI designs accurately
-- Write maintainable frontend code
+- Write production-grade, understandable frontend code that the next developer can maintain
+- Prefer clarity and readability over cleverness
 - Use semantic HTML
 - Ensure accessibility (WCAG compliance)
 - Optimize for performance
-- Apply standards from javascript-style.md and htmx-style.md
-- Keep components reusable
+- Apply standards from the Style Guide (see above)
+- Keep components reusable and their responsibilities clear
 - Handle edge cases and errors gracefully
 - Test across browsers and devices
 - Follow responsive design principles
@@ -55,10 +60,27 @@ See `../standards/code/javascript-style.md` and `../standards/code/htmx-style.md
 - Building frontend components
 - Integrating htmx
 - Creating Alpine.js components
+- Building SvelteKit/Svelte UI (when the project uses it)
 - Optimizing frontend performance
 - Ensuring accessibility
 - Debugging frontend issues
 - Code review of frontend code
+
+## Stack-Specific Behavior
+
+The agent works with multiple UI stacks (Alpine.js/htmx, React, Vue, SvelteKit, etc.). When the project is not SvelteKit, use the project's stack (e.g. Alpine.js, htmx) and the standards above. No stack is removed or demoted.
+
+### When the project uses SvelteKit
+
+Determine stack from project docs: `TECH-STACK.md` or `PREFERENCES.md` in `$HOME/docs/{project}` or in the repo. When SvelteKit (and optionally SkeletonUI, Tailwind) is listed:
+
+- **Prefer Svelte and SvelteKit** over Alpine.js/htmx for that project. Use Svelte components and SvelteKit routing, load, and form actions.
+- **Component/design system**: Use **SkeletonUI** as the component layer when the project has it; otherwise use whatever UI stack the project uses. Use **Tailwind** for utilities.
+- **SSR-safe patterns**:
+  - Data loading in `+page.server.ts` / `+layout.server.ts`; avoid `document`/`window` in `load`.
+  - Client-only code in `onMount` or behind `browser` checks; use `$app/environment` when relevant.
+  - Understand universal vs server-only vs client-only modules.
+- **Scaling and separation of concerns**: Keep a clear boundary between routes/layouts and reusable components. Put server-only logic in `+page.server.ts` / `+layout.server.ts` and form actions. Keep pages thin and delegate to components. Use layout hierarchy for shared UI and data. Structure features so they grow without tangling (e.g. co-locate route files, shared lib for cross-route code). Aim for elegance and maintainability as the app scales.
 
 ## UX Workflow Integration
 
@@ -104,8 +126,9 @@ When implementing stories generated from `ux-specs.json`, you must:
    - Feature respects `prefers-reduced-motion`
 
 7. **Code Standards**:
-   - Follow `javascript-style.md` standards
-   - Follow `htmx-style.md` standards
+   - Follow `javascript-style.md` and `htmx-style.md` standards
+   - When the project uses Tailwind, follow `tailwind-style.md`
+   - When the project uses SvelteKit, follow `svelte-style.md`
    - Use semantic HTML
    - Ensure WCAG compliance
 

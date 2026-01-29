@@ -140,8 +140,13 @@ function isNativeOrGameEngine(packagePath) {
 }
 
 // Detect frameworks for each package
+// When frontend/ doesn't exist or has no package.json, detect from project root (e.g. SvelteKit-at-root)
+const frontendPath = path.join(projectRoot, 'frontend');
+const frontendHasPackage = fs.existsSync(path.join(frontendPath, 'package.json'));
 const frameworks = {
-  frontend: detectFramework(path.join(projectRoot, 'frontend')),
+  frontend: fs.existsSync(frontendPath) && frontendHasPackage
+    ? detectFramework(frontendPath)
+    : detectFramework(projectRoot),
   mobile: detectFramework(path.join(projectRoot, 'mobile')),
 };
 

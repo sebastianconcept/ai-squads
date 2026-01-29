@@ -56,7 +56,8 @@ Storybook automatically detects the framework used in each package:
 1. **Checks TECH-STACK.md** for explicit framework specification
 2. **Checks package.json** for framework dependencies (React, Vue, Svelte, etc.)
 3. **Checks file extensions** (.jsx for React, .vue for Vue, .svelte for Svelte)
-4. **Defaults to HTML** if no framework detected
+4. **App-at-root**: When `frontend/` doesn't exist or has no package.json, detection runs on project root (e.g. SvelteKit apps at repo root)
+5. **Defaults to HTML** if no framework detected
 
 **Supported Frameworks**:
 - HTML/Alpine.js (default)

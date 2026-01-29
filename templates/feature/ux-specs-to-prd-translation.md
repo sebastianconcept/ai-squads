@@ -379,4 +379,4 @@ Skip:
 - `ux-specs.json` and `UX-SPECS.md` remain as "design blueprint" reference
 - Implementation happens through trackable, iterable stories
 - Stories can reference UX-SPECS in notes for context
-- uidev agent reads UX-SPECS during implementation for layout context
+- uidev agent reads UX-SPECS during implementation for layout context and applies project style guides (javascript-style, htmx-style, tailwind-style, svelte-style as applicable)

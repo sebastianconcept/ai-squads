@@ -7,6 +7,7 @@
 ## Frontend
 - [Technology]: [Version/Purpose]
 - [Technology]: [Version/Purpose]
+- For SvelteKit projects, list e.g. SvelteKit, SkeletonUI, Tailwind so the UI Developer agent and Storybook use the correct stack.
 
 ## Database
 - [Database]: [Version/Purpose]
