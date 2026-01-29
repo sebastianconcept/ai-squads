@@ -1370,6 +1370,18 @@ add_progress_context() {
 
 # Add project context to prompt
 add_project_context() {
+    # Add project preferences (if exists) - interaction language and other preferences
+    if [ -f "$DOCS_DIR/PREFERENCES.md" ]; then
+        echo "## Project Preferences"
+        echo ""
+        echo "**Source**: \`~/docs/{project-name}/PREFERENCES.md\`"
+        echo ""
+        cat "$DOCS_DIR/PREFERENCES.md"
+        echo ""
+        echo "---"
+        echo ""
+    fi
+
     # Add project notes (if exists)
     local notes_file
     notes_file=$(get_notes_file)

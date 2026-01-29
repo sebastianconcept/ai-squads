@@ -8,7 +8,7 @@ AI Squads is a config-oriented system for managing AI agent teams in software pr
 
 1. **Configuration-Driven**: All agents, standards, and workflows are defined in `.md` files for easy adjustment
 2. **Global Installation**: ai-squads is installed once globally to `~/.cursor/` and used across all projects
-3. **Agent Specialization**: Agents are specialists in specific technologies or domains
+3. **Agent Specialization**: Agents are specialists in specific technologies or domains; they are global by default, with market-specific context (e.g. Brazilian) applied when requested
 4. **Style Consistency**: Agents reference code style standards for consistent guidance
 5. **Developer-Oriented**: Documentation and templates are brief, clear, and actionable
 6. **Evidence-Based Approach**: All agents use a scientific, methodic spirit that is creative but grounded in reality
@@ -102,6 +102,13 @@ If direct evidence cannot be obtained:
 When a project adopts ai-squads:
 - `~/docs/{project-name}/` - Project planning documentation (where {project-name} is derived from git repository name)
 - `~/docs/{project-name}/feature/{feature_name}/` - Feature-specific documentation (PRD, specs, prd.json)
+
+### User Preferences (Interaction Language)
+
+When working in an adopted project (`~/docs/{project-name}/` exists):
+- Read `~/docs/{project-name}/PREFERENCES.md` if present
+- Use the **Interaction language** value from that file for all responses to the user (explanations, questions, summaries). Default is English if the file is missing or the key is absent
+- Keep code, identifiers, and technical terms unchanged; only the conversation with the user follows the preference
 
 ## Feature Context
 

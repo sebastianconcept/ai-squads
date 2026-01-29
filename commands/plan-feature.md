@@ -335,7 +335,7 @@ Be explicit and unambiguous. Functional requirements complement user stories by 
 - Use UI/UX Agent for interaction design
 - Use Jobs to be Done for user value
 - Use Strategic Designer for growth and conversion strategy
-- Use Clovis for customer-facing copy and Brazilian market messaging
+- Use Clovis for customer-facing copy and market messaging
 
 ### 7. Review and Refine
 - Present generated documents

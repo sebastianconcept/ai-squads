@@ -40,6 +40,25 @@ Frontend development, UI implementation, JavaScript, Alpine.js, htmx
 
 ## 2. Project Context
 
+### 2.0 Project Preferences
+
+**Source**: `~/docs/{project-name}/PREFERENCES.md`
+
+**Content**: When present, the full file content (interaction language and any other preferences)
+
+**Purpose**: Interaction language and preferences so the agent responds in the user's language during autonomous execution. Use the **Interaction language** value for explanations, questions, and summaries; default is English if the file is missing or the key is absent.
+
+**Format**:
+```
+## Project Preferences
+
+[Content from ~/docs/{project-name}/PREFERENCES.md if exists]
+```
+
+**When Available:**
+- File is read automatically if it exists
+- If file doesn't exist, this section is omitted (default English)
+
 ### 2.1 Project Progress
 
 **Source**: `~/docs/{project-name}/PROGRESS.md`

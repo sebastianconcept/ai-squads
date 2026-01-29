@@ -110,7 +110,7 @@ check_exists "$AI_SQUADS_DIR/agents/javascript-specialist.md" "javascript-specia
 check_exists "$AI_SQUADS_DIR/agents/jobs-to-be-done.md" "jobs-to-be-done.md" required
 check_exists "$AI_SQUADS_DIR/agents/ui-ux.md" "ui-ux.md" required
 check_exists "$AI_SQUADS_DIR/agents/strategic-designer.md" "strategic-designer.md" required
-check_exists "$AI_SQUADS_DIR/agents/brazilian-copywriter.md" "brazilian-copywriter.md" required
+check_exists "$AI_SQUADS_DIR/agents/copywriter.md" "copywriter.md" required
 check_exists "$AI_SQUADS_DIR/agents/financial-advisor.md" "financial-advisor.md" required
 check_exists "$AI_SQUADS_DIR/agents/devops-specialist.md" "devops-specialist.md" required
 check_exists "$AI_SQUADS_DIR/agents/startup-advisor.md" "startup-advisor.md" required
