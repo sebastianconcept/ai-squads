@@ -4,9 +4,9 @@
 # This file is sourced by other scripts to provide shared functionality
 
 # Get the documentation directory for the current project
-# Returns: $HOME/docs/{project-name}/ where project-name is derived from git repository
+# Returns: repo docs/ if it exists (docs/feature/... in-repo), else $HOME/docs/{project-name}/
 # Requires: git repository (errors if not found)
-# Creates: The docs directory structure if it doesn't exist (idempotent)
+# Creates: The docs directory structure if it doesn't exist (idempotent) for $HOME path
 get_docs_dir() {
     local project_root
     local project_name
@@ -16,6 +16,12 @@ get_docs_dir() {
     if ! project_root="$(git rev-parse --show-toplevel 2>/dev/null)"; then
         echo "Error: Not in a git repository. ai-squads requires a git repository." >&2
         exit 1
+    fi
+    
+    # Prefer in-repo docs/ when present (e.g. docs/feature/input-service/prd.json)
+    if [ -d "$project_root/docs" ]; then
+        echo "$project_root/docs"
+        return 0
     fi
     
     # Derive project name from repository directory
