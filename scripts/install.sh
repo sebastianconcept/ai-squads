@@ -7,7 +7,8 @@
 # What gets installed:
 # - Commands: All workflow commands (plan-feature, adopt-project, etc.)
 # - Templates: Documentation templates including Storybook templates
-# - Scripts: Helper scripts including init-storybook.sh
+# - Scripts: Helper scripts including execute-feature.sh, init-storybook.sh
+# - Agents: Agent definitions (required by execute-feature)
 # - Rules: System rules applied globally
 # - Skills: Specialized capabilities (browser-verification, etc.)
 # 
@@ -67,6 +68,7 @@ echo "Installing ai-squads to $TARGET_DIR..."
 mkdir -p "$TARGET_DIR/commands"
 mkdir -p "$TARGET_DIR/templates"
 mkdir -p "$TARGET_DIR/scripts"
+mkdir -p "$TARGET_DIR/agents"
 mkdir -p "$TARGET_DIR/rules"
 mkdir -p "$TARGET_DIR/skills"
 
@@ -95,6 +97,13 @@ fi
 # Verify init-storybook.sh is included
 if [ -f "$AI_SQUADS_DIR/scripts/init-storybook.sh" ]; then
     echo "  ✓ Storybook initialization script included"
+fi
+
+# Copy agents (required by execute-feature)
+if [ -d "$AI_SQUADS_DIR/agents" ]; then
+    echo "Copying agents..."
+    cp -v "$AI_SQUADS_DIR/agents"/*.md "$TARGET_DIR/agents/"
+    echo "  ✓ Agents included"
 fi
 
 # Copy rules

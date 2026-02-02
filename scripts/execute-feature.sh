@@ -2,11 +2,30 @@
 
 # Execute Feature Script
 # Autonomous execution loop for features with prd.json
+# Requires Bash 4+ (for associative arrays). On macOS, re-execs with Homebrew bash if needed.
 
 set -e
 
-# Source common functions
-. "$HOME/.cursor/scripts/common.sh"
+# macOS: system bash is 3.x and doesn't support declare -A; re-exec with Homebrew bash if available
+if [[ "${OSTYPE:-}" == darwin* ]] && [[ "${BASH_VERSINFO[0]:-0}" -lt 4 ]]; then
+    if [[ -x /opt/homebrew/bin/bash ]]; then
+        exec /opt/homebrew/bin/bash "$0" "$@"
+    elif [[ -x /usr/local/bin/bash ]]; then
+        exec /usr/local/bin/bash "$0" "$@"
+    else
+        echo "This script requires Bash 4+. On macOS install with: brew install bash" >&2
+        echo "Then run: /opt/homebrew/bin/bash $0 $*" >&2
+        exit 1
+    fi
+fi
+
+# Source common functions (prefer repo scripts/common.sh when run from a repo that has it)
+SCRIPT_PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+if [[ -n "$SCRIPT_PROJECT_ROOT" && -f "$SCRIPT_PROJECT_ROOT/scripts/common.sh" ]]; then
+    . "$SCRIPT_PROJECT_ROOT/scripts/common.sh"
+else
+    . "$HOME/.cursor/scripts/common.sh"
+fi
 
 # Parse command-line arguments
 FEATURE_NAME=""
@@ -54,8 +73,17 @@ while [[ $# -gt 0 ]]; do
 done
 
 DOCS_DIR="$(get_docs_dir)"
+# Prefer in-repo docs/ when present (e.g. docs/feature/input-service/prd.json)
+PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+if [[ -n "$PROJECT_ROOT" && -d "$PROJECT_ROOT/docs" ]]; then
+    DOCS_DIR="$PROJECT_ROOT/docs"
+fi
 CURSOR_DIR="$HOME/.cursor"
 AGENTS_DIR="$CURSOR_DIR/agents"
+# When running from ai-squads repo (e.g. ./scripts/execute-feature.sh), use repo agents if host agents missing
+if [[ ! -d "$AGENTS_DIR" && -n "$SCRIPT_PROJECT_ROOT" && -d "$SCRIPT_PROJECT_ROOT/agents" ]]; then
+    AGENTS_DIR="$SCRIPT_PROJECT_ROOT/agents"
+fi
 SKILLS_DIR="$CURSOR_DIR/skills"
 MAX_ITERATIONS="${MAX_ITERATIONS:-10}"
 MODEL="${MODEL:-auto}"
@@ -134,6 +162,7 @@ check_prerequisites() {
     
     if [ ! -d "$AGENTS_DIR" ]; then
         error "Agents directory not found: $AGENTS_DIR"
+        error "Run ./scripts/install.sh from the ai-squads repo to install agents to ~/.cursor/agents"
         exit 1
     fi
     
@@ -322,6 +351,23 @@ find_feature() {
     log "Using feature: $FEATURE_NAME"
 }
 
+# Get runnable quality commands only (one "label|command" per line).
+# Supports: (1) quality.commands = array of command strings — run each; (2) legacy quality = object
+# (key -> command string or array). quality.notes is documentation only and is never run.
+get_quality_command_lines() {
+    jq -r '
+      if .quality then
+        if ((.quality.commands | type?) == "array") and ((.quality.commands | length) > 0) then
+          [.quality.commands[] | select(. != null and (. | tostring) != "")] | to_entries[] | "quality-\(.key + 1)|\(.value)"
+        else
+          .quality | to_entries[] | select(.key != "notes") | .key as $k | (if (.value | type) == "array" then .value[] else .value end) | select(. != null and (. | tostring) != "") | "\($k)|\(.)"
+        end
+      else
+        empty
+      end
+    ' "$PRD_JSON" 2>/dev/null
+}
+
 # Validate prd.json
 validate_prd() {
     log "Validating prd.json..."
@@ -331,8 +377,8 @@ validate_prd() {
         exit 1
     fi
     
-    # Check required fields
-    local required_fields=("project" "featureName" "branchName" "description" "quality" "userStories")
+    # Check required fields (project is optional; used for display only)
+    local required_fields=("featureName" "branchName" "description" "quality" "userStories")
     for field in "${required_fields[@]}"; do
         if ! jq -e ".$field" "$PRD_JSON" > /dev/null 2>&1; then
             error "Missing required field: $field"
@@ -374,29 +420,20 @@ validate_prd() {
         exit 1
     fi
     
-    # Validate quality checks
-    local quality_count
-    quality_count=$(jq '.quality | length' "$PRD_JSON" 2>/dev/null || echo "0")
-    if [ "$quality_count" -eq 0 ]; then
-        error "No quality checks defined in prd.json.quality (at least one quality check is required)"
+    # Validate quality: at least one runnable command (quality.commands array or legacy key->command; notes are not run)
+    local quality_checks
+    quality_checks=$(get_quality_command_lines)
+    if [ -z "$quality_checks" ]; then
+        error "No quality checks defined in prd.json.quality (at least one runnable command required; use quality.commands array or legacy key->command; quality.notes is documentation only)"
         exit 1
     fi
-    
-    # Validate each quality check command is non-empty
-    local quality_checks
-    quality_checks=$(jq -r '.quality | to_entries[] | "\(.key)|\(.value)"' "$PRD_JSON")
     local has_empty=false
     while IFS='|' read -r label command; do
         if [ -z "$label" ] || [ -z "$command" ]; then
             error "Quality check has empty label or command"
             has_empty=true
         fi
-        if [ -z "$command" ]; then
-            error "Quality check '$label' has empty command"
-            has_empty=true
-        fi
     done <<< "$quality_checks"
-    
     if [ "$has_empty" = "true" ]; then
         error "Quality checks must have non-empty labels and commands"
         exit 1
@@ -717,17 +754,18 @@ run_quality_checks_in_worktree() {
     
     log "Running quality checks in worktree for story $story_id"
     
+    # Run from worktree root (repo root for this checkout) so scripts/quality.sh etc. resolve correctly
     local quality_checks
-    quality_checks=$(jq -r '.quality | to_entries[] | "\(.key)|\(.value)"' "$PRD_JSON")
+    quality_checks=$(get_quality_command_lines)
     
     local failed=false
     while IFS='|' read -r label command; do
+        [ -z "$label" ] && continue
         log "Running quality check in worktree: $label"
         
-        # Execute command in worktree directory
+        # One command per line (quality.commands array); never run quality.notes; CWD = worktree root
         if ! (cd "$worktree_path" && timeout "$QUALITY_CHECK_TIMEOUT" bash -c "$command" > /tmp/quality-check-${label}-${story_id}.log 2>&1); then
             error "Quality check failed in worktree: $label"
-            # Optional: cat "/tmp/quality-check-${label}-${story_id}.log"
             failed=true
         else
             success "Quality check passed in worktree: $label"
@@ -774,7 +812,7 @@ $conflict_files
 4. Run the quality checks for this project after resolution to ensure everything still works.
 
 ## Quality Checks to Run:
-$(jq -r '.quality | to_entries[] | "- \(.key): \(.value)"' "$PRD_JSON")
+$(get_quality_command_lines | while IFS='|' read -r label cmd; do echo "- $label: $cmd"; done)
 
 Resolve the conflicts now.
 EOF
@@ -2087,7 +2125,12 @@ add_available_tools() {
 add_story_details() {
     local story_id="$1"
     local story_details
-    story_details=$(jq -r ".userStories[] | select(.id == \"$story_id\") | \"**Story ID**: \(.id)\n**Title**: \(.title)\n**Type**: \(.type)\n**Priority**: \(.priority)\n**Dependencies**: \(.dependencies | join(\", \"))\n\n**Description**:\n\(.description)\n\n**Acceptance Criteria**:\n\(.acceptanceCriteria | .[] | \"- \(.)\")\n\n**Notes**: \(.notes // \"\")" "$PRD_JSON" 2>/dev/null)
+    story_details=$(jq -r '
+        .userStories[] | select(.id == "'"$story_id"'") |
+        "**Story ID**: " + .id + "\n**Title**: " + .title + "\n**Type**: " + .type + "\n**Priority**: " + (.priority | tostring) +
+        "\n**Dependencies**: " + ((.dependencies // []) | join(", ")) + "\n\n**Description**:\n" + .description +
+        "\n\n**Acceptance Criteria**:\n" + ((.acceptanceCriteria // []) | map("- " + .) | join("\n")) + "\n\n**Notes**: " + (.notes // "")
+    ' "$PRD_JSON" 2>/dev/null)
     
     if [ -z "$story_details" ]; then
         error "Failed to extract story details for: $story_id"
@@ -2132,24 +2175,34 @@ add_browser_verification() {
     fi
 }
 
-# Add quality checks to prompt
+# Add quality checks to prompt (runnable commands only; quality.notes is shown as documentation, not run)
 add_quality_checks() {
     local quality_checks
-    quality_checks=$(jq -r '.quality | to_entries[] | "- **\(.key)**: `\(.value)`"' "$PRD_JSON" 2>/dev/null)
+    quality_checks=$(get_quality_command_lines | while IFS='|' read -r label cmd; do echo "- **$label**: \`$cmd\`"; done)
     
     if [ -z "$quality_checks" ]; then
         warn "No quality checks found in prd.json"
-        return 0
+    else
+        echo "## Quality Checks"
+        echo ""
+        echo "Before marking this story as complete, you must run all of the following quality check commands. **All commands must pass**:"
+        echo ""
+        echo "$quality_checks"
+        echo ""
     fi
     
-    echo "## Quality Checks"
-    echo ""
-    echo "Before marking this story as complete, you must run all of the following quality check commands. **All commands must pass**:"
-    echo ""
-    echo "$quality_checks"
-    echo ""
-    echo "---"
-    echo ""
+    # quality.notes is documentation only — display if present, never run as a command
+    local quality_notes
+    quality_notes=$(jq -r '.quality.notes // empty' "$PRD_JSON" 2>/dev/null)
+    if [ -n "$quality_notes" ]; then
+        echo "**Quality notes (documentation)**: $quality_notes"
+        echo ""
+    fi
+    
+    if [ -n "$quality_checks" ] || [ -n "$quality_notes" ]; then
+        echo "---"
+        echo ""
+    fi
 }
 
 # Add execution instructions to prompt
@@ -2731,16 +2784,19 @@ build_prompt() {
 run_quality_checks() {
     log "Running quality checks..."
     
+    # Run from repository root so paths like scripts/quality.sh resolve correctly (not from docs/ submodule)
+    local project_root
+    project_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+    
     local quality_checks
-    quality_checks=$(jq -r '.quality | to_entries[] | "\(.key)|\(.value)"' "$PRD_JSON")
+    quality_checks=$(get_quality_command_lines)
     
     local failed=false
     while IFS='|' read -r label command; do
+        [ -z "$label" ] && continue
         log "Running check: $label (timeout: ${QUALITY_CHECK_TIMEOUT}s)"
-        # Use timeout to prevent hanging commands
-        # Use bash -c for safer command execution (still requires trusted prd.json)
-        # Note: Commands in prd.json should be trusted - user controls this file
-        if ! timeout "$QUALITY_CHECK_TIMEOUT" bash -c "$command" > /tmp/quality-check-$label.log 2>&1; then
+        # Run each command from repo root; quality.commands = one command per element; never run quality.notes
+        if ! (cd "$project_root" && timeout "$QUALITY_CHECK_TIMEOUT" bash -c "$command" > /tmp/quality-check-$label.log 2>&1); then
             local exit_code=$?
             if [ $exit_code -eq 124 ]; then
                 error "Quality check timed out after ${QUALITY_CHECK_TIMEOUT}s: $label"
@@ -2990,9 +3046,14 @@ execute_single_feature() {
         fi
         
         # Build prompt (pass story_iterations for threshold check)
+        log "Building prompt for $story_id..."
         local prompt_file
         prompt_file=$(mktemp)
-        build_prompt "$story_id" "$story_iterations" > "$prompt_file"
+        if ! build_prompt "$story_id" "$story_iterations" > "$prompt_file"; then
+            error "Build prompt failed for story $story_id (check agent file exists and prd.json story details above)"
+            rm -f "$prompt_file"
+            return 1
+        fi
         
         # Log prompt size for visibility
         local prompt_size_bytes

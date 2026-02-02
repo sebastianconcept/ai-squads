@@ -46,7 +46,9 @@ echo "## Directories"
 check_exists "$TARGET_DIR/commands" "commands/" required
 check_exists "$TARGET_DIR/templates" "templates/" required
 check_exists "$TARGET_DIR/scripts" "scripts/" required
+check_exists "$TARGET_DIR/agents" "agents/" required
 check_exists "$TARGET_DIR/rules" "rules/" required
+check_exists "$TARGET_DIR/skills" "skills/" required
 echo ""
 
 # Check commands
@@ -89,9 +91,28 @@ echo ""
 
 # Check scripts
 echo "## Scripts"
+check_exists "$TARGET_DIR/scripts/common.sh" "common.sh" required
+check_exists "$TARGET_DIR/scripts/execute-feature.sh" "execute-feature.sh" required
 check_exists "$TARGET_DIR/scripts/create-project-docs.sh" "create-project-docs.sh" required
 check_exists "$TARGET_DIR/scripts/create-feature-docs.sh" "create-feature-docs.sh" required
+check_exists "$TARGET_DIR/scripts/init-storybook.sh" "init-storybook.sh" required
 check_exists "$TARGET_DIR/scripts/verify-install.sh" "verify-install.sh" optional
+echo ""
+
+# Check agents (required by execute-feature when run from any project)
+echo "## Agents (for execute-feature)"
+check_exists "$TARGET_DIR/agents/rust-specialist.md" "rust-specialist.md" required
+check_exists "$TARGET_DIR/agents/smalltalk-specialist.md" "smalltalk-specialist.md" required
+check_exists "$TARGET_DIR/agents/javascript-specialist.md" "javascript-specialist.md" required
+check_exists "$TARGET_DIR/agents/jobs-to-be-done.md" "jobs-to-be-done.md" required
+check_exists "$TARGET_DIR/agents/ui-ux.md" "ui-ux.md" required
+check_exists "$TARGET_DIR/agents/ui-developer.md" "ui-developer.md" required
+check_exists "$TARGET_DIR/agents/strategic-designer.md" "strategic-designer.md" required
+check_exists "$TARGET_DIR/agents/copywriter.md" "copywriter.md" required
+check_exists "$TARGET_DIR/agents/financial-advisor.md" "financial-advisor.md" required
+check_exists "$TARGET_DIR/agents/devops-specialist.md" "devops-specialist.md" required
+check_exists "$TARGET_DIR/agents/startup-advisor.md" "startup-advisor.md" required
+check_exists "$TARGET_DIR/agents/video-game-specialist.md" "video-game-specialist.md" required
 echo ""
 
 # Check rules
@@ -109,11 +130,13 @@ check_exists "$AI_SQUADS_DIR/agents/smalltalk-specialist.md" "smalltalk-speciali
 check_exists "$AI_SQUADS_DIR/agents/javascript-specialist.md" "javascript-specialist.md" required
 check_exists "$AI_SQUADS_DIR/agents/jobs-to-be-done.md" "jobs-to-be-done.md" required
 check_exists "$AI_SQUADS_DIR/agents/ui-ux.md" "ui-ux.md" required
+check_exists "$AI_SQUADS_DIR/agents/ui-developer.md" "ui-developer.md" required
 check_exists "$AI_SQUADS_DIR/agents/strategic-designer.md" "strategic-designer.md" required
 check_exists "$AI_SQUADS_DIR/agents/copywriter.md" "copywriter.md" required
 check_exists "$AI_SQUADS_DIR/agents/financial-advisor.md" "financial-advisor.md" required
 check_exists "$AI_SQUADS_DIR/agents/devops-specialist.md" "devops-specialist.md" required
 check_exists "$AI_SQUADS_DIR/agents/startup-advisor.md" "startup-advisor.md" required
+check_exists "$AI_SQUADS_DIR/agents/video-game-specialist.md" "video-game-specialist.md" required
 echo ""
 
 echo "## Standards (in source repo)"

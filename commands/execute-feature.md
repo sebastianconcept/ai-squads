@@ -9,17 +9,33 @@ This workflow executes a planned feature autonomously using the execution loop.
 
 ## Prerequisites
 
-1. Feature must have been planned (have `~/docs/{project-name}/feature/{feature_name}/prd.json`)
+1. Feature must have been planned (have `prd.json` in one of the locations below)
 2. Project must be a git repository
 3. Cursor CLI must be available and authenticated
 4. Project must have quality checks defined in `prd.json.quality`
 
+### Where feature docs live
+
+The script looks for feature docs in this order:
+
+- **In-repo (preferred)**: `docs/feature/{feature_name}/prd.json` — if your repo has a `docs/` directory at the project root, this path is used (e.g. `docs/feature/input-service/prd.json`).
+- **Home docs**: `~/docs/{project-name}/feature/{feature_name}/prd.json` — otherwise the script uses `$HOME/docs/` and the project name from the git repo (e.g. `~/docs/asset-radar/feature/input-service/prd.json`).
+
+### Bash 4+ (macOS)
+
+The script uses Bash 4+ (associative arrays). macOS’s default `/bin/bash` is 3.2. The script will re-exec with Homebrew’s bash if installed (`/opt/homebrew/bin/bash` or `/usr/local/bin/bash`). If you see `declare: -A: invalid option`, install Bash 4+ and run with it:
+
+```bash
+brew install bash
+/opt/homebrew/bin/bash ~/.cursor/scripts/execute-feature.sh input-service
+```
+
 ## Steps
 
 ### 1. Get Feature Name
-- Prompt user for feature name (or scan `~/docs/{project-name}/feature/` for `prd.json` files in automatic mode)
+- Prompt user for feature name (or scan `docs/feature/` or `~/docs/{project-name}/feature/` for `prd.json` files in automatic mode)
 - Validate feature exists and has `prd.json`
-- Read `prd.json` from `~/docs/{project-name}/feature/{feature_name}/prd.json`
+- Read `prd.json` from `docs/feature/{feature_name}/prd.json` (in-repo) or `~/docs/{project-name}/feature/{feature_name}/prd.json`
 - Check for `--dry-run` flag (preview mode without execution)
 
 ### 2. Validate prd.json
