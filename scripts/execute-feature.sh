@@ -955,11 +955,12 @@ update_progress_position() {
     fi
     
     # Update Status and Current Position using sed
+    # Use | as delimiter so values (e.g. story IDs, paths) can contain /
     # Matches lines like "**Status:** ..." or "**Current Position:** ..."
-    sed -i '' "s/\*\*Status:\*\*.*/\*\*Status:\*\* $status/" "$progress_file"
-    sed -i '' "s/\*\*Active Feature:\*\*.*/\*\*Active Feature:\*\* $FEATURE_NAME/" "$progress_file"
-    sed -i '' "s/\*\*Current Story:\*\*.*/\*\*Current Story:\*\* $focus/" "$progress_file"
-    sed -i '' "s/\*\*Last activity:\*\*.*/\*\*Last activity:\*\* $(date -u +'%Y-%m-%d %H:%M UTC') — $status/" "$progress_file"
+    sed -i '' "s|\*\*Status:\*\*.*|\*\*Status:\*\* $status|" "$progress_file"
+    sed -i '' "s|\*\*Active Feature:\*\*.*|\*\*Active Feature:\*\* $FEATURE_NAME|" "$progress_file"
+    sed -i '' "s|\*\*Current Story:\*\*.*|\*\*Current Story:\*\* $focus|" "$progress_file"
+    sed -i '' "s|\*\*Last activity:\*\*.*|\*\*Last activity:\*\* $(date -u +'%Y-%m-%d %H:%M UTC') — $status|" "$progress_file"
 }
 
 # Display parallel execution progress (Phase 3 Improvement)
