@@ -51,8 +51,9 @@ This lets users respond with "1A, 2C, 3B" for quick iteration.
 ### 2. Create Feature Structure
 - Run `~/.cursor/scripts/create-feature-docs.sh {feature_name}` from project root
 - This creates `~/docs/{project-name}/feature/{feature_name}/` directory
-- Copies PRD.md and SPECS.md templates
-- Note: `tasks.md` is deprecated - `prd.json` replaces it (generated in step 6)
+- Copies PRD.md, SPECS.md, and OPEN-QUESTIONS.md templates
+- Note: `tasks.md` is deprecated - `prd.json` replaces it (generated in step 7)
+- OPEN-QUESTIONS.md will be populated in step 8 after planning documents are complete
 
 ### 3. Load Project Context
 - Read `~/docs/{project-name}/TEAM.md` to get agent team
@@ -342,12 +343,47 @@ Be explicit and unambiguous. Functional requirements complement user stories by 
 - Allow user to refine
 - Update documents based on feedback
 
+### 8. Generate Open Questions Document
+
+After planning documents are complete, identify and document any open questions that need to be resolved before or during implementation.
+
+**Process:**
+1. Review PRD.md, SPECS.md, and prd.json for ambiguities, decisions needed, or knowledge gaps
+2. Identify questions that could block implementation or cause rework
+3. Organize questions by category (e.g., Schema and DB, Architecture, Events, Dependencies)
+4. For each question, document:
+   - Question ID (OQ-X.Y format)
+   - Clear question text
+   - Impact on implementation
+   - Suggested owner (agent or role)
+   - Which user stories are blocked by this question
+
+**Format:**
+- Use the OPEN-QUESTIONS.md template
+- Questions start as unresolved (no "Resolved:" prefix)
+- When a question is resolved through discussion, mark it as "Resolved:" and add a decision section below the table
+- Include a summary table at the end showing resolved vs. unresolved questions
+
+**Common question categories:**
+- Schema and database design (keys, nullability, migrations)
+- Architecture decisions (crate layout, service boundaries, patterns)
+- Integration points (APIs, events, external services)
+- Configuration and deployment (env vars, secrets, infrastructure)
+- Testing strategy (unit vs integration, test harnesses)
+- Dependencies and versions (library choices, compatibility)
+- Cross-cutting concerns (error handling, logging, observability)
+
+**Output:** `~/docs/{project-name}/feature/{feature_name}/OPEN-QUESTIONS.md`
+
+**Note:** This document is a living artifact. As questions are resolved through implementation or discussion, update the document to mark them resolved and document the decision. This helps maintain clarity for implementers and prevents rework.
+
 ## Output
 
 After completion, the feature should have:
 - `~/docs/{project-name}/feature/{feature_name}/PRD.md`
 - `~/docs/{project-name}/feature/{feature_name}/SPECS.md`
 - `~/docs/{project-name}/feature/{feature_name}/prd.json` (required for autonomous execution)
+- `~/docs/{project-name}/feature/{feature_name}/OPEN-QUESTIONS.md` (questions to resolve before/during implementation)
 - `~/docs/{project-name}/feature/{feature_name}/RESEARCH.md` (if research phase was triggered)
 - `~/docs/{project-name}/feature/{feature_name}/ux-specs.json` (if feature has frontend/fullstack stories)
 - `~/docs/{project-name}/feature/{feature_name}/UX-SPECS.md` (if feature has frontend/fullstack stories)
@@ -372,6 +408,9 @@ Before saving the PRD:
 [ ] Non-goals section defines clear boundaries
 [ ] Saved to ~/docs/{project-name}/feature/{feature-name}/PRD.md
 [ ] Saved to ~/docs/{project-name}/feature/{feature-name}/prd.json
+[ ] Generated OPEN-QUESTIONS.md with unresolved questions organized by category
+[ ] Documented impact and suggested owner for each question
+[ ] Included summary table of resolved vs. unresolved questions
 
 **If feature has frontend/fullstack stories:**
 
