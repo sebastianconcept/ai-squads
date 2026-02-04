@@ -60,7 +60,7 @@ git diff {base}..HEAD
 
 If available, skim for extra context (do not block if missing):
 - `~/docs/{project-name}/README.md` or `MISSION.md` — project goals
-- `~/docs/{project-name}/TECH-STACK.md` — technologies and conventions
+- `~/docs/{project-name}/TECH-STACK.md` — technologies and conventions; if it has an **Environments** section (local, staging, production), note when changes touch deployment or config and how they might affect staging/production
 - `~/docs/{project-name}/ROADMAP.md` or `DECISIONS.md` — if relevant to interpreting the change
 - `~/docs/{project-name}/feature/{branch-name}/` — if present to add contex for interpreting the change
 

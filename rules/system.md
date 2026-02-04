@@ -69,6 +69,17 @@ If direct evidence cannot be obtained:
 - Design experiments to gather missing evidence
 - Prefer asking for specific evidence (e.g., "Please provide logs from X") over general questions
 
+### Evidence and Environments
+
+When gathering first-hand evidence (e.g. for diagnosis, verification, or investigation):
+
+- **Prefer first-hand log evidence**: Logs are among the strongest evidence sources. Suggest concrete commands the user can run to capture backend and frontend logs, then interpret what they paste.
+- **Use project docs for where and how to fetch logs**:
+  - **TECH-STACK.md** — If the project has an **Environments** section (local, staging, production), use it for hostnames and SSH. That gives exact commands for local (e.g. `docker compose logs -f api`, process stdout) and remote (e.g. `ssh user@staging.example.com 'docker compose logs -f api'`) log fetching.
+  - **Feature VERIFY.md** — When the issue or verification relates to a feature, read `~/docs/{project-name}/feature/{feature_name}/VERIFY.md` (or in-repo `docs/feature/{feature_name}/VERIFY.md`) for log locations, happy path, and environment-specific commands for that feature.
+- **Specify environment when remote**: When suggesting remote log fetch, state which environment (staging vs production) and use the hostname/SSH from the project’s Environments table so the user runs the correct command.
+- **Cross-service**: When the cause may be in a dependency service (e.g. gRPC/HTTP upstream returns wrong value), use a common **trace-id** (or request_id, span_id) to correlate log entries across services. Present evidence as a **narrative** backed by evidence (references to log entries, trace-id, timestamps) and a **diagram** (request flow, services, point of failure).
+
 ## File Structure
 
 - Global installation at `~/.cursor/`:

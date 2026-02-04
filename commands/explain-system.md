@@ -31,7 +31,7 @@ Invoke this command when you need to:
 Read and synthesize understanding from:
 - `~/docs/{project-name}/README.md` - Project overview
 - `~/docs/{project-name}/MISSION.md` - Project purpose and goals
-- `~/docs/{project-name}/TECH-STACK.md` - Technologies and architectural choices
+- `~/docs/{project-name}/TECH-STACK.md` - Technologies and architectural choices; if it has an **Environments** section (local, staging, production), include where the system runs and how to reach each environment (hostnames, SSH) in the narrative
 - `~/docs/{project-name}/DECISIONS.md` - Key architectural decisions and trade-offs
 - `~/docs/{project-name}/ROADMAP.md` - Future direction and planned changes
 - `~/docs/{project-name}/TEAM.md` - Available agent expertise
@@ -65,7 +65,8 @@ When generating explanations:
 5. Connect the tech stack choices to the architectural approach
 6. Surface patterns and abstractions used throughout
 7. Note areas of complexity or technical debt
-8. Relate to roadmap - where is this going?
+8. If TECH-STACK has an **Environments** section: briefly describe where the system runs (local, staging, production) and how to reach each (hostnames, SSH) so the narrative reflects deployment reality
+9. Relate to roadmap - where is this going?
 
 **For Deep Dive:**
 1. Establish boundaries - what's in scope for this subsystem
