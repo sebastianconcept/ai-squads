@@ -18,7 +18,7 @@ TARGET_DIR="$HOME/.cursor"
 
 if [ ! -d "$TARGET_DIR/templates" ]; then
     echo "Error: ai-squads templates not found in $TARGET_DIR/templates"
-    echo "Make sure you've run the global installation: ./scripts/install.sh"
+    echo "Make sure you've run the global installation: ./scripts/install_or_update.sh"
     exit 1
 fi
 

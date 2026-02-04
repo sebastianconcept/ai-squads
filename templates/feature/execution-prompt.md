@@ -10,7 +10,7 @@ The execution prompt is constructed programmatically by combining the following 
 
 ## 1. Agent Definition
 
-**Source**: `agents/{agent-name}.md`
+**Source**: `definitions/agents/{agent-name}.md`
 
 **Content**: Full agent definition including:
 - Specialization
@@ -453,7 +453,7 @@ Here's how a complete prompt would look for a frontend story:
 ```
 # UI Developer Agent
 
-[Full agent definition from agents/ui-developer.md]
+[Full agent definition from definitions/agents/ui-developer.md]
 
 ---
 
@@ -512,5 +512,5 @@ Before marking this story as complete, you must run all of the following quality
 - The prompt is constructed programmatically by the execution loop script
 - Each component is loaded from its source file/directory
 - Components are combined in the order shown above
-- The complete prompt is passed to Cursor CLI via the `agent -p` command
+- The complete prompt is passed to AI CLI in headless mode (Cursor: `agent -p --force --workspace`, Claude: `--print`, Gemini: `-p`, Codex: `codex exec`)
 - Each iteration gets a fresh prompt with updated context

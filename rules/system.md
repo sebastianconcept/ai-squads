@@ -2,16 +2,19 @@
 
 ## System Overview
 
-AI Squads is a config-oriented system for managing AI agent teams in software projects. It provides specialist agents, code style standards, and workflows for project planning and code review.
+AI Squads is a spec-oriented, evidence-based system for managing AI agent teams in software projects. Plan features with specifications, execute with quality gates, and verify with evidence — operational excellence for AI-assisted development.
 
 ## Core Principles
 
-1. **Configuration-Driven**: All agents, standards, and workflows are defined in `.md` files for easy adjustment
-2. **Global Installation**: ai-squads is installed once globally to `~/.cursor/` and used across all projects
-3. **Agent Specialization**: Agents are specialists in specific technologies or domains; they are global by default, with market-specific context (e.g. Brazilian) applied when requested
-4. **Style Consistency**: Agents reference code style standards for consistent guidance
-5. **Developer-Oriented**: Documentation and templates are brief, clear, and actionable
-6. **Evidence-Based Approach**: All agents use a scientific, methodic spirit that is creative but grounded in reality
+1. **Spec-Oriented**: Define before you build — features start as specifications (PRD, SPECS, prd.json), not code
+2. **Evidence-Based**: Direct observation over assumptions — diagnose with hypothesis testing, verify outcomes with logs, metrics, and experiments
+3. **Operational Excellence**: Systematic execution — quality gates, progress tracking, and consistent process across all features
+4. **Configuration-Driven**: All agents, standards, and workflows are defined in `.md` files for easy adjustment
+5. **Global Installation**: ai-squads is installed once (one clone) and used across all projects. Definitions live in the repo; platform-specific sync scripts (Cursor, Claude CLI, Gemini CLI, Codex CLI) transform or expose them to each platform’s expected location (e.g. Cursor → `~/.cursor/`; Claude/Codex/Gemini include the repo via CLI flags).
+6. **Agent Specialization**: Agents are specialists in specific technologies or domains; they are global by default, with market-specific context (e.g. Brazilian) applied when requested
+7. **Style Consistency**: Agents reference code style standards for consistent guidance
+8. **Developer-Oriented**: Documentation and templates are brief, clear, and actionable
+9. **Evidence-Based Approach**: All agents use a scientific, methodic spirit that is creative but grounded in reality
 
 ## Evidence-Based Methodology
 
@@ -88,15 +91,15 @@ When gathering first-hand evidence (e.g. for diagnosis, verification, or investi
   - `scripts/` - Shell scripts for file operations
   - `rules/` - System rules (applied globally to all prompts)
 - Source repository contains:
-  - `agents/` - Agent definitions
+  - `definitions/agents/` - Agent definitions (source of truth)
+  - `definitions/commands/` - Command workflow definitions (source of truth)
   - `standards/code/` - Code style standards
-  - `commands/` - Command workflow definitions
   - `templates/` - Document and command templates
   - `scripts/` - Shell scripts for file operations
 
 ## Agent System
 
-- Agents are defined in the ai-squads source repository (`agents/`)
+- Agents are defined in the ai-squads source repository (`definitions/agents/`)
 - Each agent has specialization, rules, capabilities, and style guide references
 - Agents can be combined into teams per project
 - Team configuration stored in `docs/TEAM.md`
@@ -150,7 +153,7 @@ When working with a user, they are likely working in the scope of a planned feat
 ## Workflow Execution
 
 - Commands trigger workflows defined in global installation (`~/.cursor/commands/`)
-- Workflows reference agents and style guides from the source repository
+- Workflows reference agents and style guides from the source repository (`definitions/agents/`, `definitions/commands/`)
 - Scripts handle file operations (installed globally at `~/.cursor/scripts/`)
 - AI handles interactive prompts and document generation
 

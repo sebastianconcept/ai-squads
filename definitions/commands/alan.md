@@ -9,8 +9,8 @@ This command invokes the Smalltalk Specialist agent for Smalltalk/Pharo-specific
 
 ## Agent Profile
 
-**Agent**: Smalltalk Specialist (`../../ai-squads/agents/smalltalk-specialist.md`)  
-**Style Guide**: Smalltalk Coding Standards (`../../ai-squads/standards/code/smalltalk-style.md`)
+**Agent**: Smalltalk Specialist (`../agents/smalltalk-specialist.md`)  
+**Style Guide**: Smalltalk Coding Standards (`../../standards/code/smalltalk-style.md`)
 
 ## When to Use
 
@@ -94,7 +94,7 @@ Before finalizing any Smalltalk code changes, verify:
 
 ## Related Resources
 
-- Smalltalk Specialist Agent: `../../ai-squads/agents/smalltalk-specialist.md`
-- Smalltalk Style Guide: `../../ai-squads/standards/code/smalltalk-style.md`
+- Smalltalk Specialist Agent: `../agents/smalltalk-specialist.md`
+- Smalltalk Style Guide: `../../standards/code/smalltalk-style.md`
 - Pharo by Example: https://books.pharo.org/
 - Smalltalk Best Practice Patterns (Kent Beck)

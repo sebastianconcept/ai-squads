@@ -49,7 +49,8 @@ This lets users respond with "1A, 2C, 3B" for quick iteration.
 
 
 ### 2. Create Feature Structure
-- Run `~/.cursor/scripts/create-feature-docs.sh {feature_name}` from project root
+- **Cursor**: Run `~/.cursor/scripts/create-feature-docs.sh {feature_name}` from project root
+- **Claude/Gemini**: Run `<ai-squads>/scripts/create-feature-docs.sh {feature_name}` from project root (where `<ai-squads>` is your local clone path)
 - This creates `~/docs/{project-name}/feature/{feature_name}/` directory
 - Copies PRD.md, SPECS.md, OPEN-QUESTIONS.md, and VERIFY.md templates (VERIFY.md is populated in step 9 when the plan is ready to implement)
 - Note: `tasks.md` is deprecated - `prd.json` replaces it (generated in step 7)
@@ -159,7 +160,8 @@ Check for:
 3. If frontend/fullstack stories exist AND Storybook not initialized:
    - Ask user: "This feature has frontend components. Would you like to initialize Storybook for component documentation? (Stories will be auto-generated from UX specifications)"
    - If yes: 
-     - Run `~/.cursor/scripts/init-storybook.sh` from project root
+     - **Cursor**: Run `~/.cursor/scripts/init-storybook.sh` from project root
+     - **Claude/Gemini**: Run `<ai-squads>/scripts/init-storybook.sh` from project root
      - This creates `storybook/` directory and installs dependencies
      - Storybook will be used in Step 5 (Storybook Story Generation)
    - If no: Continue without Storybook (can be initialized later, stories won't be generated)
@@ -383,7 +385,11 @@ After planning documents are complete, identify and document any open questions 
 
 **Process:**
 
-1. **Ensure VERIFY.md exists** for the feature. It is copied from the template when the feature structure is created (`create-feature-docs.sh`). If the feature was created before the template existed, copy from `~/.cursor/templates/feature/VERIFY.md` (or in-repo `templates/feature/VERIFY.md`) into `~/docs/{project-name}/feature/{feature_name}/VERIFY.md` (or `docs/feature/{feature_name}/VERIFY.md`).
+1. **Ensure VERIFY.md exists** for the feature. It is copied from the template when the feature structure is created (`create-feature-docs.sh`). If the feature was created before the template existed:
+   - **Cursor**: Copy from `~/.cursor/templates/feature/VERIFY.md`
+   - **Claude/Gemini**: Copy from `<ai-squads>/templates/feature/VERIFY.md` (where `<ai-squads>` is your local clone path)
+   - **In-repo**: Or use `templates/feature/VERIFY.md` if available
+   - Into: `~/docs/{project-name}/feature/{feature_name}/VERIFY.md` (or `docs/feature/{feature_name}/VERIFY.md`)
 2. **Populate VERIFY.md** so it’s clear how to produce verification (evidence) for this feature:
    - **Happy path:** Derive ordered, observable steps from the acceptance criteria in prd.json (and PRD.md). Each step should be something a human can do and observe (e.g. “Open /login and submit valid credentials; expect redirect to /dashboard”).
    - **Logs and evidence:** From SPECS.md and TECH-STACK.md, document where backend and frontend logs are (local: e.g. `docker compose logs -f api`, process stdout; remote: use TECH-STACK **Environments** for hostname/SSH and the log command). Document what to look for (status codes, request_id, error variants). For Rust backends, note that logs are usually stdout; for remote, note `ssh … 'docker compose logs -f <service>'`.

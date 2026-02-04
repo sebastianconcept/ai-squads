@@ -9,7 +9,7 @@ This command invokes the UX Expert for product usability and user experience gui
 
 ## Agent Profile
 
-**Agent**: UI/UX Expert (`../../ai-squads/agents/ui-ux.md`)  
+**Agent**: UI/UX Expert (`../agents/ui-ux.md`)  
 **Inspired by**: Steve Krug and Don Norman
 
 ## When to Use
@@ -155,7 +155,7 @@ Before finalizing any UX design, verify:
 
 ## Related Resources
 
-- UI/UX Agent: `../../ai-squads/agents/ui-ux.md`
+- UI/UX Agent: `../agents/ui-ux.md`
 - "Don't Make Me Think" by Steve Krug
 - "The Design of Everyday Things" by Don Norman
 - "Rocket Surgery Made Easy" by Steve Krug

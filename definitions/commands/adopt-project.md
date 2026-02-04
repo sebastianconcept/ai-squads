@@ -9,18 +9,20 @@ This workflow guides the adoption of ai-squads in a project.
 
 ## Prerequisites
 
-1. Global ai-squads installation must be present (run `./scripts/install.sh` from ai-squads directory)
+1. Global ai-squads installation must be present (run `./scripts/install_or_update.sh` from ai-squads directory)
 2. Must be run from a git repository root
 
 ## Steps
 
 ### 1. Verify Global Installation
-- Check if `~/.cursor/templates/` directory exists
+- **Cursor**: Check if `~/.cursor/templates/` directory exists
+- **Claude/Gemini**: Check if `<ai-squads>/templates/` directory exists (where `<ai-squads>` is your local clone path)
 - Verify it contains project templates
 - If not found, prompt user to run global installation first
 
 ### 2. Create Project Structure
-- Run `~/.cursor/scripts/create-project-docs.sh` from project root
+- **Cursor**: Run `~/.cursor/scripts/create-project-docs.sh` from project root
+- **Claude/Gemini**: Run `<ai-squads>/scripts/create-project-docs.sh` from project root
 - This creates:
   - `~/docs/{project-name}/` directory (where {project-name} is derived from git repository name)
   - Copies all templates
@@ -80,7 +82,8 @@ Allow user to:
 **If frontend detected**:
 - Ask user: "This project appears to have frontend code. Would you like to initialize Storybook for component documentation?"
 - If yes:
-  1. Run `~/.cursor/scripts/init-storybook.sh` from project root
+  1. **Cursor**: Run `~/.cursor/scripts/init-storybook.sh` from project root
+  2. **Claude/Gemini**: Run `<ai-squads>/scripts/init-storybook.sh` from project root (where `<ai-squads>` is your local clone path)
   2. This creates `storybook/` directory in project
   3. Optionally installs Storybook dependencies (prompts user)
   4. Configures Storybook for detected framework automatically
@@ -107,7 +110,9 @@ Fill in generated templates with gathered information:
 - **Recommended**: Call `scripts/update-progress.sh` after project structure is created
   - Script automatically creates initial PROGRESS.md if it doesn't exist
   - Script is idempotent (safe to call multiple times)
-  - Script location: `scripts/update-progress.sh` (project-local) or `~/.cursor/scripts/update-progress.sh` (global)
+  - Script location: `scripts/update-progress.sh` (project-local) or:
+    - **Cursor**: `~/.cursor/scripts/update-progress.sh` (global)
+    - **Claude/Gemini**: `<ai-squads>/scripts/update-progress.sh` (where `<ai-squads>` is your local clone path)
   - **Command**: Run `bash scripts/update-progress.sh` from project root
   - Script will:
     1. Read `~/docs/{project-name}/README.md` to extract core value (one-liner summary)

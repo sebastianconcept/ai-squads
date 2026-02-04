@@ -9,8 +9,8 @@ This command invokes the UI Developer agent for frontend development help with J
 
 ## Agent Profile
 
-**Agent**: UI Developer (`../../ai-squads/agents/ui-developer.md`)  
-**Style Guides**: JavaScript Standards (`../../ai-squads/standards/code/javascript-style.md`) and htmx Standards (`../../ai-squads/standards/code/htmx-style.md`). When the project uses Tailwind, also apply Tailwind Standards (`../../ai-squads/standards/code/tailwind-style.md`). When the project uses SvelteKit, also apply Svelte/SvelteKit Standards (`../../ai-squads/standards/code/svelte-style.md`).
+**Agent**: UI Developer (`../agents/ui-developer.md`)  
+**Style Guides**: JavaScript Standards (`../../standards/code/javascript-style.md`) and htmx Standards (`../../standards/code/htmx-style.md`). When the project uses Tailwind, also apply Tailwind Standards (`../../standards/code/tailwind-style.md`). When the project uses SvelteKit, also apply Svelte/SvelteKit Standards (`../../standards/code/svelte-style.md`).
 
 ## When to Use
 
@@ -111,11 +111,11 @@ Before finalizing any frontend code changes, verify:
 
 ## Related Resources
 
-- UI Developer Agent: `../../ai-squads/agents/ui-developer.md`
-- JavaScript Style Guide: `../../ai-squads/standards/code/javascript-style.md`
-- htmx Style Guide: `../../ai-squads/standards/code/htmx-style.md`
-- Tailwind Style Guide: `../../ai-squads/standards/code/tailwind-style.md`
-- Svelte/SvelteKit Style Guide: `../../ai-squads/standards/code/svelte-style.md`
+- UI Developer Agent: `../agents/ui-developer.md`
+- JavaScript Style Guide: `../../standards/code/javascript-style.md`
+- htmx Style Guide: `../../standards/code/htmx-style.md`
+- Tailwind Style Guide: `../../standards/code/tailwind-style.md`
+- Svelte/SvelteKit Style Guide: `../../standards/code/svelte-style.md`
 - htmx Documentation: https://htmx.org/
 - Alpine.js Documentation: https://alpinejs.dev/
 - SvelteKit Documentation: https://kit.svelte.dev/

@@ -190,7 +190,7 @@ Use these standard note names for structured organization:
 
 ## Implementation
 
-**Tool Implementation**: This command documents APIs that agents implement using standard Cursor file operations (`read_file`, `write_file`, `list_dir`, `grep`). No custom tool implementations needed.
+**Tool Implementation**: This command documents APIs that agents implement using standard file operations (`read_file`, `write_file`, `list_dir`, `grep`). No custom tool implementations needed.
 
 **File Operations**:
 - Use `read_file` to read note content

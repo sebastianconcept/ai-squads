@@ -123,7 +123,8 @@ Product discovery uses a collaborative multi-agent approach. Each agent provides
 
 ### 3. Create Product Discovery Document Structure
 - Create `~/docs/{project-name}/PRODUCT-DISCOVERY.md` using template
-- Template location: `~/.cursor/templates/product/PRODUCT-DISCOVERY.md`
+- **Cursor**: Template location: `~/.cursor/templates/product/PRODUCT-DISCOVERY.md`
+- **Claude/Gemini**: Template location: `<ai-squads>/templates/product/PRODUCT-DISCOVERY.md` (where `<ai-squads>` is your local clone path)
 - Or use standard structure from PRODUCT-DISCOVERY-FRAMEWORK.md
 
 ### 4. Product Vision Definition

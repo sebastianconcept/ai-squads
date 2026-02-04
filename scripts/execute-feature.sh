@@ -53,7 +53,7 @@ while [[ $# -gt 0 ]]; do
             echo "  --help, -h        Show this help message"
             echo ""
             echo "Environment variables:"
-            echo "  MAX_ITERATIONS         Maximum iterations per feature (default: 10)"
+            echo "  MAX_ITERATIONS         Maximum iterations per feature (default: 20)"
             echo "  MODEL                  Cursor CLI model to use (default: auto)"
             echo "  QUALITY_CHECK_TIMEOUT  Timeout for quality checks in seconds (default: 300)"
             echo "  NON_INTERACTIVE        Set to true to skip confirmation prompts"
@@ -81,11 +81,11 @@ fi
 CURSOR_DIR="$HOME/.cursor"
 AGENTS_DIR="$CURSOR_DIR/agents"
 # When running from ai-squads repo (e.g. ./scripts/execute-feature.sh), use repo agents if host agents missing
-if [[ ! -d "$AGENTS_DIR" && -n "$SCRIPT_PROJECT_ROOT" && -d "$SCRIPT_PROJECT_ROOT/agents" ]]; then
-    AGENTS_DIR="$SCRIPT_PROJECT_ROOT/agents"
+if [[ ! -d "$AGENTS_DIR" && -n "$SCRIPT_PROJECT_ROOT" && -d "$SCRIPT_PROJECT_ROOT/definitions/agents" ]]; then
+    AGENTS_DIR="$SCRIPT_PROJECT_ROOT/definitions/agents"
 fi
 SKILLS_DIR="$CURSOR_DIR/skills"
-MAX_ITERATIONS="${MAX_ITERATIONS:-10}"
+MAX_ITERATIONS="${MAX_ITERATIONS:-20}"
 MODEL="${MODEL:-auto}"
 QUALITY_CHECK_TIMEOUT="${QUALITY_CHECK_TIMEOUT:-300}"  # 5 minutes default timeout
 MAX_PARALLEL_STORIES="${MAX_PARALLEL_STORIES:-5}"  # Max stories to run in parallel
@@ -162,7 +162,7 @@ check_prerequisites() {
     
     if [ ! -d "$AGENTS_DIR" ]; then
         error "Agents directory not found: $AGENTS_DIR"
-        error "Run ./scripts/install.sh from the ai-squads repo to install agents to ~/.cursor/agents"
+        error "Run ./scripts/install_or_update.sh from the ai-squads repo to install agents from definitions/agents to ~/.cursor/agents"
         exit 1
     fi
     
@@ -1895,6 +1895,70 @@ create_feature_completion_chapter() {
     fi
 }
 
+create_max_iterations_retro() {
+    local feature_notes_dir="$DOCS_DIR/notes/$FEATURE_NAME"
+    
+    # Create feature notes directory if it doesn't exist
+    mkdir -p "$feature_notes_dir"
+    
+    # Source create-chapter script
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    
+    # Create max-iterations retro chapter
+    if [ -f "$script_dir/create-chapter.sh" ]; then
+        local chapter_file
+        if chapter_file=$("$script_dir/create-chapter.sh" "$feature_notes_dir" "features" "max-iterations" 2>/dev/null); then
+            if [ -n "$chapter_file" ] && [ -f "$chapter_file" ]; then
+                log "Max iterations retro chapter created: $(basename "$chapter_file")"
+                
+                # Populate the chapter with retro template content
+                local template_file="$script_dir/../templates/feature/max-iterations-retro.md"
+                if [ -f "$template_file" ]; then
+                    # Read template and replace placeholders
+                    local prd_json="$DOCS_DIR/feature/$FEATURE_NAME/prd.json"
+                    local total_stories=0
+                    local completed_stories=0
+                    local incomplete_stories=""
+                    
+                    if [ -f "$prd_json" ] && command -v jq >/dev/null 2>&1; then
+                        total_stories=$(jq -r '.userStories | length' "$prd_json" 2>/dev/null || echo "0")
+                        completed_stories=$(jq -r '[.userStories[] | select(.passes == true)] | length' "$prd_json" 2>/dev/null || echo "0")
+                        incomplete_stories=$(jq -r '[.userStories[] | select(.passes != true)] | .[] | "- \(.id): \(.title)"' "$prd_json" 2>/dev/null || echo "")
+                    fi
+                    
+                    # Get timestamp
+                    local timestamp
+                    timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+                    
+                    # Append template content to chapter (after frontmatter)
+                    {
+                        # Keep frontmatter
+                        head -n 10 "$chapter_file"
+                        echo ""
+                        # Add template content
+                        sed '1,/^---$/d' "$template_file" | sed -e "s/{FEATURE_NAME}/$FEATURE_NAME/g" \
+                            -e "s/{MAX_ITERATIONS}/$MAX_ITERATIONS/g" \
+                            -e "s/{TOTAL_STORIES}/$total_stories/g" \
+                            -e "s/{COMPLETED_STORIES}/$completed_stories/g" \
+                            -e "s/{TIMESTAMP}/$timestamp/g"
+                        echo ""
+                        echo "## Incomplete Stories"
+                        echo ""
+                        if [ -n "$incomplete_stories" ]; then
+                            echo "$incomplete_stories"
+                        else
+                            echo "No incomplete stories found."
+                        fi
+                    } > "${chapter_file}.tmp" && mv "${chapter_file}.tmp" "$chapter_file"
+                fi
+                
+                echo "$chapter_file"
+            fi
+        fi
+    fi
+}
+
 # Add available tools section to prompt
 add_available_tools() {
     echo "## Available Tools"
@@ -3259,6 +3323,13 @@ execute_single_feature() {
     done
     
     error "Max iterations reached ($MAX_ITERATIONS)"
+    
+    # Create max iterations retro before exiting
+    if [ "$DRY_RUN" = "false" ]; then
+        log "Creating max iterations retrospective..."
+        create_max_iterations_retro
+    fi
+    
     return 1
 }
 

@@ -289,7 +289,7 @@ Error: Service not found in running containers
 ### 13. Documentation
 
 **Acceptance Criteria:**
-- [ ] Command documentation in `commands/check-health.md` (this file)
+- [ ] Command documentation in `definitions/commands/check-health.md` (this file)
 - [ ] Template documentation in `templates/project/HEALTH-CHECKS.md`
 - [ ] README.md updated with command usage
 - [ ] Examples in documentation show common use cases
@@ -298,10 +298,10 @@ Error: Service not found in running containers
 ## Implementation Notes
 
 ### File Structure
-- Command file: `commands/check-health.md` (this file)
+- Command file: `definitions/commands/check-health.md` (this file)
 - Template file: `templates/project/HEALTH-CHECKS.md` (to be created)
-- Integration: Update `commands/adopt-project.md` to create `HEALTH-CHECKS.md`
-- Integration: Update `commands/update-docs.md` to include `HEALTH-CHECKS.md` in updates
+- Integration: Update `definitions/commands/adopt-project.md` to create `HEALTH-CHECKS.md`
+- Integration: Update `definitions/commands/update-docs.md` to include `HEALTH-CHECKS.md` in updates
 
 ### Dependencies
 - Project must be adopted (have docs directory)

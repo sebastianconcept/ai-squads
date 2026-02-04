@@ -124,19 +124,19 @@ echo ""
 echo "Checking source repository at $AI_SQUADS_DIR..."
 echo ""
 
-echo "## Agents (in source repo)"
-check_exists "$AI_SQUADS_DIR/agents/rust-specialist.md" "rust-specialist.md" required
-check_exists "$AI_SQUADS_DIR/agents/smalltalk-specialist.md" "smalltalk-specialist.md" required
-check_exists "$AI_SQUADS_DIR/agents/javascript-specialist.md" "javascript-specialist.md" required
-check_exists "$AI_SQUADS_DIR/agents/jobs-to-be-done.md" "jobs-to-be-done.md" required
-check_exists "$AI_SQUADS_DIR/agents/ui-ux.md" "ui-ux.md" required
-check_exists "$AI_SQUADS_DIR/agents/ui-developer.md" "ui-developer.md" required
-check_exists "$AI_SQUADS_DIR/agents/strategic-designer.md" "strategic-designer.md" required
-check_exists "$AI_SQUADS_DIR/agents/copywriter.md" "copywriter.md" required
-check_exists "$AI_SQUADS_DIR/agents/financial-advisor.md" "financial-advisor.md" required
-check_exists "$AI_SQUADS_DIR/agents/devops-specialist.md" "devops-specialist.md" required
-check_exists "$AI_SQUADS_DIR/agents/startup-advisor.md" "startup-advisor.md" required
-check_exists "$AI_SQUADS_DIR/agents/video-game-specialist.md" "video-game-specialist.md" required
+echo "## Definitions (source of truth in repo)"
+check_exists "$AI_SQUADS_DIR/definitions/agents/rust-specialist.md" "definitions/agents/rust-specialist.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/smalltalk-specialist.md" "definitions/agents/smalltalk-specialist.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/javascript-specialist.md" "definitions/agents/javascript-specialist.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/jobs-to-be-done.md" "definitions/agents/jobs-to-be-done.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/ui-ux.md" "definitions/agents/ui-ux.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/ui-developer.md" "definitions/agents/ui-developer.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/strategic-designer.md" "definitions/agents/strategic-designer.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/copywriter.md" "definitions/agents/copywriter.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/financial-advisor.md" "definitions/agents/financial-advisor.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/devops-specialist.md" "definitions/agents/devops-specialist.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/startup-advisor.md" "definitions/agents/startup-advisor.md" required
+check_exists "$AI_SQUADS_DIR/definitions/agents/video-game-specialist.md" "definitions/agents/video-game-specialist.md" required
 echo ""
 
 echo "## Standards (in source repo)"
@@ -159,7 +159,7 @@ elif [ $errors -eq 0 ]; then
 else
     echo "✗ Installation has $errors error(s) and $warnings warning(s)"
     echo ""
-    echo "Run ./scripts/install.sh to fix missing files"
+    echo "Run ./scripts/install_or_update.sh to fix missing files"
     echo "=========================================="
     exit 1
 fi

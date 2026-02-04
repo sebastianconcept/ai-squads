@@ -9,18 +9,19 @@ This workflow helps founders organize their business idea into a structured proj
 
 ## Prerequisites
 
-1. Global ai-squads installation must be present (run `./scripts/install.sh` from ai-squads directory)
+1. Global ai-squads installation must be present (run `./scripts/install_or_update.sh` from ai-squads directory)
 2. Agent team must be available:
-   - Startup advisor agent (`agents/startup-advisor.md`) - Ben
-   - Jobs to be Done agent (`agents/jobs-to-be-done.md`) - Bob
-   - UI/UX agent (`agents/ui-ux.md`) - Steve
-   - Strategic Designer agent (`agents/strategic-designer.md`) - Rian
-   - Financial Advisor agent (`agents/financial-advisor.md`) - Gustavo
+   - Startup advisor agent (`../agents/startup-advisor.md`) - Ben
+   - Jobs to be Done agent (`../agents/jobs-to-be-done.md`) - Bob
+   - UI/UX agent (`../agents/ui-ux.md`) - Steve
+   - Strategic Designer agent (`../agents/strategic-designer.md`) - Rian
+   - Financial Advisor agent (`../agents/financial-advisor.md`) - Gustavo
 
 ## Steps
 
 ### 1. Verify Global Installation
-- Check if `~/.cursor/templates/` directory exists
+- **Cursor**: Check if `~/.cursor/templates/` directory exists
+- **Claude/Gemini**: Check if `<ai-squads>/templates/` directory exists (where `<ai-squads>` is your local clone path)
 - Verify it contains project templates
 - Verify startup advisor agent is available
 - If not found, prompt user to run global installation first
@@ -318,7 +319,8 @@ This workflow helps founders organize their business idea into a structured proj
 ### 5. Generate and Update Lean Canvas Document
 
 **Template Usage:**
-- Start with template from `~/.cursor/templates/lean-canvas.md` (if exists)
+- **Cursor**: Start with template from `~/.cursor/templates/lean-canvas.md` (if exists)
+- **Claude/Gemini**: Start with template from `<ai-squads>/templates/lean-canvas.md` (if exists)
 - Or use standard lean canvas structure defined in SPECS.md
 - Agent reads template and creates initial document when sufficient information is gathered
 
@@ -360,7 +362,8 @@ This workflow helps founders organize their business idea into a structured proj
 ### 6. Generate and Update Pitch Deck Document
 
 **Template Usage:**
-- Start with template from `~/.cursor/templates/pitch-deck.md` (if exists)
+- **Cursor**: Start with template from `~/.cursor/templates/pitch-deck.md` (if exists)
+- **Claude/Gemini**: Start with template from `<ai-squads>/templates/pitch-deck.md` (if exists)
 - Or use standard pitch deck structure defined in SPECS.md
 - Agent reads template and creates initial document when sufficient information is gathered
 

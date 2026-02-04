@@ -9,7 +9,7 @@ This command invokes the DevOps Specialist agent for infrastructure and operatio
 
 ## Agent Profile
 
-**Agent**: DevOps Specialist (`../../ai-squads/agents/devops-specialist.md`)
+**Agent**: DevOps Specialist (`../agents/devops-specialist.md`)
 
 ## When to Use
 
@@ -152,7 +152,7 @@ Before deploying changes, verify:
 
 ## Related Resources
 
-- DevOps Specialist Agent: `../../ai-squads/agents/devops-specialist.md`
+- DevOps Specialist Agent: `../agents/devops-specialist.md`
 - Nomad Documentation: https://developer.hashicorp.com/nomad
 - Docker Best Practices: https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
 

@@ -9,7 +9,7 @@ This command invokes the Video Game Specialist expert for indie game development
 
 ## Agent Profile
 
-**Agent**: Video Game Specialist (`../../ai-squads/agents/video-game-specialist.md`)  
+**Agent**: Video Game Specialist (`../agents/video-game-specialist.md`)  
 **Specialization**: Indie game development with expertise in Godot, game design, art direction, music composition, player psychology, and ethical game business
 
 ## When to Use
@@ -518,10 +518,10 @@ Before finalizing any game design decision, verify:
 ## Related Resources
 
 ### Agent Files
-- Video Game Specialist Agent: `../../ai-squads/agents/video-game-specialist.md`
-- Strategic Designer Agent: `../../ai-squads/agents/strategic-designer.md` (for player psychology)
-- UI/UX Agent: `../../ai-squads/agents/ui-ux.md` (for game UI)
-- Jobs to be Done Agent: `../../ai-squads/agents/jobs-to-be-done.md` (for player motivations)
+- Video Game Specialist Agent: `../agents/video-game-specialist.md`
+- Strategic Designer Agent: `../agents/strategic-designer.md` (for player psychology)
+- UI/UX Agent: `../agents/ui-ux.md` (for game UI)
+- Jobs to be Done Agent: `../agents/jobs-to-be-done.md` (for player motivations)
 
 ### Essential Reading (Game Design Canon)
 - "The Art of Game Design: A Book of Lenses" by Jesse Schell - 100+ lenses for analyzing any game

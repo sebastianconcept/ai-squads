@@ -20,7 +20,8 @@ This workflow guides the creation of a Game Design Document (GDD) for a new game
 - Check if game documentation already exists
 
 ### 2. Create Game Structure
-- Run `~/.cursor/scripts/create-game-docs.sh {game_name}` from project root
+- **Cursor**: Run `~/.cursor/scripts/create-game-docs.sh {game_name}` from project root
+- **Claude/Gemini**: Run `<ai-squads>/scripts/create-game-docs.sh {game_name}` from project root (where `<ai-squads>` is your local clone path)
 - This creates `~/docs/{project-name}/game/{game_name}/` directory
 - Copies GDD.md template
 
@@ -30,7 +31,7 @@ This workflow guides the creation of a Game Design Document (GDD) for a new game
 - Read `~/docs/{project-name}/TECH-STACK.md` for technical context
 
 ### 4. Activate Eric (Video Game Specialist)
-- Load Eric agent: `../../ai-squads/agents/video-game-specialist.md`
+- Load Eric agent: `../agents/video-game-specialist.md`
 - Eric will guide the GDD creation process
 
 ### 5. Gather Game Information
