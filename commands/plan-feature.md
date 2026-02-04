@@ -51,7 +51,7 @@ This lets users respond with "1A, 2C, 3B" for quick iteration.
 ### 2. Create Feature Structure
 - Run `~/.cursor/scripts/create-feature-docs.sh {feature_name}` from project root
 - This creates `~/docs/{project-name}/feature/{feature_name}/` directory
-- Copies PRD.md, SPECS.md, and OPEN-QUESTIONS.md templates
+- Copies PRD.md, SPECS.md, OPEN-QUESTIONS.md, and VERIFY.md templates (VERIFY.md is populated in step 9 when the plan is ready to implement)
 - Note: `tasks.md` is deprecated - `prd.json` replaces it (generated in step 7)
 - OPEN-QUESTIONS.md will be populated in step 8 after planning documents are complete
 
@@ -377,6 +377,23 @@ After planning documents are complete, identify and document any open questions 
 
 **Note:** This document is a living artifact. As questions are resolved through implementation or discussion, update the document to mark them resolved and document the decision. This helps maintain clarity for implementers and prevents rework.
 
+### 9. Produce verification (evidence gathering)
+
+**When:** After the plan is ready to implement — i.e. when open questions are resolved (or the user accepts remaining ones) and the feature docs (PRD, SPECS, prd.json, OPEN-QUESTIONS) are complete. Verification is always a form of **evidence gathering**: logs, observable steps, and environments so we can confirm the feature works (or diagnose when it doesn’t).
+
+**Process:**
+
+1. **Ensure VERIFY.md exists** for the feature. It is copied from the template when the feature structure is created (`create-feature-docs.sh`). If the feature was created before the template existed, copy from `~/.cursor/templates/feature/VERIFY.md` (or in-repo `templates/feature/VERIFY.md`) into `~/docs/{project-name}/feature/{feature_name}/VERIFY.md` (or `docs/feature/{feature_name}/VERIFY.md`).
+2. **Populate VERIFY.md** so it’s clear how to produce verification (evidence) for this feature:
+   - **Happy path:** Derive ordered, observable steps from the acceptance criteria in prd.json (and PRD.md). Each step should be something a human can do and observe (e.g. “Open /login and submit valid credentials; expect redirect to /dashboard”).
+   - **Logs and evidence:** From SPECS.md and TECH-STACK.md, document where backend and frontend logs are (local: e.g. `docker compose logs -f api`, process stdout; remote: use TECH-STACK **Environments** for hostname/SSH and the log command). Document what to look for (status codes, request_id, error variants). For Rust backends, note that logs are usually stdout; for remote, note `ssh … 'docker compose logs -f <service>'`.
+   - **Environment:** Point to project TECH-STACK **Environments** for local/staging/production hostnames and SSH; or repeat the relevant URLs and log commands in VERIFY.md for this feature.
+3. **Frame verification as evidence gathering:** In the summary for the user, state that VERIFY.md defines how we’ll gather evidence to confirm the feature works (happy path + logs, local or remote). Commands like `verify-feature` and `diagnose-issue` use this to suggest exact log-fetch commands and interpret what the user pastes.
+
+**Output:** `~/docs/{project-name}/feature/{feature_name}/VERIFY.md` (or in-repo `docs/feature/{feature_name}/VERIFY.md`) — populated with happy path, log locations, and environment references so verification is clear before implementation.
+
+**Optional project doc:** If the project doesn’t yet have `~/docs/{project-name}/EVIDENCE-GATHERING.md`, suggest copying from `~/.cursor/templates/project/EVIDENCE-GATHERING.md` so the project has a single place that explains how evidence gathering works (TECH-STACK Environments + feature VERIFY.md). See `rules/system.md` → Evidence and Environments.
+
 ## Output
 
 After completion, the feature should have:
@@ -384,6 +401,7 @@ After completion, the feature should have:
 - `~/docs/{project-name}/feature/{feature_name}/SPECS.md`
 - `~/docs/{project-name}/feature/{feature_name}/prd.json` (required for autonomous execution)
 - `~/docs/{project-name}/feature/{feature_name}/OPEN-QUESTIONS.md` (questions to resolve before/during implementation)
+- `~/docs/{project-name}/feature/{feature_name}/VERIFY.md` (how to verify the feature — happy path, log locations, environments; verification = evidence gathering)
 - `~/docs/{project-name}/feature/{feature_name}/RESEARCH.md` (if research phase was triggered)
 - `~/docs/{project-name}/feature/{feature_name}/ux-specs.json` (if feature has frontend/fullstack stories)
 - `~/docs/{project-name}/feature/{feature_name}/UX-SPECS.md` (if feature has frontend/fullstack stories)
@@ -411,6 +429,8 @@ Before saving the PRD:
 [ ] Generated OPEN-QUESTIONS.md with unresolved questions organized by category
 [ ] Documented impact and suggested owner for each question
 [ ] Included summary table of resolved vs. unresolved questions
+[ ] When plan is ready to implement (open questions resolved or accepted): produced VERIFY.md with happy path (from acceptance criteria), log locations (from SPECS/TECH-STACK), and environment references (from TECH-STACK Environments)
+[ ] Verification framed as evidence gathering (logs, observable steps, environments) so implementers and verify-feature/diagnose-issue know how to gather first-hand evidence
 
 **If feature has frontend/fullstack stories:**
 
@@ -425,3 +445,4 @@ Before saving the PRD:
 [ ] Merged UX-derived stories into prd.json (with storybookPath metadata)
 [ ] Saved ux-specs.json (validated against schema)
 [ ] Saved UX-SPECS.md (human-readable version)
+[ ] Saved VERIFY.md (happy path, log locations, environments — verification = evidence gathering)

@@ -63,12 +63,16 @@ check_prerequisites() {
     success "Prerequisites check passed"
 }
 
-# Ensure required project docs exist (e.g. PREFERENCES.md for older adoptions)
+# Ensure required project docs exist (e.g. PREFERENCES.md, EVIDENCE-GATHERING.md for older adoptions)
 ensure_required_docs() {
     local templates_dir="${HOME}/.cursor/templates/project"
     if [ ! -f "$DOCS_DIR/PREFERENCES.md" ] && [ -f "$templates_dir/PREFERENCES.md" ]; then
         cp "$templates_dir/PREFERENCES.md" "$DOCS_DIR/PREFERENCES.md"
         log "Created PREFERENCES.md from template (interaction language preference)"
+    fi
+    if [ ! -f "$DOCS_DIR/EVIDENCE-GATHERING.md" ] && [ -f "$templates_dir/EVIDENCE-GATHERING.md" ]; then
+        cp "$templates_dir/EVIDENCE-GATHERING.md" "$DOCS_DIR/EVIDENCE-GATHERING.md"
+        log "Created EVIDENCE-GATHERING.md from template (evidence-gathering guidance)"
     fi
 }
 

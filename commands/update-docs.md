@@ -23,6 +23,7 @@ This workflow maintains documentation consistency by tracking when each doc was 
 
 ### 2. Ensure Required Docs Exist
 - If `~/docs/{project-name}/PREFERENCES.md` is missing and the template exists at `~/.cursor/templates/project/PREFERENCES.md`, copy it into the docs directory (so older adopted projects get the interaction language preference file).
+- If `~/docs/{project-name}/EVIDENCE-GATHERING.md` is missing and the template exists at `~/.cursor/templates/project/EVIDENCE-GATHERING.md`, copy it into the docs directory (so older adopted projects get the evidence-gathering guidance; see `rules/system.md` → Evidence and Environments). **EVIDENCE-GATHERING.md** (with TECH-STACK **Environments**) is the project’s **source for how to fetch logs** (local and remote); not every project does this the same way, but the project must document its way so agents can suggest concrete log-fetch commands.
 
 ### 3. Initialize or Load Metadata
 - Check if `~/docs/{project-name}/docs-metadata.json` exists
@@ -58,6 +59,7 @@ For each doc in metadata:
      - Git diff showing changes
      - Project context (mission, tech-stack, team)
      - Instructions to update only relevant sections
+     - **For TECH-STACK.md and EVIDENCE-GATHERING.md:** These docs are the project’s **sources for how to fetch logs** (local and remote). When updating them, preserve or update the **Environments** section (TECH-STACK) and any log-fetch instructions (EVIDENCE-GATHERING) so they stay in sync with the codebase and deployment. Agents use these to suggest concrete log-fetch commands for evidence (verify-feature, diagnose-issue, check-health).
    - Call Cursor CLI to generate updated doc
    - Normalize content and compute SHA256 hash
    - Compare hash with current doc hash
@@ -90,6 +92,7 @@ After completion:
 - **Backward Compatibility**: Works on older projects without metadata (auto-initializes)
 - **Content Hashing**: Uses SHA256 hash comparison to prevent unnecessary writes
 - **Atomic Updates**: Metadata only updated after successful doc writes
+- **Log-fetch sources**: TECH-STACK **Environments** and EVIDENCE-GATHERING.md are the project’s **sources for how to fetch logs** (local and remote). Adopt-project collects them at adoption; update-docs **maintains** them when code or deployment changes so agents can suggest correct log-fetch commands for evidence in each environment.
 
 ## Usage
 

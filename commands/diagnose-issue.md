@@ -21,6 +21,7 @@ Invoke this command when you need to:
 - Narrow down a problem through systematic investigation
 - Formulate a clear problem definition before solving
 - Debug production issues or intermittent failures
+- **Investigate cross-service:** When the cause may lie in a dependency service (e.g. gRPC/HTTP upstream always returns None when it should be conditional; correlation across services via trace-id)
 
 ## How It Works
 
@@ -41,6 +42,24 @@ Accept input from the user in any combination:
 - Network traces or API responses
 - Database query results
 
+**First-hand evidence: fetching logs (local or remote)**
+
+- **Logs are first-hand evidence** (strongest in the evidence hierarchy; see `rules/system.md`). Prefer suggesting concrete commands the user can run to capture logs, then interpret what they paste.
+- **Where to get logs:** Use project **TECH-STACK.md** (especially an **Environments** section with hostnames and SSH) and, if the issue relates to a feature, **VERIFY.md** for that feature. Those docs document where backend and frontend logs live and how to fetch them.
+- **Local:** e.g. `docker compose logs -f api`, or stdout of the process running locally (`cargo run`, `npm run dev`). For Rust backends, logs are usually stdout; no default log file.
+- **Remote (staging or production):** e.g. `ssh user@staging.example.com 'cd /opt/app && docker compose logs -f api'` — use the hostname and SSH command from TECH-STACK **Environments** (or VERIFY.md) for the relevant environment. Specify which environment (staging vs production) when suggesting remote log fetch.
+- **What to ask for:** After suggesting a command, ask the user to run it and paste the relevant excerpt (with timestamps around the incident). Treat pasted logs as first-hand evidence and document them in EVIDENCE.md with source and timestamp.
+
+**Cross-service investigation and correlation (trace-id)**
+
+- **Cause may be in a dependency service.** The failing service might be correct; the bug or misbehavior may be in an upstream or downstream service (e.g. a dependency always returns `None` or a wrong value when it should return conditionally and correctly). gRPC or HTTP calls propagate the bad behavior; investigating only one service can miss the root cause.
+- **Service graph:** Use project context (SPECS, DECISIONS, code) to identify which services call which (dependency graph). Include dependency services in hypotheses and in evidence gathering: fetch logs from the calling service and from the dependency service(s) for the same request.
+- **Correlation via trace-id:** gRPC and HTTP calls often propagate a common **trace-id** (or `trace_id`, `request_id`, `span_id`, or similar) in headers or metadata. Backend logs typically emit this in log entries. Use it to **correlate** log entries across services:
+  1. Obtain a **trace-id** from one service’s logs (e.g. the entry where the error or symptom appears).
+  2. Fetch logs from the other service(s) for the same time window and filter/grep by that trace-id (e.g. `grep trace_id=abc123` or project-specific log field).
+  3. Order entries by timestamp to reconstruct the **request flow** and identify where the failure or wrong behavior occurred (e.g. dependency returned None; caller then failed).
+- **Evidence sequence for cross-service:** In the evidence sequence, include steps like: (1) Get trace-id from service A logs; (2) Fetch service B logs, grep by trace-id, paste excerpt; (3) Map request flow and identify which service first produced the wrong outcome. Use TECH-STACK Environments and VERIFY.md for log locations per service (local or remote).
+
 **Soft Evidence:**
 - User reports or complaints
 - Timing correlations ("started after deployment X")
@@ -51,9 +70,10 @@ Accept input from the user in any combination:
 
 Read and understand from:
 - `~/docs/{project-name}/README.md` - Project overview
-- `~/docs/{project-name}/TECH-STACK.md` - Technologies and architecture
+- `~/docs/{project-name}/TECH-STACK.md` - Technologies and architecture; if it has an **Environments** section, use it for hostnames and SSH per environment (local, staging, production) so you can suggest concrete log-fetch commands (local or remote)
 - `~/docs/{project-name}/DECISIONS.md` - Design decisions that may be relevant
 - Relevant source code in suspected areas
+- **If the issue relates to a feature:** `~/docs/{project-name}/feature/{feature_name}/VERIFY.md` (or in-repo `docs/feature/{feature_name}/VERIFY.md`) — log locations, happy path, and environment-specific commands for that feature
 
 ### 3. Evidence Analysis
 
@@ -62,6 +82,7 @@ For each piece of evidence:
 - **Identify anomalies** - What stands out as unusual?
 - **Note timestamps** - Establish timeline of events
 - **Correlate** - How do different pieces connect?
+- **Correlate across services** - If multiple services are involved, use a common **trace-id** (or request_id, span_id) to link log entries across services. Same trace-id = same request flow; order by timestamp to see call direction and where the failure or wrong behavior first appeared.
 
 ### 4. Hypothesis Generation
 
@@ -88,6 +109,7 @@ Generate hypotheses ordered by likelihood using a scientific, evidence-based app
 - **Infrastructure** - Resources, networking, dependencies
 - **Configuration** - Environment vars, feature flags, settings
 - **External systems** - Third-party APIs, databases, services
+- **Dependency / cross-service** - Bug or misbehavior in an upstream or downstream service (e.g. dependency always returns None or wrong value when it should be conditional; gRPC/HTTP propagates the bad behavior; correlate via trace-id across services)
 - **Concurrency** - Deadlocks, starvation, ordering issues
 - **Resource exhaustion** - Memory, connections, file handles
 
@@ -127,11 +149,12 @@ Generate hypotheses ordered by likelihood using a scientific, evidence-based app
      - Type: "hypothesis"
      - `evidenceBased: true` if supported by first-hand evidence
      - `evidence: {}` object documenting the evidence
-   - **Track Experiments**: Update `TODOS.md` with:
-     - Experiments to run (with expected outcomes)
-     - Checks to perform
-     - Status (pending, in-progress, completed, blocked)
-   - **Update Insights**: When experiments confirm or refute hypotheses:
+- **Track Experiments**: Update `TODOS.md` with:
+  - Experiments to run (with expected outcomes)
+  - Checks to perform
+  - Status (pending, in-progress, completed, blocked)
+- **Document reproduction/evidence sequences**: When you define an ordered sequence of evidence-gathering steps to reproduce the issue or to confirm/refute a hypothesis, document it in `TODOS.md` (as an ordered checklist) or in `REPRODUCTION.md` / `EVIDENCE-SEQUENCE.md` in the same notes directory. When the user completes a step and pastes evidence, update `EVIDENCE.md`, mark the step done, and suggest the next step.
+  - **Update Insights**: When experiments confirm or refute hypotheses:
      - Update hypothesis status in `insights.json` (verified, discarded)
      - Add execution-attempt insights documenting what was tried
      - Include commit hash that validates the reasoning
@@ -141,6 +164,7 @@ Generate hypotheses ordered by likelihood using a scientific, evidence-based app
    - Review `CONTEXT.md` to understand investigation scope
    - Review `EVIDENCE.md` to see what evidence has been gathered
    - Review `TODOS.md` to see what experiments are pending
+   - Review `REPRODUCTION.md` or `EVIDENCE-SEQUENCE.md` if present — ordered evidence sequence; continue from the next pending step
    - Review `insights.json` to see previous hypotheses and findings (prioritize evidence-based insights)
    - Continue investigation from where it left off
 
@@ -164,14 +188,23 @@ When cause is NOT yet determined, provide:
 - What specific data would narrow the hypotheses
 - How to capture it (logging, tracing, reproduction steps)
 - What to look for in each data source
+- **Where to get logs:** Use project TECH-STACK **Environments** and, if relevant, feature **VERIFY.md** to suggest exact commands for fetching backend/frontend logs (local: e.g. `docker compose logs`, process stdout; remote: `ssh … 'docker compose logs -f <service>'` for the chosen staging or production host). Suggest the user run the command and paste the excerpt; treat as first-hand evidence.
+
+**Reproduction and evidence sequences**
+
+- **Reproducing an issue** (or confirming/refuting a hypothesis) is a **sequence of evidence-gathering steps**. Define an ordered list: "To reproduce this issue" or "To confirm hypothesis H, collect evidence in this order: 1) … 2) … 3) …"
+- Each step should be concrete: **where** to get evidence (logs, metrics, UI, network), **how** (exact command or action), and **what to look for** (pattern, status, error variant). Use TECH-STACK Environments and VERIFY.md for log locations and commands.
+- **Document the sequence** in investigation notes: in `TODOS.md` (as an ordered checklist) or in a dedicated `REPRODUCTION.md` (or `EVIDENCE-SEQUENCE.md`) in `~/docs/{project-name}/notes/{issue-id}/`. See `templates/diagnosis/evidence-sequence.md` for structure. When the user completes a step and pastes evidence, append to `EVIDENCE.md`, mark the step done, and suggest the next step.
+- **Per hypothesis:** When presenting hypotheses, optionally attach to each an **evidence sequence to confirm/refute** — ordered steps that, when followed, produce first-hand evidence that confirms or refutes that hypothesis. Following the sequence reduces ambiguity and unlocks progress.
 
 **Experiments to Run:**
 - Controlled tests to confirm/refute hypotheses
-- Reproduction scenarios
+- Reproduction scenarios (when framed as an evidence sequence, ordered steps to collect evidence)
 - Isolation strategies
 - **Design Principle**: Small, focused experiments that test one hypothesis at a time
 - **Document**: Record experimental inputs and observed outputs in `EVIDENCE.md`
 - **Purpose**: Reduce ambiguity and unlock progress by confirming or discarding hypotheses
+- **When appropriate:** Structure as an **evidence sequence** — ordered steps to collect evidence; document in TODOS.md or REPRODUCTION.md so the user can follow step-by-step
 
 ### 6. Root Cause Determination
 
@@ -188,6 +221,12 @@ Generate a clear, actionable problem statement:
 - Why it's broken (root cause)
 - Under what conditions (triggers/environment)
 - What impact it has (user-facing, system-level)
+
+**Presenting evidence: narrative and diagram**
+
+- **Narrative backed by evidence:** Present the diagnosis as a short **story** of what happened, with every claim tied to evidence. E.g. "Request entered service A at T1 (log entry X, trace-id T). Service A called service B via gRPC (trace-id T propagated). Service B returned None at T2 (log entry Y, trace-id T). Service A then failed at T3 because it did not handle None (log entry Z, trace-id T)." Reference specific log excerpts, trace-ids, and timestamps so the user can verify.
+- **Diagram:** Provide a **request-flow diagram** so the user can see the path of the request and where the failure or wrong behavior occurred. Use **Mermaid** (sequence or flowchart) or ASCII. Include: services involved, direction of calls, propagation of trace-id, and the point where the failure or incorrect behavior appears (e.g. "B returns None", "A 500"). For cross-service issues, the diagram is especially useful to show which service is the root cause (e.g. dependency B) vs which service surfaces the symptom (caller A).
+- **When to use:** Always offer narrative + diagram when the investigation spans multiple services or when correlation (e.g. trace-id) was used. For single-service issues, a short narrative with evidence references is still valuable; add a diagram if it clarifies flow or failure point.
 
 ### 7. Next Steps
 
@@ -266,6 +305,14 @@ Based on the evidence, here are the most likely causes:
 1. [Data source 1] - Looking for [specific pattern]
 2. [Data source 2] - Looking for [specific pattern]
 
+**Evidence sequence (to confirm/refute):**  
+*Ordered steps to collect evidence — follow in order; paste what you find after each step. Document in TODOS.md or REPRODUCTION.md.*
+
+To reproduce the issue / To confirm Hypothesis 1:
+1. [Step 1 — e.g. "Fetch backend logs from staging around time T: `ssh … 'docker compose logs --since … api'`; paste excerpt"]
+2. [Step 2 — e.g. "Look for request_id X in logs; note status and any error variant"]
+3. [Step 3 — e.g. "Check frontend network tab for the same request; paste response"]
+
 **Experiments:**
 1. [Controlled test to isolate variable]
 
@@ -292,6 +339,34 @@ Which hypothesis seems most likely based on your experience? Or should we gather
 **Contributing factors:**
 - [Factor 1 if applicable]
 - [Factor 2 if applicable]
+
+---
+
+### Evidence narrative
+
+*Story of what happened, with each claim backed by evidence (log excerpt, trace-id, timestamp). For cross-service: request entered A (evidence X), A called B with trace-id T (evidence Y), B returned [wrong value] (evidence Z), A then failed (evidence W).*
+
+[1–2 short paragraphs, with explicit references to log entries and trace-id where applicable.]
+
+---
+
+### Request flow (diagram)
+
+*Use Mermaid or ASCII. Show services, call direction, trace-id propagation, and where the failure or wrong behavior occurred. For cross-service: mark which service is root cause vs which surfaces the symptom.*
+
+Example (Mermaid sequence diagram):
+
+    sequenceDiagram
+      participant User
+      participant A as Service A
+      participant B as Service B (dependency)
+      User->>A: request (trace-id T)
+      A->>B: gRPC call (trace-id T)
+      B-->>A: None / wrong value
+      A-->>User: 500
+      Note over B: Root cause: always returns None
+
+*(Render in a mermaid code block or use ASCII equivalent.)*
 
 ---
 
@@ -363,9 +438,15 @@ Copy this context when running `@ideate-solution`.
 When analyzing logs, look for:
 - **Errors and warnings** - Obvious failures
 - **Timing patterns** - Delays, timeouts, ordering
-- **Request correlation** - Trace IDs, session IDs
+- **Request correlation** - **Trace IDs, request_id, span_id** (propagated across gRPC/HTTP); use to correlate log entries **across services** (same trace-id = same request flow; order by timestamp to see call direction and where failure or wrong value first appeared)
 - **Resource indicators** - Memory, connections, queues
 - **State transitions** - Unexpected states or missing transitions
+
+### Cross-service correlation
+
+- **Trace-id (or request_id, span_id):** Identify the field name used in your stack (e.g. `trace_id`, `request_id`, `X-Request-Id`). Extract it from one service’s log entry, then grep/filter other services’ logs by that value for the same time window.
+- **Request flow:** Order correlated entries by timestamp to get: which service received the request first, which called which, where the wrong return value or error first appeared (often the **root cause** is in the dependency that returned the wrong value; the **symptom** appears in the caller).
+- **Hypothesis:** If a dependency always returns None (or a wrong value) when it should return conditionally, the caller may fail or misbehave; the fix may be in the dependency service, not the caller.
 
 ### Error Analysis
 
@@ -398,6 +479,8 @@ When investigating slowness:
 @diagnose-issue the background job stops processing after a few hours
 
 @diagnose-issue data is appearing duplicated in the database
+
+@diagnose-issue API returns 500 when calling the user-service — might be in our service or in the dependency; we have trace_id in gRPC and in logs
 ```
 
 ## Quality Checklist
@@ -412,6 +495,8 @@ Before presenting diagnosis, verify:
 - [ ] Problem definition (if reached) is clear and testable
 - [ ] Next steps are offered based on diagnosis state
 - [ ] Technical context from project docs is considered
+- [ ] **Cross-service:** If multiple services are involved, considered dependency service as possible root cause; used trace-id (or request_id/span_id) to correlate log entries across services
+- [ ] **Evidence presentation:** Diagnosis includes a **narrative** backed by evidence (references to log entries, trace-id, timestamps) and a **diagram** (request flow, services, point of failure) when useful—especially for cross-service issues
 
 ## Pro Tips
 
@@ -433,10 +518,12 @@ This command uses templates from `templates/diagnosis/`:
 | `hypothesis.md` | Structure for each hypothesis |
 | `problem-definition.md` | Clear problem statement format |
 | `ideate-prompt.md` | Handoff to `ideate-solution` |
+| `evidence-sequence.md` | Ordered evidence-gathering steps to reproduce an issue or confirm/refute a hypothesis (REPRODUCTION.md / EVIDENCE-SEQUENCE.md in notes) |
 
 ## Related Commands
 
 - `explain-system` - Understand the system before diagnosing
+- `verify-feature` - Align on happy path and log locations; useful when the issue relates to a feature and you need first-hand log evidence (local or remote)
 - `ideate-solution` - Next step after root cause is found
 - `plan-feature` - For implementing the fix
 - `review-merge-request` - Review the fix implementation

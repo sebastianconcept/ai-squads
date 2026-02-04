@@ -47,6 +47,12 @@ Ask the user interactive questions:
 - What important architectural decisions have been made?
 - What trade-offs were considered?
 
+**Environments and how to fetch logs (evidence):**
+- Not every project does this the same way; the project just needs to document *its* way so agents can suggest concrete log-fetch commands for evidence (e.g. `verify-feature`, `diagnose-issue`, `check-health`).
+- **Local:** How do you run the app locally (e.g. `docker compose up`, `cargo run`, `npm run dev`)? Where do logs go (stdout, file, which service)?
+- **Staging / production (if any):** Hostnames, API/app URLs, SSH command. How do you fetch logs there (e.g. `ssh user@host 'docker compose logs -f api'`)?
+- Record this in **TECH-STACK.md** under the **Environments** section (hostnames, SSH, log-fetch commands per environment). Optionally refine **EVIDENCE-GATHERING.md** (copied from template) so it points to TECH-STACK Environments and any project-specific log-fetch conventions. These become the **sources** for how to fetch logs in each environment.
+
 **Interaction language (optional):** Default is English; can be set later in `PREFERENCES.md`.
 
 ### 4. Select Agent Team
@@ -85,12 +91,13 @@ Allow user to:
 ### 6. Customize Templates
 Fill in generated templates with gathered information:
 - `~/docs/{project-name}/MISSION.md` - Project mission
-- `~/docs/{project-name}/TECH-STACK.md` - Technology details
+- `~/docs/{project-name}/TECH-STACK.md` - Technology details; **include the Environments section** (local, staging, production) with hostnames, SSH, and **how to fetch logs** per environment so the project has a single place for log-fetch sources (evidence gathering)
 - `~/docs/{project-name}/ROADMAP.md` - Project roadmap
 - `~/docs/{project-name}/DECISIONS.md` - Key decisions
 - `~/docs/{project-name}/README.md` - Project overview
 - `~/docs/{project-name}/TEAM.md` - Selected agent team
 - `~/docs/{project-name}/PREFERENCES.md` - Set interaction language if desired (default English)
+- `~/docs/{project-name}/EVIDENCE-GATHERING.md` - Already copied from template; point to TECH-STACK Environments and any project-specific log-fetch conventions so agents know where to find "how to fetch logs" (local and remote)
 
 ### 6. Create Initial Progress Tracking
 
@@ -269,6 +276,7 @@ After completion, the project should have:
 - `~/docs/{project-name}/` with all project documentation
 - `~/docs/{project-name}/TEAM.md` with agent team configuration
 - `~/docs/{project-name}/PROGRESS.md` - Initial project progress tracking file
+- `~/docs/{project-name}/TECH-STACK.md` **Environments** section and `~/docs/{project-name}/EVIDENCE-GATHERING.md` - **Sources for how to fetch logs** (local and remote) so agents can suggest concrete log-fetch commands for evidence (verify-feature, diagnose-issue, check-health)
 - `~/docs/{project-name}/notes/` directory (if project notes were created) - Project analysis notes
 
 ## Notes

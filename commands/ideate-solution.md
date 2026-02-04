@@ -48,7 +48,7 @@ If the problem seems to span multiple projects or could benefit from a wider sco
 Read and understand from:
 - `~/docs/{project-name}/README.md` - Project overview
 - `~/docs/{project-name}/MISSION.md` - Project purpose and goals
-- `~/docs/{project-name}/TECH-STACK.md` - Technologies and constraints
+- `~/docs/{project-name}/TECH-STACK.md` - Technologies and constraints; if it has an **Environments** section and the problem is environment-specific (e.g. "only in production", "staging works"), use it to understand staging/production hostnames and SSH so solutions account for remote deployment
 - `~/docs/{project-name}/DECISIONS.md` - Existing architectural decisions
 - `~/docs/{project-name}/TEAM.md` - Available agent expertise
 - Relevant source code areas affected by the problem
