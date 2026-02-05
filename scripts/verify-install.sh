@@ -95,7 +95,7 @@ check_exists "$TARGET_DIR/scripts/common.sh" "common.sh" required
 check_exists "$TARGET_DIR/scripts/execute-feature.sh" "execute-feature.sh" required
 check_exists "$TARGET_DIR/scripts/create-project-docs.sh" "create-project-docs.sh" required
 check_exists "$TARGET_DIR/scripts/create-feature-docs.sh" "create-feature-docs.sh" required
-check_exists "$TARGET_DIR/scripts/init-storybook.sh" "init-storybook.sh" required
+check_exists "$TARGET_DIR/scripts/storybook-init.sh" "storybook-init.sh" required
 check_exists "$TARGET_DIR/scripts/verify-install.sh" "verify-install.sh" optional
 echo ""
 

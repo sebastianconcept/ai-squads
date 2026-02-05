@@ -9,7 +9,7 @@
 # 4. Configuring Storybook for the detected framework
 # 
 # Usage:
-#   ~/.cursor/scripts/init-storybook.sh
+#   ~/.cursor/scripts/storybook-init.sh
 # 
 # Must be run from project root directory.
 # 
@@ -19,7 +19,7 @@
 # 
 # Can also be run manually:
 #   cd /path/to/project
-#   ~/.cursor/scripts/init-storybook.sh
+#   ~/.cursor/scripts/storybook-init.sh
 # 
 # Storybook is isolated in storybook/ directory and doesn't interfere with
 # existing code. Framework is auto-detected and configured appropriately.

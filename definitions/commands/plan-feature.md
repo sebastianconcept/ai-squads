@@ -160,8 +160,8 @@ Check for:
 3. If frontend/fullstack stories exist AND Storybook not initialized:
    - Ask user: "This feature has frontend components. Would you like to initialize Storybook for component documentation? (Stories will be auto-generated from UX specifications)"
    - If yes: 
-     - **Cursor**: Run `~/.cursor/scripts/init-storybook.sh` from project root
-     - **Claude/Gemini**: Run `<ai-squads>/scripts/init-storybook.sh` from project root
+     - **Cursor**: Run `~/.cursor/scripts/storybook-init.sh` from project root
+     - **Claude/Gemini**: Run `<ai-squads>/scripts/storybook-init.sh` from project root
      - This creates `storybook/` directory and installs dependencies
      - Storybook will be used in Step 5 (Storybook Story Generation)
    - If no: Continue without Storybook (can be initialized later, stories won't be generated)

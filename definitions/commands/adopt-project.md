@@ -82,8 +82,8 @@ Allow user to:
 **If frontend detected**:
 - Ask user: "This project appears to have frontend code. Would you like to initialize Storybook for component documentation?"
 - If yes:
-  1. **Cursor**: Run `~/.cursor/scripts/init-storybook.sh` from project root
-  2. **Claude/Gemini**: Run `<ai-squads>/scripts/init-storybook.sh` from project root (where `<ai-squads>` is your local clone path)
+  1. **Cursor**: Run `~/.cursor/scripts/storybook-init.sh` from project root
+  2. **Claude/Gemini**: Run `<ai-squads>/scripts/storybook-init.sh` from project root (where `<ai-squads>` is your local clone path)
   2. This creates `storybook/` directory in project
   3. Optionally installs Storybook dependencies (prompts user)
   4. Configures Storybook for detected framework automatically

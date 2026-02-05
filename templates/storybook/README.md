@@ -4,7 +4,7 @@ This directory contains Storybook templates that will be copied to your project 
 
 ## What Gets Copied
 
-When you run `~/.cursor/scripts/init-storybook.sh` from your project root, it copies:
+When you run `~/.cursor/scripts/storybook-init.sh` from your project root, it copies:
 
 - `.storybook/` - Storybook configuration files
 - `scripts/` - Framework detection and story generation scripts
