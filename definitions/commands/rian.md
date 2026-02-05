@@ -9,7 +9,7 @@ This command invokes the Strategic Designer expert for cognitive biases and ethi
 
 ## Agent Profile
 
-**Agent**: Strategic Designer (`../../ai-squads/agents/strategic-designer.md`)  
+**Agent**: Strategic Designer (`../agents/strategic-designer.md`)  
 **Inspired by**: Rian Dutra and "Enviesados: Psicologia e Vieses Cognitivos no Design"
 
 ## When to Use
@@ -904,7 +904,7 @@ Before finalizing any strategic design, verify:
 - ChartMogul SaaS Metrics
 
 **Design & Psychology**
-- Strategic Designer Agent: `../../ai-squads/agents/strategic-designer.md`
+- Strategic Designer Agent: `../agents/strategic-designer.md`
 - Dark Patterns: https://www.darkpatterns.org/
 - Design From Human: https://designfromhuman.com/
 - Behavioral Economics Guide

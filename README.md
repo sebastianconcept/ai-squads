@@ -1,6 +1,8 @@
 # AI Squads
 
-A spec-oriented system for managing AI agent teams in software projects. Install ai-squads globally once to get specialist agents, code style standards, and workflows for project planning and code review across all your projects.
+A spec-oriented, evidence-based system for managing AI agent teams in software projects. Plan features with specifications, execute with quality gates, and verify with evidence — operational excellence for AI-assisted development.
+
+**Cross-platform**: Works with Cursor, Claude CLI, Gemini CLI, and Codex CLI. We own the process design and execution loop. No platforms lock-in.
 
 ## Quick Start
 
@@ -8,28 +10,40 @@ A spec-oriented system for managing AI agent teams in software projects. Install
 # 1. Clone and install globally
 git clone <ai-squads-url>
 cd ai-squads
-./scripts/install.sh
+./scripts/install_or_update.sh
 
 # 2. Adopt in your project
 cd /path/to/your-project
-# Run /adopt-project command in Cursor
+# Run /adopt-project command in your AI IDE/CLI
 
 # 3. Start using agents and workflows
 # @rusty for Rust help, @steve for UX guidance, @ops for infrastructure
 # /diagnose-issue to investigate problems
-# /ideate-solution to explore approaches
+# /ideate-solution to explore approaches to a given problem
 # /plan-feature to create feature specs ready to execute
 # /execute-feature to autonomously implement planned features
+# /verify-feature to help verify with evidence features or functionality
 ```
 
 ## Features
 
+### Core Discipline (How We Work)
+
+These are the fundamental principles that guide every feature and workflow:
+
+- **Spec-Oriented**: Define before you build — features start as specifications (PRD, SPECS, prd.json), not code
+- **Evidence-Based**: Direct observation over assumptions — diagnose with hypothesis testing, verify outcomes with logs, metrics, and experiments
+- **Operational Excellence**: Systematic execution — quality gates, progress tracking, and consistent process across all features
+
+### Capabilities (What We Provide)
+
+These are the tools, agents, and workflows you get:
+
 - **Specialist Agents**: Rust, Smalltalk, JavaScript, Jobs to be Done, UI/UX, UI Developer, Strategic Designer, SaaS Copywriter, Financial Advisor, DevOps, Video Game Development
 - **Code Style Standards**: Consistent coding standards for Rust, Smalltalk, JavaScript, htmx, Tailwind, and Svelte/SvelteKit (when the project uses them)
-- **Project Planning**: Structured workflows for feature planning with PRD, specs, and machine-readable execution format (prd.json)
-- **Storybook Integration**: Framework-aware component documentation with automatic story generation from UX specifications
 - **Autonomous Execution**: Execute planned features autonomously with dependency resolution, quality checks, and progress tracking
 - **Introspection & Retrospection**: Structured reflection after every execution attempt, enabling cross-session learning and approach questioning when tasks exceed iteration thresholds
+- **Storybook Integration**: Framework-aware component documentation with automatic story generation from UX specifications
 - **Code Review**: Agent-based code review using project's tech stack and style guides
 - **Skills System**: Specialized capabilities like browser verification for frontend work
 - **Configuration-Driven**: All agents, standards, and workflows defined in `.md` files for easy adjustment
@@ -39,12 +53,27 @@ cd /path/to/your-project
 ### Global Installation
 
 ```bash
+# Clone the repository (this becomes your <ai-squads> directory)
 git clone <ai-squads-url>
 cd ai-squads
-./scripts/install.sh
+
+# Install (idempotent - safe to run multiple times, works as both install and update)
+./scripts/install_or_update.sh
 ```
 
-This installs global commands, templates, scripts, rules, and skills to `~/.cursor/`:
+This sets up ai-squads with platform-agnostic definitions. The installation:
+- Creates `definitions/` as the source of truth for agents and commands
+- Detects available AI CLIs and runs platform-specific sync scripts
+- **Cursor**: syncs to `~/.cursor/` (Cursor's expected location)
+- **Claude/Gemini/Codex**: sync copies commands/skills to each platform’s config (see table below); you can also include the repo at runtime
+
+**Updating after pulling changes:**
+```bash
+cd ai-squads  # Your local clone directory
+./scripts/install_or_update.sh   # Idempotent - same command works for updates
+```
+
+**Available commands:**
 
 **Project Commands:**
 - Adopt Project - Set up ai-squads in a new project (includes Storybook initialization for frontend projects)
@@ -73,9 +102,32 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 - Ops - DevOps & Infrastructure expert
 - Eric - Video Game Development expert
 
+### Cross-Platform Support
+
+ai-squads works with multiple AI platforms:
+
+| Platform | CLI | Context | Execution |
+|----------|-----|---------|-----------|
+| **Cursor** | `cursor agent` | Auto-discovers from `~/.cursor/` (synced) | `-p --force --workspace` |
+| **Claude** | `claude` | Commands synced to `~/.claude/commands/`; or `--add-dir <ai-squads> --add-dir ~/docs/<project>` | `/plan-feature`, `/help` |
+| **Gemini** | `gemini` | Commands synced as skills to `~/.gemini/skills/ai-squads/`; or `--include-directories <ai-squads>,~/docs/<project>` | `/skills`, or model activates when relevant |
+| **Codex** | `codex` | Commands synced as skills to `~/.agents/skills/ai-squads/`; or `--add-dir <ai-squads> --add-dir ~/docs/<project>` | `$plan-feature`, `/skills`, or `codex exec` |
+
+**Path Reference:**
+- `<ai-squads>` = Path to your local clone of the ai-squads repository (e.g., `/Users/you/projects/ai-squads` or `~/projects/ai-squads`)
+- `<project>` = Your project name (derived from git repository name)
+- Example: If you cloned to `~/projects/ai-squads` and your project is `my-app`, use: `--add-dir ~/projects/ai-squads --add-dir ~/docs/my-app`
+
+**Architecture:**
+- **We own the process**: The execution loop, quality gates, and workflow design live in ai-squads — platforms are interchangeable runtimes that execute our process
+- **Canonical workflow**: Root `scripts/execute-feature.sh` is the source of truth; platforms wrap/extend when needed
+- **Platform-agnostic definitions**: Agents and commands defined once in `definitions/`
+- **Per-platform sync**: `scripts/{platform}-cli/sync-definitions.sh` transforms to each platform's expected format
+- **Graceful degradation**: Platforms that don't support all features (e.g., parallelization) run sequentially with the same quality gates
+
 ### Start a New Business Project (or Add Business Planning to Existing Project)
 
-1. Run the `/project-starter` command in Cursor
+1. Run the `/project-starter` command in your AI IDE/CLI
 
 **For new business ideas:**
 - Prompt for business name and validate it
@@ -101,7 +153,7 @@ This installs global commands, templates, scripts, rules, and skills to `~/.curs
 
 ### Adopt in a Project
 
-1. Run the `/adopt-project` command in Cursor from your project root
+1. Run the `/adopt-project` command from your project root
 
 This will:
 - Create `~/docs/{project-name}/` directory with project documentation (where {project-name} is derived from git repository name)
@@ -125,8 +177,8 @@ Run the `/diagnose-issue` command when investigating problems. This will:
 
 ### Explain the System
 
-Run the `/explain-system` command to understand architecture. This will:
-- Synthesize project documentation into narrative
+Run the `/explain-system` command to understand any implementation detail or architecture. This will:
+- Synthesize the answer into narrative
 - Provide overview or deep-dive into subsystems
 - Trace data flows and dependencies
 - Surface design decisions and rationale
@@ -158,7 +210,7 @@ Run the `/ideate-solution` command to explore approaches. This will:
 
 ### Plan a Feature
 
-Run the `/plan-feature` command in Cursor. This will:
+Run the `/plan-feature` command. This will:
 - Create feature directory in `~/docs/{project-name}/feature/{feature_name}/`
 - Generate PRD.md, SPECS.md, and prd.json (machine-readable execution format)
 - Use your project's agent team to inform planning
@@ -172,7 +224,7 @@ Run the `/plan-feature` command in Cursor. This will:
 
 ### Execute a Feature
 
-Run the `/execute-feature` command in Cursor to autonomously implement a planned feature. This will:
+Run the `/execute-feature` command to autonomously implement a planned feature. This will:
 - Read feature plan from `~/docs/{project-name}/feature/{feature_name}/prd.json`
 - Resolve dependencies and execute user stories in order
 - Route stories to appropriate agents based on type and tech stack
@@ -207,7 +259,7 @@ Run the `/execute-feature` command in Cursor to autonomously implement a planned
 
 ### Plan a Game
 
-Run the `/plan-game` command in Cursor. This will:
+Run the `/plan-game` command. This will:
 - Create game directory in `~/docs/{project-name}/game/{game_name}/`
 - Generate GDD.md (Game Design Document) template
 - Use Eric (Video Game Specialist) to guide GDD creation
@@ -217,7 +269,7 @@ Run the `/plan-game` command in Cursor. This will:
 
 ### Review Merge Request
 
-Run the "Review Merge Request" command in Cursor. This will:
+Run the `/review-merge-request` command. This will:
 - Analyze git diff or selected files
 - Load your project's agent team
 - Invoke relevant agents based on file types
@@ -304,7 +356,7 @@ The command will:
 
 ### Invoke Specialist Agents
 
-Invoke specialist agents directly by their command names in Cursor:
+Invoke specialist agents directly by their command names:
 - `@rusty` - Rust programming expert
 - `@alan` - Smalltalk/Pharo expert
 - `@uidev` - Frontend expert (JavaScript, Alpine.js, htmx, Tailwind; SvelteKit/SkeletonUI when the project uses them)
@@ -370,17 +422,40 @@ $HOME/docs/{project-name}/
     └── YYYY-MM-DD-{feature_name}/
 ```
 
-**Global Installation** (at `~/.cursor/`):
+**ai-squads Repository** (source of truth):
+```
+ai-squads/
+├── definitions/              # Platform-agnostic definitions (source of truth)
+│   ├── agents/              # Agent definitions
+│   └── commands/            # Command definitions
+├── scripts/
+│   ├── install_or_update.sh # Install/update (idempotent - detects platforms, syncs definitions)
+│   ├── execute-feature.sh   # Canonical execution loop
+│   ├── cursor-cli/          # Cursor-specific sync and entry points
+│   ├── claude-cli/          # Claude-specific sync and entry points
+│   ├── gemini-cli/          # Gemini-specific sync and entry points
+│   └── codex-cli/           # Codex-specific sync and entry points
+├── templates/               # Documentation templates
+├── rules/                   # System rules
+└── skills/                  # Specialized capabilities
+```
+
+**Cursor Installation** (`~/.cursor/` — synced by `scripts/cursor-cli/sync-definitions.sh`):
 ```
 ~/.cursor/
 ├── commands/                 # Command workflows
-├── templates/                # Documentation templates (including Storybook templates)
-├── scripts/                  # Helper scripts (including init-storybook.sh)
-├── rules/                    # System rules (applied globally)
-└── skills/                   # Specialized capabilities (e.g., browser-verification)
+├── agents/                   # Agent definitions
+├── templates/                # Documentation templates
+├── scripts/                  # Helper scripts
+├── rules/                    # System rules
+└── skills/                   # Specialized capabilities
 ```
 
+**Claude/Gemini/Codex**: Commands are synced to each platform’s native location when you run `./scripts/install_or_update.sh`. Claude → `~/.claude/commands/` (slash commands); Gemini → `~/.gemini/skills/ai-squads/` (skills); Codex → `~/.agents/skills/ai-squads/` (skills). You can also include the ai-squads repo at runtime via `--add-dir` or `--include-directories`.
+
 **Note**: Project documentation lives in `$HOME/docs/{project-name}/` (outside the repository), while Storybook lives in `storybook/` within the project repository. This separation keeps planning docs separate from code while allowing Storybook to import components from the codebase.
+
+Platform-specific locations are handled by sync scripts. Run `./scripts/install_or_update.sh` to sync definitions to all detected platforms.
 
 ## Agents
 
@@ -481,7 +556,7 @@ Agents automatically reference relevant style guides when providing guidance. Co
 
 ## Skills System
 
-Skills are specialized capabilities that agents can use during execution. Skills are located in `skills/` and installed to `~/.cursor/skills/`:
+Skills are specialized capabilities that agents can use during execution. Skills are located in `skills/` in the ai-squads repository:
 
 - **browser-verification**: Verifies frontend changes work correctly in a browser. Required for frontend user stories. Navigates to pages, interacts with UI elements, and confirms expected behavior.
 
@@ -509,17 +584,18 @@ Storybook is automatically integrated into the UX workflow for frontend features
 ## Configuration
 
 All configuration is done through `.md` files in the ai-squads repository:
-- **Agents**: `agents/*.md` - Agent definitions and rules
+- **Definitions**: `definitions/` - Platform-agnostic agent and command definitions (source of truth)
+- **Agents**: `definitions/agents/*.md` - Agent definitions and rules
 - **Standards**: `standards/code/*.md` - Code style guides
-- **Commands**: `commands/*.md` - Command workflows (installed to `~/.cursor/commands/`)
-- **Templates**: `templates/*.md` - Documentation templates (installed to `~/.cursor/templates/`)
-- **Scripts**: `scripts/*.sh` - Helper scripts (installed to `~/.cursor/scripts/`)
-- **System Rules**: `rules/system.md` - Global system rules (installed to `~/.cursor/rules/`)
-- **Skills**: `skills/*/skill.md` - Specialized capabilities (installed to `~/.cursor/skills/`)
+- **Commands**: `definitions/commands/*.md` - Command workflows
+- **Templates**: `templates/*.md` - Documentation templates
+- **Scripts**: `scripts/*.sh` - Helper scripts (including platform-specific scripts in `scripts/{platform}-cli/`)
+- **System Rules**: `rules/system.md` - Global system rules
+- **Skills**: `skills/*/skill.md` - Specialized capabilities
 
-**Note**: Agents and standards remain in the ai-squads repository and are referenced by commands via relative paths. Commands, templates, scripts, rules, and skills are copied to `~/.cursor/` during installation.
+**Note**: The ai-squads repository is the source of truth. Each platform sync copies from `definitions/`: Cursor → `~/.cursor/commands/` and `~/.cursor/agents/`; Claude → `~/.claude/commands/` (slash commands); Gemini → `~/.gemini/skills/ai-squads/` (skills); Codex → `~/.agents/skills/ai-squads/` (skills). Run `./scripts/install_or_update.sh` after pulling to refresh all.
 
-Edit these files in the ai-squads repository, then re-run `./scripts/install.sh` to update your global installation.
+Edit files in the ai-squads repository, then run `./scripts/install_or_update.sh` to sync changes to all detected platforms.
 
 ## Team Configuration
 
@@ -542,13 +618,14 @@ Quality checks must pass before a story is committed. Commands in `prd.json.qual
 
 ## Contributing
 
-This is a config-oriented system. To customize:
-1. Edit agent definitions in `agents/`
+All agents, commands, and workflows are defined in markdown files for easy customization:
+
+1. Edit agent definitions in `definitions/agents/`
 2. Update style guides in `standards/code/`
-3. Modify command workflows in `commands/`
+3. Modify command workflows in `definitions/commands/`
 4. Adjust templates in `templates/`
 5. Update system rules in `rules/`
-6. Re-run `./scripts/install.sh` to update global installation
+6. Re-run `./scripts/install_or_update.sh` to sync changes to all detected platforms
 
 ## License
 

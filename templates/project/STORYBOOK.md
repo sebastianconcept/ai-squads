@@ -241,10 +241,10 @@ These features can be added if needed:
 
 ## Related Documentation
 
-- **UX Workflow**: See `commands/plan-feature.md` for UX workflow integration
+- **UX Workflow**: See `definitions/commands/plan-feature.md` for UX workflow integration
 - **Story Generation**: See `storybook/scripts/generate-stories.js` for generation logic
 - **Framework Detection**: See `storybook/scripts/detect-frameworks.js` for detection logic
-- **Agent Profiles**: See `agents/ui-developer.md` and `agents/ui-ux.md` for Storybook integration
+- **Agent Profiles**: See `definitions/agents/ui-developer.md` and `definitions/agents/ui-ux.md` for Storybook integration
 
 ## Support
 

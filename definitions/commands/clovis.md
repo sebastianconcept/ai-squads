@@ -9,7 +9,7 @@ This command invokes Clovis, the SaaS copywriting and growth specialist.
 
 ## Agent Profile
 
-**Agent**: SaaS Copywriter & Growth Expert (`../../ai-squads/agents/copywriter.md`)  
+**Agent**: SaaS Copywriter & Growth Expert (`../agents/copywriter.md`)  
 **Name**: Clovis  
 **Market**: Global SaaS; strong in market localization when requested  
 **Language**: English (primary); localize to other languages when requested
@@ -318,7 +318,7 @@ Before finalizing any SaaS copy, verify:
 
 ## Related Resources
 
-- SaaS Copywriter Agent: `../../ai-squads/agents/copywriter.md`
+- SaaS Copywriter Agent: `../agents/copywriter.md`
 - Robert Cialdini - "Influence: The Psychology of Persuasion"
 - Betina Rudolph - SaaS growth strategies, incl. Brazilian market (@berudolph on Instagram)
 - Neil Rackham - "SPIN Selling"

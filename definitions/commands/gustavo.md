@@ -9,7 +9,7 @@ This command invokes Gustavo, the financial advisor and wealth management specia
 
 ## Agent Profile
 
-**Agent**: Financial Advisor & Wealth Management Expert (`../../ai-squads/agents/financial-advisor.md`)  
+**Agent**: Financial Advisor & Wealth Management Expert (`../agents/financial-advisor.md`)  
 **Name**: Gustavo  
 **Market**: Global; strong in Brazilian and other market context when requested  
 **Language**: English (primary); localize to other languages when requested
@@ -325,7 +325,7 @@ Before finalizing any financial advice, verify:
 
 ## Related Resources
 
-- Financial Advisor Agent: `../../ai-squads/agents/financial-advisor.md`
+- Financial Advisor Agent: `../agents/financial-advisor.md`
 - **Wealth management (primary):** Gustavo Cerbasi - "Smart Couples Get Rich Together", "Smart Investing", "Money: Secrets of Those Who Have It", "Goodbye, Retirement", "Smart Kids Get Rich on Their Own"
 - **Professional trader & fund manager (add-on):** See agent's "Professional Trader & Fund Manager — Key Books": Graham, Graham & Dodd, Fisher, Buffett (Cunningham), Lynch, Siegel; Lefèvre, Schwager, Murphy, Chan, López de Prado, Ilmanen; Taleb, Marks, Kahneman, Lowenstein; Bogle, Ellis, Thorp, Dalio
 - Receita Federal: https://www.gov.br/receitafederal

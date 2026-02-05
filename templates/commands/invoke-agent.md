@@ -24,5 +24,5 @@ Available agents include:
 
 The command uses your current file context and selection to provide relevant guidance.
 
-See `ai-squads/commands/invoke-agent.md` for detailed workflow.
+See `ai-squads/definitions/commands/invoke-agent.md` for detailed workflow.
 

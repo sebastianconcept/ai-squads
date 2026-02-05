@@ -11,19 +11,25 @@ This workflow maintains documentation consistency by tracking when each doc was 
 
 1. Project must be a git repository
 2. Project must have `~/docs/{project-name}/` directory
-3. Cursor CLI must be available and authenticated (for AI updates)
+3. AI CLI must be available and authenticated (for AI updates; Cursor CLI, Claude CLI, or Gemini CLI)
 
 ## Steps
 
 ### 1. Verify Prerequisites
 - Check if project is a git repository
 - Verify `~/docs/{project-name}/` directory exists
-- Check if Cursor CLI is available
+- Check if AI CLI is available
 - Check if `jq` is installed (for JSON handling)
 
 ### 2. Ensure Required Docs Exist
-- If `~/docs/{project-name}/PREFERENCES.md` is missing and the template exists at `~/.cursor/templates/project/PREFERENCES.md`, copy it into the docs directory (so older adopted projects get the interaction language preference file).
-- If `~/docs/{project-name}/EVIDENCE-GATHERING.md` is missing and the template exists at `~/.cursor/templates/project/EVIDENCE-GATHERING.md`, copy it into the docs directory (so older adopted projects get the evidence-gathering guidance; see `rules/system.md` → Evidence and Environments). **EVIDENCE-GATHERING.md** (with TECH-STACK **Environments**) is the project’s **source for how to fetch logs** (local and remote); not every project does this the same way, but the project must document its way so agents can suggest concrete log-fetch commands.
+- If `~/docs/{project-name}/PREFERENCES.md` is missing:
+  - **Cursor**: Copy from `~/.cursor/templates/project/PREFERENCES.md` if exists
+  - **Claude/Gemini**: Copy from `<ai-squads>/templates/project/PREFERENCES.md` if exists (where `<ai-squads>` is your local clone path)
+  - This ensures older adopted projects get the interaction language preference file.
+- If `~/docs/{project-name}/EVIDENCE-GATHERING.md` is missing:
+  - **Cursor**: Copy from `~/.cursor/templates/project/EVIDENCE-GATHERING.md` if exists
+  - **Claude/Gemini**: Copy from `<ai-squads>/templates/project/EVIDENCE-GATHERING.md` if exists (where `<ai-squads>` is your local clone path)
+  - This ensures older adopted projects get the evidence-gathering guidance (see `rules/system.md` → Evidence and Environments). **EVIDENCE-GATHERING.md** (with TECH-STACK **Environments**) is the project’s **source for how to fetch logs** (local and remote); not every project does this the same way, but the project must document its way so agents can suggest concrete log-fetch commands.
 
 ### 3. Initialize or Load Metadata
 - Check if `~/docs/{project-name}/docs-metadata.json` exists
@@ -60,7 +66,7 @@ For each doc in metadata:
      - Project context (mission, tech-stack, team)
      - Instructions to update only relevant sections
      - **For TECH-STACK.md and EVIDENCE-GATHERING.md:** These docs are the project’s **sources for how to fetch logs** (local and remote). When updating them, preserve or update the **Environments** section (TECH-STACK) and any log-fetch instructions (EVIDENCE-GATHERING) so they stay in sync with the codebase and deployment. Agents use these to suggest concrete log-fetch commands for evidence (verify-feature, diagnose-issue, check-health).
-   - Call Cursor CLI to generate updated doc
+   - Call AI CLI to generate updated doc
    - Normalize content and compute SHA256 hash
    - Compare hash with current doc hash
    - If hashes differ: Write updated doc, update metadata
@@ -96,7 +102,7 @@ After completion:
 
 ## Usage
 
-Run `/update-docs` command in Cursor from your project root.
+Run `/update-docs` command from your project root (available in Cursor, Claude, or Gemini).
 
 The command will:
 1. Scan all docs in `~/docs/{project-name}/` (excluding `archived/`)

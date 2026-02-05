@@ -9,7 +9,7 @@ This command invokes the Startup Advisor expert for business planning, customer 
 
 ## Agent Profile
 
-**Agent**: Startup Advisor (`../../ai-squads/agents/startup-advisor.md`)  
+**Agent**: Startup Advisor (`../agents/startup-advisor.md`)  
 **Inspired by**: Steve Blank, Eric Ries, Ash Maurya, Alexander Osterwalder, Ben Horowitz, and other startup methodology experts
 
 ## When to Use

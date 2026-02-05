@@ -27,5 +27,5 @@ Output templates from `ai-squads/templates/ideation/`:
 - `comparison-matrix.md` - Quick comparison table
 - `plan-feature-prompt.md` - Handoff to feature planning
 
-See `ai-squads/commands/ideate-solution.md` for detailed workflow.
+See `ai-squads/definitions/commands/ideate-solution.md` for detailed workflow.
 

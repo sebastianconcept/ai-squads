@@ -154,6 +154,9 @@ generate_chapter_name() {
         "hypothesis-resolution")
             echo "hypothesis-resolution"
             ;;
+        "max-iterations")
+            echo "max-iterations-retro"
+            ;;
         *)
             echo "chapter-${chapter_num}"
             ;;

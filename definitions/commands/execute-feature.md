@@ -11,7 +11,7 @@ This workflow executes a planned feature autonomously using the execution loop.
 
 1. Feature must have been planned (have `prd.json` in one of the locations below)
 2. Project must be a git repository
-3. Cursor CLI must be available and authenticated
+3. AI CLI must be available and authenticated (Cursor CLI, Claude CLI, or Gemini CLI)
 4. Project must have quality checks defined in `prd.json.quality`
 
 ### Where feature docs live
@@ -43,17 +43,18 @@ brew install bash
 - Validate user stories structure
 - Validate dependencies reference valid story IDs
 - Verify quality check commands exist in `prd.json.quality` object
-- Validate agent names exist in `agents/` directory
+- Validate agent names exist in `definitions/agents/` directory
 
 ### 3. Initialize Execution State
 - Check git status (must be clean or on feature branch)
 - Create feature branch from `prd.json.branchName` if it doesn't exist
 - Switch to feature branch
-- Verify execution environment (Cursor CLI available)
+- Verify execution environment (AI CLI available)
 
 ### 4. Run Execution Loop
-- Execute `~/.cursor/scripts/execute-feature.sh {feature_name}` from project root
-- Or with `--dry-run` flag: `~/.cursor/scripts/execute-feature.sh {feature_name} --dry-run`
+- **Cursor**: Execute `~/.cursor/scripts/execute-feature.sh {feature_name}` from project root
+- **Claude/Gemini**: Execute `<ai-squads>/scripts/execute-feature.sh {feature_name}` from project root (where `<ai-squads>` is your local clone path)
+- Or with `--dry-run` flag: `{script_path} {feature_name} --dry-run`
 - Script handles:
   - Dependency resolution
   - Story selection
@@ -110,7 +111,7 @@ Use `--dry-run` flag to preview execution without actually running it:
 - Saves the prompt to `~/docs/{project-name}/feature/{feature_name}/dry-run-prompt-{story_id}.md`
 - Shows prompt size (bytes, KB, lines)
 - Displays what would happen in real execution
-- **Does not**: Execute Cursor CLI, run quality checks, commit changes, or modify `prd.json`
+- **Does not**: Execute AI CLI, run quality checks, commit changes, or modify `prd.json`
 
 **Use cases:**
 - Debugging prompt construction
@@ -120,7 +121,7 @@ Use `--dry-run` flag to preview execution without actually running it:
 
 ## Notes
 
-- Execution uses Cursor CLI in headless mode (`agent -p --force`)
+- Execution uses AI CLI in headless mode (platform-specific invocation, e.g. Cursor: `agent -p --force --workspace`, Claude: `--print`, Gemini: `-p`, Codex: `codex exec`)
 - Each iteration spawns a fresh AI instance
 - Quality checks must pass before commits
 - Frontend stories require browser verification

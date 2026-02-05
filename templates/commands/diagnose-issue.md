@@ -31,5 +31,5 @@ Output templates from `ai-squads/templates/diagnosis/`:
 - `problem-definition.md` - Clear problem statement format
 - `ideate-prompt.md` - Handoff to solution ideation
 
-See `ai-squads/commands/diagnose-issue.md` for detailed workflow.
+See `ai-squads/definitions/commands/diagnose-issue.md` for detailed workflow.
 

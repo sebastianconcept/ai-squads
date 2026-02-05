@@ -34,7 +34,7 @@ TARGET_DIR="$HOME/.cursor"
 
 if [ ! -d "$TARGET_DIR/templates/storybook" ]; then
     echo "Error: Storybook templates not found in $TARGET_DIR/templates/storybook"
-    echo "Make sure you've run the global installation: ./scripts/install.sh"
+    echo "Make sure you've run the global installation: ./scripts/install_or_update.sh"
     exit 1
 fi
 
