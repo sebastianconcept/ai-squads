@@ -246,14 +246,15 @@ select_model() {
 
     # Dynamic selection logic
     # Fast path: simple tasks
-    if [ "$deps_count" -eq 0 ] && [ "$acc_length" -lt 200 ] && [[ "$story_type" == "config" || "$story_type" == "library" ]]; then
-        echo "composer-1"
-    # Quality path: complex stories
-    elif [ "$deps_count" -gt 2 ] || [ "$acc_length" -gt 500 ] || [[ "$story_type" == "infrastructure" || "$story_type" == "integration" ]]; then
-        echo "sonnet-4.5"
-    else
-        echo "auto"
-    fi
+    # COMMENTING DUE TO not being so necessary right now and overspending otherwise
+    # if [ "$deps_count" -eq 0 ] && [ "$acc_length" -lt 200 ] && [[ "$story_type" == "config" || "$story_type" == "library" ]]; then
+    #     echo "composer-1"
+    # # Quality path: complex stories
+    # elif [ "$deps_count" -gt 2 ] || [ "$acc_length" -gt 500 ] || [[ "$story_type" == "infrastructure" || "$story_type" == "integration" ]]; then
+    #     echo "sonnet-4.5"
+    # else
+    #     echo "auto"
+    # fi
 }
 
 # Parse structured output for completion status (Phase 1)
@@ -368,6 +369,26 @@ get_quality_command_lines() {
     ' "$PRD_JSON" 2>/dev/null
 }
 
+# Normalize agent alias to canonical agent name
+normalize_agent_name() {
+    local agent_name="$1"
+    case "$agent_name" in
+        "steve"|"uidev")
+            echo "ui-developer"
+            ;;
+        "rusty")
+            echo "rust-specialist"
+            ;;
+        "bob")
+            echo "jobs-to-be-done"
+            ;;
+        *)
+            # Return as-is if not an alias
+            echo "$agent_name"
+            ;;
+    esac
+}
+
 # Validate prd.json
 validate_prd() {
     log "Validating prd.json..."
@@ -400,15 +421,19 @@ validate_prd() {
             exit 1
         fi
         
+        # Normalize agent alias to canonical name
+        local canonical_agent
+        canonical_agent=$(normalize_agent_name "$agent")
+        
         # Validate path to prevent directory traversal
-        local agent_path="$AGENTS_DIR/$agent.md"
+        local agent_path="$AGENTS_DIR/$canonical_agent.md"
         if ! validate_path "$agent_path" "$AGENTS_DIR"; then
             error "Invalid agent path detected (possible security issue): $agent"
             exit 1
         fi
         
         if [ ! -f "$agent_path" ]; then
-            error "Agent not found: $agent (expected $agent_path)"
+            error "Agent not found: $agent (normalized to: $canonical_agent, expected $agent_path)"
             exit 1
         fi
     done
@@ -1348,13 +1373,17 @@ add_agent_definition() {
         return 1
     fi
     
+    # Normalize agent alias to canonical name
+    local canonical_agent
+    canonical_agent=$(normalize_agent_name "$agent_name")
+    
     # Validate agent name format (should match filename pattern: lowercase, hyphens allowed)
-    if [[ ! "$agent_name" =~ ^[a-z0-9-]+$ ]]; then
-        error "Invalid agent name format: $agent_name (expected lowercase alphanumeric with hyphens)"
+    if [[ ! "$canonical_agent" =~ ^[a-z0-9-]+$ ]]; then
+        error "Invalid agent name format: $canonical_agent (expected lowercase alphanumeric with hyphens)"
         return 1
     fi
     
-    local agent_file="$AGENTS_DIR/$agent_name.md"
+    local agent_file="$AGENTS_DIR/$canonical_agent.md"
     
     # Validate path
     if ! validate_path "$agent_file" "$AGENTS_DIR"; then
@@ -1363,18 +1392,7 @@ add_agent_definition() {
     fi
     
     if [ ! -f "$agent_file" ]; then
-        error "Agent file not found: $agent_file"
-        return 1
-    fi
-    
-    # Verify agent name matches the file name
-    local expected_filename="$agent_name.md"
-    local actual_filename
-    actual_filename=$(basename "$agent_file")
-    
-    if [ "$actual_filename" != "$expected_filename" ]; then
-        error "Agent name '$agent_name' does not match file name '$actual_filename'"
-        error "Expected file: $expected_filename, but found: $actual_filename"
+        error "Agent file not found: $agent_file (for agent alias: $agent_name)"
         return 1
     fi
     
