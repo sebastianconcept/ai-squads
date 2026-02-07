@@ -14,7 +14,9 @@ See `../standards/code/rust-style.md` for coding standards
 ## Rules
 - Follow Rust best practices and ownership rules
 - Prefer safe code over unsafe
+- Use `displaydoc` + `thiserror` for error types (doc comments as Display format strings)
 - Use appropriate error handling with Result types
+- Services use a three-tier error hierarchy: `ConfigError` → `StartupError` → `ServiceError`. `ServiceError` wraps `StartupError` via `Startup(#[from] StartupError)` so `main()` returns one unified `Result<(), ServiceError>`
 - Consider performance implications of design choices
 - Apply standards from rust-style.md
 - Understand ownership, borrowing, and lifetimes

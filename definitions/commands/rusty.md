@@ -57,14 +57,15 @@ Recognizes containerized Rust backend development environments:
 Applies the Rust Specialist agent with:
 - Rust best practices and ownership rules
 - Safe code preferences over unsafe
-- Result-based error handling with `thiserror`
+- Error types with `displaydoc` + `thiserror` (doc comments as Display format strings)
 - Performance-conscious design choices
 - Idiomatic Rust patterns
 - Standards from `rust-style.md`
 
 ### 4. Style Guide Enforcement
 Follows `rust-style.md` standards:
-- **Error Handling**: Typed errors with `thiserror`, NO `Box<dyn Error>`
+- **Error Handling**: Typed errors with `displaydoc` + `thiserror` (doc comments as Display), NO `Box<dyn Error>`
+- **Error Hierarchy**: `ConfigError` → `StartupError` → `ServiceError` with `Startup(#[from] StartupError)` wrapping; `main()` returns `Result<(), ServiceError>`
 - **Protocol Design**: Enum-based design over `Box<dyn Trait>`
 - **Naming**: `snake_case` functions, `PascalCase` types, `SCREAMING_SNAKE_CASE` constants
 - **Formatting**: `cargo fmt` with 100 character line length
@@ -82,12 +83,13 @@ Provides Rust-specific guidance:
 ## Core Principles Applied
 
 1. **Safety First**: Prefer safe code over unsafe
-2. **Typed Errors**: Use `thiserror` for all error types
-3. **Enum-Based Design**: Avoid trait objects for protocols
-4. **Ownership Clarity**: Explicit about borrowing and lifetimes
-5. **Zero Panics**: Operational code must not panic
-6. **90%+ Coverage**: High test coverage standard
-7. **Watch Mode Aware**: Recognize cargo-watch environments and avoid redundant manual commands
+2. **Typed Errors**: Use `displaydoc` + `thiserror` for all error types (doc comments as Display)
+3. **Unified Error Hierarchy**: Services use `ConfigError` → `StartupError` → `ServiceError`. `ServiceError` wraps `StartupError` via `Startup(#[from] StartupError)` so `main()` returns one unified `Result<(), ServiceError>`. Startup-only types use `.map_err(StartupError::Variant)?`; types shared with `ServiceError` use `?` directly
+4. **Enum-Based Design**: Avoid trait objects for protocols
+5. **Ownership Clarity**: Explicit about borrowing and lifetimes
+6. **Zero Panics**: Operational code must not panic
+7. **90%+ Coverage**: High test coverage standard
+8. **Watch Mode Aware**: Recognize cargo-watch environments and avoid redundant manual commands
 
 ## Development Workflow Examples
 
@@ -133,7 +135,9 @@ Before finalizing any Rust code changes, verify:
 - [ ] `cargo fmt` applied
 - [ ] `cargo clippy` passes with `-D warnings`
 - [ ] `cargo test` passes
-- [ ] Error types use `thiserror` (not `Box<dyn Error>`)
+- [ ] Error types use `displaydoc` + `thiserror` with doc comments as Display (not `#[error("...")]`, not `Box<dyn Error>`)
+- [ ] Service errors follow the three-tier hierarchy: `ConfigError` → `StartupError` → `ServiceError` with `Startup(#[from] StartupError)`
+- [ ] `main()` returns `Result<(), ServiceError>` (unified error type)
 - [ ] No `unwrap()` calls in operational code
 - [ ] Protocol messages use enums (not trait objects)
 - [ ] Tests written with 90%+ coverage goal

@@ -32,26 +32,43 @@ This document defines comprehensive Rust coding standards for AI Squads projects
 - **Modules**: `snake_case`
 
 ### Error Handling
-- Use typed errors with `thiserror`, NOT `Box<dyn std::error::Error>`
+- Use `displaydoc` + `thiserror` for all error types: `displaydoc::Display` for the `Display` impl via doc comments, `thiserror::Error` for the `Error` trait
+- NOT `Box<dyn std::error::Error>` — always typed errors
 - Use `Result<T, E>` for fallible operations
 - Prefer `?` operator over `unwrap()` or `expect()`
 - Prefer `expect` over `unwrap()` in tests
 - `unwrap` calls are only acceptable in tests
-- Operational code cannot have panics, create an variant when needed
+- Operational code cannot have panics, create a variant when needed
 - Create custom error types for modules and libraries
 - Prefer `#[from]` for automatic error conversion
 - Use `#[source]` for error chaining
+- Doc comments on variants serve double duty: rustdoc documentation AND `Display` format string
 
 ```rust
-// ✅ CORRECT: Typed errors with thiserror
+use displaydoc::Display;
+use thiserror::Error;
+
+// ✅ CORRECT: displaydoc + thiserror — doc comments ARE the Display format strings
+#[derive(Display, Debug, Error)]
+pub enum MyError {
+    /// Operation failed: {0}
+    OperationFailed(#[source] InnerError),
+}
+
+// ✅ CORRECT: Structs use the doc comment above the derive
+/// Configuration error: {0}
+#[derive(Display, Debug, Error)]
+pub struct ConfigError(pub String);
+
+// ❌ REJECTED: Generic trait objects
+pub fn func() -> Result<(), Box<dyn std::error::Error>> { }
+
+// ❌ REJECTED: thiserror #[error("...")] attributes (use doc comments instead)
 #[derive(Debug, thiserror::Error)]
 pub enum MyError {
     #[error("Operation failed: {0}")]
     OperationFailed(#[source] InnerError),
 }
-
-// ❌ REJECTED: Generic trait objects
-pub fn func() -> Result<(), Box<dyn std::error::Error>> { }
 ```
 
 ### Protocol Design (CRITICAL)
@@ -117,11 +134,62 @@ cargo test
 
 ## Important Patterns
 
+### Unified Error Hierarchy (Services)
+
+Services should follow a three-tier error hierarchy where `ServiceError` wraps `StartupError`, and `main()` returns a single unified error type:
+
+```rust
+use displaydoc::Display;
+use thiserror::Error;
+
+/// Configuration error: {0}
+#[derive(Display, Debug, Error)]
+pub struct ConfigError(pub String);
+
+/// Startup-only errors. Wrapped by [ServiceError::Startup] for unified main() return.
+#[derive(Display, Debug, Error)]
+pub enum StartupError {
+    /// Configuration error: {0}
+    Config(#[from] ConfigError),
+    /// Database error: {0}
+    Database(#[from] sqlx::Error),
+    /// Migration error: {0}
+    Migrate(#[from] sqlx::migrate::MigrateError),
+    /// I/O error: {0}
+    Io(#[from] std::io::Error),
+}
+
+/// Operational error. Wraps [StartupError] so main() returns one type.
+#[derive(Display, Debug, Error)]
+pub enum ServiceError {
+    /// I/O error: {0}
+    Io(#[from] std::io::Error),
+    /// Database error: {0}
+    Database(#[from] sqlx::Error),
+    /// Startup error: {0}
+    Startup(#[from] StartupError),
+}
+```
+
+In `main()`, startup-only error types use `.map_err(StartupError::Variant)?`, while types shared with `ServiceError` use `?` directly:
+
+```rust
+#[tokio::main]
+async fn main() -> Result<(), ServiceError> {
+    let config = ServiceConfig::from_env().map_err(StartupError::Config)?; // startup-only
+    config.validate().map_err(StartupError::Config)?;                      // startup-only
+    let pool = sqlx::PgPool::connect(&config.database_url).await?;        // shared (Database)
+    sqlx::migrate!().run(&pool).await.map_err(StartupError::Migrate)?;    // startup-only
+    let listener = tokio::net::TcpListener::bind(addr).await?;            // shared (Io)
+    // ...
+}
+```
+
 ### Error Contextualization
 Wrap lower-level errors in domain-specific contexts:
 
 ```rust
-#[derive(Error, Debug)]
+#[derive(Display, Debug, Error)]
 pub enum SessionManagerError {
     /// Session storage failed: {0}
     StoreSession(#[source] SessionStorageError),
