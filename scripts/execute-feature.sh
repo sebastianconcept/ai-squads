@@ -255,6 +255,9 @@ select_model() {
     # else
     #     echo "auto"
     # fi
+
+    # SHORTCIRCUITING to auto for now to avoid overspending
+    echo "auto"
 }
 
 # Parse structured output for completion status (Phase 1)
@@ -638,9 +641,17 @@ create_story_worktree() {
     
     log "Creating worktree for story $story_id at $worktree_path"
     
-    # Create worktree from current branch state
-    if ! git worktree add "$worktree_path" "$branch_name" > /dev/null 2>&1; then
+    # Create worktree from current branch state (capture stderr on failure for diagnostics)
+    local worktree_err
+    worktree_err=$(git worktree add "$worktree_path" "$branch_name" 2>&1)
+    local worktree_ret=$?
+    if [ "$worktree_ret" -ne 0 ]; then
         error "Failed to create worktree for story $story_id"
+        if [ -n "$worktree_err" ]; then
+            printf '%s\n' "$worktree_err" | while IFS= read -r line; do
+                error "  $line"
+            done
+        fi
         return 1
     fi
     
